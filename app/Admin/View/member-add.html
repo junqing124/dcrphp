@@ -1,0 +1,129 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common-head.html' ignore missing %}
+    <title>添加用户 - H-ui.admin v3.1</title>
+</head>
+<body>
+<article class="page-container">
+    <form action="/admin/member/addeditaction" method="post" class="form form-horizontal" id="form-member-add">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" placeholder="" id="username" name="username">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>密码：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" placeholder="" id="password" name="password">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>重复密码：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" placeholder="" id="password_re" name="password_re">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="radio-box">
+                    <input name="sex" type="radio" id="sex-1" value="1" checked>
+                    <label for="sex-1">男</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" id="sex-2" name="sex" value="2">
+                    <label for="sex-2">女</label>
+                </div>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="mobile" name="mobile">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">电话：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" name="tel" id="tel">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">备注：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="note" cols="" rows="" class="textarea" placeholder="说点什么...最少输入10个字符"
+                          onKeyUp="$.Huitextarealength(this,100)"></textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+            </div>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</article>
+
+{% include 'common-footer.html' ignore missing %}
+<script type="text/javascript">
+    $(function () {
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
+
+        $("#form-member-add").validate({
+            rules: {
+                username: {
+                    required: true,
+                    minlength: {{username_len_min}},
+                    maxlength: {{username_len_max}}
+                },
+                password: {
+                    required: true,
+                    minlength: {{password_len_min}},
+                    maxlength: {{password_len_max}}
+                },
+                password_re: {
+                    required: true,
+                    equalTo: '#password',
+                },
+                sex: {
+                    required: true,
+                },
+                mobile: {
+                    required: true,
+                    isMobile: true,
+                },
+            },
+            onkeyup: false,
+            focusCleanup: true,
+            success: "valid",
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    success: function (data) {
+                        data = $.parseJSON(data);
+                        if (1 == data.ack) {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.window.location=parent.window.location;
+                            parent.layer.close(index);
+                            //$.Huimodalalert(data.msg,2000);
+                        }else{
+                            alert(data.msg);
+                        }
+                    },
+                    error: function (data) {
+                        //console.log(data);
+                    }
+                });
+            }
+        });
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
