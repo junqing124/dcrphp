@@ -116,9 +116,10 @@ class User
      * 'passwordNew'=> post('password_new'),
      * 'passwordNewRe'=> post('password_new_re'),
      * );
+     * @param $user_id
      * @return array
      */
-    function updatePassword($info)
+    function updatePassword($info, $user_id = '')
     {
         $passwordNew = $info['passwordNew'];
         $passwordNewRe = $info['passwordNewRe'];
@@ -138,7 +139,14 @@ class User
             return array('ack' => 0, 'msg' => $error);
         }
         //逻辑
-        $result = DB::update('zq_user', array('u_password' => Safe::_encrypt($passwordNew), 'u_update_time' => time(), 'zt_id' => session('ztId')), "u_id=" . session('userId'));
+        //如果有id就改id 没有就改当前用户的
+        $where = '';
+        if ($user_id) {
+            $where = "u_id={$user_id}";
+        } else {
+            $where = "u_id=" . session('userId');
+        }
+        $result = DB::update('zq_user', array('u_password' => Safe::_encrypt($passwordNew), 'u_update_time' => time(), 'zt_id' => session('ztId')), $where);
         //dd($dbPre->getSql());
         //返回
         if (1 == $result) {
@@ -146,7 +154,7 @@ class User
             return array('ack' => 1,);
         } else {
             //dd($dbPre->errorInfo());
-            return array('ack' => 0, 'msg' => '添加到数据库时发生错误:' . implode('--', $dbPre->errorInfo()));
+            return array('ack' => 0, 'msg' => '添加到数据库时发生错误');
         }
     }
 
@@ -168,34 +176,41 @@ class User
      */
     function addEditUser($userInfo, $type = 'add')
     {
-        $type = $type ? type : 'add';
+        $type = $type ? $type : 'add';
         //加上帐套id
         $error = array();
         $usernameLimit = $this->getUsernameLengthLimit();
         $passwordLimit = $this->getPasswordLengthLimit();
-        $stringValidator = v::stringType()->length($usernameLimit['min'], $usernameLimit['max']);
-        if (!$stringValidator->validate($userInfo['u_username'])) {
-            //dd($stringValidator->validate($dbInfo['u_username']));
-            $error[] = '用户名长度不符合';
+        //dd($type);
+        if ('add' == $type) {
+            $stringValidator = v::stringType()->length($usernameLimit['min'], $usernameLimit['max']);
+            if (!$stringValidator->validate($userInfo['u_username'])) {
+                //dd($stringValidator->validate($dbInfo['u_username']));
+                $error[] = '用户名长度不符合';
+            }
         }
-        $stringValidator = v::stringType()->length($passwordLimit['min'], $passwordLimit['max']);
-        if (!$stringValidator->validate($userInfo['u_password'])) {
-            $error[] = '密码长度不符合';
+        if ('add' == $type || ('edit' == $type && strlen($userInfo['u_password']))) {
+            $stringValidator = v::stringType()->length($passwordLimit['min'], $passwordLimit['max']);
+            if (!$stringValidator->validate($userInfo['u_password'])) {
+                $error[] = '密码长度不符合';
+            }
         }
         if (!v::in([1, 2])->validate($userInfo['u_sex'])) {
             $error[] = '性别选择有问题';
         }
-        $queryFactory = new QueryFactory(config('database.mysql.main.driver'));
-        //判断用户名有没有
-        $select = $queryFactory->newSelect();
-        $ztId = Session::_get('ztId');
-        $select->from('zq_user')->cols(array('u_id'))->where("zt_id={$ztId} and u_username='{$userInfo['u_username']}'")->limit(1);
-        $sql = $select->getStatement();
-        $info = DB::query($sql);
+        if ('add' == $type) {
+            $queryFactory = new QueryFactory(config('database.mysql.main.driver'));
+            //判断用户名有没有
+            $select = $queryFactory->newSelect();
+            $ztId = Session::_get('ztId');
+            $select->from('zq_user')->cols(array('u_id'))->where("zt_id={$ztId} and u_username='{$userInfo['u_username']}'")->limit(1);
+            $sql = $select->getStatement();
+            $info = DB::query($sql);
 
-        //dd($info);
-        if ($info) {
-            $error[] = '用户名已经被使用';
+            //dd($info);
+            if ($info) {
+                $error[] = '用户名已经被使用';
+            }
         }
         if ($error) {
             return array('ack' => 0, 'msg' => $error);
@@ -204,22 +219,32 @@ class User
         $userInfo['zt_id'] = Session::_get('ztId');
         if ('add' == $type) {
             $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
+            $userInfo['u_add_user_id'] = session('userId');
+        } else if ('edit' == $type) {
+            if ($userInfo['u_password']) {
+                $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
+            }
+            $userInfo['u_edit_user_id'] = session('userId');
         }
         /*dd($type);
         dd($userInfo);
         exit;*/
         //逻辑
-        //开始添加用户
-        $insert = $queryFactory->newInsert();
-        //dd($userInfo);
-        $insert->into('zq_user')->cols(array_keys($userInfo))->bindValues($userInfo);
-        $dbPre = DB::prepare($insert->getStatement());
-        $result = $dbPre->execute($insert->getBindValues());
+        $result = 0;
+        if ('add' == $type) {
+            //开始添加用户
+            $result = DB::insert('zq_user', $userInfo);
+        } else if ('edit' == $type) {
+            $userId = $userInfo['u_id'];
+            unset($userInfo['u_id']);
+            unset($userInfo['u_username']);
+            $result = DB::update('zq_user', $userInfo, "u_id={$userId}");
+        }
         if (1 == $result) {
 
             return array('ack' => 1,);
         } else {
-            return array('ack' => 0, 'msg' => '添加到数据库时发生错误:' . implode('--', $dbPre->errorInfo()));
+            return array('ack' => 0, 'msg' => '添加到数据库时发生错误');
         }
     }
 

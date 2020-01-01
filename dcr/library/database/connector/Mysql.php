@@ -20,6 +20,7 @@ class Mysql extends ConnectorDriver
     /**
      * Mysql constructor.
      * @param $config 配置
+     * @throws
      */
     function __construct($config)
     {
@@ -33,7 +34,7 @@ class Mysql extends ConnectorDriver
             $pdo = new \PDO($dsn, $username, $password);
             $this->pdo = $pdo;
         } catch (PDOException $e) {
-            die('Could not connect to the database' . $e);
+            throw new \Exception('Could not connect to the database');
         }
     }
 

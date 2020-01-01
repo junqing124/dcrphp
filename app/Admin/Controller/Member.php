@@ -51,7 +51,7 @@ class Member
         return Factory::renderPage('member-list', $assignData);
     }
 
-    function add()
+    function addOrEditView()
     {
         $user = new User();
         $usernameLimit = $user->getUsernameLengthLimit();
@@ -62,7 +62,15 @@ class Member
             'password_len_min' => $passwordLimit['min'],
             'password_len_max' => $passwordLimit['max'],
         );
-        return Factory::renderPage('member-add', $data);
+        //如果是编辑用户 则要把用户信息传过去
+        $user_id = get('user_id');
+        if ($user_id) {
+            $userInfo = $user->getList(array('col' => '*', 'where' => "u_id=" . $user_id));
+            $userInfo = current($userInfo);
+            $data['user_info'] = $userInfo;
+            $data['user_id'] = $user_id;
+        }
+        return Factory::renderPage('member-add-edit', $data);
     }
 
     /**
@@ -81,10 +89,18 @@ class Member
             'u_add_time' => time(),
             'u_update_time' => time(),
         );
-        //检测
-        $user = new User();
         //返回
-        $result = $user->addEditUser($userInfo, post('type'));
+        $user_id = post('user_id');
+        if ($user_id) {
+            $type = 'edit';
+            $userInfo['u_id'] = $user_id;
+        } else {
+            $type = 'add';
+        }
+        //dd($type);
+        //dd(get());
+        $user = new User();
+        $result = $user->addEditUser($userInfo, $type);
         return Factory::renderJson($result);
     }
 
@@ -127,5 +143,20 @@ class Member
 
     function changePasswordView()
     {
+        $user = new User();
+        $userInfo = $user->getList(array('col' => 'u_id,u_username', 'where' => "u_id=" . get('user_id')));
+        $userInfo = current($userInfo);
+        return Factory::renderPage('member-password-change', array('user_info' => $userInfo));
+    }
+
+    function changePassword()
+    {
+        $user = new User();
+        $info = array(
+            'passwordNew' => post('password_new'),
+            'passwordNewRe' => post('password_new_re'),
+        );
+        $result = $user->updatePassword($info, post('user_id'));
+        return Factory::renderJson($result, 1);
     }
 }

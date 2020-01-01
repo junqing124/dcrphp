@@ -3,38 +3,57 @@
 <html>
 <head>
     {% include 'common-head.html' ignore missing %}
-    <title>添加用户 - H-ui.admin v3.1</title>
+    <title>添加编辑用户</title>
 </head>
 <body>
 <article class="page-container">
     <form action="/admin/member/addeditaction" method="post" class="form form-horizontal" id="form-member-add">
+        <input type="hidden" name="user_id" value="{{user_id}}">
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" placeholder="" id="username" name="username">
+                <input
+                        {% if user_id is defined %}
+                        readonly style="border:none;"
+                        {% endif %}
+                        value="{{user_info.u_username}}" type="text" class="input-text" placeholder="" id="username" name="username">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>密码：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" placeholder="" id="password" name="password">
+                <input
+                        {% if user_id is defined %}
+                        placeholder="不修改请留空"
+                        {% endif %}
+                        type="text" class="input-text" placeholder="" id="password" name="password">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>重复密码：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" placeholder="" id="password_re" name="password_re">
+                <input
+                        {% if user_id is defined %}
+                        placeholder="不修改请留空"
+                        {% endif %}
+                        type="text" class="input-text" placeholder="" id="password_re" name="password_re">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="radio-box">
-                    <input name="sex" type="radio" id="sex-1" value="1" checked>
+                    <input name="sex" type="radio" id="sex-1" value="1"
+                           {% if 1 == user_info.u_sex %}
+                           checked
+                           {% endif %}>
                     <label for="sex-1">男</label>
                 </div>
                 <div class="radio-box">
-                    <input type="radio" id="sex-2" name="sex" value="2">
+                    <input type="radio" id="sex-2" name="sex" value="2"
+                           {% if 2 == user_info.u_sex %}
+                           checked
+                           {% endif %}>
                     <label for="sex-2">女</label>
                 </div>
             </div>
@@ -42,20 +61,20 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="mobile" name="mobile">
+                <input type="text" class="input-text" value="{{user_info.u_mobile}}" placeholder="" id="mobile" name="mobile">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">电话：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="tel" id="tel">
+                <input type="text" class="input-text" name="tel" id="tel" value="{{user_info.u_tel}}">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">备注：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <textarea name="note" cols="" rows="" class="textarea" placeholder="说点什么...最少输入10个字符"
-                          onKeyUp="$.Huitextarealength(this,100)"></textarea>
+                          onKeyUp="$.Huitextarealength(this,100)">{{user_info.u_note}}</textarea>
                 <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
             </div>
         </div>
@@ -84,12 +103,10 @@
                     maxlength: {{username_len_max}}
                 },
                 password: {
-                    required: true,
                     minlength: {{password_len_min}},
                     maxlength: {{password_len_max}}
                 },
                 password_re: {
-                    required: true,
                     equalTo: '#password',
                 },
                 sex: {

@@ -151,6 +151,12 @@ abstract class ConnectorDriver
         return $result;
     }
 
+    /**
+     * @param $table
+     * @param $where
+     * @return mixed
+     * @throws \Exception
+     */
     function delete($table, $where)
     {
         $ztId = Session::_get('ztId');
@@ -162,6 +168,22 @@ abstract class ConnectorDriver
             ->where("zt_id={$ztId}");
         $dbPre = $this->prepare($delete->getStatement());
         $result = $dbPre->execute($delete->getBindValues());
+        return $result;
+    }
+
+    /**
+     * @param $table
+     * @param $info
+     * @return mixed
+     * @throws
+     */
+    function insert($table, $info)
+    {
+        $queryFactory = new QueryFactory(config('database.mysql.main.driver'));
+        $insert = $queryFactory->newInsert();
+        $insert->into($table)->cols(array_keys($info))->bindValues($info);
+        $dbPre = $this->prepare($insert->getStatement());
+        $result = $dbPre->execute($insert->getBindValues());
         return $result;
     }
 }
