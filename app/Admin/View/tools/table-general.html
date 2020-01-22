@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common/common-head.html' ignore missing %}
+</head>
+<body>
+
+{% include 'member/navigate.html' ignore missing %}
+<div class="page-container">
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-hover table-bg table-sort">
+            <thead>
+            <tr class="text-c">
+                <th width="100">表名</th>
+                <th width="800"><input value="" type="text" class="input-text" placeholder="" id="table_name" name="table_name"></th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input class="btn btn-primary radius" type="submit" onclick="general_table()" value="&nbsp;&nbsp;生成&nbsp;&nbsp;">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="word-break: break-all;width: 800px;">
+                    <div id="sql">
+                    </div>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+{% include '/common/common-footer.html' ignore missing %}
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="{{admin_resource_url}}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+    function general_table()
+    {
+        let table_name = $('#table_name').val();
+        let str_arr = table_name.split('_');
+        let qz = '';
+        for (let i = 0; i < str_arr.length; i++) {
+            if (i !== 0) {
+                qz += str_arr[i].substr(0, 1);
+            }
+        }
+        $('#sql').text( 'CREATE TABLE `' + table_name + '` (`' + qz + '_id` int(11) NOT NULL AUTO_INCREMENT,`' + qz + '_add_time` int(11) NOT NULL,`' + qz + '_update_time` int(11) NOT NULL,`' + qz + '_approval_status` tinyint(4) NOT NULL,`' + qz + '_add_user_id` smallint(6) NOT NULL,`zt_id` smallint(6) NOT NULL, PRIMARY KEY (`' + qz + '_id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;' );
+    }
+</script>
+</body>
+</html>
