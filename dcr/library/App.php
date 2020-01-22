@@ -59,10 +59,13 @@ class App
 
     static function exec(RuleItem $ruleItem)
     {
+        //去除action里面的-
+        $action = $ruleItem->action;
+        $action = str_replace('-','',$action);
         //得出类来
         $model = ucfirst($ruleItem->model);
         $controller = ucfirst($ruleItem->controller);
-        $action = ucfirst($ruleItem->action);
+        $action = ucfirst($action);
         //类名
         $class = "\\app\\{$model}\\Controller\\{$controller}";
         try {
@@ -73,7 +76,7 @@ class App
                 $dependencies = container()->resolveConstructor($reflect->getParameters());
                 $data = $reflect->invokeArgs($classObj, $dependencies);
             } else {
-                throw new \Exception('Not find the function or model');
+                throw new \Exception('Not find the function[' . $action . '] or model[' . $class . ']');
             }
         } catch (Exception $e) {
             throw $e;

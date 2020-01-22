@@ -24,7 +24,7 @@ class Index
         /*dd($_SESSION);
         exit;*/
         $version = config('info.version');
-        return Factory::renderPage('index', compact('version'));
+        return Factory::renderPage('index/index', compact('version'));
     }
 
     /**
@@ -32,7 +32,7 @@ class Index
      */
     function welcome()
     {
-        return Factory::renderPage('welcome', array());
+        return Factory::renderPage('index/welcome', array());
     }
 
     /**

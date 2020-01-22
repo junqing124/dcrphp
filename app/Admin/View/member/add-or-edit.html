@@ -2,12 +2,12 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    {% include 'common-head.html' ignore missing %}
+    {% include 'common/common-head.html' ignore missing %}
     <title>添加编辑用户</title>
 </head>
 <body>
 <article class="page-container">
-    <form action="/admin/member/addeditaction" method="post" class="form form-horizontal" id="form-member-add">
+    <form action="/admin/member/add-edit-ajax" method="post" class="form form-horizontal" id="form-member-add">
         <input type="hidden" name="user_id" value="{{user_id}}">
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
@@ -86,7 +86,7 @@
     </form>
 </article>
 
-{% include 'common-footer.html' ignore missing %}
+{% include 'common/common-footer.html' ignore missing %}
 <script type="text/javascript">
     $(function () {
         $('.skin-minimal input').iCheck({

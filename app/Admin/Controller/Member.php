@@ -14,7 +14,7 @@ use dcr\Page;
 
 class Member
 {
-    function listMemberView()
+    function listView()
     {
         $assignData = array();
         $whereStr = '';
@@ -48,7 +48,7 @@ class Member
         $assignData['users'] = $list;
         $assignData['pages'] = $pageHtml;
 
-        return Factory::renderPage('member-list', $assignData);
+        return Factory::renderPage('member/list', $assignData);
     }
 
     function addOrEditView()
@@ -70,14 +70,28 @@ class Member
             $data['user_info'] = $userInfo;
             $data['user_id'] = $user_id;
         }
-        return Factory::renderPage('member-add-edit', $data);
+        return Factory::renderPage('member/add-or-edit', $data);
+    }
+
+    function showView()
+    {
+        $user = new User();
+        $user_id = get('user_id');
+        if ($user_id) {
+            $userInfo = $user->getList(array('col' => '*', 'where' => "u_id=" . $user_id));
+            $userInfo = current($userInfo);
+            $data['user_info'] = $userInfo;
+            $data['user_id'] = $user_id;
+        }
+        //return Factory::renderPage('member-show', $data);
+        return Factory::renderPage('member/show', $data);
     }
 
     /**
      * 添加或修改用户
      * @return mixed
      */
-    function addEditAction()
+    function addEditAjax()
     {
         $userInfo = array(
             'u_username' => post('username'),
@@ -106,10 +120,10 @@ class Member
 
     function passwordEditView()
     {
-        return Factory::renderPage('member-password-edit', array());
+        return Factory::renderPage('member/password-edit', array());
     }
 
-    function passwordEdit()
+    function passwordEditAjax()
     {
         $user = new User();
         $info = array(
@@ -120,36 +134,36 @@ class Member
         return Factory::renderJson($result, 1);
     }
 
-    function stop()
+    function stopAjax()
     {
         $user = new User();
         $result = $user->startOrStop(post('id'), 'stop');
         return Factory::renderJson($result);
     }
 
-    function start()
+    function startAjax()
     {
         $user = new User();
         $result = $user->startOrStop(post('id'), 'start');
         return Factory::renderJson($result);
     }
 
-    function delete()
+    function deleteAjax()
     {
         $user = new User();
         $result = $user->delete(post('id'));
         return Factory::renderJson($result);
     }
 
-    function changePasswordView()
+    function passwordChangeView()
     {
         $user = new User();
         $userInfo = $user->getList(array('col' => 'u_id,u_username', 'where' => "u_id=" . get('user_id')));
         $userInfo = current($userInfo);
-        return Factory::renderPage('member-password-change', array('user_info' => $userInfo));
+        return Factory::renderPage('member/password-change', array('user_info' => $userInfo));
     }
 
-    function changePassword()
+    function changePasswordAjax()
     {
         $user = new User();
         $info = array(
@@ -158,5 +172,9 @@ class Member
         );
         $result = $user->updatePassword($info, post('user_id'));
         return Factory::renderJson($result, 1);
+    }
+    function roleView()
+    {
+        return Factory::renderPage('member/role', array());
     }
 }

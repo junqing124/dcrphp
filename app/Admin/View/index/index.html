@@ -58,7 +58,7 @@
                     <li class="dropDown dropDown_hover">
                         <a href="#" class="dropDown_A">{{username}} <i class="Hui-iconfont">&#xe6d5;</i></a>
                         <ul class="dropDown-menu menu radius box-shadow">
-                            <li><a href="javascript:;" onclick="password_edit('改密码','/admin/member/passwordeditview','','510')">改密码</a></li>
+                            <li><a href="javascript:;" onclick="password_edit('改密码','/admin/member/password-edit-view','','510')">改密码</a></li>
                             <li><a href="/admin/index/logout">退出</a></li>
                         </ul>
                     </li>
@@ -87,7 +87,9 @@
             <dt><i class="Hui-iconfont">&#xe60d;</i> 会员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="/admin/member/listmemberview" data-title="会员列表" href="javascript:;">会员列表</a></li>
+                    <li><a data-href="/admin/member/list-view" data-title="会员列表" href="javascript:;">会员列表</a></li>
+                    <li><a data-href="/admin/member/role-view" data-title="角色列表" href="javascript:;">角色列表</a></li>
+                    <li><a data-href="/admin/member/role-permission-view" data-title="角色权限配置" href="javascript:;">角色权限配置</a></li>
                 </ul>
             </dd>
         </dl>

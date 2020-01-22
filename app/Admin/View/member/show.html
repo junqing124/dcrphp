@@ -1,0 +1,54 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common/common-head.html' ignore missing %}
+    <title>添加编辑用户</title>
+</head>
+<body>
+<article class="page-container">
+    <form action="/admin/member/addeditaction" method="post" class="form form-horizontal" id="form-member-add">
+        <input type="hidden" name="user_id" value="{{user_id}}">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                {{user_info.u_username}}
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                {% if 1 == user_info.u_sex %}
+                男
+                {% endif %}
+                {% if 2 == user_info.u_sex %}
+                女
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                {{user_info.u_mobile}}
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">电话：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                {{user_info.u_tel}}
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">备注：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                {{user_info.u_note}}
+            </div>
+        </div>
+    </form>
+</article>
+
+{% include 'common/common-footer.html' ignore missing %}
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
