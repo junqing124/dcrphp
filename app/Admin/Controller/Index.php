@@ -23,16 +23,22 @@ class Index
     {
         /*dd($_SESSION);
         exit;*/
+        $assignData = array();
         $version = config('info.version');
-        return Factory::renderPage('index/index', compact('version'));
+        $assignData['version'] = $version;
+        $assignData['page_title'] = '首页';
+        return Factory::renderPage('index/index', $assignData);
     }
 
     /**
      * @return mixed
+     * @throws \Exception
      */
     function welcome()
     {
-        return Factory::renderPage('index/welcome', array());
+        $assignData = array();
+        $assignData['page_title'] = '欢迎页面';
+        return Factory::renderPage('index/welcome', $assignData);
     }
 
     /**
@@ -57,6 +63,9 @@ class Index
      */
     function login(View $view)
     {
+        $assignData = array();
+        $assignData['page_title'] = '登陆页';
+
         $username = post('username');
         $password = post('password');
         $captcha = post('captcha');
@@ -66,7 +75,7 @@ class Index
         if (Session::_get('captcha') != $captcha) {
             $view->assign('error_msg', '验证码不正确');
             $admin->common($view);
-            return $view->render('login');
+            return $view->render('login', $assignData);
         }
         //判断用户名
 
@@ -82,7 +91,7 @@ class Index
         } else {
             $view->assign('error_msg', $yzResult['msg']);
             $admin->common($view);
-            return $view->render('login');
+            return $view->render('login', $assignData);
         }
     }
 }

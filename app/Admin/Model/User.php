@@ -259,6 +259,22 @@ class User
         return $list;
     }
 
+    /** 获取角色列表
+     * @param $option
+     * @return mixed
+     */
+    function getRoleList($option)
+    {
+        $option['table'] = 'zq_user_role';
+        $list = DB::select($option);
+        return $list;
+    }
+
+    /** 停止启用用户
+     * @param $user_id
+     * @param string $type
+     * @return array
+     */
     function startOrStop($user_id, $type = 'stop')
     {
         //验证

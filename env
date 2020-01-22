@@ -5,4 +5,4 @@ MYSQL_DB_DATABASE=zhanqun
 MYSQL_DB_USERNAME=root
 MYSQL_DB_PASSWORD=root
 
-ADMIN_RESOURCE_URL=http://127.0.0.1:84/resource/houtai
+ADMIN_RESOURCE_URL=/resource/houtai

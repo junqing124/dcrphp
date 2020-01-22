@@ -47,6 +47,7 @@ class Member
         $assignData['user_num'] = $pageTotalNum;
         $assignData['users'] = $list;
         $assignData['pages'] = $pageHtml;
+        $assignData['page_title'] = '用户列表';
 
         return Factory::renderPage('member/list', $assignData);
     }
@@ -56,7 +57,8 @@ class Member
         $user = new User();
         $usernameLimit = $user->getUsernameLengthLimit();
         $passwordLimit = $user->getPasswordLengthLimit();
-        $data = array(
+        $assignData = array();
+        $assignData = array(
             'username_len_min' => $usernameLimit['min'],
             'username_len_max' => $usernameLimit['max'],
             'password_len_min' => $passwordLimit['min'],
@@ -67,24 +69,26 @@ class Member
         if ($user_id) {
             $userInfo = $user->getList(array('col' => '*', 'where' => "u_id=" . $user_id));
             $userInfo = current($userInfo);
-            $data['user_info'] = $userInfo;
-            $data['user_id'] = $user_id;
+            $assignData['user_info'] = $userInfo;
+            $assignData['user_id'] = $user_id;
         }
-        return Factory::renderPage('member/add-or-edit', $data);
+        $assignData['page_title'] = '密码更换';
+        return Factory::renderPage('member/add-or-edit', $assignData);
     }
 
     function showView()
     {
         $user = new User();
         $user_id = get('user_id');
+        $assignData = array();
         if ($user_id) {
             $userInfo = $user->getList(array('col' => '*', 'where' => "u_id=" . $user_id));
             $userInfo = current($userInfo);
-            $data['user_info'] = $userInfo;
-            $data['user_id'] = $user_id;
+            $assignData['user_info'] = $userInfo;
+            $assignData['user_id'] = $user_id;
         }
-        //return Factory::renderPage('member-show', $data);
-        return Factory::renderPage('member/show', $data);
+        $assignData['page_title'] = '用户信息';
+        return Factory::renderPage('member/show', $assignData);
     }
 
     /**
@@ -120,7 +124,9 @@ class Member
 
     function passwordEditView()
     {
-        return Factory::renderPage('member/password-edit', array());
+        $assignData = array();
+        $assignData['page_title'] = '密码更换';
+        return Factory::renderPage('member/password-edit', $assignData);
     }
 
     function passwordEditAjax()
@@ -160,7 +166,10 @@ class Member
         $user = new User();
         $userInfo = $user->getList(array('col' => 'u_id,u_username', 'where' => "u_id=" . get('user_id')));
         $userInfo = current($userInfo);
-        return Factory::renderPage('member/password-change', array('user_info' => $userInfo));
+        $assignData = array();
+        $assignData['user_info'] = $userInfo;
+        $assignData['page_title'] = '密码更换';
+        return Factory::renderPage('member/password-change', $assignData);
     }
 
     function changePasswordAjax()
@@ -175,6 +184,12 @@ class Member
     }
     function roleView()
     {
-        return Factory::renderPage('member/role', array());
+        $user = new User();
+        $list = $user->getRoleList(array());
+        $assignData = array();
+        $assignData['roles'] = $list;
+        $assignData['page_title'] = '角色列表';
+
+        return Factory::renderPage('member/role', $assignData);
     }
 }

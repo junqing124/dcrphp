@@ -10,6 +10,7 @@ namespace app\Admin\Model;
 
 
 use dcr\Session;
+use \Exception;
 
 class Factory
 {
@@ -21,6 +22,10 @@ class Factory
      */
     static function renderPage($template, $dataList)
     {
+        if( ! $dataList['page_title'] )
+        {
+            throw new Exception('请设置页面标题,参考 Admin->Index->Index->index()');
+        }
         $view = container('view');
         //$view->outFormat = 'json';
         $admin = new Admin();
