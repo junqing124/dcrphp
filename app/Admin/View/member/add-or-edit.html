@@ -7,7 +7,7 @@
 </head>
 <body>
 <article class="page-container">
-    <form action="/admin/member/add-edit-ajax" method="post" class="form form-horizontal" id="form-member-add">
+    <form action="/admin/member/add-edit-ajax" method="post" class="form form-horizontal" id="form">
         <input type="hidden" name="user_id" value="{{user_id}}">
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
@@ -95,7 +95,7 @@
             increaseArea: '20%'
         });
 
-        $("#form-member-add").validate({
+        $("#form").validate({
             rules: {
                 username: {
                     required: true,

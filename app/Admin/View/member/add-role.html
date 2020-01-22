@@ -1,0 +1,68 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common/common-head.html' ignore missing %}
+</head>
+<body>
+<article class="page-container">
+    <form action="/admin/member/add-role-ajax" method="post" class="form form-horizontal" id="form">
+        <input type="hidden" name="user_id" value="{{user_id}}">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input value="" type="text" class="input-text" placeholder="" id="name" name="name">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">备注：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="note" cols="" rows="" class="textarea" placeholder="说点什么...最少输入10个字符"
+                          onKeyUp="$.Huitextarealength(this,100)"></textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+            </div>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</article>
+
+{% include 'common/common-footer.html' ignore missing %}
+<script type="text/javascript">
+    $(function () {
+        $("#form").validate({
+            rules: {
+                name: {
+                    required: true
+                },
+            },
+            onkeyup: false,
+            focusCleanup: true,
+            success: "valid",
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    success: function (data) {
+                        data = $.parseJSON(data);
+                        if (1 == data.ack) {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.window.location=parent.window.location;
+                            parent.layer.close(index);
+                            //$.Huimodalalert(data.msg,2000);
+                        }else{
+                            alert(data.msg);
+                        }
+                    },
+                    error: function (data) {
+                        //console.log(data);
+                    }
+                });
+            }
+        });
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

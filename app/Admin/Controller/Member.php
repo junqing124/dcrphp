@@ -52,6 +52,24 @@ class Member
         return Factory::renderPage('member/list', $assignData);
     }
 
+    function addRoleView()
+    {
+        $assignData['page_title'] = '添加角色';
+        return Factory::renderPage('member/add-role', $assignData);
+    }
+
+    function addRoleAjax()
+    {
+        $info = array(
+            'ur_name' => post('name'),
+            'ur_note' => post('note')
+        );
+
+        $user = new User();
+        $result = $user->addRole($info);
+        return Factory::renderJson($result);
+    }
+
     function addOrEditView()
     {
         $user = new User();
@@ -104,8 +122,6 @@ class Member
             'u_mobile' => post('mobile'),
             'u_tel' => post('tel'),
             'u_note' => post('note'),
-            'u_add_time' => time(),
-            'u_update_time' => time(),
         );
         //返回
         $user_id = post('user_id');
@@ -191,5 +207,12 @@ class Member
         $assignData['page_title'] = '角色列表';
 
         return Factory::renderPage('member/role', $assignData);
+    }
+
+    function deleteRoleAjax()
+    {
+        $user = new User();
+        $result = $user->deleteRole(post('id'));
+        return Factory::renderJson($result);
     }
 }

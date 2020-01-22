@@ -23,6 +23,18 @@ abstract class ConnectorDriver
      * @var 数据库连接结果
      */
     protected $pdo;
+    /**
+     * @var 最后的sql
+     */
+    protected $lastSql;
+    /**
+     * @var 最后的错误id
+     */
+    protected $lastErrorCode;
+    /**
+     * @var 最后的错误信息
+     */
+    protected $lastErrorInfo;
 
     abstract function getDsn();
 
@@ -37,7 +49,9 @@ abstract class ConnectorDriver
         if (!$this->checkZtId($sql)) {
             throw new \Exception('没有帐套ID:' . $sql);
         }
+        $this->lastSql = $sql;
         $result = $this->pdo->query($sql);
+        $this->recordError($this->pdo);
         return $this->getAllRow($result);
     }
 
@@ -52,7 +66,9 @@ abstract class ConnectorDriver
         if (!$this->checkZtId($sql)) {
             throw new \Exception('没有帐套ID');
         }
+        $this->lastSql = $sql;
         $result = $this->pdo->exec($sql);
+        $this->recordError($this->pdo);
         return $result;
     }
 
@@ -102,7 +118,7 @@ abstract class ConnectorDriver
      */
     function select($option)
     {
-        $queryFactory = new QueryFactory(config('database.mysql.main.driver'));
+        $queryFactory = new QueryFactory(config('database.type'));
         //判断用户名有没有
         $select = $queryFactory->newSelect();
         $ztId = Session::_get('ztId');
@@ -139,7 +155,7 @@ abstract class ConnectorDriver
     function update($table, $info, $where)
     {
         $ztId = Session::_get('ztId');
-        $queryFactory = new QueryFactory(config('database.mysql.main.driver'));
+        $queryFactory = new QueryFactory(config('database.type'));
         $update = $queryFactory->newUpdate();
         $update
             ->table($table)
@@ -148,6 +164,7 @@ abstract class ConnectorDriver
             ->where("zt_id={$ztId}");
         $dbPre = $this->prepare($update->getStatement());
         $result = $dbPre->execute($update->getBindValues());
+        $this->recordError($dbPre);
         return $result;
     }
 
@@ -160,7 +177,7 @@ abstract class ConnectorDriver
     function delete($table, $where)
     {
         $ztId = Session::_get('ztId');
-        $queryFactory = new QueryFactory(config('database.mysql.main.driver'));
+        $queryFactory = new QueryFactory(config('database.type'));
         $delete = $queryFactory->newDelete();
         $delete
             ->from($table)
@@ -168,6 +185,7 @@ abstract class ConnectorDriver
             ->where("zt_id={$ztId}");
         $dbPre = $this->prepare($delete->getStatement());
         $result = $dbPre->execute($delete->getBindValues());
+        $this->recordError($dbPre);
         return $result;
     }
 
@@ -179,11 +197,26 @@ abstract class ConnectorDriver
      */
     function insert($table, $info)
     {
-        $queryFactory = new QueryFactory(config('database.mysql.main.driver'));
+        $queryFactory = new QueryFactory(config('database.type'));
         $insert = $queryFactory->newInsert();
         $insert->into($table)->cols(array_keys($info))->bindValues($info);
         $dbPre = $this->prepare($insert->getStatement());
-        $result = $dbPre->execute($insert->getBindValues());
+        $insertSql = $insert->getBindValues();
+        $result = $dbPre->execute($insertSql);
+        $this->recordError($dbPre);
+
         return $result;
+    }
+
+    function getError()
+    {
+        return array('code'=> $this->lastErrorCode,'msg'=>implode(',',$this->lastErrorInfo));
+    }
+
+    private function recordError($pdo)
+    {
+        $this->lastErrorCode = $pdo->errorCode();
+        $this->lastErrorInfo = $pdo->errorInfo();
+        return 1;
     }
 }

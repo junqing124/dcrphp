@@ -154,27 +154,57 @@ class User
             return array('ack' => 1,);
         } else {
             //dd($dbPre->errorInfo());
-            return array('ack' => 0, 'msg' => '添加到数据库时发生错误');
+            return array('ack' => 0, 'msg' => '添加到数据库时发生错误: msg->' . DB::getError()['msg']);
+        }
+    }
+
+    /**
+     * @param array $roleInfo 格式如下
+     * $roleInfo = array(
+     * 'ur_name' => post('name'), //必填
+     * 'ur_note' => post('note'), //选填
+     * );
+     * @return array
+     */
+    function addRole(array $roleInfo)
+    {
+        //验证
+        $stringValidator = v::stringType()->length(1, 50);
+        if (!$stringValidator->validate($roleInfo['ur_name'])) {
+            $error[] = '角色长度不符合[1-50]';
+        }
+
+        //处理
+        $roleInfo['zt_id'] = Session::_get('ztId');
+        $roleInfo['ur_add_time'] = time();
+        $roleInfo['ur_update_time'] = time();
+        $roleInfo['ur_add_user_id'] = session('userId');
+        $result = DB::insert('zq_user_role', $roleInfo);
+        //返回
+        if (1 == $result) {
+
+            return array('ack' => 1,);
+        } else {
+            //dd(DB::getError());
+            return array('ack' => 0, 'msg' => '添加到数据库时发生错误: msg->' . DB::getError()['msg']);
         }
     }
 
     /**
      * 添加编辑会员
-     * @param $userInfo 格式如下
+     * @param array $userInfo 格式如下
      * $userInfo = array(
-     * 'u_username' => post('username'),
-     * 'u_password' => post('password'),
-     * 'u_sex' => post('sex'),
+     * 'u_username' => post('username'), 必填
+     * 'u_password' => post('password'), 必填
+     * 'u_sex' => post('sex'), 必填 1或2
      * 'u_mobile' => post('mobile'),
      * 'u_tel' => post('tel'),
      * 'u_note' => post('note'),
-     * 'u_add_time' => time(),
-     * 'u_update_time' => time(),
      * );
      * @param string $type 添加还是编辑
      * @return array
      */
-    function addEditUser($userInfo, $type = 'add')
+    function addEditUser(array $userInfo, string $type = 'add')
     {
         $type = $type ? $type : 'add';
         //加上帐套id
@@ -217,7 +247,10 @@ class User
         }
         //开始初始化数据
         $userInfo['zt_id'] = Session::_get('ztId');
+        $userInfo['u_update_time'] = time();
+
         if ('add' == $type) {
+            $userInfo['u_add_time'] = time();
             $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
             $userInfo['u_add_user_id'] = session('userId');
         } else if ('edit' == $type) {
@@ -244,7 +277,7 @@ class User
 
             return array('ack' => 1,);
         } else {
-            return array('ack' => 0, 'msg' => '添加到数据库时发生错误');
+            return array('ack' => 0, 'msg' => '添加到数据库时发生错误: msg->' . DB::getError()['msg']);
         }
     }
 
@@ -271,14 +304,14 @@ class User
     }
 
     /** 停止启用用户
-     * @param $user_id
+     * @param $userId
      * @param string $type
      * @return array
      */
-    function startOrStop($user_id, $type = 'stop')
+    function startOrStop($userId, $type = 'stop')
     {
         //验证
-        $info = DB::select(array('table' => 'zq_user', 'col' => 'u_id', 'where' => "u_id={$user_id}", 'limit' => 1));
+        $info = DB::select(array('table' => 'zq_user', 'col' => 'u_id', 'where' => "u_id={$userId}", 'limit' => 1));
         $info = current($info);
 
         if (!$info) {
@@ -290,7 +323,7 @@ class User
         } else {
             $dbInfo = array('u_is_valid' => 0);
         }
-        $result = DB::update('zq_user', $dbInfo, "u_id={$user_id}");
+        $result = DB::update('zq_user', $dbInfo, "u_id={$userId}");
         //dd($dbPre->getSql());
         //返回
         if (1 == $result) {
@@ -298,29 +331,50 @@ class User
             return array('ack' => 1,);
         } else {
             //dd($dbPre->errorInfo());
-            return array('ack' => 0, 'msg' => '到数据库时发生错误');
+            return array('ack' => 0, 'msg' => '添加到数据库时发生错误: msg->' . DB::getError()['msg']);
         }
     }
 
-    function delete($user_id)
+    function delete($userId)
     {
         //验证
-        $info = DB::select(array('table' => 'zq_user', 'col' => 'u_id', 'where' => "u_id={$user_id}", 'limit' => 1));
+        $info = DB::select(array('table' => 'zq_user', 'col' => 'u_id', 'where' => "u_id={$userId}", 'limit' => 1));
         $info = current($info);
 
         if (!$info) {
             return array('ack' => 0, 'msg' => '没有找到这个用户');
         }
         //逻辑
-        $result = DB::delete('zq_user', "u_id={$user_id}");
+        $result = DB::delete('zq_user', "u_id={$userId}");
         //dd($dbPre->getSql());
         //返回
         if (1 == $result) {
 
             return array('ack' => 1,);
         } else {
-            //dd($dbPre->errorInfo());
-            return array('ack' => 0, 'msg' => '到数据库时发生错误');
+            return array('ack' => 0, 'msg' => '添加到数据库时发生错误: msg->' . DB::getError()['msg']);
         }
+    }
+
+    function deleteRole($roleId)
+    {
+        //验证
+        $info = DB::select(array('table' => 'zq_user_role', 'col' => 'ur_id', 'where' => "ur_id={$roleId}", 'limit' => 1));
+        $info = current($info);
+
+        if (!$info) {
+            return array('ack' => 0, 'msg' => '没有找到这个用户');
+        }
+        //逻辑
+        $result = DB::delete('zq_user_role', "ur_id={$roleId}");
+        //dd($dbPre->getSql());
+        //返回
+        if (1 == $result) {
+
+            return array('ack' => 1,);
+        } else {
+            return array('ack' => 0, 'msg' => '添加到数据库时发生错误: msg->' . DB::getError()['msg']);
+        }
+
     }
 }

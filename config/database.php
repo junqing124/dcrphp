@@ -6,6 +6,7 @@
  * Time: 19:58
  */
 return array(
+    'type'=> env('DB_TYPE',''),
     'mysql' =>
         array(
             'main' => array(
