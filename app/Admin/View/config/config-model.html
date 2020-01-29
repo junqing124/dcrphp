@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common/common-head.html' ignore missing %}
+</head>
+<body>
+
+{% include 'config/navigate.html' ignore missing %}
+<div class="page-container">
+    <form class="form form-horizontal" method="post" id="form" action="/admin/config/config-model-ajax">
+        <input id="del" type="hidden" name="del" value="">
+        <div class="Huialert Huialert-info"><i class="Hui-iconfont">&#xe6a6;</i>本页面用来配置各模型里的附加字段。比如产品里只有标题和描述，但你还想加上价格，就可以在这里配置。
+        </div>
+        <div id="tab-system" class="HuiTab">
+            <div class="tabBar cl">
+                {% for define in define_list %}
+                <span>{{define.dec}}</span>
+                {% endfor %}
+            </div>
+            {% for define in define_list %}
+            <div class="tabCon" id="{{define.name}}">
+                <div class="row cl">
+                    <div class="form-label col-sm-2">
+                        <button onClick="add_new('{{define.name}}')" class="btn btn-default radius" type="button">添加一行
+                        </button>
+                    </div>
+                    <div class="form-label col-sm-9">
+                    </div>
+                </div>
+                {% for model in model_list[define.name] %}
+                <div class="row cl" type="tpl" cm_id="{{model.cm_id}}">
+                    <label class="form-label col-sm-1">
+                        描述：</label>
+                    <div class="formControls col-sm-2">
+                        <input type="text" placeholder="描述" name="dec_{{define.name}}[]" value="{{model.cm_dec}}"
+                               class="input-text">
+                    </div>
+                    <label class="form-label col-sm-1">
+                        关键字：</label>
+                    <div class="formControls col-sm-2">
+                        <input type="text" placeholder="全英文" name="key_{{define.name}}[]" value="{{model.cm_key}}"
+                               class="input-text">
+                    </div>
+                    <label class="col-sm-6">
+                        <button onClick="remove(this);" class="btn btn-danger radius" type="button">X</button>
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i
+                        class="Hui-iconfont">&#xe632;</i> 保存
+                </button>
+                <button onClick="layer_close();" class="btn btn-default radius" type="button">
+                    &nbsp;&nbsp;取消&nbsp;&nbsp;
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% include '/common/common-footer.html' ignore missing %}
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="{{admin_resource_url}}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+    function add_new(model_name) {
+        let new_div = $('#' + model_name).find("div").eq(3).clone(true);
+        new_div.attr('type', '');
+        new_div.attr('cm_id', '');
+        new_div.appendTo("#" + model_name);
+    }
+
+    function remove(obj) {
+        layer.confirm('确认要删除吗？', function (index) {
+            let del_div = $(obj).parent().parent();
+            //记录要删除的行
+            let cm_id = del_div.attr('cm_id');
+            if (cm_id.length > 0) {
+                $('#del').val($('#del').val() + '_' + cm_id);
+            }
+            del_div.remove();
+            layer.msg('已删除!', {icon: 1, time: 1000});
+        });
+    }
+
+    $(function () {
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
+        $("#tab-system").Huitab({
+            index: 0
+        });
+        $("#form").validate({
+            onkeyup: false,
+            focusCleanup: true,
+            success: "valid",
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    success: function (data) {
+                        data = $.parseJSON(data);
+                        if (1 == data.ack) {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            window.location = window.location;
+                            parent.layer.close(index);
+                            //$.Huimodalalert(data.msg,2000);
+                        } else {
+                            alert(data.msg);
+                        }
+                    },
+                    error: function (data) {
+                        //console.log(data);
+                    }
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

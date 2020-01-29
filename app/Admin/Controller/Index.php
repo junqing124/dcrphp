@@ -8,8 +8,9 @@
 
 namespace app\Admin\Controller;
 
+use app\Admin\Model\Config as MConfig;
 use app\Admin\Model\Factory;
-use dcr\Request;
+use app\Model\Define;
 use dcr\Response;
 use dcr\Session;
 use dcr\View;
@@ -27,6 +28,8 @@ class Index
         $version = config('info.version');
         $assignData['version'] = $version;
         $assignData['page_title'] = '首页';
+        $modelList = Define::getModelDefine();
+        $assignData['model_list'] = $modelList;
         return Factory::renderPage('index/index', $assignData);
     }
 

@@ -6,20 +6,12 @@
 </head>
 <body>
 <article class="page-container">
-    <form action="/admin/member/add-role-ajax" method="post" class="form form-horizontal" id="form">
+    <form action="/admin/user/add-permission-ajax" method="post" class="form form-horizontal" id="form">
         <input type="hidden" name="user_id" value="{{user_id}}">
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限名：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input value="" type="text" class="input-text" placeholder="" id="name" name="name">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">备注：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="note" cols="" rows="" class="textarea" placeholder="说点什么...最少输入10个字符"
-                          onKeyUp="$.Huitextarealength(this,100)"></textarea>
-                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
             </div>
         </div>
         <div class="row cl">

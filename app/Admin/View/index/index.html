@@ -46,7 +46,7 @@
                                     class="Hui-iconfont">&#xe613;</i> 图片</a></li>
                             <li><a href="javascript:;" onclick="product_add('添加资讯','product-add.html')"><i
                                     class="Hui-iconfont">&#xe620;</i> 产品</a></li>
-                            <li><a href="javascript:;" onclick="member_add('添加用户','member-add.html','','510')"><i
+                            <li><a href="javascript:;" onclick="user_add('添加用户','user-add.html','','510')"><i
                                     class="Hui-iconfont">&#xe60d;</i> 用户</a></li>
                         </ul>
                     </li>
@@ -58,7 +58,7 @@
                     <li class="dropDown dropDown_hover">
                         <a href="#" class="dropDown_A">{{username}} <i class="Hui-iconfont">&#xe6d5;</i></a>
                         <ul class="dropDown-menu menu radius box-shadow">
-                            <li><a href="javascript:;" onclick="password_edit('改密码','/admin/member/password-edit-view','','510')">改密码</a></li>
+                            <li><a href="javascript:;" onclick="password_edit('改密码','/admin/user/password-edit-view','','510')">改密码</a></li>
                             <li><a href="/admin/index/logout">退出</a></li>
                         </ul>
                     </li>
@@ -83,13 +83,13 @@
 </header>
 <aside class="Hui-aside">
     <div class="menu_dropdown bk_2">
-        <dl id="menu-member">
+        <dl id="menu-user">
             <dt><i class="Hui-iconfont">&#xe60d;</i> 会员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="/admin/member/list-view" data-title="会员列表" href="javascript:;">会员列表</a></li>
-                    <li><a data-href="/admin/member/role-view" data-title="角色列表" href="javascript:;">角色列表</a></li>
-                    <li><a data-href="/admin/member/role-permission-view" data-title="角色权限配置" href="javascript:;">角色权限配置</a></li>
+                    <li><a data-href="/admin/user/list-view" data-title="会员列表" href="javascript:;">会员列表</a></li>
+                    <li><a data-href="/admin/user/role-view" data-title="角色列表" href="javascript:;">角色列表</a></li>
+                    <li><a data-href="/admin/user/permission-view" data-title="权限列表" href="javascript:;">权限列表</a></li>
                 </ul>
             </dd>
         </dl>
@@ -101,6 +101,26 @@
                 </ul>
             </dd>
         </dl>
+        <dl id="menu-config">
+            <dt><i class="Hui-iconfont">&#xe62e;</i> 配置中心<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a data-href="/admin/config/config-base-view" data-title="基本配置" href="javascript:;">基本配置</a></li>
+                    <li><a data-href="/admin/config/config-model-view" data-title="模型配置" href="javascript:;">模型配置</a></li>
+                </ul>
+            </dd>
+        </dl>
+        {% for model in model_list %}
+        <dl id="menu-{{model.name}}">
+            <dt><i class="Hui-iconfont">&#xe620;</i> {{model.dec}}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a data-href="/admin/model/model-list-view/{{model.name}}" data-title="{{define.dec}}列表" href="javascript:;">{{model.dec}}列表</a></li>
+                    <li><a data-href="/admin/model/model-list-category-view/{{model.name}}" data-title="{{define.dec}}分类" href="javascript:;">{{model.dec}}分类</a></li>
+                </ul>
+            </dd>
+        </dl>
+        {% endfor %}
     </div>
 </aside>
 <div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a>
@@ -195,7 +215,7 @@
     }
 
     /*用户-添加*/
-    function member_add(title, url, w, h) {
+    function user_add(title, url, w, h) {
         layer_show(title, url, w, h);
     }
 

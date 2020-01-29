@@ -5,7 +5,7 @@
 </head>
 <body>
 
-{% include 'member/navigate.html' ignore missing %}
+{% include 'user/navigate.html' ignore missing %}
 <div class="page-container">
     <div class="text-c">
         <form action="#" method="get">
@@ -16,7 +16,7 @@
         </form>
     </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"> <a
-            href="javascript:;" onclick="member_add('添加用户','/admin/member/addoreditview','','510')"
+            href="javascript:;" onclick="user_add('添加用户','/admin/user/addoreditview','','510')"
             class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span
             class="r">共有数据：<strong>{{user_num}}</strong> 条</span></div>
     <div class="mt-20">
@@ -38,7 +38,7 @@
             <tr class="text-c">
                 <td><input type="checkbox" value="{{user.u_id}}" name=""></td>
                 <td><u style="cursor:pointer" class="text-primary"
-                       onclick="member_show('{{user.u_username}}','/admin/member/show-view?user_id={{user.u_id}}','10001','360','400')">{{user.u_username}}</u>
+                       onclick="user_show('{{user.u_username}}','/admin/user/show-view?user_id={{user.u_id}}','10001','360','400')">{{user.u_username}}</u>
                 </td>
                 <td>
                     {% if 1 == user.u_sex %}
@@ -59,16 +59,16 @@
                 </td>
                 <td class="td-manage">
                     {% if 1 == user.u_is_valid %}
-                    <a style="text-decoration:none" onClick="member_stop(this,'{{user.u_id}}')"
+                    <a style="text-decoration:none" onClick="user_stop(this,'{{user.u_id}}')"
                        href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
                     {% else %}
-                    <a style="text-decoration:none" onClick="member_start(this,'{{user.u_id}}')"
+                    <a style="text-decoration:none" onClick="user_start(this,'{{user.u_id}}')"
                        href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>
                     {% endif %}
-                    <a title="编辑" href="javascript:;" onclick="member_edit('编辑','/admin/member/add-or-edit-view?user_id={{user.u_id}}','','510')"
+                    <a title="编辑" href="javascript:;" onclick="user_edit('编辑','/admin/user/add-or-edit-view?user_id={{user.u_id}}','','510')"
                        class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                    <a style="text-decoration:none" class="ml-5" onClick="change_password('修改密码','/admin/member/password-change-view?user_id={{user.u_id}}','600','270')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a>
-                    <a title="删除" href="javascript:;" onclick="member_del(this,'{{user.u_id}}')" class="ml-5"
+                    <a style="text-decoration:none" class="ml-5" onClick="change_password('修改密码','/admin/user/password-change-view?user_id={{user.u_id}}','600','270')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a>
+                    <a title="删除" href="javascript:;" onclick="user_del(this,'{{user.u_id}}')" class="ml-5"
                        style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
             </tr>
             {% endfor %}
@@ -85,25 +85,25 @@
 <script type="text/javascript" src="{{admin_resource_url}}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
     /*用户-添加*/
-    function member_add(title, url, w, h) {
+    function user_add(title, url, w, h) {
         layer_show(title, url, w, h);
     }
 
     /*用户-查看*/
-    function member_show(title, url, id, w, h) {
+    function user_show(title, url, id, w, h) {
         layer_show(title, url, w, h);
     }
 
     /*用户-停用*/
-    function member_stop(obj, id) {
+    function user_stop(obj, id) {
         layer.confirm('确认要停用吗？', function (index) {
             $.ajax({
                 type: 'POST',
-                url: '/admin/member/stop-ajax',
+                url: '/admin/user/stop-ajax',
                 dataType: 'json',
                 data: "id=" + id,
                 success: function (result) {
-                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
+                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="user_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
                     $(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
                     $(obj).remove();
                     layer.msg('已停用!', {icon: 5, time: 1000});
@@ -116,15 +116,15 @@
     }
 
     /*用户-启用*/
-    function member_start(obj, id) {
+    function user_start(obj, id) {
         layer.confirm('确认要启用吗？', function (index) {
             $.ajax({
                 type: 'POST',
-                url: '/admin/member/start-ajax',
+                url: '/admin/user/start-ajax',
                 dataType: 'json',
                 data: "id=" + id,
                 success: function (result) {
-                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
+                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="user_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
                     $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
                     $(obj).remove();
                     layer.msg('已启用!', {icon: 6, time: 1000});
@@ -137,7 +137,7 @@
     }
 
     /*用户-编辑*/
-    function member_edit(title, url, w, h) {
+    function user_edit(title, url, w, h) {
         layer_show(title, url, w, h);
     }
 
@@ -147,11 +147,11 @@
     }
 
     /*用户-删除*/
-    function member_del(obj, id) {
+    function user_del(obj, id) {
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
                 type: 'POST',
-                url: '/admin/member/deleteAjax',
+                url: '/admin/user/deleteAjax',
                 dataType: 'json',
                 data: "id=" + id,
                 success: function (data) {

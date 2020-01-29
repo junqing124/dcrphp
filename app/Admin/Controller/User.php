@@ -9,10 +9,10 @@
 namespace app\Admin\Controller;
 
 use app\Admin\Model\Factory;
-use app\Admin\Model\User;
+use app\Admin\Model\User as MUser;
 use dcr\Page;
 
-class Member
+class User
 {
     function listView()
     {
@@ -20,7 +20,7 @@ class Member
         $whereStr = '';
         $where = array();
         //用户列表
-        $user = new User();
+        $user = new MUser();
 
         $username = get('u_username');
         if ($username) {
@@ -49,13 +49,19 @@ class Member
         $assignData['pages'] = $pageHtml;
         $assignData['page_title'] = '用户列表';
 
-        return Factory::renderPage('member/list', $assignData);
+        return Factory::renderPage('user/list', $assignData);
     }
 
     function addRoleView()
     {
         $assignData['page_title'] = '添加角色';
-        return Factory::renderPage('member/add-role', $assignData);
+        return Factory::renderPage('user/add-role', $assignData);
+    }
+
+    function addPermissionView()
+    {
+        $assignData['page_title'] = '添加权限';
+        return Factory::renderPage('user/add-permission', $assignData);
     }
 
     function addRoleAjax()
@@ -65,14 +71,25 @@ class Member
             'ur_note' => post('note')
         );
 
-        $user = new User();
+        $user = new MUser();
         $result = $user->addRole($info);
+        return Factory::renderJson($result);
+    }
+
+    function addPermissionAjax()
+    {
+        $info = array(
+            'up_name' => post('name'),
+        );
+
+        $user = new MUser();
+        $result = $user->addPermission($info);
         return Factory::renderJson($result);
     }
 
     function addOrEditView()
     {
-        $user = new User();
+        $user = new MUser();
         $usernameLimit = $user->getUsernameLengthLimit();
         $passwordLimit = $user->getPasswordLengthLimit();
         $assignData = array();
@@ -91,12 +108,12 @@ class Member
             $assignData['user_id'] = $user_id;
         }
         $assignData['page_title'] = '密码更换';
-        return Factory::renderPage('member/add-or-edit', $assignData);
+        return Factory::renderPage('user/add-or-edit', $assignData);
     }
 
     function showView()
     {
-        $user = new User();
+        $user = new MUser();
         $user_id = get('user_id');
         $assignData = array();
         if ($user_id) {
@@ -106,7 +123,7 @@ class Member
             $assignData['user_id'] = $user_id;
         }
         $assignData['page_title'] = '用户信息';
-        return Factory::renderPage('member/show', $assignData);
+        return Factory::renderPage('user/show', $assignData);
     }
 
     /**
@@ -133,7 +150,7 @@ class Member
         }
         //dd($type);
         //dd(get());
-        $user = new User();
+        $user = new MUser();
         $result = $user->addEditUser($userInfo, $type);
         return Factory::renderJson($result);
     }
@@ -142,12 +159,12 @@ class Member
     {
         $assignData = array();
         $assignData['page_title'] = '密码更换';
-        return Factory::renderPage('member/password-edit', $assignData);
+        return Factory::renderPage('user/password-edit', $assignData);
     }
 
     function passwordEditAjax()
     {
-        $user = new User();
+        $user = new MUser();
         $info = array(
             'passwordNew' => post('password_new'),
             'passwordNewRe' => post('password_new_re'),
@@ -158,39 +175,39 @@ class Member
 
     function stopAjax()
     {
-        $user = new User();
+        $user = new MUser();
         $result = $user->startOrStop(post('id'), 'stop');
         return Factory::renderJson($result);
     }
 
     function startAjax()
     {
-        $user = new User();
+        $user = new MUser();
         $result = $user->startOrStop(post('id'), 'start');
         return Factory::renderJson($result);
     }
 
     function deleteAjax()
     {
-        $user = new User();
+        $user = new MUser();
         $result = $user->delete(post('id'));
         return Factory::renderJson($result);
     }
 
     function passwordChangeView()
     {
-        $user = new User();
+        $user = new MUser();
         $userInfo = $user->getList(array('col' => 'u_id,u_username', 'where' => "u_id=" . get('user_id')));
         $userInfo = current($userInfo);
         $assignData = array();
         $assignData['user_info'] = $userInfo;
         $assignData['page_title'] = '密码更换';
-        return Factory::renderPage('member/password-change', $assignData);
+        return Factory::renderPage('user/password-change', $assignData);
     }
 
     function changePasswordAjax()
     {
-        $user = new User();
+        $user = new MUser();
         $info = array(
             'passwordNew' => post('password_new'),
             'passwordNewRe' => post('password_new_re'),
@@ -200,19 +217,36 @@ class Member
     }
     function roleView()
     {
-        $user = new User();
+        $user = new MUser();
         $list = $user->getRoleList(array());
         $assignData = array();
         $assignData['roles'] = $list;
         $assignData['page_title'] = '角色列表';
 
-        return Factory::renderPage('member/role', $assignData);
+        return Factory::renderPage('user/role', $assignData);
+    }
+    function permissionView()
+    {
+        $user = new MUser();
+        $list = $user->getPermissionList(array());
+        $assignData = array();
+        $assignData['permissions'] = $list;
+        $assignData['page_title'] = '权限列表';
+
+        return Factory::renderPage('user/permission', $assignData);
     }
 
     function deleteRoleAjax()
     {
-        $user = new User();
+        $user = new MUser();
         $result = $user->deleteRole(post('id'));
+        return Factory::renderJson($result);
+    }
+
+    function deletePermissionAjax()
+    {
+        $user = new MUser();
+        $result = $user->deletePermission(post('id'));
         return Factory::renderJson($result);
     }
 }

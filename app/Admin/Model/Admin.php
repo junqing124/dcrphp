@@ -8,6 +8,7 @@
 
 namespace app\Admin\Model;
 
+use dcr\Db;
 use dcr\View;
 use dcr\Session;
 
@@ -62,6 +63,23 @@ class Admin
             return array('ack' => 0, 'error_id'=> '1000', 'msg'=>'验证失败');
             //return $view->render('login');
             //exit;
+        }
+    }
+
+    /**
+     * @param $result 值的范围是1或0
+     * @param string $errorMsg
+     * @return array
+     */
+    static function commonReturn($result, $errorMsg = '')
+    {
+        if (1 == $result) {
+            return array('ack' => 1,);
+        } else {
+            if( !$errorMsg ){
+                $errorMsg = '添加到数据库时发生错误: msg->' . DB::getError()['msg'];
+            }
+            return array('ack' => 0, 'msg' => $errorMsg);
         }
     }
 }

@@ -149,13 +149,34 @@ class User
         $result = DB::update('zq_user', array('u_password' => Safe::_encrypt($passwordNew), 'u_update_time' => time(), 'zt_id' => session('ztId')), $where);
         //dd($dbPre->getSql());
         //返回
-        if (1 == $result) {
+        return Admin::commonReturn($result);
+    }
 
-            return array('ack' => 1,);
-        } else {
-            //dd($dbPre->errorInfo());
-            return array('ack' => 0, 'msg' => '添加到数据库时发生错误: msg->' . DB::getError()['msg']);
+    /**
+     * @param array $permissionInfo 格式如下
+     * $roleInfo = array(
+     * 'ur_name' => post('name'), //必填
+     * 'ur_note' => post('note'), //选填
+     * );
+     * @return array
+     */
+    function addPermission(array $permissionInfo)
+    {
+        //验证
+        $stringValidator = v::stringType()->length(1, 50);
+        if (!$stringValidator->validate($permissionInfo['up_name'])) {
+            $error[] = '角色长度不符合[1-50]';
         }
+
+        //处理
+        $permissionInfo['zt_id'] = Session::_get('ztId');
+        $permissionInfo['up_add_time'] = time();
+        $permissionInfo['up_update_time'] = time();
+        $permissionInfo['up_add_user_id'] = session('userId');
+        $result = DB::insert('zq_user_permission', $permissionInfo);
+        //返回
+
+        return Admin::commonReturn($result);
     }
 
     /**
@@ -181,13 +202,8 @@ class User
         $roleInfo['ur_add_user_id'] = session('userId');
         $result = DB::insert('zq_user_role', $roleInfo);
         //返回
-        if (1 == $result) {
 
-            return array('ack' => 1,);
-        } else {
-            //dd(DB::getError());
-            return array('ack' => 0, 'msg' => '添加到数据库时发生错误: msg->' . DB::getError()['msg']);
-        }
+        return Admin::commonReturn($result);
     }
 
     /**
@@ -273,12 +289,8 @@ class User
             unset($userInfo['u_username']);
             $result = DB::update('zq_user', $userInfo, "u_id={$userId}");
         }
-        if (1 == $result) {
 
-            return array('ack' => 1,);
-        } else {
-            return array('ack' => 0, 'msg' => '添加到数据库时发生错误: msg->' . DB::getError()['msg']);
-        }
+        return Admin::commonReturn($result);
     }
 
     /**
@@ -299,6 +311,14 @@ class User
     function getRoleList($option)
     {
         $option['table'] = 'zq_user_role';
+        $list = DB::select($option);
+        return $list;
+    }
+
+
+    function getPermissionList($option)
+    {
+        $option['table'] = 'zq_user_permission';
         $list = DB::select($option);
         return $list;
     }
@@ -326,13 +346,8 @@ class User
         $result = DB::update('zq_user', $dbInfo, "u_id={$userId}");
         //dd($dbPre->getSql());
         //返回
-        if (1 == $result) {
 
-            return array('ack' => 1,);
-        } else {
-            //dd($dbPre->errorInfo());
-            return array('ack' => 0, 'msg' => '添加到数据库时发生错误: msg->' . DB::getError()['msg']);
-        }
+        return Admin::commonReturn($result);
     }
 
     function delete($userId)
@@ -348,12 +363,8 @@ class User
         $result = DB::delete('zq_user', "u_id={$userId}");
         //dd($dbPre->getSql());
         //返回
-        if (1 == $result) {
 
-            return array('ack' => 1,);
-        } else {
-            return array('ack' => 0, 'msg' => '添加到数据库时发生错误: msg->' . DB::getError()['msg']);
-        }
+        return Admin::commonReturn($result);
     }
 
     function deleteRole($roleId)
@@ -363,18 +374,32 @@ class User
         $info = current($info);
 
         if (!$info) {
-            return array('ack' => 0, 'msg' => '没有找到这个用户');
+            return array('ack' => 0, 'msg' => '没有找到这个信息');
         }
         //逻辑
         $result = DB::delete('zq_user_role', "ur_id={$roleId}");
         //dd($dbPre->getSql());
         //返回
-        if (1 == $result) {
 
-            return array('ack' => 1,);
-        } else {
-            return array('ack' => 0, 'msg' => '添加到数据库时发生错误: msg->' . DB::getError()['msg']);
+        return Admin::commonReturn($result);
+
+    }
+
+    function deletePermission($permissionId)
+    {
+        //验证
+        $info = DB::select(array('table' => 'zq_user_permission', 'col' => 'up_id', 'where' => "up_id={$permissionId}", 'limit' => 1));
+        $info = current($info);
+
+        if (!$info) {
+            return array('ack' => 0, 'msg' => '没有找到这个信息');
         }
+        //逻辑
+        $result = DB::delete('zq_user_permission', "up_id={$permissionId}");
+        //dd($dbPre->getSql());
+        //返回
+
+        return Admin::commonReturn($result);
 
     }
 }

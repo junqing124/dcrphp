@@ -5,12 +5,11 @@
 </head>
 <body>
 
-{% include 'member/navigate.html' ignore missing %}
+{% include 'user/navigate.html' ignore missing %}
 <div class="page-container">
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"> <a
-            href="javascript:;" onclick="add('添加角色','/admin/member/add-role-view','500','300')"
-            class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a></span> <span
-            class="r">共有数据：<strong>{{user_num}}</strong> 条</span></div>
+            href="javascript:;" onclick="add('添加角色','/admin/user/add-role-view','500','300')"
+            class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a></span></div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
@@ -34,14 +33,12 @@
             {% endfor %}
             </tbody>
         </table>
-        <div>{{pages|raw}}</div>
     </div>
 </div>
 
 {% include '/common/common-footer.html' ignore missing %}
 
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="{{admin_resource_url}}/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript" src="{{admin_resource_url}}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
     /*用户-添加*/
@@ -53,7 +50,7 @@
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
                 type: 'POST',
-                url: '/admin/member/deleteRoleAjax',
+                url: '/admin/user/delete-role-ajax',
                 dataType: 'json',
                 data: "id=" + id,
                 success: function (data) {
