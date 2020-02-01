@@ -115,7 +115,17 @@ class Request extends DcrBase
      */
     public function setParams($params)
     {
+        $params = array_merge($params); //重置数组下标
         $this->params = $params;
+    }
+
+    /**
+     * 用来获取比如/admin/config/config/test里的test
+     * @return 参数列表
+     */
+    public function getParams()
+    {
+        return $this->params;
     }
 
     /**

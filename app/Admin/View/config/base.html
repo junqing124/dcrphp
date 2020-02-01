@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    {% include 'common/common-head.html' ignore missing %}
+    {% include 'common/head.html' ignore missing %}
 </head>
 <body>
 
@@ -10,17 +10,15 @@
     <div class="mt-20">
         <form action="/admin/config/config-base-ajax" method="post" class="form form-horizontal" id="form">
             <table class="table table-border table-bordered table-hover table-bg table-sort">
-                <thead>
                 <!--本条目要加的话，还得在Controller/Config下的configBaseView加上条目-->
                 {% for config in config_list %}
                     {% if 'site_name' == config.cb_name %}
-                    <tr class="text-c">
+                    <tr class="text-r">
                         <th width="100">网站名</th>
                         <th width="800"><input value="{{config.cb_value}}" type="text" class="input-text" placeholder="" id="site_name" name="site_name"></th>
                     </tr>
                     {% endif %}
                 {% endfor %}
-                </thead>
                 <tr>
                     <td></td>
                     <td>
@@ -32,7 +30,7 @@
     </div>
 </div>
 
-{% include '/common/common-footer.html' ignore missing %}
+{% include 'common/footer.html' ignore missing %}
 
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="{{admin_resource_url}}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>

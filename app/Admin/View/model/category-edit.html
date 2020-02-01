@@ -6,16 +6,27 @@
 </head>
 <body>
 <article class="page-container">
-    <form action="/admin/user/add-permission-ajax" method="post" class="form form-horizontal" id="form">
-        <input type="hidden" name="user_id" value="{{user_id}}">
+    <form action="/admin/model/category-edit-ajax" method="post" class="form form-horizontal" id="form">
+        <input type="hidden" name="model_name" value="{{model_name}}">
+        <input type="hidden" name="action" value="{{action}}">
+        <input type="hidden" name="id" value="{{category_id}}">
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限名：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input value="" type="text" class="input-text" placeholder="" id="name" name="name">
+            <label class="form-label col-sm-3"><span class="c-red">*</span>上级：</label>
+            <div class="formControls col-sm-6">
+                {% autoescape false %}
+                {{category_select_html}}
+                {% endautoescape %}
             </div>
         </div>
         <div class="row cl">
-            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+            <label class="form-label col-sm-3"><span class="c-red">*</span>分类名：</label>
+            <div class="formControls col-sm-6">
+                <input value="{{category_name}}" type="text" class="input-text" placeholder="" id="category_name" name="category_name">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-sm-3"></label>
+            <div class="formControls col-sm-6">
                 <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
             </div>
         </div>
@@ -27,7 +38,7 @@
     $(function () {
         $("#form").validate({
             rules: {
-                name: {
+                category_name: {
                     required: true
                 },
             },
@@ -39,7 +50,7 @@
                     success: function (data) {
                         data = $.parseJSON(data);
                         if (1 == data.ack) {
-                            var index = parent.layer.getFrameIndex(window.name);
+                            let index = parent.layer.getFrameIndex(window.name);
                             parent.window.location=parent.window.location;
                             parent.layer.close(index);
                             //$.Huimodalalert(data.msg,2000);

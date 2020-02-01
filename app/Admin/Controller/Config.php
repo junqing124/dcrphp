@@ -8,7 +8,7 @@ use app\Model\Define;
 
 class Config
 {
-    function configBaseView()
+    function baseView()
     {
         $assignData = array();
         $assignData['page_title'] = '基础配置';
@@ -19,10 +19,10 @@ class Config
         }
         $assignData['config_list'] = $list;
 
-        return Factory::renderPage('config/config-base', $assignData);
+        return Factory::renderPage('config/base', $assignData);
     }
 
-    function configModelView()
+    function modelView()
     {
 
         $assignData = array();
@@ -38,8 +38,9 @@ class Config
             }
         }
         $assignData['model_list'] = $modelList;
+        //dd($assignData);
 
-        return Factory::renderPage('config/config-model', $assignData);
+        return Factory::renderPage('config/model', $assignData);
     }
 
     function configBaseAjax()

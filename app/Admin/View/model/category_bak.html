@@ -1,0 +1,79 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common/head.html' ignore missing %}
+    <link rel="stylesheet" href="{{admin_resource_url}}/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+</head>
+<body>
+
+{% include 'model/navigate.html' ignore missing %}
+<table class="table">
+    <tr>
+        <td width="200" class="va-t"><ul id="tree" class="ztree"></ul></td>
+        <td class="va-t">
+            <iframe ID="tree_iframe" Name="tree_iframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=390px SRC="/admin/model/category-edit-view/{{model_name}}/add"></iframe>
+        </td>
+    </tr>
+</table>
+</div>
+
+{% include '/common/footer.html' ignore missing %}
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="{{admin_resource_url}}/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript">
+    var setting = {
+        view: {
+            dblClickExpand: false,
+            showLine: false,
+            selectedMulti: false
+        },
+        data: {
+            simpleData: {
+                enable:true,
+                idKey: "id",
+                pIdKey: "pId",
+                rootPId: ""
+            }
+        },
+        callback: {
+            beforeClick: function(treeId, treeNode) {
+                var zTree = $.fn.zTree.getZTreeObj("tree");
+                if (treeNode.isParent) {
+                    zTree.expandNode(treeNode);
+                    return false;
+                } else {
+                    //console.log(treeNode.file);
+                    tree_frame.attr("src",treeNode.file);
+                    return true;
+                }
+            }
+        }
+    };
+
+    var zNodes =[
+
+        {% for category in category_list %}
+        { id:{{category.mc_id}}, pId:{{category.mc_parent_id}}, name:"{{category.mc_name}}", file:"/admin/model/category-edit-view/{{model_name}}/edit/{{category.mc_id}}"},
+        {% endfor %}
+    ];
+
+    var code;
+
+    function showCode(str) {
+        if (!code) code = $("#code");
+        code.empty();
+        code.append("<li>"+str+"</li>");
+    }
+
+    $(document).ready(function(){
+        var t = $("#tree");
+        t = $.fn.zTree.init(t, setting, zNodes);
+        tree_frame = $("#tree_iframe");
+        //demoIframe.on("load", loadReady);
+        var z_tree = $.fn.zTree.getZTreeObj("tree");
+        //zTree.selectNode(zTree.getNodeByParam("id",'11'));
+    });
+</script>
+</body>
+</html>

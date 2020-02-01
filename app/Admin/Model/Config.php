@@ -67,6 +67,11 @@ class Config
         return $result;
     }
 
+    /**
+     * @param $modelInfo
+     * 本参数为model配置传送过来，可能无法接收独立的参数info过来
+     * @return array
+     */
     function configModel($modelInfo)
     {
         //判断

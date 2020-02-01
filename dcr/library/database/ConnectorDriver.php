@@ -137,7 +137,13 @@ abstract class ConnectorDriver
             $select->offset($option['offset']);
         }
         if ($option['where']) {
-            $select->where($option['where']);
+            $whereStr = '';
+            if (is_array($option['where'])) {
+                $whereStr = implode(' and ', $option['where']);
+            } else {
+                $whereStr = $option['where'];
+            }
+            $select->where($whereStr);
         }
         $sql = $select->getStatement();
         //echo $sql;
@@ -149,8 +155,8 @@ abstract class ConnectorDriver
      * @param $table
      * @param $info
      * @param $where
-     * @throws
      * @return mixed
+     * @throws
      */
     function update($table, $info, $where)
     {
@@ -210,7 +216,7 @@ abstract class ConnectorDriver
 
     function getError()
     {
-        return array('code'=> $this->lastErrorCode,'msg'=>implode(',',$this->lastErrorInfo));
+        return array('code' => $this->lastErrorCode, 'msg' => implode(',', $this->lastErrorInfo));
     }
 
     private function recordError($pdo)
