@@ -134,25 +134,31 @@ class Model
     /**
      * 获取分类的select的html
      * @param $modelName
-     * @param $parentId
-     * @param $selectId
+     * @param array $option 附加参数
+     * array(
+     *  'parentId'=> 父类ID
+     *  'selectId'=> 选中的分类
+     *  'subEnabled'=> 只让选最末级的分类
+     *  'selectName'=> 这个select的名字
+     * )
      * @return string
      */
-    function getCategorySelectHtml($modelName, $parentId = null, $selectId = null)
+    function getCategorySelectHtml($modelName, $option = array( ))
+        //$parentId = null, $selectId = null, $subEnabled = 0)
     {
         //dd($parentId);
         //dd($selectId);
         //echo $sql;
         //dd($list);
-        $list = $this->getCategoryList($modelName, $parentId);
-        $list = $this->getCategoryArr($list, $parentId ? $parentId : 0);
+        $list = $this->getCategoryList($modelName, $option['parentId']);
+        $list = $this->getCategoryArr($list, $option['parentId'] ? $option['parentId'] : 0);
         //dd($list);
 
-        $html = "<select name=\"parent_id\" class=\"select valid\" aria-required=\"true\" aria-invalid=\"false\">";
+        $html = "<select name=\"{$option['selectName']}\" id='{$option['selectName']}' class=\"select valid\" aria-required=\"true\" aria-invalid=\"false\">";
         $html .= "<option value=\"0\">一级分类</option>";
         //dd($list);
         if ($list) {
-            $html .= $this->getCategorySelectOptionHtml($list, $selectId);
+            $html .= $this->getCategorySelectOptionHtml($list, $option['selectId'], $option['subEnabled']);
         }
         //<option value=\"1\">新闻资讯</option>
         //<option value=\"11\">├行业动态</option>
@@ -162,7 +168,7 @@ class Model
         return $html;
     }
 
-    function getCategorySelectOptionHtml($list, $selectId = null)
+    function getCategorySelectOptionHtml($list, $selectId = null, $subEnabled = 0)
     {
         static $optionHtml = '';
         foreach ($list as $info) {
@@ -173,6 +179,9 @@ class Model
             if ($selectId == $info['mc_id']) {
                 $optionAdditionStr = ' selected ';
             }
+            if (is_array($info['sub']) && $subEnabled) {
+                $optionAdditionStr .= ' disabled ';
+            }
             $txtAdd = '';
             if (0 != $info['level']) {
                 $txtAdd = str_repeat('--', $info['level']) . '├';
@@ -181,7 +190,7 @@ class Model
             //dd($info['sub']);
             //var_dump(count($info['sub'])>0);
             if (is_array($info['sub'])) {
-                $this->getCategorySelectOptionHtml($info['sub'], $selectId);
+                $this->getCategorySelectOptionHtml($info['sub'], $selectId, $subEnabled);
             }
         }
         return $optionHtml;
@@ -208,7 +217,12 @@ class Model
     {
 
         //验证
-        $info = DB::select(array('table' => 'zq_model_category', 'col' => 'mc_id', 'where' => "mc_id={$id}", 'limit' => 1));
+        $info = DB::select(array(
+            'table' => 'zq_model_category',
+            'col' => 'mc_id',
+            'where' => "mc_id={$id}",
+            'limit' => 1
+        ));
         $info = current($info);
 
         if (!$info) {

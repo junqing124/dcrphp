@@ -49,12 +49,20 @@ class Config
         return $info;
     }
 
-    function getConfigModelList()
+    function getConfigModelList($modelName = '')
     {
         //var_dump('a');
         $ztId = session('ztId');
-        $sql = "select cm_key,cm_dec,cm_model_name,cm_id from zq_config_model where zt_id={$ztId}";
-        $list = DB::query($sql);
+        $where = array();
+        $where[] = "zt_id={$ztId}";
+        if ($modelName) {
+            array_push($where, "cm_model_name='{$modelName}'");
+        }
+        $list = DB::select(array(
+            'col' => 'cm_key,cm_dec,cm_model_name,cm_id',
+            'where' => $where,
+            'table' => 'zq_config_model'
+        ));
         $result = array();
         if ($list) {
             foreach ($list as $info) {
@@ -81,8 +89,7 @@ class Config
         $errorMsg = array();
         foreach ($defineList as $defineName => $defineInfo) {
             $keyList = $modelInfo["key_{$defineName}"];
-            if( $keyList )
-            {
+            if ($keyList) {
                 if (count($keyList) != count(array_unique(array_values($keyList)))) {
                     $isError = 1;
                     $errorMsg[] = $defineInfo['dec'] . '-关键字重复了';
@@ -130,8 +137,7 @@ class Config
 
         //要删除的
         $delIds = $modelInfo['del'];
-        if($delIds)
-        {
+        if ($delIds) {
             $delIdList = explode('_', $delIds);
             $delIdList = array_filter($delIdList);
             $delIdStr = implode(',', $delIdList);
