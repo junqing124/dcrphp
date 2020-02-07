@@ -24,6 +24,7 @@ class Model
     function categoryEdit($categoryInfo)
     {
         //判断
+        $error = array();
         $stringValidator = v::stringType()->length(1, 50);
         if (!$stringValidator->validate($categoryInfo['action'])) {
             $error[] = 'Action长度不符合[1-50]';
@@ -39,10 +40,13 @@ class Model
         if (!$stringValidator->validate($categoryInfo['category_name'])) {
             $error[] = '分类长度不符合[1-50]';
         }
+        if ($error) {
+            return Admin::commonReturn(0, $error);
+            //return array('ack' => 0, 'msg' => $error);
+        }
         //处理
         //dd($categoryInfo);
         $result = 0;
-        $ztId = \session('ztId');
         $dbInfo = array(
             'mc_update_time' => time(),
             'mc_model' => $categoryInfo['model_name'],
@@ -143,8 +147,7 @@ class Model
      * )
      * @return string
      */
-    function getCategorySelectHtml($modelName, $option = array( ))
-        //$parentId = null, $selectId = null, $subEnabled = 0)
+    function getCategorySelectHtml($modelName, $option = array())
     {
         //dd($parentId);
         //dd($selectId);
@@ -233,6 +236,157 @@ class Model
         //dd($dbPre->getSql());
         //返回
 
+        return Admin::commonReturn($result);
+    }
+
+    /**
+     * 把传来的数据，按数据库来分组
+     * 比如list对应的是model_list表 field对应的是model_field addition对应的是model_addition
+     * @param $info
+     * @return array
+     */
+    function groupModelInfo($info)
+    {
+        //dd($info);
+        $arr = array();
+        $arr['list'] = array();
+        $arr['field'] = array();
+        $arr['addition'] = array();
+        //对应的新表的key
+        $newKeyArr = array('list' => 'ml', 'field' => '', 'addition' => 'ma');
+        foreach ($info as $key => $value) {
+            $keyArr = explode('_', $key);
+            //dd($keyArr);
+            $tableKey = $keyArr[0];
+            unset($keyArr[0]);
+            $newKey = ($newKeyArr[$tableKey] ? $newKeyArr[$tableKey] . '_' : '') . implode('_', $keyArr);
+            $arr[$tableKey][$newKey] = $value;
+        }
+        return $arr;
+    }
+
+    /**
+     * 编辑资料，本function完全只是针对添加或修改资料里传来的数据
+     */
+    function edit()
+    {
+        //分组
+        $data = post();
+        //内容
+        $data['addition_content'] = $data['editorValue'];
+        $info = $this->groupModelInfo($data);
+        //dd($info);
+        //exit;
+        //判断
+        $error = array();
+        $stringValidator = v::stringType()->length(1, 5000);
+        if (!$stringValidator->validate($info['list']['ml_title'])) {
+            $error[] = '标题不能为空';
+        }
+        if (strlen($info['list']['ml_category_id'] < 1)) {
+            $error[] = '分类不能为空';
+        }
+        if (strlen($info['addition']['ma_content']) < 1) {
+            $error[] = '内容不能为空';
+        }
+        if ($error) {
+            return Admin::commonReturn(0, $error);
+        }
+        //逻辑
+
+        //传图片
+        $request = container('request');
+        $fileUploadResult = array();
+        $uploadDir = 'uploads' . DS . date('Y-m-d');
+        try {
+            $fileUploadResult = $request->upload('list_pic', $uploadDir,
+                array('allowFile' => array('image/png', 'image/gif', 'image/jpg',)));
+            if (!$fileUploadResult['ack']) {
+                return Admin::commonReturn(0, $fileUploadResult['msg']);
+            }
+        } catch (\Exception $e) {
+            $fileUploadResult['ack'] = 0;
+            $fileUploadResult['msg'] = $e->getMessage();
+        }
+        /*dd($fileUploadResult);
+        exit;*/
+        if ($fileUploadResult['ack']) {
+            $info['list']['ml_pic_path'] = $uploadDir . DS . $fileUploadResult['msg']['name'];
+        }
+        //exit;
+
+        $ztId = session('ztId');
+        $userId = session('userId');
+        $dbInfoList = $info['list'];
+        $fieldList = $info['field'];
+        $dbInfoAddition = $info['addition'];
+        //dd($fieldList);
+
+        $dbInfoList['zt_id'] = $ztId;
+        $dbInfoList['ml_update_time'] = time();
+
+        //$dbInfoField['zt_id'] = $ztId;
+        //$dbInfoField['me_update_time'] = time();
+
+        $dbInfoAddition['zt_id'] = $ztId;
+        $dbInfoAddition['ma_update_time'] = time();
+        if ('edit' == $data['action']) {
+
+        } else {
+            $dbInfoList['ml_add_time'] = time();
+            //$dbInfoField['me_add_time'] = time();
+            $dbInfoAddition['ma_add_time'] = time();
+            $dbInfoList['ml_add_user_id'] = $userId;
+            //$dbInfoField['me_add_user_id'] = $userId;
+            $dbInfoAddition['ma_add_user_id'] = $userId;
+        }
+        //开始更新或添加
+        $result = 1;
+        DB::beginTransaction();
+        if ('edit' == $data['action']) {
+
+        } else {
+            //dd($dbInfoList);
+            $modelListId = DB::insert('zq_model_list', $dbInfoList);
+            $dbInfoField['me_ml_id'] = $modelListId;
+            $dbInfoAddition['ma_ml_id'] = $modelListId;
+            //exit;
+
+            //dd($dbInfoAddition);
+            //dd($dbInfoAddition);
+            $modelAdditionId = DB::insert('zq_model_addition', $dbInfoAddition);
+
+            $modelFieldError = 0;
+            foreach ($fieldList as $fieldKey => $fieldValue) {
+                $fieldDbInfo = array();
+                $fieldDbInfo['mf_key'] = $fieldKey;
+                $fieldDbInfo['mf_value'] = $fieldValue;
+                $fieldDbInfo['mf_ml_id'] = $modelListId;
+                $fieldDbInfo['zt_id'] = $ztId;
+                $fieldDbInfo['mf_add_user_id'] = $userId;
+                $fieldDbInfo['mf_update_time'] = time();
+                $fieldDbInfo['mf_add_time'] = time();
+
+                $modelFieldId = DB::insert('zq_model_field', $fieldDbInfo);
+                if (0 == $modelFieldId) {
+                    $modelFieldError++;
+                }
+            }
+
+            //dd($modelListId);
+            //dd($modelAdditionId);
+
+            if ($modelAdditionId && $modelListId && !$modelFieldError) {
+                DB::commit();
+                $result = 1;
+            } else {
+                DB::rollBack();
+                $result = 0;
+            }
+
+        }
+        //exit;
+        //返回
         return Admin::commonReturn($result);
     }
 }

@@ -7,9 +7,8 @@
  */
 
 namespace dcr;
-
-use dcr\Config;
-
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Request extends DcrBase
 {
@@ -172,5 +171,69 @@ class Request extends DcrBase
             $info = $this->$type;
         }
         return $info;
+    }
+
+    /**
+     * 上传文件
+     * @param $inputName
+     * @param $targetDir
+     * @param array $ruler 规则，是一个数组，配置如下 newFileName=> 新文件名, maxSize=>'5M'(use "B", "K", M", or "G") allowFile=> array('image/png', 'image/gif')
+     *  allowFile配置可见:http://www.iana.org/assignments/media-types/media-types.xhtml
+     * @return array
+     */
+    function upload( $inputName, $targetDir, $ruler = array() )
+    {
+        $filesystem = new Filesystem();
+        try {
+            $filesystem->mkdir($targetDir);
+        } catch (IOExceptionInterface $exception) {
+            $result = array();
+            $result['ack'] = 0;
+            $result['msg'] = "自动创建目录失败: ".$exception->getPath();
+            return $result;
+        }
+
+        $storage = new \Upload\Storage\FileSystem($targetDir);
+        $file = new \Upload\File($inputName, $storage);
+
+        $newFileName = $ruler['newFileName'] ? $ruler['newFileName'] : time() . uniqid();
+        $file->setName($newFileName);
+
+        //默认的属性和大小
+        if(!isset($ruler['allowFile'])){
+            $ruler['allowFile'] = '*.*';
+        }
+        if(!isset($ruler['maxSize'])){
+            $ruler['maxSize'] = '2M';
+        }
+
+        $fileData = array(
+            'name'       => $file->getNameWithExtension(),
+            'extension'  => $file->getExtension(),
+            'mime'       => $file->getMimetype(),
+            'size'       => $file->getSize(),
+            'md5'        => $file->getMd5(),
+            'dimensions' => $file->getDimensions()
+        );
+        /*dd($fileData);
+        dd($ruler);*/
+        $file->addValidations(array(
+            new \Upload\Validation\Mimetype($ruler['allowFile']),
+            new \Upload\Validation\Size($ruler['maxSize'])
+        ));
+
+        $result = array();
+        try {
+            // Success!
+            $file->upload();
+            $result['ack'] = 1;
+            $result['msg'] = $fileData;
+        } catch (\Exception $e) {
+            // Fail!
+            $errors = $file->getErrors();
+            $result['ack'] = 0;
+            $result['msg'] = $errors;
+        }
+        return $result;
     }
 }

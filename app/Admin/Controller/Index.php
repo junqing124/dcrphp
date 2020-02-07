@@ -75,7 +75,7 @@ class Index
         $admin = new Admin();
 
         //判断验证码对不对
-        if (Session::_get('captcha') != $captcha) {
+        if (strtolower(Session::_get('captcha')) != strtolower($captcha)) {
             $view->assign('error_msg', '验证码不正确');
             $admin->common($view);
             return $view->render('login', $assignData);

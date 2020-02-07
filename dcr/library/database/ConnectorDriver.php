@@ -136,8 +136,8 @@ abstract class ConnectorDriver
         if ($option['offset']) {
             $select->offset($option['offset']);
         }
+        $whereStr = '';
         if ($option['where']) {
-            $whereStr = '';
             if (is_array($option['where'])) {
                 $whereStr = implode(' and ', $option['where']);
             } else {
@@ -208,7 +208,13 @@ abstract class ConnectorDriver
         $insert->into($table)->cols(array_keys($info))->bindValues($info);
         $dbPre = $this->prepare($insert->getStatement());
         $insertSql = $insert->getBindValues();
-        $result = $dbPre->execute($insertSql);
+        if( $dbPre->execute($insertSql) )
+        {
+            $result = $this->pdo->lastInsertId();
+        }else
+        {
+            $result = 0;
+        }
         $this->recordError($dbPre);
 
         return $result;
@@ -224,5 +230,18 @@ abstract class ConnectorDriver
         $this->lastErrorCode = $pdo->errorCode();
         $this->lastErrorInfo = $pdo->errorInfo();
         return 1;
+    }
+
+    function beginTransaction()
+    {
+        $this->pdo->beginTransaction();
+    }
+    function commit()
+    {
+        $this->pdo->commit();
+    }
+    function rollBack()
+    {
+        $this->pdo->rollBack();
     }
 }

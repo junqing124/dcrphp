@@ -27,11 +27,14 @@ class Model
         $model = new MModel();
         $config = new Config();
         $modelName = current(container('request')->getParams());
-        $assignData['category_select_html'] = $model->getCategorySelectHtml($modelName, array( 'subEnabled'=> 1, 'selectName'=> 'list_category_id' ));
+        $assignData['category_select_html'] = $model->getCategorySelectHtml($modelName,
+            array('subEnabled' => 1, 'selectName' => 'list_category_id'));
         //获取模型配置的附加字段
         $modelFieldList = current($config->getConfigModelList($modelName));
         //dd($modelFieldList);
         $assignData['field_list'] = $modelFieldList;
+        $assignData['action'] = 'add';
+        $assignData['model_name'] = $modelName;
         return Factory::renderPage('model/edit', $assignData);
     }
 
@@ -65,7 +68,8 @@ class Model
 
         $assignData['category_name'] = $categoryInfo['mc_name'];
         //dd($assignData);
-        $assignData['category_select_html'] = $model->getCategorySelectHtml($modelName, array('selectId'=> $categoryInfo['mc_parent_id']));
+        $assignData['category_select_html'] = $model->getCategorySelectHtml($modelName,
+            array('selectId' => $categoryInfo['mc_parent_id']));
 
         return Factory::renderPage('model/category-edit', $assignData);
 
@@ -82,6 +86,13 @@ class Model
     {
         $model = new MModel();
         $result = $model->deleteCategory(post('id'));
+        return Factory::renderJson($result);
+    }
+
+    function editAjax()
+    {
+        $model = new MModel();
+        $result = $model->edit();
         return Factory::renderJson($result);
     }
 

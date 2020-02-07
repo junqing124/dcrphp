@@ -9,7 +9,9 @@
 {% include 'model/navigate.html' ignore missing %}
 
 <div class="page-container">
-    <form class="form form-horizontal" method="post" id="form" enctype="multipart/form-data" action="/admin/config/config-model-ajax">
+    <form class="form form-horizontal" method="post" id="form" enctype="multipart/form-data" action="/admin/model/edit-ajax">
+        <input type="hidden" name="action" value="{{action}}">
+        <input type="hidden" name="list_model_name" value="{{model_name}}">
         <div id="tab-system" class="HuiTab">
             <div class="tabBar cl">
                 <span>基础信息</span>
@@ -74,14 +76,7 @@
         </div>
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-                <button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i
-                        class="Hui-iconfont">&#xe632;</i> 保存并提交审核
-                </button>
-                <button onClick="article_save();" class="btn btn-secondary radius" type="button"><i
-                        class="Hui-iconfont">&#xe632;</i> 保存草稿
-                </button>
-                <button onClick="layer_close();" class="btn btn-default radius" type="button">
-                    &nbsp;&nbsp;取消&nbsp;&nbsp;
+                <button class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存
                 </button>
             </div>
         </div>

@@ -136,7 +136,8 @@ class User
         }
 
         if ($error) {
-            return array('ack' => 0, 'msg' => $error);
+            return Admin::commonReturn(0, $error);
+            //return array('ack' => 0, 'msg' => $error);
         }
         //逻辑
         //如果有id就改id 没有就改当前用户的
