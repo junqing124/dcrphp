@@ -27,11 +27,8 @@ class User
             $where['username'] = "u_username like '{$username}%'";
             $assignData['u_username'] = $username;
         }
-        if ($where) {
-            $whereStr = implode(' and ', $where);
-        }
         //总数量
-        $pageInfo = $user->getList(array('where' => $whereStr, 'col' => array('count(u_id) as num')));
+        $pageInfo = $user->getList(array('where' => $where, 'col' => array('count(u_id) as num')));
         $pageTotalNum = $pageInfo[0]['num'];
         $page = get('page');
         $page = $page ? (int)$page : 1;
@@ -41,7 +38,7 @@ class User
         $clsPage = new Page($page, $pageTotal);
         $pageHtml = $clsPage->showPage();
 
-        $list = $user->getList(array('where' => $whereStr, 'order' => 'u_id desc', 'limit' => $pageNum, 'offset' => ($page - 1) * $pageNum));
+        $list = $user->getList(array('where' => $where, 'order' => 'u_id desc', 'limit' => $pageNum, 'offset' => ($page - 1) * $pageNum));
 
         $assignData['page'] = $page;
         $assignData['user_num'] = $pageTotalNum;

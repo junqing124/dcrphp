@@ -5,6 +5,7 @@ namespace app\Admin\Controller;
 use app\Admin\Model\Factory;
 use app\Admin\Model\Model as MModel;
 use app\Admin\Model\Config;
+use dcr\Page;
 
 class Model
 {
@@ -14,6 +15,33 @@ class Model
         $assignData['page_title'] = '列表';
         $modelName = current(container('request')->getParams());
         $assignData['model_name'] = $modelName;
+        $where  = array();
+        $where[] = "ml_model_name='{$modelName}'";
+
+
+        $join = array('type'=> 'left', 'table'=>'zq_model_category', 'condition'=>'mc_id=ml_category_id');
+        $model = new MModel();
+
+        $assignData['category_select_html'] = $model->getCategorySelectHtml($modelName,
+            array('subEnabled' => 1, 'selectName' => 'category_id'));
+
+        $pageInfo = $model->getList(array('where' => $where, 'join'=> $join, 'col' => array('count(ml_id) as num')));
+        $pageTotalNum = $pageInfo[0]['num'];
+        $page = get('page');
+        $page = $page ? (int)$page : 1;
+        $pageNum = 50;
+
+        $pageTotal = ceil($pageTotalNum / $pageNum);
+        $clsPage = new Page($page, $pageTotal);
+        $pageHtml = $clsPage->showPage();
+
+        $list = $model->getList(array('where' => $where, 'join'=> $join, 'order' => 'ml_id desc', 'limit' => $pageNum, 'offset' => ($page - 1) * $pageNum));
+
+        $assignData['page'] = $page;
+        $assignData['num'] = $pageTotalNum;
+        $assignData['model_list'] = $list;
+        $assignData['pages'] = $pageHtml;
+        $assignData['page_title'] = '用户列表';
         //$modelName = current(container('request')->getParams());
         //$assignData['config_list'] = $list;
 

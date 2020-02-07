@@ -104,7 +104,7 @@
                         data = $.parseJSON(data);
                         if (1 == data.ack) {
                             var index = parent.layer.getFrameIndex(window.name);
-                            window.location = window.location;
+                            parent.window.location=parent.window.location;
                             parent.layer.close(index);
                             //$.Huimodalalert(data.msg,2000);
                         } else {

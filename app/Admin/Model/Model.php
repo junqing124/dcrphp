@@ -17,6 +17,17 @@ class Model
 {
 
     /**
+     * @param $option 同select的搜索
+     * @return mixed
+     */
+    function getList($option)
+    {
+        $option['table'] = 'zq_model_list';
+        $list = DB::select($option);
+        return $list;
+    }
+
+    /**
      * @param $categoryInfo
      * array('action'=>'add' 值为add或edit, 'model_name' => 'news', 'parent_id' => 0, 'category_name' => 'abc', 'id'=> 1 如果action为edit则这个id为必传 )
      * @return array
@@ -49,7 +60,7 @@ class Model
         $result = 0;
         $dbInfo = array(
             'mc_update_time' => time(),
-            'mc_model' => $categoryInfo['model_name'],
+            'mc_model_name' => $categoryInfo['model_name'],
             'mc_name' => $categoryInfo['category_name'],
             'mc_parent_id' => $categoryInfo['parent_id'],
         );
@@ -85,10 +96,10 @@ class Model
     {
         $ztId = session('ztId');
         if (!$option['col']) {
-            $option['col'] = 'mc_id,mc_name,mc_parent_id,mc_model';
+            $option['col'] = 'mc_id,mc_name,mc_parent_id,mc_model_name';
         }
         $whereArr = array();
-        array_push($whereArr, "zt_id={$ztId} and mc_model='{$modelName}'");
+        array_push($whereArr, "zt_id={$ztId} and mc_model_name='{$modelName}'");
         if ($parentId != null) {
             array_push($whereArr, "mc_parent_id={$parentId}");
         }
@@ -117,7 +128,7 @@ class Model
             $optionHtml .= "<tr class='text-l'>
                 <td>" . str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $info['level']) . "{$info['mc_name']}</td>
                 <td class='td-manage'>
-                    <a title=\"编辑\" href=\"javascript:;\" onclick=\"add_edit('编辑','/admin/model/category-edit-view/{$info['mc_model']}/edit/{$info['mc_id']}','','300')\"
+                    <a title=\"编辑\" href=\"javascript:;\" onclick=\"add_edit('编辑','/admin/model/category-edit-view/{$info['mc_model_name']}/edit/{$info['mc_id']}','','300')\"
                        class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>";
             if (!is_array($info['sub'])) {
                 $optionHtml .= "<a title=\"删除\" href=\"javascript:;\" onclick=\"del({$info['mc_id']})\" class=\"ml-5\"
@@ -157,7 +168,7 @@ class Model
         $list = $this->getCategoryArr($list, $option['parentId'] ? $option['parentId'] : 0);
         //dd($list);
 
-        $html = "<select name=\"{$option['selectName']}\" id='{$option['selectName']}' class=\"select valid\" aria-required=\"true\" aria-invalid=\"false\">";
+        $html = "<select name=\"{$option['selectName']}\" id='{$option['selectName']}' aria-required=\"true\" aria-invalid=\"false\">";
         $html .= "<option value=\"0\">一级分类</option>";
         //dd($list);
         if ($list) {
@@ -300,7 +311,7 @@ class Model
         $uploadDir = 'uploads' . DS . date('Y-m-d');
         try {
             $fileUploadResult = $request->upload('list_pic', $uploadDir,
-                array('allowFile' => array('image/png', 'image/gif', 'image/jpg',)));
+                array('allowFile' => array('image/png', 'image/gif', 'image/jpg', 'image/jpeg')));
             if (!$fileUploadResult['ack']) {
                 return Admin::commonReturn(0, $fileUploadResult['msg']);
             }

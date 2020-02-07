@@ -113,6 +113,8 @@ abstract class ConnectorDriver
      * limit:
      * order:
      * offset:
+     * group:
+     * join:格式: array('type'=> 类型, 'table'=> 连接的表 'condition'=> 连接条件)
      * @return mixed
      * @throws
      */
@@ -126,7 +128,7 @@ abstract class ConnectorDriver
         if (!is_array($col)) {
             $col = array($col);
         }
-        $select->from($option['table'])->cols($col)->where("zt_id={$ztId}");
+        $select->from($option['table'])->cols($col)->where("{$option['table']}.zt_id={$ztId}");
         if ($option['order']) {
             $select->orderBy(array($option['order']));
         }
@@ -136,6 +138,13 @@ abstract class ConnectorDriver
         if ($option['offset']) {
             $select->offset($option['offset']);
         }
+        if ($option['group']) {
+            $select->group($option['group']);
+        }
+        if ($option['join']) {
+            $select->join($option['join']['type'], $option['join']['table'], $option['join']['condition']);
+        }
+        //dd($option);
         $whereStr = '';
         if ($option['where']) {
             if (is_array($option['where'])) {
@@ -208,11 +217,9 @@ abstract class ConnectorDriver
         $insert->into($table)->cols(array_keys($info))->bindValues($info);
         $dbPre = $this->prepare($insert->getStatement());
         $insertSql = $insert->getBindValues();
-        if( $dbPre->execute($insertSql) )
-        {
+        if ($dbPre->execute($insertSql)) {
             $result = $this->pdo->lastInsertId();
-        }else
-        {
+        } else {
             $result = 0;
         }
         $this->recordError($dbPre);
@@ -236,10 +243,12 @@ abstract class ConnectorDriver
     {
         $this->pdo->beginTransaction();
     }
+
     function commit()
     {
         $this->pdo->commit();
     }
+
     function rollBack()
     {
         $this->pdo->rollBack();

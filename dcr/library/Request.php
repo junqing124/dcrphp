@@ -232,7 +232,7 @@ class Request extends DcrBase
             // Fail!
             $errors = $file->getErrors();
             $result['ack'] = 0;
-            $result['msg'] = $errors;
+            $result['msg'] = $errors . "->当前类型是:{$fileData['mime']},大小是:{$fileData['size']}";
         }
         return $result;
     }
