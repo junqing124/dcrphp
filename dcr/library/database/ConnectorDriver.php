@@ -141,6 +141,7 @@ abstract class ConnectorDriver
         if ($option['group']) {
             $select->group($option['group']);
         }
+        //dd($option);
         if ($option['join']) {
             $select->join($option['join']['type'], $option['join']['table'], $option['join']['condition']);
         }
@@ -230,6 +231,11 @@ abstract class ConnectorDriver
     function getError()
     {
         return array('code' => $this->lastErrorCode, 'msg' => implode(',', $this->lastErrorInfo));
+    }
+
+    function getLastSql()
+    {
+        return $this->lastSql;
     }
 
     private function recordError($pdo)

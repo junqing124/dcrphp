@@ -49,6 +49,11 @@ class Config
         return $info;
     }
 
+    /**
+     * 获取全部或某模块的配置列表
+     * @param string $modelName
+     * @return array
+     */
     function getConfigModelList($modelName = '')
     {
         //var_dump('a');

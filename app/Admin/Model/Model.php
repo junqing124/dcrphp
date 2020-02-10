@@ -13,8 +13,68 @@ use dcr\Db;
 use dcr\Session;
 use Respect\Validation\Validator as v;
 
+/**
+ * model数据格式标准格式为:
+ * array('list'=> array('list'=>array('model_list表内容'), 'field'=> array('model_field表内容'), 'addition'=> array('model_addition表内容'), 'other'=>array(其它信息))
+ * Class Model
+ * @package app\Admin\Model
+ */
 class Model
 {
+
+    /**
+     * @param $modelId
+     * @param array $option array('requestField'=>'是不是要附加filed表', 'requestAddition'=>'是不是要附加addition表', 'requestFieldDec'=>'是不是要加上Field的描述，这个数据从[配置中心->模型配置]里来')
+     * @return mixed
+     */
+    function getInfo($modelId, $option = array())
+    {
+        $join = array();
+        if ($option['requestAddition']) {
+            $join = array('table' => 'zq_model_addition', 'type' => 'left', 'condition' => 'ma_ml_id=ml_id');
+        }
+
+        $info = DB::select(array(
+            'table' => 'zq_model_list',
+            'col' => $option['col'],
+            'where' => "ml_id={$modelId}",
+            'join' => $join,
+            'limit' => 1
+        ));
+        //echo DB::getLastSql();
+        $info = current($info);
+        //$info['ma_content'] = htmlentities($info['ma_content']);
+        $info = $this->groupModelInfo($info);
+        if ($option['requestField']) {
+            $fieldList = DB::select(array(
+                'table' => 'zq_model_field',
+                'where' => "mf_ml_id={$modelId}",
+                'col' => '*,mf_key as cm_key', //这里这么做是为了兼容编辑页里的field列表和加载配置
+            ));
+            if ($option['requestFieldDec']) {
+                $config = new Config();
+                $configList = $config->getConfigModelList($info['list']['ml_model_name']);
+                $configList = current($configList);
+                $configList = array_column($configList, 'cm_dec', 'cm_key');
+                $configKeys = array_keys($configList);
+                foreach ($fieldList as $key => $fieldInfo) {
+                    //如果配置里没有，但原来的key没删除的，则不显示
+                    if (!in_array($fieldInfo['mf_key'], $configKeys)) {
+                        unset($fieldList[$key]);
+                        continue;
+                    }
+                    //下面2行这么做是为了兼容编辑页里的field列表和加载配置
+                    $fieldList[$key]['cm_dec'] = $configList[$fieldInfo['mf_key']];
+                    $fieldList[$key]['mf_dec'] = $configList[$fieldInfo['mf_key']];
+                }
+            }
+            //echo DB::getLastSql();
+            $info['field'] = $fieldList;
+        }
+        //dd($info);
+        //开始格式化
+        return $info;
+    }
 
     /**
      * @param $option 同select的搜索
@@ -24,6 +84,7 @@ class Model
     {
         $option['table'] = 'zq_model_list';
         $list = DB::select($option);
+        //echo DB::getLastSql();
         return $list;
     }
 
@@ -161,7 +222,7 @@ class Model
     function getCategorySelectHtml($modelName, $option = array())
     {
         //dd($parentId);
-        //dd($selectId);
+        //dd($option[selectId]);
         //echo $sql;
         //dd($list);
         $list = $this->getCategoryList($modelName, $option['parentId']);
@@ -251,7 +312,16 @@ class Model
     }
 
     /**
-     * 把传来的数据，按数据库来分组
+     * 返回表格前缀和数据结构的前缀对应关系
+     * @return array
+     */
+    function getInputTableKeyArr()
+    {
+        return array('list' => 'ml', 'field' => '', 'addition' => 'ma');
+    }
+
+    /**
+     * 把传来的数据，按数据库来分组 比如list开头 则放到list组中，且key的list_换成ml_ 如果ml_开头，则放到list组中
      * 比如list对应的是model_list表 field对应的是model_field addition对应的是model_addition
      * @param $info
      * @return array
@@ -264,15 +334,33 @@ class Model
         $arr['field'] = array();
         $arr['addition'] = array();
         //对应的新表的key
-        $newKeyArr = array('list' => 'ml', 'field' => '', 'addition' => 'ma');
+        $newKeyArr = $this->getInputTableKeyArr();
+        $newKeyArrChange = array_flip($newKeyArr);
         foreach ($info as $key => $value) {
             $keyArr = explode('_', $key);
             //dd($keyArr);
             $tableKey = $keyArr[0];
-            unset($keyArr[0]);
-            $newKey = ($newKeyArr[$tableKey] ? $newKeyArr[$tableKey] . '_' : '') . implode('_', $keyArr);
-            $arr[$tableKey][$newKey] = $value;
+            if (2 == strlen($tableKey)) {
+                //是表的字段 表前缀是2位，这里用来格式化从数据库来的数据
+                $newKey = $newKeyArrChange[$tableKey] ? $newKeyArrChange[$tableKey] : 'other';
+
+                $arr[$newKey][$key] = $value;
+            } else {
+                unset($keyArr[0]);
+                if (count($keyArr)) {
+                    $newKey = ($newKeyArr[$tableKey] ? $newKeyArr[$tableKey] . '_' : '') . implode('_', $keyArr);
+                } else {
+                    $tableKey = 'other';
+                    $newKey = $key;
+                }
+                //dd($tableKey);
+                //dd($newKey);
+                $arr[$tableKey][$newKey] = $value;
+                //dd($arr);
+                //exit;
+            }
         }
+        //dd($arr);
         return $arr;
     }
 
@@ -286,6 +374,8 @@ class Model
         //内容
         $data['addition_content'] = $data['editorValue'];
         $info = $this->groupModelInfo($data);
+        $id = $info['other']['id'];
+        //dd($info);
         //dd($info);
         //exit;
         //判断
@@ -310,7 +400,7 @@ class Model
         $fileUploadResult = array();
         $uploadDir = 'uploads' . DS . date('Y-m-d');
         try {
-            $fileUploadResult = $request->upload('list_pic', $uploadDir,
+            $fileUploadResult = $request->upload('list_pic_path', $uploadDir,
                 array('allowFile' => array('image/png', 'image/gif', 'image/jpg', 'image/jpeg')));
             if (!$fileUploadResult['ack']) {
                 return Admin::commonReturn(0, $fileUploadResult['msg']);
@@ -319,11 +409,17 @@ class Model
             $fileUploadResult['ack'] = 0;
             $fileUploadResult['msg'] = $e->getMessage();
         }
+        //dd($fileUploadResult);
         /*dd($fileUploadResult);
         exit;*/
         if ($fileUploadResult['ack']) {
             $info['list']['ml_pic_path'] = $uploadDir . DS . $fileUploadResult['msg']['name'];
         }
+        //如果没有更新图片则unset
+        if (!strlen($info['list']['ml_pic_path'])) {
+            unset($info['list']['ml_pic_path']);
+        }
+        //exit;
         //exit;
 
         $ztId = session('ztId');
@@ -355,6 +451,45 @@ class Model
         $result = 1;
         DB::beginTransaction();
         if ('edit' == $data['action']) {
+            $modelListSec = DB::update('zq_model_list', $dbInfoList, "ml_id={$id}");
+            $modelAdditionSec = DB::update('zq_model_addition', $dbInfoAddition, "ma_ml_id={$id}");
+            $modelFieldError = 0;
+
+            //dd($fieldList);
+            foreach ($fieldList as $fieldKey => $fieldValue) {
+                $fieldDbInfo = array();
+                $fieldDbInfo['mf_key'] = $fieldKey;
+                $fieldDbInfo['mf_value'] = $fieldValue;
+                //$fieldDbInfo['mf_ml_id'] = $modelListId;
+                //$fieldDbInfo['zt_id'] = $ztId;
+                //$fieldDbInfo['mf_add_user_id'] = $userId;
+                $fieldDbInfo['mf_update_time'] = time();
+                //$fieldDbInfo['mf_add_time'] = time();
+
+                if( DB::select( array('table'=>'zq_model_field', 'col'=>'mf_id', 'where'=>"mf_key='{$fieldKey}' and mf_ml_id={$id}" ) ))
+                {
+                    $modelFieldSec = DB::update('zq_model_field', $fieldDbInfo, "mf_key='{$fieldKey}' and mf_ml_id={$id}");
+                }else
+                {
+                    $fieldDbInfo['mf_ml_id'] = $id;
+                    $fieldDbInfo['zt_id'] = $ztId;
+                    $fieldDbInfo['mf_add_user_id'] = $userId;
+                    $fieldDbInfo['mf_update_time'] = time();
+                    $fieldDbInfo['mf_add_time'] = time();
+                    $modelFieldSec = DB::insert('zq_model_field', $fieldDbInfo);
+                }
+                if (0 == $modelFieldSec) {
+                    $modelFieldError++;
+                }
+            }
+
+            if ($modelListSec && $modelAdditionSec && !$modelFieldError) {
+                DB::commit();
+                $result = 1;
+            } else {
+                DB::rollBack();
+                $result = 0;
+            }
 
         } else {
             //dd($dbInfoList);

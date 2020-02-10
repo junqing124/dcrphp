@@ -15,17 +15,36 @@ class Model
         $assignData['page_title'] = '列表';
         $modelName = current(container('request')->getParams());
         $assignData['model_name'] = $modelName;
-        $where  = array();
+        $where = array();
         $where[] = "ml_model_name='{$modelName}'";
+        //开始搜索
+        $title = get('title');
+        if( $title )
+        {
+            $where[] = "ml_title like '{$title}%'";
+            $assignData['title'] = $title;
+        }
+        $categoryId = get('category_id');
+        if( $categoryId )
+        {
+            $where[] = "ml_category_id={$categoryId}";
+        }
+        $dateStart = get('data_start');
+        $dateEnd = get('data_end');
+        if( $dateStart && $dateEnd )
+        {
+            $timeStart = strtotime($dateStart);
+            $timeEnd = strtotime($dateStart);
+            $where[] = "ml_add_time>{$timeStart} and ml_update_time<{$timeEnd}";
+        }
 
-
-        $join = array('type'=> 'left', 'table'=>'zq_model_category', 'condition'=>'mc_id=ml_category_id');
+        $join = array('type' => 'left', 'table' => 'zq_model_category', 'condition' => 'mc_id=ml_category_id');
         $model = new MModel();
 
         $assignData['category_select_html'] = $model->getCategorySelectHtml($modelName,
-            array('subEnabled' => 1, 'selectName' => 'category_id'));
+            array('subEnabled' => 1, 'selectId'=> $categoryId, 'selectName' => 'category_id'));
 
-        $pageInfo = $model->getList(array('where' => $where, 'join'=> $join, 'col' => array('count(ml_id) as num')));
+        $pageInfo = $model->getList(array('where' => $where, 'join' => $join, 'col' => array('count(ml_id) as num')));
         $pageTotalNum = $pageInfo[0]['num'];
         $page = get('page');
         $page = $page ? (int)$page : 1;
@@ -35,7 +54,15 @@ class Model
         $clsPage = new Page($page, $pageTotal);
         $pageHtml = $clsPage->showPage();
 
-        $list = $model->getList(array('where' => $where, 'join'=> $join, 'order' => 'ml_id desc', 'limit' => $pageNum, 'offset' => ($page - 1) * $pageNum));
+        $list = $model->getList(array(
+            'where' => $where,
+            'col' => 'ml_id,ml_pic_path,ml_title,mc_name',
+            'join' => $join,
+            'order' => 'ml_id desc',
+            'limit' => $pageNum,
+            'offset' => ($page - 1) * $pageNum
+        ));
+        //dd($list);
 
         $assignData['page'] = $page;
         $assignData['num'] = $pageTotalNum;
@@ -54,15 +81,34 @@ class Model
         $assignData['page_title'] = '添加/编辑';
         $model = new MModel();
         $config = new Config();
-        $modelName = current(container('request')->getParams());
+        $params = container('request')->getParams();
+        $modelName = $params[0];
+        $action = $params[1];
+        $id = $params[2];
+        $modelInfo = array();
+        $configModelList = current($config->getConfigModelList($modelName));
+        if ('edit' == $action && $id) {
+            $modelInfo = $model->getInfo($id,
+                array('requestField' => 1, 'requestAddition' => 1, 'requestFieldDec' => 1));
+            //echo DB::getLastSql();
+            $modelFieldList = $modelInfo['field'] ? $modelInfo['field'] : $configModelList;
+        } else {
+            //获取模型配置的附加字段
+            $modelFieldList = $configModelList;
+        }
+        //dd($modelInfo);
         $assignData['category_select_html'] = $model->getCategorySelectHtml($modelName,
-            array('subEnabled' => 1, 'selectName' => 'list_category_id'));
-        //获取模型配置的附加字段
-        $modelFieldList = current($config->getConfigModelList($modelName));
+            array(
+                'subEnabled' => 1,
+                'selectId' => $modelInfo['list']['ml_category_id'],
+                'selectName' => 'list_category_id'
+            ));
         //dd($modelFieldList);
         $assignData['field_list'] = $modelFieldList;
-        $assignData['action'] = 'add';
+        $assignData['action'] = $action;
         $assignData['model_name'] = $modelName;
+        $assignData['model_info'] = $modelInfo;
+        //dd($modelInfo);
         return Factory::renderPage('model/edit', $assignData);
     }
 
