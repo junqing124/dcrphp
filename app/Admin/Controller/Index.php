@@ -26,10 +26,14 @@ class Index
         exit;*/
         $assignData = array();
         $version = config('info.version');
+        $appName = config('info.name');
         $assignData['version'] = $version;
+        $assignData['app_name'] = $appName;
         $assignData['page_title'] = '首页';
         $modelList = Define::getModelDefine();
         $assignData['model_list'] = $modelList;
+        /*dd($assignData);
+        exit;*/
         return Factory::renderPage('index/index', $assignData);
     }
 
@@ -41,6 +45,13 @@ class Index
     {
         $assignData = array();
         $assignData['page_title'] = '欢迎页面';
+
+        //获取用户信息
+        $user = new User();
+        $userInfo = $user->getInfo( Session::_get('username') );
+        $assignData['user_info'] = $userInfo;
+
+
         return Factory::renderPage('index/welcome', $assignData);
     }
 

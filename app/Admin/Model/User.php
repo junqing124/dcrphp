@@ -90,6 +90,11 @@ class User
      */
     function login($ztId, $userId, $username, $password)
     {
+        $timeCur = time();
+        $ip = getIp();
+        $sql = "update zq_user set u_login_ip='{$ip}',u_login_count=u_login_count+1,u_login_time={$timeCur} where zt_id={$ztId} and u_username='{$username}'";
+        DB::exec($sql);
+
         Session::_set('ztId', $ztId);
         Session::_set('userId', $userId);
         Session::_set('username', $username);
@@ -302,6 +307,15 @@ class User
     {
         $option['table'] = 'zq_user';
         $list = DB::select($option);
+        return $list;
+    }
+
+    function getInfo( $username )
+    {
+        $option['table'] = 'zq_user';
+        $option['where'] = "u_username='{$username}'";
+        $list = DB::select($option);
+        $list = current( $list );
         return $list;
     }
 

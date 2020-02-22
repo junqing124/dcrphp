@@ -19,7 +19,7 @@ class Admin
      * 给模板通用的key和value
      * 还有验证是不是登陆成功
      * @param View $view
-     * @return string 如果有内容说明发现了错误 请输出内容
+     * @return array 返回登陆结果
      */
     function common($view)
     {
@@ -45,8 +45,7 @@ class Admin
 
     /**
      * 验证用户是不是登陆
-     * @param $view
-     * @return string
+     * @return array
      */
     function yz()
     {

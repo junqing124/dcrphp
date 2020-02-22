@@ -14,7 +14,8 @@ use dcr\View;
 
 class Index
 {
-    function index(){
+    function index()
+    {
         $view = container('view');
         $view->assign('version', config('info.version'));
         $view->assign('name', config('info.name'));

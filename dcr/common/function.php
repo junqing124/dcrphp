@@ -95,4 +95,28 @@ if (!function_exists('session')) {
         return Session::_get($name, $default);
     }
 }
+if (!function_exists('getIp')) {
+    function getIp()
+    {
+        if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
+            $cip = $_SERVER["HTTP_CLIENT_IP"];
+        } else {
+            if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+                $cip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+            } else {
+                if (!empty($_SERVER["REMOTE_ADDR"])) {
+                    $cip = $_SERVER["REMOTE_ADDR"];
+                } else {
+                    $cip = '';
+                }
+            }
+        }
+        $cipList = array();
+        preg_match("/[\d\.]{7,15}/", $cip, $cipList);
+        $cip = isset($cips[0]) ? $cipList[0] : 'unknown';
+        unset($cipList);
 
+        return $cip;
+    }
+
+}

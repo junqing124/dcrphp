@@ -19,6 +19,7 @@ class Factory
      * @param $template
      * @param $dataList
      * @return mixed
+     * @throws Exception
      */
     static function renderPage($template, $dataList)
     {

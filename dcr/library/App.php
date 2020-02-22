@@ -50,9 +50,9 @@ class App
 
         $route = container('route');
         //把url解析为ruleItem
-        $result = $route->addRuleFromRequest($request);
+        $ruleItem = $route->addRuleFromRequest($request);
 
-        $data = self::exec($result);
+        $data = self::exec($ruleItem);
 
         return new Response($data);
     }
