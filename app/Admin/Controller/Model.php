@@ -21,7 +21,7 @@ class Model
         $title = get('title');
         if( $title )
         {
-            $where[] = "ml_title like '{$title}%'";
+            $where[] = "ml_title like '%{$title}%'";
             $assignData['title'] = $title;
         }
         $categoryId = get('category_id');
