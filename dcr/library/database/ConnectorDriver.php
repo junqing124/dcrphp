@@ -114,7 +114,7 @@ abstract class ConnectorDriver
      * order:
      * offset:
      * group:
-     * join:格式: array('type'=> 类型, 'table'=> 连接的表 'condition'=> 连接条件)
+     * join: 多个请用join数组 比如 array(array(),array()),如果只是一个则一个即可array() 格式: array('type'=> 类型, 'table'=> 连接的表 'condition'=> 连接条件)
      * @return mixed
      * @throws
      */
@@ -141,9 +141,14 @@ abstract class ConnectorDriver
         if ($option['group']) {
             $select->group($option['group']);
         }
-        //dd($option);
         if ($option['join']) {
-            $select->join($option['join']['type'], $option['join']['table'], $option['join']['condition']);
+            if (3 == count($option['join']) && $option['join']['type']) {
+                $option['join'] = array($option['join']);
+            }
+            //dd($option);
+            foreach ($option['join'] as $joinDetail) {
+                $select->join($joinDetail['type'], $joinDetail['table'], $joinDetail['condition']);
+            }
         }
         //dd($option);
         $whereStr = '';

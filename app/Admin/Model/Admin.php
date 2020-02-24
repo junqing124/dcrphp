@@ -72,7 +72,7 @@ class Admin
      */
     static function commonReturn($result, $errorMsg = '')
     {
-        if (1 == $result) {
+        if (0 != $result) {
             return array('ack' => 1,);
         } else {
             if( !$errorMsg ){

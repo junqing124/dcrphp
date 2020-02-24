@@ -54,18 +54,21 @@ class Model
             if ($option['requestFieldDec']) {
                 $config = new Config();
                 $configList = $config->getConfigModelList($info['list']['ml_model_name']);
-                $configList = current($configList);
-                $configList = array_column($configList, 'cm_dec', 'cm_key');
-                $configKeys = array_keys($configList);
-                foreach ($fieldList as $key => $fieldInfo) {
-                    //如果配置里没有，但原来的key没删除的，则不显示
-                    if (!in_array($fieldInfo['mf_key'], $configKeys)) {
-                        unset($fieldList[$key]);
-                        continue;
+                if ($configList) {
+                    $configList = current($configList);
+                    $configList = array_column($configList, 'cm_dec', 'cm_key');
+                    $configKeys = array_keys($configList);
+                    foreach ($fieldList as $key => $fieldInfo) {
+                        //如果配置里没有，但原来的key没删除的，则不显示
+                        if (!in_array($fieldInfo['mf_key'], $configKeys)) {
+                            unset($fieldList[$key]);
+                            continue;
+                        }
+                        //下面2行这么做是为了兼容编辑页里的field列表和加载配置
+                        $fieldList[$key]['cm_dec'] = $configList[$fieldInfo['mf_key']];
+                        $fieldList[$key]['mf_dec'] = $configList[$fieldInfo['mf_key']];
                     }
-                    //下面2行这么做是为了兼容编辑页里的field列表和加载配置
-                    $fieldList[$key]['cm_dec'] = $configList[$fieldInfo['mf_key']];
-                    $fieldList[$key]['mf_dec'] = $configList[$fieldInfo['mf_key']];
+
                 }
             }
             //echo DB::getLastSql();
@@ -102,7 +105,7 @@ class Model
             $error[] = 'Action长度不符合[1-50]';
         }
         if ('edit' == $categoryInfo['action']) {
-            if (!$stringValidator->validate($categoryInfo['mc_id'])) {
+            if (!$stringValidator->validate($categoryInfo['id'])) {
                 $error[] = '主ID[mc_id]长度不符合[1-50]';
             }
         }
@@ -123,7 +126,7 @@ class Model
             'mc_update_time' => time(),
             'mc_model_name' => $categoryInfo['model_name'],
             'mc_name' => $categoryInfo['category_name'],
-            'mc_parent_id' => $categoryInfo['parent_id'],
+            'mc_parent_id' => $categoryInfo['parent_id'] ? $categoryInfo['parent_id'] : 0,
         );
         if ('add' == $categoryInfo['action']) {
             $dbInfo['mc_add_time'] = time();
@@ -229,6 +232,7 @@ class Model
         $list = $this->getCategoryArr($list, $option['parentId'] ? $option['parentId'] : 0);
         //dd($list);
 
+        $option['selectName'] = $option['selectName'] ? $option['selectName'] : 'parent_id';
         $html = "<select name=\"{$option['selectName']}\" id='{$option['selectName']}' aria-required=\"true\" aria-invalid=\"false\">";
         $html .= "<option value=\"0\">一级分类</option>";
         //dd($list);
@@ -254,7 +258,7 @@ class Model
             if ($selectId == $info['mc_id']) {
                 $optionAdditionStr = ' selected ';
             }
-            if (is_array($info['sub']) && $subEnabled) {
+            if (count($info['sub'])>0 && $subEnabled) {
                 $optionAdditionStr .= ' disabled ';
             }
             $txtAdd = '';
@@ -270,10 +274,16 @@ class Model
         }
         return $optionHtml;
     }
-
+    /**
+     * 本function用来格式化从数据库中取来的数据
+     * @param $list
+     * @param $parentId
+     * @param int $level
+     * @return array
+     */
     function getCategoryArr($list, $parentId, $level = 0)
     {
-        $tree = '';
+        $tree = array();
         foreach ($list as $key => $value) {
             //dd($value);
             //echo $parentId;
