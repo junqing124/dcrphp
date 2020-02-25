@@ -194,7 +194,7 @@ class Model
                 <td class='td-manage'>
                     <a title=\"编辑\" href=\"javascript:;\" onclick=\"add_edit('编辑','/admin/model/category-edit-view/{$info['mc_model_name']}/edit/{$info['mc_id']}','','300')\"
                        class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>";
-            if (!is_array($info['sub'])) {
+            if (! count($info['sub']) > 0) {
                 $optionHtml .= "<a title=\"删除\" href=\"javascript:;\" onclick=\"del({$info['mc_id']})\" class=\"ml-5\"
                        style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>";
 
@@ -203,7 +203,7 @@ class Model
             </tr>";
             //dd($info['sub']);
             //var_dump(count($info['sub'])>0);
-            if (is_array($info['sub'])) {
+            if (count($info['sub']) > 0) {
                 $this->getCategoryTrDetailHtml($info['sub']);
             }
         }
