@@ -11,6 +11,7 @@ namespace app\Admin\Controller;
 use app\Admin\Model\Factory;
 use app\Admin\Model\User as MUser;
 use dcr\Page;
+use dcr\Db;
 
 class User
 {
@@ -97,14 +98,24 @@ class User
             'password_len_max' => $passwordLimit['max'],
         );
         //如果是编辑用户 则要把用户信息传过去
-        $user_id = get('user_id');
-        if ($user_id) {
-            $userInfo = $user->getList(array('col' => '*', 'where' => "u_id=" . $user_id));
+        $userId = get('user_id');
+        if ($userId) {
+            $userInfo = $user->getList(array('col' => '*', 'where' => "u_id=" . $userId));
             $userInfo = current($userInfo);
             $assignData['user_info'] = $userInfo;
-            $assignData['user_id'] = $user_id;
+            $assignData['user_id'] = $userId;
         }
+        //角色列表
+        $roleConfigList = $user->getRoleList( array( 'col'=>'ur_name,ur_id' ) );
+
         $assignData['page_title'] = '密码更换';
+        $assignData['role_config_list'] = $roleConfigList;
+
+        //已经配置好的角色列表
+        $roleList = $user->getRoleConfigList( $userId );
+        $roleKeys = array_keys( array_column($roleList, 'urc_r_id', 'urc_r_id') );
+        $assignData['role_keys'] = $roleKeys;
+
         return Factory::renderPage('user/add-or-edit', $assignData);
     }
 
@@ -136,6 +147,7 @@ class User
             'u_mobile' => post('mobile'),
             'u_tel' => post('tel'),
             'u_note' => post('note'),
+            'roles' => post('roles'),
         );
         //返回
         $user_id = post('user_id');

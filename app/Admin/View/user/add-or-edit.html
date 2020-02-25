@@ -79,6 +79,16 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">角色：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                {% for role_config in role_config_list %}
+                <label><input
+                        {% if  role_config.ur_id in role_keys %} checked {% endif %}
+                        value="{{role_config.ur_id}}" name="roles[]" type="checkbox" class="input-input">{{role_config.ur_name}}</label>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
                 <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
             </div>

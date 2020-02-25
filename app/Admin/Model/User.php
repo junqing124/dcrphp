@@ -271,10 +271,14 @@ class User
         $userInfo['zt_id'] = Session::_get('ztId');
         $userInfo['u_update_time'] = time();
 
+        $roles = $userInfo['roles'];
+        unset($userInfo['roles']);
+
         if ('add' == $type) {
             $userInfo['u_add_time'] = time();
             $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
             $userInfo['u_add_user_id'] = session('userId');
+
         } else if ('edit' == $type) {
             if ($userInfo['u_password']) {
                 $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
@@ -286,14 +290,36 @@ class User
         exit;*/
         //逻辑
         $result = 0;
+        $userId = 0;
         if ('add' == $type) {
             //开始添加用户
             $result = DB::insert('zq_user', $userInfo);
+            $userId = $result;
         } else if ('edit' == $type) {
             $userId = $userInfo['u_id'];
             unset($userInfo['u_id']);
             unset($userInfo['u_username']);
+            //清空角色
+            DB::delete('zq_user_role_config',"urc_u_id={$userId} and zt_id={$userInfo['zt_id']}");
             $result = DB::update('zq_user', $userInfo, "u_id={$userId}");
+        }
+
+        //开始更新用户角色
+        if( $roles )
+        {
+            foreach( $roles as $roleKey )
+            {
+                //先判断有没有
+                $roleDbInfo = array(
+                    'urc_add_time'=> time(),
+                    'urc_update_time'=> time(),
+                    'urc_add_user_id'=> session('userId'),
+                    'zt_id'=> $userInfo['zt_id'],
+                    'urc_u_id'=> $userId,
+                    'urc_r_id'=> $roleKey,
+                );
+                DB::insert('zq_user_role_config', $roleDbInfo);
+            }
         }
 
         return Admin::commonReturn($result);
@@ -323,9 +349,21 @@ class User
      * @param $option
      * @return mixed
      */
-    function getRoleList($option)
+    function getRoleList($option = array())
     {
         $option['table'] = 'zq_user_role';
+        $list = DB::select($option);
+        return $list;
+    }
+
+    /** 获取用户配置好的角色列表
+     * @param $userId
+     * @return mixed
+     */
+    function getRoleConfigList($userId)
+    {
+        $option['table'] = 'zq_user_role_config';
+        $option['where'] = "urc_u_id={$userId}";
         $list = DB::select($option);
         return $list;
     }
