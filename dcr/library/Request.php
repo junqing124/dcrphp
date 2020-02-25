@@ -76,10 +76,9 @@ class Request extends DcrBase
     public function getPathInfo()
     {
         if (is_null($this->pathInfo)) {
-            $urlType = 'REDIRECT_URL';
-            $_SERVER['PATH_INFO'] = (0 === strpos($_SERVER[$urlType], $_SERVER['SCRIPT_NAME'])) ?
-                substr($_SERVER[$urlType], strlen($_SERVER['SCRIPT_NAME'])) : $_SERVER[$urlType];
-            $this->pathInfo = empty($_SERVER['PATH_INFO']) ? '/' : ltrim($_SERVER['PATH_INFO'], '/');
+            //从REQUEST_URI取最保险
+            $info = parse_url($_SERVER['REQUEST_URI']);
+            $this->pathInfo = $info['path'] ? ltrim($info['path'],'/') : '/';
         }
         return $this->pathInfo;
     }
