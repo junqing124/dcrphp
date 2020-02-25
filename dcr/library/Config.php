@@ -33,7 +33,7 @@ class Config extends DcrBase
     {
         $configType = pathinfo($filename, PATHINFO_FILENAME);
         $driverName = ucfirst($type);
-        $className = "dcr\Config\Driver\\{$driverName}";
+        $className = "dcr\config\driver\\{$driverName}";
         container()->bind('configDriver', $className);
         $configDetail = container()->make($className)->parse($filename);
         $this->set($configType, $configDetail);

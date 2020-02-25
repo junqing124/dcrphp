@@ -21,12 +21,14 @@ class ClassLoader
             return;
         }
         //开始加载类
-        if ('dcr' . DS == substr($className, 0, 4)) {
-            $classPath = LIB . DS . str_replace('dcr' . DS, '', $className) . '.php';
+        if ('dcr\\' == substr($className, 0, 4)) {
+            $classPath = LIB . DS . str_replace('dcr\\', '', $className) . '.php';
         }
-        if ('app' . DS == substr($className, 0, 4)) {
-            $classPath = ROOT_FRAME . DS . '..' . DS  . str_replace('dcr' . DS, '', $className) . '.php';
+        if ('app\\' == substr($className, 0, 4)) {
+            $classPath = ROOT_FRAME . DS . '..' . DS . str_replace('dcr\\', '', $className) . '.php';
         }
+        $classPath = str_replace('\\', DS, $classPath);
+
 
         try {
             if (file_exists($classPath)) {
