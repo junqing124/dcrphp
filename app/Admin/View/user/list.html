@@ -151,7 +151,7 @@
         layer.confirm('确认要删除吗？', function (index) {
             $.ajax({
                 type: 'POST',
-                url: '/admin/user/deleteAjax',
+                url: '/admin/user/delete-ajax',
                 dataType: 'json',
                 data: "id=" + id,
                 success: function (data) {

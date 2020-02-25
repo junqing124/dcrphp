@@ -258,7 +258,7 @@ class Model
             if ($selectId == $info['mc_id']) {
                 $optionAdditionStr = ' selected ';
             }
-            if (count($info['sub'])>0 && $subEnabled) {
+            if (count($info['sub']) > 0 && $subEnabled) {
                 $optionAdditionStr .= ' disabled ';
             }
             $txtAdd = '';
@@ -274,6 +274,7 @@ class Model
         }
         return $optionHtml;
     }
+
     /**
      * 本function用来格式化从数据库中取来的数据
      * @param $list
@@ -476,11 +477,14 @@ class Model
                 $fieldDbInfo['mf_update_time'] = time();
                 //$fieldDbInfo['mf_add_time'] = time();
 
-                if( DB::select( array('table'=>'zq_model_field', 'col'=>'mf_id', 'where'=>"mf_key='{$fieldKey}' and mf_ml_id={$id}" ) ))
-                {
-                    $modelFieldSec = DB::update('zq_model_field', $fieldDbInfo, "mf_key='{$fieldKey}' and mf_ml_id={$id}");
-                }else
-                {
+                if (DB::select(array(
+                    'table' => 'zq_model_field',
+                    'col' => 'mf_id',
+                    'where' => "mf_key='{$fieldKey}' and mf_ml_id={$id}"
+                ))) {
+                    $modelFieldSec = DB::update('zq_model_field', $fieldDbInfo,
+                        "mf_key='{$fieldKey}' and mf_ml_id={$id}");
+                } else {
                     $fieldDbInfo['mf_ml_id'] = $id;
                     $fieldDbInfo['zt_id'] = $ztId;
                     $fieldDbInfo['mf_add_user_id'] = $userId;
@@ -543,6 +547,24 @@ class Model
         }
         //exit;
         //返回
+        return Admin::commonReturn($result);
+    }
+
+    function delete($id)
+    {
+        //验证
+        $info = DB::select(array('table' => 'zq_model_list', 'col' => 'ml_id', 'where' => "ml_id={$id}", 'limit' => 1));
+        $info = current($info);
+
+        if (!$info) {
+            return array('ack' => 0, 'msg' => '没有找到这个信息');
+        }
+        //逻辑
+        $result = DB::delete('zq_model_list', "ml_id={$id}");
+
+        //dd($dbPre->getSql());
+        //返回
+
         return Admin::commonReturn($result);
     }
 }

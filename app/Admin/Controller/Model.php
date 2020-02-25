@@ -170,4 +170,12 @@ class Model
         return Factory::renderJson($result);
     }
 
+    function deleteAjax()
+    {
+        $model = new MModel();
+        $id = post('id');
+        $result = $model->delete($id);
+        return Factory::renderJson($result);
+    }
+
 }
