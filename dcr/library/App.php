@@ -61,11 +61,22 @@ class App
     {
         //去除action里面的-
         $action = $ruleItem->action;
-        $action = str_replace('-','',$action);
+
+        //把use-explain转成useExplain
+        //把use-explain-vew转成useExplainView
+        //把use留为use
+        $actionArr = explode('-', $action);
+        $actionList = [];
+        foreach ($actionArr as $key=>$actionStr) {
+            $actionList[$key] = ucfirst($actionStr);
+        }
+        $action = implode('', $actionList);
+        $action = lcfirst($action);
+
         //得出类来
         $model = ucfirst($ruleItem->model);
         $controller = ucfirst($ruleItem->controller);
-        $action = ucfirst($action);
+
         //类名
         $class = "\\app\\{$model}\\Controller\\{$controller}";
         try {

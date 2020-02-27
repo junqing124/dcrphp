@@ -35,13 +35,12 @@ class Page
             $this->tpl = $tpl;
         }
         if (strlen($url) == 0) {
-            $this->url = $_SERVER['SERVER_NAME'];
-
-            if ($_SERVER['SERVER_PORT']) {
-                $this->url .= ':' . $_SERVER['SERVER_PORT'];
-            }
-
+            $this->url = $_SERVER['HTTP_HOST'];
+            //if ($_SERVER['SERVER_PORT']) {
+            //$this->url .= ':' . $_SERVER['SERVER_PORT'];
+            //}
             $this->url .= $_SERVER["REQUEST_URI"];
+
         } else {
             $this->url = $url;
         }
@@ -102,14 +101,16 @@ class Page
             if ($this->webUrlModule == '1') {
                 $newUrl = '';
                 $newUrl = $urlMain . '?page=1' . $urlOptionStr;
-            } else if ($this->webUrlModule == '2') {
-                $newUrl = '';
-                $t_arr = array();
-                $t_file_arr = array();
-                $urlMain = preg_replace('/_p_(\d+)/', '', $urlMain);
-                $t_arr = parse_url($urlMain);
-                $t_file_arr = explode('.', $t_arr['path']);
-                $newUrl = $t_arr[0] . $t_file_arr[0] . '_p_1.' . $t_file_arr[1];
+            } else {
+                if ($this->webUrlModule == '2') {
+                    $newUrl = '';
+                    $t_arr = array();
+                    $t_file_arr = array();
+                    $urlMain = preg_replace('/_p_(\d+)/', '', $urlMain);
+                    $t_arr = parse_url($urlMain);
+                    $t_file_arr = explode('.', $t_arr['path']);
+                    $newUrl = $t_arr[0] . $t_file_arr[0] . '_p_1.' . $t_file_arr[1];
+                }
             }
             $t_tpl = $matches[0][0]; //模板内容
             $t_word = $matches[1][0]; //分页字段
@@ -132,14 +133,16 @@ class Page
             if ($this->webUrlModule == '1') {
                 $newUrl = '';
                 $newUrl = $urlMain . '?page=' . $tatolPage . $urlOptionStr;
-            } else if ($this->webUrlModule == '2') {
-                $newUrl = '';
-                $t_arr = array();
-                $t_file_arr = array();
-                $urlMain = preg_replace('/_p_(\d+)/', '', $urlMain);
-                $t_arr = parse_url($urlMain);
-                $t_file_arr = explode('.', $t_arr['path']);
-                $newUrl = $t_arr[0] . $t_file_arr[0] . '_p_' . $tatolPage . '.' . $t_file_arr[1];
+            } else {
+                if ($this->webUrlModule == '2') {
+                    $newUrl = '';
+                    $t_arr = array();
+                    $t_file_arr = array();
+                    $urlMain = preg_replace('/_p_(\d+)/', '', $urlMain);
+                    $t_arr = parse_url($urlMain);
+                    $t_file_arr = explode('.', $t_arr['path']);
+                    $newUrl = $t_arr[0] . $t_file_arr[0] . '_p_' . $tatolPage . '.' . $t_file_arr[1];
+                }
             }
             $t_tpl = $matches[0][0];
             $t_word = $matches[1][0];
@@ -181,15 +184,17 @@ class Page
                     //echo 'a';
                     $newUrl = '';
                     $newUrl = $urlMain . '?page=' . ($this->cpage + 1) . $urlOptionStr;
-                } else if ($this->webUrlModule == '2') {
-                    //echo 'b';
-                    $newUrl = '';
-                    $t_arr = array();
-                    $t_file_arr = array();
-                    $urlMain = preg_replace('/_p_(\d+)/', '', $urlMain);
-                    $t_arr = parse_url($urlMain);
-                    $t_file_arr = explode('.', $t_arr['path']);
-                    $newUrl = $t_arr[0] . $t_file_arr[0] . '_p_' . ($this->cpage + 1) . '.' . $t_file_arr[1];
+                } else {
+                    if ($this->webUrlModule == '2') {
+                        //echo 'b';
+                        $newUrl = '';
+                        $t_arr = array();
+                        $t_file_arr = array();
+                        $urlMain = preg_replace('/_p_(\d+)/', '', $urlMain);
+                        $t_arr = parse_url($urlMain);
+                        $t_file_arr = explode('.', $t_arr['path']);
+                        $newUrl = $t_arr[0] . $t_file_arr[0] . '_p_' . ($this->cpage + 1) . '.' . $t_file_arr[1];
+                    }
                 }
                 $next_page = ' <a href="' . $newUrl . '">' . $t_word . '</a>';
             } else {
@@ -234,15 +239,17 @@ class Page
                         $link_page .= ' <a href="' . $page_list_url . '">' . $j . '</a>';
                     }
                 }
-            } else if ($this->webUrlModule == '2') {
-                $newUrl = '';
-                $t_arr = array();
-                $t_file_arr = array();
-                $urlMain = preg_replace('/_p_(\d+)/', '', $urlMain);
-                $t_arr = parse_url($urlMain);
-                $t_file_arr = explode('.', $t_arr['path']);
-                $newUrl = $t_arr[0] . $t_file_arr[0] . '_p_' . $i . '.' . $t_file_arr[1];
-                $link_page .= ' <a href="' . $newUrl . '">' . $i . '</a>';
+            } else {
+                if ($this->webUrlModule == '2') {
+                    $newUrl = '';
+                    $t_arr = array();
+                    $t_file_arr = array();
+                    $urlMain = preg_replace('/_p_(\d+)/', '', $urlMain);
+                    $t_arr = parse_url($urlMain);
+                    $t_file_arr = explode('.', $t_arr['path']);
+                    $newUrl = $t_arr[0] . $t_file_arr[0] . '_p_' . $i . '.' . $t_file_arr[1];
+                    $link_page .= ' <a href="' . $newUrl . '">' . $i . '</a>';
+                }
             }
             $page_html = str_replace('{pagelist}', $link_page, $page_html);
         }

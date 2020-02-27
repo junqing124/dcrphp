@@ -6,6 +6,7 @@ composer install --no-dev
 复制env.example为env 把里面的mysql配置改下
 
 nginx记得配置:
+charset utf-8;
 location / {
                 try_files $uri $uri/ /index.php?$query_string;
         }
