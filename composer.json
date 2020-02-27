@@ -1,4 +1,12 @@
 {
+    "name": "junqing124/dcrphp",
+    "description": "dcrphp admin",
+    "authors": [
+        {
+            "name": "HuanJun Huang"
+        }
+    ],
+    "license": "MIT",
     "require-dev": {
         "phpunit/phpunit": "*"
     },

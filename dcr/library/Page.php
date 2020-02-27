@@ -257,7 +257,7 @@ class Page
         //下拉框分页
         if (preg_match("{option}", $tplContent)) {
             $option_page = '<select onchange="javascript:window.location=' . "'" . $urlMain . "?page='+this.options[this.selectedIndex].value+" . "'$urlOptionStr'" . ';">';
-            for ($i = 1; $i < $this->tatolPage + 1; $i++) { 
+            for ($i = 1; $i < $this->tatolPage + 1; $i++) {
                 if ($i == $this->cpage) {
                     $option_page .= "<option selected='selected' value='$i'>第" . $i . "页</option>\n";
                 } else {
