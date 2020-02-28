@@ -2,7 +2,9 @@
 
 namespace app\Console;
 
+use app\Admin\Model\User as MUser;
 use dcr\Env;
+use dcr\Db;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -68,11 +70,30 @@ class AppInstall extends Command
                     $tableNameArr = explode('_', pathinfo($sqlFile)['filename']);
                     unset($tableNameArr[0]);
                     $tableName = implode('_', $tableNameArr);
-                    //DB::exec("truncate table {$tableName}");
-                    exit;
+                    DB::exec("truncate table {$tableName}/*zt_id=0*/");
                 }
             }
+
+            //初始化user
+
+            $userInfo = array(
+                'u_username' => 'admin',
+                'u_password' => '123456',
+                'u_sex' => 1,
+                'u_mobile' => '15718126135',
+                'u_tel' => '',
+                'u_note' => '管理员',
+                'zt_id' => 1,
+            );
+            //返回
+            $type = 'add';
+
+            //dd($type);
+            //dd(get());
+            $user = new MUser();
+            $user->addEditUser($userInfo, $type);
             echo "Initial end \r\n";
+            echo "Install success, you can login in by host/admin/index/index admin,123456";
 
         } catch (\Exception $e) {
             throw $e;

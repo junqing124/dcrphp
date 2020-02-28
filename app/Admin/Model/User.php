@@ -250,11 +250,11 @@ class User
         if (!v::in([1, 2])->validate($userInfo['u_sex'])) {
             $error[] = '性别选择有问题';
         }
+        $ztId = $userInfo['zt_id'] ? $userInfo['zt_id'] : Session::_get('ztId');
         if ('add' == $type) {
             $queryFactory = new QueryFactory(config('database.mysql.main.driver'));
             //判断用户名有没有
             $select = $queryFactory->newSelect();
-            $ztId = Session::_get('ztId');
             $select->from('zq_user')->cols(array('u_id'))->where("zt_id={$ztId} and u_username='{$userInfo['u_username']}'")->limit(1);
             $sql = $select->getStatement();
             $info = DB::query($sql);
@@ -268,7 +268,7 @@ class User
             return array('ack' => 0, 'msg' => $error);
         }
         //开始初始化数据
-        $userInfo['zt_id'] = Session::_get('ztId');
+        $userInfo['zt_id'] = $ztId;
         $userInfo['u_update_time'] = time();
 
         $roles = $userInfo['roles'];
