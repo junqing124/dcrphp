@@ -9,11 +9,17 @@
 namespace dcr;
 
 
+use Matomo\Ini\IniReader;
+use Matomo\Ini\IniWriter;
+use mysql_xdevapi\Exception;
+
 class ENV
 {
+    static $path = ROOT_APP . DS . '..' . DS . 'env';
+
     static function init()
     {
-        $envPath = ROOT_APP . DS . '..' . DS . 'env';
+        $envPath = self::$path;
         if (file_exists($envPath)) {
             $autodetect = ini_get('auto_detect_line_endings');
             ini_set('auto_detect_line_endings', '1');
@@ -21,8 +27,39 @@ class ENV
             ini_set('auto_detect_line_endings', $autodetect);
 
             foreach ($envLines as $envConfig) {
+                $envConfig = str_replace('"', '', $envConfig);
+                $envConfig = str_replace(' = ', '=', $envConfig);
                 putenv(trim($envConfig));
             }
+        } else {
+            throw new Exception('evn file does not exists');
+        }
+    }
+
+    /**
+     * parse ini get the data
+     * @param $envPath
+     * @return array
+     * @throws
+     */
+    static function getData($envPath = '')
+    {
+        $envPath = $envPath ? $envPath : self::$path;
+        if (file_exists($envPath)) {
+            $iniReader = new IniReader();
+            return $iniReader->readFile($envPath);
+        } else {
+            throw new Exception($envPath . ' file does not exists');
+        }
+    }
+
+    static function write($envFile, $data)
+    {
+        if (file_exists($envFile)) {
+            $iniWriter = new IniWriter();
+            $iniWriter->writeToFile($envFile, $data);
+        } else {
+            throw new Exception($envFile . ' can not writed');
         }
     }
 }

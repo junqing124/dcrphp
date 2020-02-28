@@ -18,7 +18,9 @@
         "respect/validation": "^1.1",
         "symfony/filesystem": "*",
         "codeguy/upload": "*",
-        "symfony/console": "*"
+        "symfony/console": "*",
+        "matomo/ini": "*",
+        "thamaraiselvam/mysql-import": "*"
     },
     "autoload": {
         "psr-4":{

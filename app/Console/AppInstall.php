@@ -1,9 +1,13 @@
 <?php
+
 namespace app\Console;
 
+use dcr\Env;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Thamaraiselvam\MysqlImport\Import;
 
 class AppInstall extends Command
 {
@@ -15,10 +19,64 @@ class AppInstall extends Command
     protected function configure()
     {
         $this->setName('app:install'); //注意这个是命令行
+        $this->addArgument('host', InputArgument::REQUIRED, 'database host');
+        $this->addArgument('port', InputArgument::REQUIRED, 'database host port');
+        $this->addArgument('username', InputArgument::REQUIRED, 'database username');
+        $this->addArgument('password', InputArgument::REQUIRED, 'database password');
+        $this->addArgument('database', InputArgument::REQUIRED, 'database name');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("test");
+        //start install
+        //change the env
+        $envExampleFile = ROOT_APP . DS . '..' . DS . 'env.example';
+        $envFile = ROOT_APP . DS . '..' . DS . 'env';
+
+        try {
+            echo "Config start \r\n";
+            $data = Env::getData($envExampleFile);
+
+            $host = $input->getArgument('host');
+            $port = $input->getArgument('port');
+            $username = $input->getArgument('username');
+            $password = $input->getArgument('password');
+            $database = $input->getArgument('database');
+
+            $data['config']['MYSQL_DB_HOST'] = $host;
+            $data['config']['MYSQL_DB_PORT'] = $port;
+            $data['config']['MYSQL_DB_DATABASE'] = $database;
+            $data['config']['MYSQL_DB_USERNAME'] = $password;
+            $data['config']['MYSQL_DB_PASSWORD'] = $username;
+
+            Env::write($envFile, $data );
+            echo "Config success \r\n";
+            echo "Sql import start \r\n";
+            $sqlFilePath = ROOT_APP . DS . 'Console' . DS . 'sql' . DS . 'install';
+            $sqlFileList = scandir($sqlFilePath);
+            foreach ($sqlFileList as $sqlFile) {
+                if ( pathinfo($sqlFile, PATHINFO_EXTENSION) === 'sql') {
+                    $sqlFilename = $sqlFilePath . DS . $sqlFile;
+                    new Import($sqlFilename, $username, $password, $database, $host . ':' . $port);
+                }
+            }
+            echo "Sql import end \r\n";
+            echo "Initial start \r\n";
+
+            foreach ($sqlFileList as $sqlFile) {
+                if ( pathinfo($sqlFile, PATHINFO_EXTENSION) === 'sql') {
+                    $tableNameArr = explode('_', pathinfo($sqlFile)['filename']);
+                    unset($tableNameArr[0]);
+                    $tableName = implode('_', $tableNameArr);
+                    //DB::exec("truncate table {$tableName}");
+                    exit;
+                }
+            }
+            echo "Initial end \r\n";
+
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
     }
 }
