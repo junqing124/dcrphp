@@ -8,17 +8,5 @@
 
 namespace dcr;
 
-define('DS', DIRECTORY_SEPARATOR); //文件分隔符
-define('ROOT_FRAME', dirname(__FILE__) . DS . '..'); //dcr目录
-define('ROOT_APP', dirname(__FILE__) . DS . '..' . DS . '..' . DS . 'app'); //app目录
-define('ROOT_PUBLIC', __DIR__); //public目录
-define('LIB', ROOT_FRAME . DS . 'library');
-define('START', microtime(true));
-define('CONFIG_EXT', '.php');
-define('CONFIG_DIR', ROOT_FRAME . DS . '/' . '..' . DS . 'config');
-require_once ROOT_FRAME . DS . '..' . DS . 'vendor' . DS . 'autoload.php';
-require_once ROOT_FRAME . DS . 'common' . DS . 'function.php';
-require_once LIB . DS . 'ClassLoader.php';
-require_once LIB . DS . 'App.php';
-App::init()->send();
-return container();
+$response = require_once __DIR__ . DIRECTORY_SEPARATOR . 'init.php';
+$response->send();

@@ -20,30 +20,38 @@ class Error
     /**
      * 异常接收
      * @access public
-     * @param  \Exception|\Throwable $e 异常
+     * @param \Exception|\Throwable $e 异常
      * @return void
      */
     public static function exception($e)
     {
-        $view = container('view');
-        $view->assign('eCode', $e->getCode());
-        $view->assign('eFile', $e->getFile());
-        $view->assign('eLine', $e->getLine());
-        $view->assign('eMessage', $e->getMessage());
-        $view->assign('eTrace', $e->getTraceAsString());
-        $view->setViewDirectoryPath(ROOT_FRAME . DS . 'view');
-        //dd($e->getTrace());
-        echo  $view->render('exception');
+        if ('cli' == APP::$phpSapiName) {
+            echo "Code:" . $e->getCode() . "\r\n";
+            echo "File:" . $e->getFile() . "\r\n";
+            echo "Line:" . $e->getLine() . "\r\n";
+            echo "Message:" . $e->getMessage() . "\r\n";
+            echo "Trace:" . $e->getTraceAsString() . "\r\n";
+        }else{
+            $view = container('view');
+            $view->assign('e_code', $e->getCode());
+            $view->assign('e_file', $e->getFile());
+            $view->assign('e_line', $e->getLine());
+            $view->assign('e_message', $e->getMessage());
+            $view->assign('e_trace', $e->getTraceAsString());
+            $view->setViewDirectoryPath(ROOT_FRAME . DS . 'view');
+            //dd($e->getTrace());
+            echo $view->render('exception');
+        }
         exit;
     }
 
     /**
      * 错误接收
      * @access public
-     * @param  integer $errNo 错误编号
-     * @param  integer $errStr 详细错误信息
-     * @param  string $errFile 出错的文件
-     * @param  integer $errLine 出错行号
+     * @param integer $errNo 错误编号
+     * @param integer $errStr 详细错误信息
+     * @param string $errFile 出错的文件
+     * @param integer $errLine 出错行号
      * @return void
      * @throws ErrorException
      */
@@ -52,13 +60,20 @@ class Error
         if (in_array($errNo, array(E_USER_DEPRECATED, E_NOTICE, E_WARNING))) {
             return false;
         }
-        $view = container('view');
-        $view->assign('errNo', $errNo);
-        $view->assign('errStr', $errStr);
-        $view->assign('errFile', $errFile);
-        $view->assign('errLine', $errLine);
-        $view->setViewDirectoryPath(ROOT_FRAME . DS . 'view');
-        echo  $view->render('error');
+        if ('cli' == APP::$phpSapiName) {
+            echo "No:" . $errNo . "\r\n";
+            echo "Str:" . $errStr . "\r\n";
+            echo "File:" . $errFile . "\r\n";
+            echo "Line:" . $errLine . "\r\n";
+        }else{
+            $view = container('view');
+            $view->assign('err_no', $errNo);
+            $view->assign('err_str', $errStr);
+            $view->assign('err_file', $errFile);
+            $view->assign('err_line', $errLine);
+            $view->setViewDirectoryPath(ROOT_FRAME . DS . 'view');
+            echo $view->render('error');
+        }
         exit;
     }
 }

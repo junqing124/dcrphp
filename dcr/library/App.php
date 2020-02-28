@@ -13,6 +13,10 @@ use dcr\Route\RuleItem;
 class App
 {
     /**
+     * @var $phpSapiName php运行模式
+     */
+    static $phpSapiName;
+    /**
      * 自动加载类
      */
     public static function autoLoadClasses()
@@ -22,6 +26,7 @@ class App
 
     public static function init()
     {
+        self::$phpSapiName = php_sapi_name();
         self::autoLoadClasses();
         Error::init();
         Env::init();

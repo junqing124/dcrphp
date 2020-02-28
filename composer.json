@@ -17,6 +17,12 @@
         "aura/sqlquery": "^2.7",
         "respect/validation": "^1.1",
         "symfony/filesystem": "*",
-        "codeguy/upload": "*"
+        "codeguy/upload": "*",
+        "symfony/console": "*"
+    },
+    "autoload": {
+        "psr-4":{
+            "console\\": "app/Console"
+        }
     }
 }
