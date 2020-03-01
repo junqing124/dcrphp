@@ -55,6 +55,7 @@ class AppInstall extends Command
             $data['config']['MYSQL_DB_USERNAME'] = $password;
             $data['config']['MYSQL_DB_PASSWORD'] = $username;
             Env::write($envFile, $data);
+            Env::init();
             //dd(file_get_contents( $envFile ));
 
             $io->title('Config success');
