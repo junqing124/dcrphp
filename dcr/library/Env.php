@@ -20,6 +20,10 @@ class ENV
     static function init()
     {
         $envPath = self::$path;
+        if ( ! file_exists($envPath)) {
+            //use the example
+            $envPath = ROOT_APP . DS . '..' . DS . 'env.example';
+        }
         if (file_exists($envPath)) {
             $autodetect = ini_get('auto_detect_line_endings');
             ini_set('auto_detect_line_endings', '1');
@@ -32,7 +36,7 @@ class ENV
                 putenv(trim($envConfig));
             }
         } else {
-            throw new \Exception('evn file does not exists');
+            throw new \Exception($envPath . ' file does not exists');
         }
     }
 
@@ -59,7 +63,7 @@ class ENV
             $iniWriter = new IniWriter();
             $iniWriter->writeToFile($envFile, $data);
         } else {
-            throw new \Exception($envFile . ' can not writed');
+            throw new \Exception($envFile . ' can not writed or not exists');
         }
     }
 }
