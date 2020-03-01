@@ -32,9 +32,7 @@ class AppInstall extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        var_dump(ini_get('safe_mode'));
-        var_dump(putenv("PHP_a=b"));
-        var_dump(getenv('PHP_a'));
+        var_dump( env('MYSQL_DB_HOST') );
         exit;
         //start install
         //change the env
