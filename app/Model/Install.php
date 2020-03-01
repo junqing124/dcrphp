@@ -12,7 +12,7 @@ class Install
      * 执行某个目录下的sql文件
      * @param $sqlPath
      * @return bool
-     * @throws 
+     * @throws
      */
     function executeSqlFiles($sqlPath)
     {
@@ -27,16 +27,6 @@ class Install
         foreach ($sqlFileList as $sqlFile) {
             if (pathinfo($sqlFile, PATHINFO_EXTENSION) === 'sql') {
                 $sqlFilename = $sqlPath . DS . $sqlFile;
-                echo $username;
-                echo '-';
-                echo $password;
-                echo '-';
-                echo $database;
-                echo '-';
-                echo $host;
-                echo '-';
-                echo $port;
-                echo '-';
                 new Import($sqlFilename, $username, $password, $database, $host . ':' . $port);
             }
         }

@@ -1,1 +1,1 @@
-INSERT INTO `zq_user_role` VALUES (2,'','文章编辑',1583034640,1583034640,1,'',1);
+INSERT IGNORE INTO `zq_user_role` VALUES (2,'','文章编辑',1583034640,1583034640,1,'',1);
