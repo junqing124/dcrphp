@@ -32,8 +32,8 @@ class AppInstall extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        var_dump( ini_get('memory_limit') );
-        var_dump( ini_get('safe_mode_allowed_env_vars') );
+        putenv("a = b");
+        echo getenv('a');
         exit;
         //start install
         //change the env
