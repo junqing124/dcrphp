@@ -31,7 +31,7 @@ class ENV
             ini_set('auto_detect_line_endings', $autodetect);
 
             var_dump( $envPath );
-            dd(file_get_contents($envPath));
+            var_dump(file_get_contents($envPath));
             dd($envLines);
             foreach ($envLines as $envConfig) {
                 $envConfig = str_replace('"', '', $envConfig);
