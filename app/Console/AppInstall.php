@@ -55,15 +55,20 @@ class AppInstall extends Command
             $data['config']['MYSQL_DB_USERNAME'] = $password;
             $data['config']['MYSQL_DB_PASSWORD'] = $username;
             Env::write($envFile, $data);
+
+            //重新加载配置
             Env::init();
+            $container = container();
+            $config = $container->make(\dcr\Config::class);
+            $config->loadConfig();
+            $container->instance(\dcr\Config::class, $config);
+
             //dd(file_get_contents( $envFile ));
 
             $io->title('Config success');
             $io->title('Sql import start');
 
-            //用原始的创建
-            $conn = mysqli_connect($host, $username, $password, '', $port);
-            mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS `{$database}` /*zt_id=1*/");
+            DB::exec("CREATE DATABASE IF NOT EXISTS `{$database}` /*zt_id=1*/");
 
             $sqlFilePath = ROOT_APP . DS . 'Console' . DS . 'sql' . DS . 'install';
             $install = new Install();
@@ -79,11 +84,9 @@ class AppInstall extends Command
                     unset($tableNameArr[0]);
                     $tableName = implode('_', $tableNameArr);
                     $truncateSql = "truncate table {$tableName}/*zt_id=0*/";
-                    mysqli_query($conn, $truncateSql);
+                    DB::exec($truncateSql);
                 }
             }
-
-            var_dump(env('MYSQL_DB_HOST'));
 
             //添加role
             $info = array(
