@@ -32,6 +32,8 @@ class AppInstall extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        var_dump( ini_get('safe_mode_allowed_env_vars') );
+        exit;
         //start install
         //change the env
         $envFileExample = ROOT_APP . DS . '..' . DS . 'env.example';
