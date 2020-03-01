@@ -32,11 +32,7 @@ class AppInstall extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        Env::init();
-        var_dump( env('MYSQL_DB_HOST') );
-        exit;
-        //start install
-        //change the env
+
         $envFileExample = ROOT_APP . DS . '..' . DS . 'env.example';
         $envFile = ROOT_APP . DS . '..' . DS . 'env';
 
@@ -85,6 +81,8 @@ class AppInstall extends Command
                     mysqli_query($conn, $truncateSql);
                 }
             }
+
+            var_dump(env('MYSQL_DB_HOST'));
 
             //添加role
             $info = array(
