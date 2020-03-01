@@ -13,12 +13,13 @@ addons:
     packages:
       - mysql-server
       - mysql-client
+
 branches:
   only:
     - master
 
 before_install:
-  - mysql --version
+  - service mysql start
   - touch env
   - echo "error_reporting = E_ALL ^ E_NOTICE" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "USE mysql;\nUPDATE user SET authentication_string=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
