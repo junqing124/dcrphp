@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/junqing124/dcrcms.svg?branch=master)](https://travis-ci.org/junqing124/dcrcms)  
 安装：  
 进入根目录执行:  
 composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/  
