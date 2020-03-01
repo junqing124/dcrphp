@@ -5,7 +5,13 @@ php:
 
 services:
   - mysql
-
+  -
+addons:
+  apt:
+    packages:
+      - mysql-server-8.0
+      - mysql-client-core-8.0
+      - mysql-client-8.0
 branches:
   only:
     - master
