@@ -32,8 +32,8 @@ class AppInstall extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        putenv("a=b");
-        echo getenv('a');
+        apache_setenv("a=b");
+        echo apache_getenv('a');
         exit;
         //start install
         //change the env

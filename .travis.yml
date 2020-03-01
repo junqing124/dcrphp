@@ -25,4 +25,4 @@ install:
 
 script:
   - php dcrphp app:install 127.0.0.1 3306 root root dcrphp
-  - php dcrphp app:demo
+  #- php dcrphp app:demo
