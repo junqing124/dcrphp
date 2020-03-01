@@ -34,7 +34,7 @@ class AppInstall extends Command
     {
         var_dump(ini_get('safe_mode'));
         var_dump(putenv("PHP_a=b"));
-        echo getenv('PHP_a');
+        var_dump(getenv('PHP_a'));
         exit;
         //start install
         //change the env
