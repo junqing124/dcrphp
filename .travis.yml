@@ -19,7 +19,7 @@ branches:
     - master
 
 before_install:
-  - service mysql start
+  - systemctl restart mysql
   - touch env
   - echo "error_reporting = E_ALL ^ E_NOTICE" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "USE mysql;\nUPDATE user SET authentication_string=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
@@ -28,5 +28,5 @@ install:
   - composer install --prefer-dist --optimize-autoloader --quiet
 
 script:
-  - php dcrphp app:install localhost 3306 root root dcrphp
+  - php dcrphp app:install 127.0.0.1 3306 root root dcrphp
   - php dcrphp app:demo
