@@ -79,7 +79,7 @@ class AppInstall extends Command
                     unset($tableNameArr[0]);
                     $tableName = implode('_', $tableNameArr);
                     $truncateSql = "truncate table {$tableName}/*zt_id=0*/";
-                    DB::exec($truncateSql);
+                    mysqli_query($conn, $truncateSql);
                 }
             }
 

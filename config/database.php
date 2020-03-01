@@ -5,9 +5,6 @@
  * Date: 2019/7/28
  * Time: 19:58
  */
-use dcr\ENV;
-empty( env('DB_TYPE','') ) ? ENV::init() : env('DB_TYPE','');
-empty( env('MYSQL_DB_HOST','') ) ? ENV::init() : env('MYSQL_DB_HOST','');
 return array(
     'type'=> env('DB_TYPE',''),
     'mysql' =>
