@@ -30,6 +30,7 @@ class ENV
             $envLines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             ini_set('auto_detect_line_endings', $autodetect);
 
+            dd($envLines);
             foreach ($envLines as $envConfig) {
                 $envConfig = str_replace('"', '', $envConfig);
                 $envConfig = str_replace(' = ', '=', $envConfig);
