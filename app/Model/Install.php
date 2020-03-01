@@ -27,8 +27,8 @@ class Install
         foreach ($sqlFileList as $sqlFile) {
             if (pathinfo($sqlFile, PATHINFO_EXTENSION) === 'sql') {
                 $sqlFilename = $sqlPath . DS . $sqlFile;
-                echo $sqlFilename;
-                echo '-';
+                //echo $sqlFilename;
+                //echo '-';
                 new Import($sqlFilename, $username, $password, $database, $host . ':' . $port);
             }
         }

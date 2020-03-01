@@ -72,6 +72,7 @@ class AppInstall extends Command
             $io->title('Sql import end');
             $io->title('Initial start');
 
+            var_dump( $sqlFilePath );
             $sqlFileList = scandir($sqlFilePath);
             foreach ($sqlFileList as $sqlFile) {
                 if (pathinfo($sqlFile, PATHINFO_EXTENSION) === 'sql') {
