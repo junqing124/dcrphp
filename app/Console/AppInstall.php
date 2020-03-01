@@ -32,6 +32,7 @@ class AppInstall extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        var_dump(ini_get('safe_mode'));
         var_dump(putenv("PHP_a=b"));
         echo getenv('PHP_a');
         exit;
