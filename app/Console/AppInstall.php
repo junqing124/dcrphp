@@ -3,6 +3,7 @@
 namespace app\Console;
 
 use app\Admin\Model\User as MUser;
+use app\Model\Install;
 use dcr\Env;
 use dcr\Db;
 use Symfony\Component\Console\Command\Command;
@@ -10,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Thamaraiselvam\MysqlImport\Import;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class AppInstall extends Command
 {
@@ -36,7 +38,10 @@ class AppInstall extends Command
         $envFile = ROOT_APP . DS . '..' . DS . 'env';
 
         try {
-            echo "Config start \r\n";
+            $io = new SymfonyStyle($input, $output);
+
+            $io->title('Config start');
+            //$output->writeln();
             $data = Env::getData($envExampleFile);
 
             $host = $input->getArgument('host');
@@ -50,23 +55,25 @@ class AppInstall extends Command
             $data['config']['MYSQL_DB_DATABASE'] = $database;
             $data['config']['MYSQL_DB_USERNAME'] = $password;
             $data['config']['MYSQL_DB_PASSWORD'] = $username;
+            Env::write($envFile, $data);
 
-            Env::write($envFile, $data );
-            echo "Config success \r\n";
-            echo "Sql import start \r\n";
+            $io->title('Config success');
+            $io->title('Sql import start');
+
+            //用原始的创建
+            $conn = mysqli_connect($host, $username, $password, '', $port);
+            mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS `{$database}` /*zt_id=1*/");
+
             $sqlFilePath = ROOT_APP . DS . 'Console' . DS . 'sql' . DS . 'install';
+            $install = new Install();
+            $install->executeSqlFiles($sqlFilePath);
+
+            $io->title('Sql import end');
+            $io->title('Initial start');
+
             $sqlFileList = scandir($sqlFilePath);
             foreach ($sqlFileList as $sqlFile) {
-                if ( pathinfo($sqlFile, PATHINFO_EXTENSION) === 'sql') {
-                    $sqlFilename = $sqlFilePath . DS . $sqlFile;
-                    new Import($sqlFilename, $username, $password, $database, $host . ':' . $port);
-                }
-            }
-            echo "Sql import end \r\n";
-            echo "Initial start \r\n";
-
-            foreach ($sqlFileList as $sqlFile) {
-                if ( pathinfo($sqlFile, PATHINFO_EXTENSION) === 'sql') {
+                if (pathinfo($sqlFile, PATHINFO_EXTENSION) === 'sql') {
                     $tableNameArr = explode('_', pathinfo($sqlFile)['filename']);
                     unset($tableNameArr[0]);
                     $tableName = implode('_', $tableNameArr);
@@ -74,8 +81,16 @@ class AppInstall extends Command
                 }
             }
 
-            //初始化user
+            //添加role
+            $info = array(
+                'ur_name' => post('系统管理员'),
+                'ur_note' => post('系统最高权限')
+            );
 
+            $user = new MUser();
+            $roleId = $user->addRole($info);
+
+            //初始化user
             $userInfo = array(
                 'u_username' => 'admin',
                 'u_password' => '123456',
@@ -84,6 +99,7 @@ class AppInstall extends Command
                 'u_tel' => '',
                 'u_note' => '管理员',
                 'zt_id' => 1,
+                'roles' => array($roleId),
             );
             //返回
             $type = 'add';
@@ -92,8 +108,9 @@ class AppInstall extends Command
             //dd(get());
             $user = new MUser();
             $user->addEditUser($userInfo, $type);
-            echo "Initial end \r\n";
-            echo "Install success, you can login in by host/admin/index/index admin,123456";
+
+            $io->title('Initial end');
+            $io->title('Install success, you can login in by host/admin/index/index admin,123456');
 
         } catch (\Exception $e) {
             throw $e;

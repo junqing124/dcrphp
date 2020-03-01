@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class MakeConsole extends Command
+class ConsoleMake extends Command
 {
     public function __construct()
     {
@@ -17,7 +17,7 @@ class MakeConsole extends Command
 
     protected function configure()
     {
-        $this->setName('make:console'); //注意这个是命令行
+        $this->setName('console:make'); //注意这个是命令行
         $this->addArgument('consoleName', InputArgument::REQUIRED, 'console name');
     }
 

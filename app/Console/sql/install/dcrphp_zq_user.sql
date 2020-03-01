@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: zhanqun
+-- Host: localhost    Database: zhanqqq11
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -42,7 +42,7 @@ CREATE TABLE `zq_user` (
   `u_edit_user_id` smallint(5) DEFAULT NULL,
   PRIMARY KEY (`u_id`),
   UNIQUE KEY `uidx_uz` (`u_username`,`zt_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,7 +51,7 @@ CREATE TABLE `zq_user` (
 
 LOCK TABLES `zq_user` WRITE;
 /*!40000 ALTER TABLE `zq_user` DISABLE KEYS */;
-INSERT INTO `zq_user` VALUES (18,'李四',NULL,'2cbcaca9eb5b33449711c7f43dea832f',1,1569167591,1569167591,NULL,0,NULL,1,1,'15718126135','','',NULL,NULL),(21,'qqqq',NULL,'c0b40ca56d2fa7d6f4b88ff47e8b03e2',1,1569986820,1569986820,NULL,0,NULL,1,1,'15718126135','','',NULL,NULL),(29,'system_admin',NULL,'dcJ49.bznhA7c',1,1570033263,1570033263,'unknown',5,1582597191,1,1,'15718126135','','',NULL,NULL),(30,'dsfsfsfds',NULL,'d4d8b3f2135e2a9b1aa1c5ae4dc39ad7',1,1570033405,1570069928,NULL,0,NULL,1,2,'15718126135','','',NULL,NULL),(35,'system_admin1',NULL,'2cbcaca9eb5b33449711c7f43dea832f',1,1570108977,1570108977,NULL,0,NULL,0,1,'15718126131','11','21',30,30),(36,'asdfsfadf',NULL,'',1,1580046598,1582599137,NULL,0,NULL,1,1,'15718126135','','',29,29),(37,'adfsfafd',NULL,'',1,1582599637,1582599722,NULL,0,NULL,1,1,'15718126135','','',29,29);
+INSERT INTO `zq_user` VALUES (1,'admin',NULL,'dcJ49.bznhA7c',1,1582975320,1582975320,NULL,0,NULL,1,1,'15718126135','','管理员',0,NULL),(2,'张三',NULL,'',1,1583034580,1583034651,NULL,0,NULL,1,1,'15718126135','','测试用户1',1,1),(3,'李四',NULL,'dciMMVvAhRqFk',1,1583034614,1583034614,NULL,0,NULL,1,2,'15718126135','8420124','',1,NULL);
 /*!40000 ALTER TABLE `zq_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -64,4 +64,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-25 11:10:28
+-- Dump completed on 2020-03-01 15:40:00

@@ -47,7 +47,7 @@ abstract class ConnectorDriver
     function query($sql)
     {
         if (!$this->checkZtId($sql)) {
-            throw new \Exception('没有帐套ID:' . $sql);
+            throw new \Exception('not found zt_id:' . $sql);
         }
         $this->lastSql = $sql;
         $result = $this->pdo->query($sql);

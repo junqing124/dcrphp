@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: zhanqun
+-- Host: localhost    Database: zhanqqq11
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -35,7 +35,7 @@ CREATE TABLE `zq_model_list` (
   `ml_model_name` varchar(45) DEFAULT NULL,
   `ml_view_nums` int(11) DEFAULT '0' COMMENT '浏览次数',
   PRIMARY KEY (`ml_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `zq_model_list` (
 
 LOCK TABLES `zq_model_list` WRITE;
 /*!40000 ALTER TABLE `zq_model_list` DISABLE KEYS */;
-INSERT INTO `zq_model_list` VALUES (1,0,1580915764,0,29,1,'1','',10,'news',1),(2,0,1580915823,0,29,1,'1','',10,'news',0),(3,0,1580915854,0,29,1,'1','',10,'news',0),(4,1580915910,1580915910,0,29,1,'1','',10,'news',0),(7,1580916569,1580916569,0,29,1,'1','',10,'news',1),(8,1580916674,1580916674,0,29,1,'1','',10,'news',0),(9,1580916978,1580916978,0,29,1,'1','',10,'news',0),(10,1580917030,1580917030,0,29,1,'1','',13,'news',0),(11,1580917364,1580917364,0,29,1,'1','',13,'news',1),(12,1580917440,1580917440,0,29,1,'1','',10,'news',1),(13,1580917462,1580917462,0,29,1,'12312','',10,'news',0),(14,1581050115,1581050115,0,29,1,'1','uploads\\2020-02-07\\15810501155e3ce90376020.png',16,'news',1),(15,1581050144,1581050144,0,29,1,'1','uploads\\2020-02-07\\15810501445e3ce9205d218.png',10,'product',2),(16,1581090139,1581090139,0,29,1,'test','uploads\\2020-02-07\\15810901395e3d855b42499.png',13,'news',4),(17,1581090307,1581328135,0,29,1,'1231211','uploads\\2020-02-10\\15813281315e412703f3754.gif',13,'news',1),(18,1581091366,1581091366,0,29,1,'fdsfs','uploads\\2020-02-08\\15810913665e3d8a26a8589.png',16,'product',4),(19,1581091592,1581091592,0,29,1,'21312','',14,'product',0),(20,1581328221,1581328858,0,29,1,'11','uploads\\2020-02-10\\15813282215e41275d5ae41.png',16,'product',3),(21,1582338072,1582338072,0,29,1,'test',NULL,26,'help',8),(22,1582356084,1582356084,0,29,1,'dsfdsfsd',NULL,26,'help',9),(23,1582356091,1582356091,0,29,1,'sdfdsfdsf',NULL,26,'help',41);
+INSERT INTO `zq_model_list` VALUES (1,1583047462,1583047764,0,1,1,'dcrphp系统说明',NULL,7,'news',0),(2,1583047567,1583047758,0,1,1,'文档中心',NULL,6,'news',0),(3,1583047863,1583047863,0,1,1,'影响亚马逊广告展示的主要因素有哪些？',NULL,4,'news',0),(4,1583047943,1583047943,0,1,1,'站内广告优化策略：ACOS应该这样解读才合适',NULL,4,'news',0),(5,1583048162,1583048162,0,1,1,'关于我们',NULL,8,'info',0),(6,1583048197,1583048197,0,1,1,'联系我们',NULL,8,'info',0);
 /*!40000 ALTER TABLE `zq_model_list` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-25 11:10:28
+-- Dump completed on 2020-03-01 15:40:00

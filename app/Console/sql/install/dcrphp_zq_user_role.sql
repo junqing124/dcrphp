@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: zhanqun
+-- Host: localhost    Database: zhanqqq11
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -16,33 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zq_config_base`
+-- Table structure for table `zq_user_role`
 --
 
-DROP TABLE IF EXISTS `zq_config_base`;
+DROP TABLE IF EXISTS `zq_user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `zq_config_base` (
-  `cb_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cb_add_time` int(11) NOT NULL,
-  `cb_update_time` int(11) NOT NULL,
-  `cb_approval_status` tinyint(4) NOT NULL,
-  `cb_add_user_id` smallint(6) NOT NULL,
-  `zt_id` smallint(6) NOT NULL,
-  `cb_name` varchar(45) NOT NULL DEFAULT '配置名',
-  `cb_value` varchar(150) NOT NULL DEFAULT '配置值',
-  PRIMARY KEY (`cb_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+CREATE TABLE `zq_user_role` (
+  `ur_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ur_permissions` varchar(200) CHARACTER SET utf8 NOT NULL,
+  `ur_name` varchar(45) CHARACTER SET utf8 NOT NULL,
+  `ur_add_time` int(11) NOT NULL,
+  `ur_update_time` int(11) NOT NULL,
+  `ur_add_user_id` smallint(6) NOT NULL,
+  `ur_note` varchar(45) DEFAULT NULL,
+  `zt_id` tinyint(1) NOT NULL,
+  PRIMARY KEY (`ur_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zq_config_base`
+-- Dumping data for table `zq_user_role`
 --
 
-LOCK TABLES `zq_config_base` WRITE;
-/*!40000 ALTER TABLE `zq_config_base` DISABLE KEYS */;
-INSERT INTO `zq_config_base` VALUES (3,1580049348,1580309882,0,29,1,'site_name','asd1112123');
-/*!40000 ALTER TABLE `zq_config_base` ENABLE KEYS */;
+LOCK TABLES `zq_user_role` WRITE;
+/*!40000 ALTER TABLE `zq_user_role` DISABLE KEYS */;
+INSERT INTO `zq_user_role` VALUES (1,'','系统管理员',1583034322,1583034322,1,'',1),(2,'','文章编辑',1583034640,1583034640,1,'',1);
+/*!40000 ALTER TABLE `zq_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-25 11:10:29
+-- Dump completed on 2020-03-01 15:40:00

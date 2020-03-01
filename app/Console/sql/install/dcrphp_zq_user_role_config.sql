@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: zhanqun
+-- Host: localhost    Database: zhanqqq11
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -16,35 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zq_config_model`
+-- Table structure for table `zq_user_role_config`
 --
 
-DROP TABLE IF EXISTS `zq_config_model`;
+DROP TABLE IF EXISTS `zq_user_role_config`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `zq_config_model` (
-  `cm_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cm_add_time` int(11) NOT NULL,
-  `cm_update_time` int(11) NOT NULL,
-  `cm_approval_status` tinyint(4) NOT NULL,
-  `cm_add_user_id` smallint(6) NOT NULL,
+CREATE TABLE `zq_user_role_config` (
+  `urc_id` int(11) NOT NULL AUTO_INCREMENT,
+  `urc_add_time` int(11) NOT NULL,
+  `urc_update_time` int(11) NOT NULL,
+  `urc_approval_status` tinyint(4) NOT NULL,
+  `urc_add_user_id` smallint(6) NOT NULL,
   `zt_id` smallint(6) NOT NULL,
-  `cm_key` varchar(45) DEFAULT NULL,
-  `cm_dec` varchar(45) DEFAULT NULL,
-  `cm_model_name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`cm_id`),
-  UNIQUE KEY `uidx_mk` (`cm_model_name`,`cm_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+  `urc_u_id` int(11) DEFAULT NULL COMMENT '用户ID',
+  `urc_r_id` int(11) DEFAULT NULL COMMENT '角色id',
+  PRIMARY KEY (`urc_id`),
+  UNIQUE KEY `uidx_ru` (`urc_u_id`,`urc_r_id`,`zt_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户的角色配置';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zq_config_model`
+-- Dumping data for table `zq_user_role_config`
 --
 
-LOCK TABLES `zq_config_model` WRITE;
-/*!40000 ALTER TABLE `zq_config_model` DISABLE KEYS */;
-INSERT INTO `zq_config_model` VALUES (4,1580140310,1581489348,0,29,1,'pk1','p1','product'),(6,1580140310,1581489348,0,29,1,'','','info'),(7,1580140392,1581489348,0,29,1,'pk3','p2','product'),(10,1580215091,1581489348,0,29,1,'pk4','p3','product'),(11,1580306832,1581489348,0,29,1,'b','a','news'),(12,1580306845,1581489348,0,29,1,'c','a','news'),(13,1580306856,1581489348,0,29,1,'d','d','news'),(14,1580307683,1581489348,0,29,1,'e','e','news'),(15,1581489348,1581489348,0,29,1,'f','f','news');
-/*!40000 ALTER TABLE `zq_config_model` ENABLE KEYS */;
+LOCK TABLES `zq_user_role_config` WRITE;
+/*!40000 ALTER TABLE `zq_user_role_config` DISABLE KEYS */;
+INSERT INTO `zq_user_role_config` VALUES (2,1583034614,1583034614,0,1,1,3,1),(3,1583034651,1583034651,0,1,1,2,2);
+/*!40000 ALTER TABLE `zq_user_role_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -56,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-25 11:10:28
+-- Dump completed on 2020-03-01 15:40:00
