@@ -34,7 +34,7 @@ class AppInstall extends Command
     {
         //start install
         //change the env
-        $envExampleFile = ROOT_APP . DS . '..' . DS . 'env.example';
+        $envFileExample = ROOT_APP . DS . '..' . DS . 'env.example';
         $envFile = ROOT_APP . DS . '..' . DS . 'env';
 
         try {
@@ -42,7 +42,7 @@ class AppInstall extends Command
 
             $io->title('Config start');
             //$output->writeln();
-            $data = Env::getData($envExampleFile);
+            $data = Env::getData($envFileExample);
 
             $host = $input->getArgument('host');
             $port = $input->getArgument('port');
@@ -56,6 +56,7 @@ class AppInstall extends Command
             $data['config']['MYSQL_DB_USERNAME'] = $password;
             $data['config']['MYSQL_DB_PASSWORD'] = $username;
             Env::write($envFile, $data);
+            dd(file_get_contents( $envFile ));
 
             $io->title('Config success');
             $io->title('Sql import start');
