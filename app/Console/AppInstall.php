@@ -76,11 +76,14 @@ class AppInstall extends Command
             dd( $sqlFileList );
             foreach ($sqlFileList as $sqlFile) {
                 echo $sqlFile;
+                dd(pathinfo($sqlFile, PATHINFO_EXTENSION));
                 if (pathinfo($sqlFile, PATHINFO_EXTENSION) === 'sql') {
                     $tableNameArr = explode('_', pathinfo($sqlFile)['filename']);
                     unset($tableNameArr[0]);
                     $tableName = implode('_', $tableNameArr);
-                    DB::exec("truncate table {$tableName}/*zt_id=0*/");
+                    $truncateSql = "truncate table {$tableName}/*zt_id=0*/";
+                    echo $truncateSql;
+                    DB::exec($truncateSql);
                 }
             }
 
