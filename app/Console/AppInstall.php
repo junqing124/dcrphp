@@ -68,7 +68,9 @@ class AppInstall extends Command
             $io->title('Config success');
             $io->title('Sql import start');
 
-            DB::exec("CREATE DATABASE IF NOT EXISTS `{$database}` /*zt_id=1*/");
+            //用原始的创建
+            $conn = mysqli_connect($host, $username, $password, '', $port);
+            mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS `{$database}` /*zt_id=1*/");
 
             $sqlFilePath = ROOT_APP . DS . 'Console' . DS . 'sql' . DS . 'install';
             $install = new Install();
