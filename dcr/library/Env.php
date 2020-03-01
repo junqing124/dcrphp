@@ -32,7 +32,7 @@ class ENV
                 putenv(trim($envConfig));
             }
         } else {
-            throw new Exception('evn file does not exists');
+            throw new \Exception('evn file does not exists');
         }
     }
 
@@ -49,7 +49,7 @@ class ENV
             $iniReader = new IniReader();
             return $iniReader->readFile($envPath);
         } else {
-            throw new Exception($envPath . ' file does not exists');
+            throw new \Exception($envPath . ' file does not exists');
         }
     }
 
@@ -59,7 +59,7 @@ class ENV
             $iniWriter = new IniWriter();
             $iniWriter->writeToFile($envFile, $data);
         } else {
-            throw new Exception($envFile . ' can not writed');
+            throw new \Exception($envFile . ' can not writed');
         }
     }
 }

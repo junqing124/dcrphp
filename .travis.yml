@@ -13,10 +13,13 @@ branches:
   only:
     - master
 
+before_install:
+  - echo "error_reporting = E_ALL ^ E_NOTICE" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+
 install:
   - composer install --prefer-dist --optimize-autoloader --quiet
 
 script:
-  - composer install -vvv
   - php dcrphp app:install 127.0.0.1 3306 root root dcrphp
   - php dcrphp app:demo
