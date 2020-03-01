@@ -32,7 +32,7 @@ class AppInstall extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        putenv("a = b");
+        putenv("a=b");
         echo getenv('a');
         exit;
         //start install
