@@ -55,9 +55,6 @@ class Db extends DcrBase
         if (empty($name)) {
             $name = md5(serialize($config));
         }
-        if(empty($config['driver'])){
-            $config['driver'] = 'mysql';
-        }
 
         $class = '\\dcr\\database\\connector\\' . ucwords($config['driver']);
 

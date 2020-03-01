@@ -31,8 +31,6 @@ class Mysql extends ConnectorDriver
         $username = $config['username'];
         $password = $config['password'];
         try {
-            dd($this->config);
-            var_dump($dsn);
             $pdo = new \PDO($dsn, $username, $password);
             $this->pdo = $pdo;
         } catch (PDOException $e) {
