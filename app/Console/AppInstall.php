@@ -32,6 +32,7 @@ class AppInstall extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        Env::init();
         var_dump( env('MYSQL_DB_HOST') );
         exit;
         //start install
