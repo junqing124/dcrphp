@@ -19,7 +19,7 @@ class ENV
     static function init()
     {
         $envPath = self::$path;
-        if ( ! file_exists($envPath)) {
+        if (!file_exists($envPath)) {
             //use the example
             $envPath = ROOT_APP . DS . '..' . DS . 'env.example';
         }
@@ -58,11 +58,16 @@ class ENV
 
     static function write($envFile, $data)
     {
+        if (!file_exists($envFile)) {
+            file_put_contents($envFile, '');
+        } else {
+            throw new \Exception($envFile . ' can not be created');
+        }
         if (file_exists($envFile)) {
             $iniWriter = new IniWriter();
             $iniWriter->writeToFile($envFile, $data);
         } else {
-            throw new \Exception($envFile . ' can not writed or not exists');
+            throw new \Exception($envFile . ' can not writed');
         }
     }
 }

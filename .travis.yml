@@ -15,7 +15,6 @@ branches:
     - master
 
 before_install:
-  - touch env
   - mysql --version
   - echo "error_reporting = E_ALL ^ E_NOTICE" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "USE mysql;\nUPDATE user SET authentication_string=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root -h 127.0.0.1

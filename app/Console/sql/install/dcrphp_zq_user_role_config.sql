@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: zhanqqq11
+-- Host: localhost    Database: zhanqqq123
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -42,7 +42,7 @@ CREATE TABLE `zq_user_role_config` (
 
 LOCK TABLES `zq_user_role_config` WRITE;
 /*!40000 ALTER TABLE `zq_user_role_config` DISABLE KEYS */;
-INSERT INTO `zq_user_role_config` VALUES (2,1583034614,1583034614,0,1,1,3,1),(3,1583034651,1583034651,0,1,1,2,2);
+INSERT  IGNORE INTO `zq_user_role_config` VALUES (1,1583049406,1583049406,0,0,1,1,0),(2,1583034614,1583034614,0,1,1,3,1),(3,1583034651,1583034651,0,1,1,2,2);
 /*!40000 ALTER TABLE `zq_user_role_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-01 15:40:00
+-- Dump completed on 2020-03-02 15:05:27

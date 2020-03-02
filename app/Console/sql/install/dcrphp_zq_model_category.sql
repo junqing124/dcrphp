@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: zhanqqq11
+-- Host: localhost    Database: zhanqqq123
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -42,7 +42,7 @@ CREATE TABLE `zq_model_category` (
 
 LOCK TABLES `zq_model_category` WRITE;
 /*!40000 ALTER TABLE `zq_model_category` DISABLE KEYS */;
-INSERT INTO `zq_model_category` VALUES (1,1583047244,1583047244,0,1,1,'news','系统',0),(3,1583047705,1583047705,0,1,1,'news','跨境电商',0),(4,1583047723,1583047723,0,1,1,'news','亚马逊',3),(5,1583047733,1583047733,0,1,1,'news','速卖通',3),(6,1583047741,1583047741,0,1,1,'news','帮助',1),(7,1583047748,1583047748,0,1,1,'news','介绍',1),(8,1583048110,1583048110,0,1,1,'info','基础',0);
+INSERT  IGNORE INTO `zq_model_category` VALUES (1,1583047244,1583047244,0,1,1,'news','系统',0),(3,1583047705,1583047705,0,1,1,'news','跨境电商',0),(4,1583047723,1583047723,0,1,1,'news','亚马逊',3),(5,1583047733,1583047733,0,1,1,'news','速卖通',3),(6,1583047741,1583047741,0,1,1,'news','帮助',1),(7,1583047748,1583047748,0,1,1,'news','介绍',1),(8,1583048110,1583048110,0,1,1,'info','基础',0);
 /*!40000 ALTER TABLE `zq_model_category` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-01 15:40:00
+-- Dump completed on 2020-03-02 15:05:27

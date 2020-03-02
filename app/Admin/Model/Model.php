@@ -80,11 +80,18 @@ class Model
     }
 
     /**
-     * @param $option 同select的搜索
+     * @param array $option 同select的搜索
      * @return mixed
      */
-    function getList($option)
+    function getList($option = array())
     {
+        $join = array();
+        if ($option['requestAddition']) {
+            $join = array('table' => 'zq_model_addition', 'type' => 'left', 'condition' => 'ma_ml_id=ml_id');
+        }
+        if(count($join)){
+            $option['join'][] = $join;
+        }
         $option['table'] = 'zq_model_list';
         $list = DB::select($option);
         //echo DB::getLastSql();

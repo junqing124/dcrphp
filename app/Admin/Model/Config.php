@@ -127,6 +127,10 @@ class Config
                     'cm_dec' => $decList[$key],
                     'cm_model_name' => $defineName,
                 );
+                if( empty( $dbInfo['cm_key'] ) )
+                {
+                    continue;
+                }
                 $sql = "select cm_id from zq_config_model where cm_key='{$dbInfo['cm_key']}' and cm_model_name='{$dbInfo['cm_model_name']}' and zt_id={$dbInfo['zt_id']}";
                 $info = DB::query($sql);
                 //处理

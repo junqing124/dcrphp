@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: zhanqqq11
+-- Host: localhost    Database: zhanqqq123
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -43,7 +43,7 @@ CREATE TABLE `zq_config_model` (
 
 LOCK TABLES `zq_config_model` WRITE;
 /*!40000 ALTER TABLE `zq_config_model` DISABLE KEYS */;
-INSERT INTO `zq_config_model` VALUES (1,1583047085,1583047085,0,1,1,'news_key','新闻点','news'),(2,1583047085,1583047085,0,1,1,'color','颜色','product'),(3,1583047085,1583047085,0,1,1,'caizhi','材质','product'),(4,1583047085,1583047085,0,1,1,'','','info');
+INSERT  IGNORE INTO `zq_config_model` VALUES (1,1583047085,1583047085,0,1,1,'news_key','新闻点','news'),(2,1583047085,1583047085,0,1,1,'color','颜色','product'),(3,1583047085,1583047085,0,1,1,'caizhi','材质','product');
 /*!40000 ALTER TABLE `zq_config_model` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-01 15:40:00
+-- Dump completed on 2020-03-02 15:05:27
