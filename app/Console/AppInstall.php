@@ -126,6 +126,6 @@ class AppInstall extends Command
             throw $e;
         }
 
-        return 1;
+        return 0;
     }
 }
