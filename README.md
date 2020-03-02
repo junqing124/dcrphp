@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/junqing124/dcrcms.svg?branch=master)](https://travis-ci.org/junqing124/dcrcms)  
+[![Build Status](https://travis-ci.org/junqing124/dcrphp.svg?branch=master)](https://travis-ci.org/junqing124/dcrphp)  
 安装源码(下面3选1)：  
 
     1、composer create-project junqing124/dcrphp dcrphp 1.0.1
