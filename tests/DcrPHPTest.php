@@ -17,16 +17,19 @@ class DcrPHPTest extends TestCase
         $this->assertEquals(3, $userCount);
 
         //判断是不是3个有
-        $usernameList = array_keys( array_column( $userList, 'u_username', 'u_username' ) );
+        $usernameList = array_keys(array_column($userList, 'u_username', 'u_username'));
         //dd($usernameList);
-        $this->assertTrue( in_array('admin', $usernameList ) );
-        $this->assertTrue( in_array('张三', $usernameList ) );
-        $this->assertTrue( in_array('李四', $usernameList ) );
+        $this->assertTrue(in_array('admin', $usernameList));
+        $this->assertTrue(in_array('张三', $usernameList));
+        $this->assertTrue(in_array('李四', $usernameList));
 
     }
 
     function testRole()
     {
-        $this->assertTrue( false );
+        $user = new User();
+        $roleList = $user->getRoleList();
+        $this->assertEquals(2, count($roleList));
+
     }
 }

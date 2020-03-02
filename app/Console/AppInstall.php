@@ -92,8 +92,9 @@ class AppInstall extends Command
 
             //添加role
             $info = array(
-                'ur_name' => post('系统管理员'),
-                'ur_note' => post('系统最高权限')
+                'ur_name' => '系统管理员',
+                'ur_note' => '系统最高权限',
+                'zt_id' => session('ztId')
             );
 
             $user = new MUser();
