@@ -86,16 +86,8 @@ class View extends DcrBase
      */
     public function render($template = '')
     {
-        $outFormatFinal = '';
-        if (isset($this->outFormat)) {
-            $outFormatFinal = $this->outFormat;
-        }
-        global $outFormat;
-        if (isset($outFormat)) {
-            $outFormatFinal = $outFormat;
-        }
-        //dd($outFormatFinal);
-        $outFormatFinal = $outFormatFinal ? $outFormatFinal : 'html';
+        $request = container('request');
+        $outFormatFinal = $request->isAjax() ? 'ajax' : 'html';
         /*dd($this->outFormat);
         exit;*/
         if ('html' == $outFormatFinal) {

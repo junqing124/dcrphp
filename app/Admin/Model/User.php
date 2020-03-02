@@ -329,7 +329,7 @@ class User
      * @param $option 选项有order
      * @return mixed
      */
-    function getList($option)
+    function getList($option = array())
     {
         $option['table'] = 'zq_user';
         $list = DB::select($option);

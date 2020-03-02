@@ -7,6 +7,7 @@
  */
 
 namespace dcr;
+
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -78,7 +79,7 @@ class Request extends DcrBase
         if (is_null($this->pathInfo)) {
             //从REQUEST_URI取最保险
             $info = parse_url($_SERVER['REQUEST_URI']);
-            $this->pathInfo = $info['path'] ? ltrim($info['path'],'/') : '/';
+            $this->pathInfo = $info['path'] ? ltrim($info['path'], '/') : '/';
         }
         return $this->pathInfo;
     }
@@ -165,8 +166,7 @@ class Request extends DcrBase
 
         if ($name) {
             $info = $this->$type[$name] ? $this->$type[$name] : $default;
-        }else
-        {
+        } else {
             $info = $this->$type;
         }
         return $info;
@@ -180,7 +180,7 @@ class Request extends DcrBase
      *  allowFile配置可见:http://www.iana.org/assignments/media-types/media-types.xhtml
      * @return array
      */
-    function upload( $inputName, $targetDir, $ruler = array() )
+    function upload($inputName, $targetDir, $ruler = array())
     {
         $filesystem = new Filesystem();
         try {
@@ -188,7 +188,7 @@ class Request extends DcrBase
         } catch (IOExceptionInterface $exception) {
             $result = array();
             $result['ack'] = 0;
-            $result['msg'] = "自动创建目录失败: ".$exception->getPath();
+            $result['msg'] = "自动创建目录失败: " . $exception->getPath();
             return $result;
         }
 
@@ -199,19 +199,19 @@ class Request extends DcrBase
         $file->setName($newFileName);
 
         //默认的属性和大小
-        if(!isset($ruler['allowFile'])){
+        if (!isset($ruler['allowFile'])) {
             $ruler['allowFile'] = '*.*';
         }
-        if(!isset($ruler['maxSize'])){
+        if (!isset($ruler['maxSize'])) {
             $ruler['maxSize'] = '2M';
         }
 
         $fileData = array(
-            'name'       => $file->getNameWithExtension(),
-            'extension'  => $file->getExtension(),
-            'mime'       => $file->getMimetype(),
-            'size'       => $file->getSize(),
-            'md5'        => $file->getMd5(),
+            'name' => $file->getNameWithExtension(),
+            'extension' => $file->getExtension(),
+            'mime' => $file->getMimetype(),
+            'size' => $file->getSize(),
+            'md5' => $file->getMd5(),
             'dimensions' => $file->getDimensions()
         );
         /*dd($fileData);
@@ -235,4 +235,10 @@ class Request extends DcrBase
         }
         return $result;
     }
+
+    public function isAjax()
+    {
+        return isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && (strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest");
+    }
+
 }
