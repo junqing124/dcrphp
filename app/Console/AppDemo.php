@@ -38,5 +38,7 @@ class AppDemo extends Command
 
             throw $e;
         }
+
+        return 1;
     }
 }
