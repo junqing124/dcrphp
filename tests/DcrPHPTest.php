@@ -1,4 +1,6 @@
 <?php
+namespace test;
+
 require __DIR__ . '/../dcr/bootstrap/init.php';
 
 use PHPUnit\Framework\TestCase;
@@ -8,7 +10,7 @@ use app\Admin\Model\Config;
 
 class DcrPHPTest extends TestCase
 {
-    function testConfig()
+    public function testConfig()
     {
         $config = new Config();
 
@@ -21,7 +23,7 @@ class DcrPHPTest extends TestCase
         $this->assertEquals(1, count($modelConfigList['news']));
     }
 
-    function testUser()
+    public function testUser()
     {
         $user = new User();
         $userList = $user->getList();
@@ -36,10 +38,9 @@ class DcrPHPTest extends TestCase
         $this->assertTrue(in_array('admin', $usernameList));
         $this->assertTrue(in_array('张三', $usernameList));
         $this->assertTrue(in_array('李四', $usernameList));
-
     }
 
-    function testRole()
+    public function testRole()
     {
         $user = new User();
 
@@ -54,7 +55,7 @@ class DcrPHPTest extends TestCase
         $this->assertEquals(1, $userRole['urc_u_id']);
     }
 
-    function testModel()
+    public function testModel()
     {
         $model = new Model();
 
@@ -72,10 +73,10 @@ class DcrPHPTest extends TestCase
         $this->assertEquals(6, count($modelProList));
 
         //是否有以下几个标题
-        $modelTitleList = array_column( $modelProList, 'ml_title', 'ml_title' );
+        $modelTitleList = array_column($modelProList, 'ml_title', 'ml_title');
 
-        $this->assertTrue(in_array( '联系我们', $modelTitleList ));
-        $this->assertTrue(in_array( '关于我们', $modelTitleList ));
-        $this->assertTrue(in_array( '站内广告优化策略：ACOS应该这样解读才合适', $modelTitleList ));
+        $this->assertTrue(in_array('联系我们', $modelTitleList));
+        $this->assertTrue(in_array('关于我们', $modelTitleList));
+        $this->assertTrue(in_array('站内广告优化策略：ACOS应该这样解读才合适', $modelTitleList));
     }
 }
