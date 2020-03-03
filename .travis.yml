@@ -2,10 +2,10 @@ language: php
 
 php:
   - '7.0'
-  - '7.1'
-  - '7.2'
-  - '7.3'
-  - '7.4'
+  #- '7.1'
+  #- '7.2'
+  #- '7.3'
+  #- '7.4'
 
 os:
   - linux
@@ -21,12 +21,14 @@ before_install:
   - mysql --version
   - echo "error_reporting = E_ALL ^ E_NOTICE" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "USE mysql;\nUPDATE user SET authentication_string=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root -h 127.0.0.1
+  - mkdir -p build/logs # Create a folder to store clover files
 
 install:
   - composer install --prefer-dist --optimize-autoloader --quiet
+  - composer require satooshi/php-coveralls:~1.0@stable
 
 script:
   - php vendor/squizlabs/php_codesniffer/bin/phpcs -n -p --ignore=*/vendor/*,*/config/*,*/resource/* --standard=PSR2 --extensions=php --encoding=utf-8 -w -s .
   - php dcrphp app:install 127.0.0.1 3306 root root dcrphp
   - php dcrphp app:demo
-  - php vendor/phpunit/phpunit/phpunit --verbose tests/DcrPHPTest.php
+  - php vendor/phpunit/phpunit/phpunit  --coverage-clover build/logs/clover.xml --test-suffix .php --colors --report-useless-tests tests/DcrPHPTest.php
