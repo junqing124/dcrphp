@@ -31,4 +31,4 @@ script:
   - php vendor/squizlabs/php_codesniffer/bin/phpcs -n -p --ignore=*/vendor/*,*/config/*,*/resource/* --standard=PSR2 --extensions=php --encoding=utf-8 -w -s .
   - php dcrphp app:install 127.0.0.1 3306 root root dcrphp
   - php dcrphp app:demo
-  - php vendor/phpunit/phpunit/phpunit  --coverage-clover build/logs/clover.xml --test-suffix .php --colors --report-useless-tests tests/DcrPHPTest.php
+  - php vendor/phpunit/phpunit/phpunit  --coverage-clover build/logs/clover.xml --test-suffix .php --colors tests/DcrPHPTest.php
