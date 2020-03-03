@@ -7,18 +7,20 @@
  */
 
 namespace app\Admin\Controller;
+
 use Gregwar\Captcha\CaptchaBuilder;
 use dcr\Session;
+
 class Captcha
 {
     /**
      * 输出验证码
      */
-    function output()
+    public function output()
     {
         $builder = new CaptchaBuilder;
         $builder->build();
-        Session::_set('captcha',$builder->getPhrase());
+        Session::_set('captcha', $builder->getPhrase());
         header('Content-type: image/jpeg');
         $builder->output();
     }

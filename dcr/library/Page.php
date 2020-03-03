@@ -25,7 +25,7 @@ class Page
      * @param string $url 要分页的url 默认为当前页
      * @return mixed
      */
-    function __construct($cpage, $totalPage, $tpl = '', $url = '')
+    public function __construct($cpage, $totalPage, $tpl = '', $url = '')
     {
         $this->cpage = $cpage;
         $this->tatolPage = $totalPage;
@@ -40,7 +40,6 @@ class Page
             //$this->url .= ':' . $_SERVER['SERVER_PORT'];
             //}
             $this->url .= $_SERVER["REQUEST_URI"];
-
         } else {
             $this->url = $url;
         }
@@ -51,7 +50,7 @@ class Page
      * 返回生成的分页HTML
      * @return string
      */
-    function showPage()
+    public function showPage()
     {
         //显示分页
         $urlOptionStr = '';

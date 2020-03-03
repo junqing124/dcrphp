@@ -20,7 +20,7 @@ class User
     /**
      * 获取用户名长度限制
      */
-    function getUsernameLengthLimit()
+    public function getUsernameLengthLimit()
     {
         return array('min' => 2, 'max' => 20);
     }
@@ -28,7 +28,7 @@ class User
     /**
      * 获取密码长度限制
      */
-    function getPasswordLengthLimit()
+    public function getPasswordLengthLimit()
     {
         return array('min' => 6, 'max' => 20);
     }
@@ -37,7 +37,7 @@ class User
     /**
      * 获取验证码长度限制
      */
-    function getCaptchaLengthLimit()
+    public function getCaptchaLengthLimit()
     {
         return array('min' => 5, 'max' => 5);
     }
@@ -48,7 +48,7 @@ class User
      * @param $password 加密后的密码
      * @return array
      */
-    function check($username, $password)
+    public function check($username, $password)
     {
         //$passwordJm = Safe::_encrypt($password);
         $sql = "select u_id,u_is_valid,zt_id from zq_user where u_username='{$username}' and u_password='{$password}' and zt_id>0";
@@ -88,7 +88,7 @@ class User
      * @param $password
      * @return true
      */
-    function login($ztId, $userId, $username, $password)
+    public function login($ztId, $userId, $username, $password)
     {
         $timeCur = time();
         $ip = getIp();
@@ -105,7 +105,7 @@ class User
     /**
      * @return bool
      */
-    function logout()
+    public function logout()
     {
         Session::_del('ztId');
         Session::_del('userId');
@@ -124,7 +124,7 @@ class User
      * @param $user_id
      * @return array
      */
-    function updatePassword($info, $user_id = '')
+    public function updatePassword($info, $user_id = '')
     {
         $passwordNew = $info['passwordNew'];
         $passwordNewRe = $info['passwordNewRe'];
@@ -166,7 +166,7 @@ class User
      * );
      * @return array
      */
-    function addPermission(array $permissionInfo)
+    public function addPermission(array $permissionInfo)
     {
         //验证
         $stringValidator = v::stringType()->length(1, 50);
@@ -193,7 +193,7 @@ class User
      * );
      * @return array
      */
-    function addRole(array $roleInfo)
+    public function addRole(array $roleInfo)
     {
         //验证
         $stringValidator = v::stringType()->length(1, 50);
@@ -226,7 +226,7 @@ class User
      * @param string $type 添加还是编辑
      * @return array
      */
-    function addEditUser(array $userInfo, string $type = 'add')
+    public function addEditUser(array $userInfo, string $type = 'add')
     {
         $type = $type ? $type : 'add';
         //加上帐套id
@@ -278,8 +278,7 @@ class User
             $userInfo['u_add_time'] = time();
             $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
             $userInfo['u_add_user_id'] = session('userId');
-
-        } else if ('edit' == $type) {
+        } elseif ('edit' == $type) {
             if ($userInfo['u_password']) {
                 $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
             }
@@ -295,20 +294,18 @@ class User
             //开始添加用户
             $result = DB::insert('zq_user', $userInfo);
             $userId = $result;
-        } else if ('edit' == $type) {
+        } elseif ('edit' == $type) {
             $userId = $userInfo['u_id'];
             unset($userInfo['u_id']);
             unset($userInfo['u_username']);
             //清空角色
-            DB::delete('zq_user_role_config',"urc_u_id={$userId} and zt_id={$userInfo['zt_id']}");
+            DB::delete('zq_user_role_config', "urc_u_id={$userId} and zt_id={$userInfo['zt_id']}");
             $result = DB::update('zq_user', $userInfo, "u_id={$userId}");
         }
 
         //开始更新用户角色
-        if( $roles )
-        {
-            foreach( $roles as $roleKey )
-            {
+        if ($roles) {
+            foreach ($roles as $roleKey) {
                 //先判断有没有
                 $roleDbInfo = array(
                     'urc_add_time'=> time(),
@@ -329,19 +326,19 @@ class User
      * @param $option 选项有order
      * @return mixed
      */
-    function getList($option = array())
+    public function getList($option = array())
     {
         $option['table'] = 'zq_user';
         $list = DB::select($option);
         return $list;
     }
 
-    function getInfo( $username )
+    public function getInfo($username)
     {
         $option['table'] = 'zq_user';
         $option['where'] = "u_username='{$username}'";
         $list = DB::select($option);
-        $list = current( $list );
+        $list = current($list);
         return $list;
     }
 
@@ -349,7 +346,7 @@ class User
      * @param $option
      * @return mixed
      */
-    function getRoleList($option = array())
+    public function getRoleList($option = array())
     {
         $option['table'] = 'zq_user_role';
         $list = DB::select($option);
@@ -360,7 +357,7 @@ class User
      * @param $userId
      * @return mixed
      */
-    function getRoleConfigList($userId)
+    public function getRoleConfigList($userId)
     {
         $option['table'] = 'zq_user_role_config';
         $option['where'] = "urc_u_id={$userId}";
@@ -369,7 +366,7 @@ class User
     }
 
 
-    function getPermissionList($option)
+    public function getPermissionList($option)
     {
         $option['table'] = 'zq_user_permission';
         $list = DB::select($option);
@@ -381,7 +378,7 @@ class User
      * @param string $type
      * @return array
      */
-    function startOrStop($userId, $type = 'stop')
+    public function startOrStop($userId, $type = 'stop')
     {
         //验证
         $info = DB::select(array('table' => 'zq_user', 'col' => 'u_id', 'where' => "u_id={$userId}", 'limit' => 1));
@@ -403,7 +400,7 @@ class User
         return Admin::commonReturn($result);
     }
 
-    function delete($userId)
+    public function delete($userId)
     {
         //验证
         $info = DB::select(array('table' => 'zq_user', 'col' => 'u_id', 'where' => "u_id={$userId}", 'limit' => 1));
@@ -420,7 +417,7 @@ class User
         return Admin::commonReturn($result);
     }
 
-    function deleteRole($roleId)
+    public function deleteRole($roleId)
     {
         //验证
         $info = DB::select(array('table' => 'zq_user_role', 'col' => 'ur_id', 'where' => "ur_id={$roleId}", 'limit' => 1));
@@ -435,10 +432,9 @@ class User
         //返回
 
         return Admin::commonReturn($result);
-
     }
 
-    function deletePermission($permissionId)
+    public function deletePermission($permissionId)
     {
         //验证
         $info = DB::select(array('table' => 'zq_user_permission', 'col' => 'up_id', 'where' => "up_id={$permissionId}", 'limit' => 1));
@@ -453,6 +449,5 @@ class User
         //返回
 
         return Admin::commonReturn($result);
-
     }
 }

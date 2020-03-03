@@ -17,13 +17,13 @@ class Route extends DcrBase
      */
     private $rule;
 
-    function __construct()
+    public function __construct()
     {
         $this->rule = container()->make('rule');
         //$this->loadConfig();
     }
 
-    function loadConfig()
+    public function loadConfig()
     {
         $this->configDirList[] = ROOT_FRAME . DS . 'config' . DS . 'route' . DS;
         //dd($this->configDirList);

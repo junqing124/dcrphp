@@ -8,5 +8,6 @@
 
 //phpinfo();
 namespace dcr;
+
 header('Access-Control-Allow-Origin:*');
 require_once __DIR__ . '/../../dcr/bootstrap/app.php';

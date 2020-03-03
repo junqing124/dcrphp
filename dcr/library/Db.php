@@ -8,7 +8,6 @@
 
 namespace dcr;
 
-
 class Db extends DcrBase
 {
 

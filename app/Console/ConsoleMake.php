@@ -42,7 +42,6 @@ class ConsoleMake extends Command
         try {
             file_put_contents($classFile, $tpl);
             echo "We make the console,you can try it:php dcrphp {$consoleName}";
-
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }

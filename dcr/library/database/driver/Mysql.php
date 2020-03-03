@@ -7,7 +7,9 @@
  */
 
 namespace dcr\database\Driver;
+
 use dcr\Database\DatabaseDriver;
+
 class Mysql extends DatabaseDriver
 {
 

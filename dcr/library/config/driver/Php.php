@@ -7,7 +7,9 @@
  */
 
 namespace dcr\config\driver;
+
 use dcr\config\ConfigDriver;
+
 class Php implements ConfigDriver
 {
     function parse($filename)

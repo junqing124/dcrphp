@@ -20,7 +20,7 @@ use dcr\Safe;
 
 class Index
 {
-    function index()
+    public function index()
     {
         /*dd($_SESSION);
         exit;*/
@@ -41,14 +41,14 @@ class Index
      * @return mixed
      * @throws \Exception
      */
-    function welcome()
+    public function welcome()
     {
         $assignData = array();
         $assignData['page_title'] = '欢迎页面';
 
         //获取用户信息
         $user = new User();
-        $userInfo = $user->getInfo( Session::_get('username') );
+        $userInfo = $user->getInfo(Session::_get('username'));
         $assignData['user_info'] = $userInfo;
 
 
@@ -58,7 +58,7 @@ class Index
     /**
      * 退出
      */
-    function logout()
+    public function logout()
     {
         $user = new User();
         $user->logout();
@@ -75,7 +75,7 @@ class Index
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    function login(View $view)
+    public function login(View $view)
     {
         $assignData = array();
         $assignData['page_title'] = '登陆页';

@@ -66,7 +66,7 @@ class View extends DcrBase
      * 1）key value方式：assign('key', 'value')
      * 2）数组方式：assign(array('key' => 'value'))
      */
-    public function assign($var, $value = NULL)
+    public function assign($var, $value = null)
     {
         if (is_array($var)) {
             $this->data = array_merge($this->data, $var);

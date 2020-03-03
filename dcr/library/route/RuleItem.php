@@ -12,10 +12,9 @@ use dcr\DcrBase;
 
 class RuleItem extends DcrBase
 {
-    function __construct()
+    public function __construct()
     {
         //允许自定的属性列表
         parent::setAllowProperty(['model', 'controller', 'action', 'params']);
     }
-
 }

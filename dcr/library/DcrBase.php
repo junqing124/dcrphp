@@ -32,7 +32,7 @@ abstract class DcrBase
         $this->allowProperty = $allowProperty;
     }
 
-    function __get($name)
+    public function __get($name)
     {
         // TODO: Implement __get() method.
         if (in_array($name, $this->allowProperty)) {
@@ -40,7 +40,7 @@ abstract class DcrBase
         }
     }
 
-    function __set($name, $value)
+    public function __set($name, $value)
     {
         // TODO: Implement __set() method.
         if (in_array($name, $this->allowProperty)) {

@@ -8,10 +8,9 @@
 
 namespace dcr;
 
-
 class Error
 {
-    static function init()
+    public static function init()
     {
         set_error_handler([__CLASS__, 'error']);
         set_exception_handler([__CLASS__, 'exception']);
@@ -31,7 +30,7 @@ class Error
             echo "Line:" . $e->getLine() . "\r\n";
             echo "Message:" . $e->getMessage() . "\r\n";
             echo "Trace:" . $e->getTraceAsString() . "\r\n";
-        }else{
+        } else {
             $view = container('view');
             $view->assign('e_code', $e->getCode());
             $view->assign('e_file', $e->getFile());
@@ -65,7 +64,7 @@ class Error
             echo "Str:" . $errStr . "\r\n";
             echo "File:" . $errFile . "\r\n";
             echo "Line:" . $errLine . "\r\n";
-        }else{
+        } else {
             $view = container('view');
             $view->assign('err_no', $errNo);
             $view->assign('err_str', $errStr);

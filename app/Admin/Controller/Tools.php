@@ -1,11 +1,12 @@
 <?php
 
 namespace app\Admin\Controller;
+
 use app\Admin\Model\Factory;
 
 class Tools
 {
-    function tableGeneralView()
+    public function tableGeneralView()
     {
 
         $assignData = array();

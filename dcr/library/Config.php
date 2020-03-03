@@ -8,7 +8,6 @@
 
 namespace dcr;
 
-
 class Config extends DcrBase
 {
     /**

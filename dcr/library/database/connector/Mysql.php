@@ -22,7 +22,7 @@ class Mysql extends ConnectorDriver
      * @param $config 配置
      * @throws
      */
-    function __construct($config)
+    public function __construct($config)
     {
         $this->config = $config;
 
@@ -41,7 +41,7 @@ class Mysql extends ConnectorDriver
     /**
      * 返回连接串
      */
-    function getDsn()
+    public function getDsn()
     {
         $config = $this->config;
         $dsn = "mysql:dbname={$config['database']};host={$config['host']};port={$config['port']}";
@@ -49,7 +49,7 @@ class Mysql extends ConnectorDriver
         return $dsn;
     }
 
-    function __call($method, $args)
+    public function __call($method, $args)
     {
         return call_user_func_array($method, $args);
     }

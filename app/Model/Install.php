@@ -14,7 +14,7 @@ class Install
      * @return bool
      * @throws
      */
-    function executeSqlFiles($sqlPath)
+    public function executeSqlFiles($sqlPath)
     {
         ENV::init();
         $host = env('MYSQL_DB_HOST');

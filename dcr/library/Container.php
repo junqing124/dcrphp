@@ -180,9 +180,7 @@ class Container
         try {
             return $this->make($parameter->getClass()->name);
         } catch (Exception $e) {
-
             throw $e;
         }
     }
 }
-

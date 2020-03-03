@@ -14,7 +14,7 @@ use dcr\Db;
 class Config
 {
 
-    function configBase($info)
+    public function configBase($info)
     {
         foreach ($info as $key => $value) {
             $dbInfo = array(
@@ -41,7 +41,7 @@ class Config
         }
     }
 
-    function getConfigBaseList()
+    public function getConfigBaseList()
     {
         $ztId = session('ztId');
         $sql = "select cb_name,cb_value from zq_config_base where zt_id={$ztId}";
@@ -54,7 +54,7 @@ class Config
      * @param string $modelName
      * @return array
      */
-    function getConfigModelList($modelName = '')
+    public function getConfigModelList($modelName = '')
     {
         //var_dump('a');
         $ztId = session('ztId');
@@ -85,7 +85,7 @@ class Config
      * 本参数为model配置传送过来，可能无法接收独立的参数info过来
      * @return array
      */
-    function configModel($modelInfo)
+    public function configModel($modelInfo)
     {
         //判断
         //先判断key有没有重复
@@ -127,8 +127,7 @@ class Config
                     'cm_dec' => $decList[$key],
                     'cm_model_name' => $defineName,
                 );
-                if( empty( $dbInfo['cm_key'] ) )
-                {
+                if (empty($dbInfo['cm_key'])) {
                     continue;
                 }
                 $sql = "select cm_id from zq_config_model where cm_key='{$dbInfo['cm_key']}' and cm_model_name='{$dbInfo['cm_model_name']}' and zt_id={$dbInfo['zt_id']}";

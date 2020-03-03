@@ -8,7 +8,6 @@
 
 namespace dcr;
 
-
 class ClassLoader
 {
     /**
@@ -43,7 +42,7 @@ class ClassLoader
      * 包含文件.
      * @param $file 文件名
      */
-    function includeFile($file)
+    public function includeFile($file)
     {
         include_once $file;
     }

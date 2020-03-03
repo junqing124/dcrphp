@@ -19,7 +19,7 @@ class Safe extends DcrBase
      * @param $password
      * @return string
      */
-    function encrypt($password)
+    public function encrypt($password)
     {
         return crypt(md5($password), 'dcr');
     }

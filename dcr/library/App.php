@@ -15,7 +15,7 @@ class App
     /**
      * @var $phpSapiName php运行模式
      */
-    static $phpSapiName;
+    public static $phpSapiName;
     /**
      * 自动加载类
      */
@@ -64,7 +64,7 @@ class App
         return new Response($data);
     }
 
-    static function exec(RuleItem $ruleItem)
+    public static function exec(RuleItem $ruleItem)
     {
         //去除action里面的-
         $action = $ruleItem->action;
@@ -74,7 +74,7 @@ class App
         //把use留为use
         $actionArr = explode('-', $action);
         $actionList = [];
-        foreach ($actionArr as $key=>$actionStr) {
+        foreach ($actionArr as $key => $actionStr) {
             $actionList[$key] = ucfirst($actionStr);
         }
         $action = implode('', $actionList);

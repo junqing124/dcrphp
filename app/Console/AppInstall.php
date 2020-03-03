@@ -121,7 +121,6 @@ class AppInstall extends Command
 
             $io->title('Initial end');
             $io->title('Install success, you can login in by host/admin/index/index admin,123456');
-
         } catch (\Exception $e) {
             throw $e;
         }

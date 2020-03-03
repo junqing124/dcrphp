@@ -8,15 +8,14 @@
 
 namespace dcr;
 
-
 use Matomo\Ini\IniReader;
 use Matomo\Ini\IniWriter;
 
 class ENV
 {
-    static $path = ROOT_APP . DS . '..' . DS . 'env';
+    public static $path = ROOT_APP . DS . '..' . DS . 'env';
 
-    static function init()
+    public static function init()
     {
         $envPath = self::$path;
         if (!file_exists($envPath)) {
@@ -45,7 +44,7 @@ class ENV
      * @return array
      * @throws
      */
-    static function getData($envPath = '')
+    public static function getData($envPath = '')
     {
         $envPath = $envPath ? $envPath : self::$path;
         if (file_exists($envPath)) {
@@ -56,7 +55,7 @@ class ENV
         }
     }
 
-    static function write($envFile, $data)
+    public static function write($envFile, $data)
     {
         if (!file_exists($envFile)) {
             file_put_contents($envFile, '');

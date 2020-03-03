@@ -9,7 +9,7 @@ use dcr\Page;
 
 class Model
 {
-    function listView()
+    public function listView()
     {
         $assignData = array();
         $assignData['page_title'] = '列表';
@@ -19,20 +19,17 @@ class Model
         $where[] = "ml_model_name='{$modelName}'";
         //开始搜索
         $title = get('title');
-        if( $title )
-        {
+        if ($title) {
             $where[] = "ml_title like '%{$title}%'";
             $assignData['title'] = $title;
         }
         $categoryId = get('category_id');
-        if( $categoryId )
-        {
+        if ($categoryId) {
             $where[] = "ml_category_id={$categoryId}";
         }
         $dateStart = get('data_start');
         $dateEnd = get('data_end');
-        if( $dateStart && $dateEnd )
-        {
+        if ($dateStart && $dateEnd) {
             $timeStart = strtotime($dateStart);
             $timeEnd = strtotime($dateStart);
             $where[] = "ml_add_time>{$timeStart} and ml_update_time<{$timeEnd}";
@@ -41,8 +38,10 @@ class Model
         $join = array('type' => 'left', 'table' => 'zq_model_category', 'condition' => 'mc_id=ml_category_id');
         $model = new MModel();
 
-        $assignData['category_select_html'] = $model->getCategorySelectHtml($modelName,
-            array('subEnabled' => 1, 'selectId'=> $categoryId, 'selectName' => 'category_id'));
+        $assignData['category_select_html'] = $model->getCategorySelectHtml(
+            $modelName,
+            array('subEnabled' => 1, 'selectId'=> $categoryId, 'selectName' => 'category_id')
+        );
 
         $pageInfo = $model->getList(array('where' => $where, 'join' => $join, 'col' => array('count(ml_id) as num')));
         $pageTotalNum = $pageInfo[0]['num'];
@@ -75,7 +74,7 @@ class Model
         return Factory::renderPage('model/list', $assignData);
     }
 
-    function editView()
+    public function editView()
     {
         $assignData = array();
         $assignData['page_title'] = '添加/编辑';
@@ -88,8 +87,10 @@ class Model
         $modelInfo = array();
         $configModelList = current($config->getConfigModelList($modelName));
         if ('edit' == $action && $id) {
-            $modelInfo = $model->getInfo($id,
-                array('requestField' => 1, 'requestAddition' => 1, 'requestFieldDec' => 1));
+            $modelInfo = $model->getInfo(
+                $id,
+                array('requestField' => 1, 'requestAddition' => 1, 'requestFieldDec' => 1)
+            );
             //echo DB::getLastSql();
             $modelFieldList = $modelInfo['field'] ? $modelInfo['field'] : $configModelList;
         } else {
@@ -97,12 +98,14 @@ class Model
             $modelFieldList = $configModelList;
         }
         //dd($modelInfo);
-        $assignData['category_select_html'] = $model->getCategorySelectHtml($modelName,
+        $assignData['category_select_html'] = $model->getCategorySelectHtml(
+            $modelName,
             array(
                 'subEnabled' => 1,
                 'selectId' => $modelInfo['list']['ml_category_id'],
                 'selectName' => 'list_category_id'
-            ));
+            )
+        );
         //dd($modelFieldList);
         $assignData['field_list'] = $modelFieldList;
         $assignData['action'] = $action;
@@ -112,7 +115,7 @@ class Model
         return Factory::renderPage('model/edit', $assignData);
     }
 
-    function categoryView()
+    public function categoryView()
     {
         $assignData = array();
         $assignData['page_title'] = '分类列表';
@@ -126,7 +129,7 @@ class Model
         return Factory::renderPage('model/category', $assignData);
     }
 
-    function categoryEditView()
+    public function categoryEditView()
     {
         $assignData = array();
         $assignData['page_title'] = '分类编辑';
@@ -142,40 +145,40 @@ class Model
 
         $assignData['category_name'] = $categoryInfo['mc_name'];
         //dd($assignData);
-        $assignData['category_select_html'] = $model->getCategorySelectHtml($modelName,
-            array('selectId' => $categoryInfo['mc_parent_id']));
+        $assignData['category_select_html'] = $model->getCategorySelectHtml(
+            $modelName,
+            array('selectId' => $categoryInfo['mc_parent_id'])
+        );
 
         return Factory::renderPage('model/category-edit', $assignData);
-
     }
 
-    function categoryEditAjax()
+    public function categoryEditAjax()
     {
         $model = new MModel();
         $result = $model->categoryEdit(post());
         return Factory::renderJson($result);
     }
 
-    function deleteCategoryAjax()
+    public function deleteCategoryAjax()
     {
         $model = new MModel();
         $result = $model->deleteCategory(post('id'));
         return Factory::renderJson($result);
     }
 
-    function editAjax()
+    public function editAjax()
     {
         $model = new MModel();
         $result = $model->edit();
         return Factory::renderJson($result);
     }
 
-    function deleteAjax()
+    public function deleteAjax()
     {
         $model = new MModel();
         $id = post('id');
         $result = $model->delete($id);
         return Factory::renderJson($result);
     }
-
 }

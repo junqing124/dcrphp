@@ -7,12 +7,12 @@
  */
 
 namespace dcr\Route;
+
 class Rule
 {
     private $ruleList = [];
-    function addRuleItem(RuleItem $ruleItem)
+    public function addRuleItem(RuleItem $ruleItem)
     {
         array_push($this->ruleList, $ruleItem);
     }
-
 }

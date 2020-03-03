@@ -11,7 +11,7 @@ class Console extends DcrBase
      * @param $consoleName
      * @return string
      */
-    function consoleNameToClassName($consoleName)
+    public function consoleNameToClassName($consoleName)
     {
         $command = $consoleName;
         $commandArr = explode(':', $command);
@@ -32,7 +32,7 @@ class Console extends DcrBase
      * @param $className
      * @return string
      */
-    function getConsoleClassPath( $className )
+    public function getConsoleClassPath($className)
     {
         return ROOT_APP . DS . 'Console' . DS . "{$className}.php";
     }

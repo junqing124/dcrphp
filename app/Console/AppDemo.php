@@ -34,8 +34,7 @@ class AppDemo extends Command
             $install = new Install();
             $install->executeSqlFiles($sqlFilePath);
             $io->title('Import demo finished');
-        }catch (\Exception $e){
-
+        } catch (\Exception $e) {
             throw $e;
         }
 

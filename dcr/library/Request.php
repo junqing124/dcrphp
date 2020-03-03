@@ -180,7 +180,7 @@ class Request extends DcrBase
      *  allowFile配置可见:http://www.iana.org/assignments/media-types/media-types.xhtml
      * @return array
      */
-    function upload($inputName, $targetDir, $ruler = array())
+    public function upload($inputName, $targetDir, $ruler = array())
     {
         $filesystem = new Filesystem();
         try {
@@ -240,5 +240,4 @@ class Request extends DcrBase
     {
         return isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && (strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest");
     }
-
 }

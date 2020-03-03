@@ -27,7 +27,7 @@ class Model
      * @param array $option array('requestField'=>'是不是要附加filed表', 'requestAddition'=>'是不是要附加addition表', 'requestFieldDec'=>'是不是要加上Field的描述，这个数据从[配置中心->模型配置]里来')
      * @return mixed
      */
-    function getInfo($modelId, $option = array())
+    public function getInfo($modelId, $option = array())
     {
         $join = array();
         if ($option['requestAddition']) {
@@ -68,7 +68,6 @@ class Model
                         $fieldList[$key]['cm_dec'] = $configList[$fieldInfo['mf_key']];
                         $fieldList[$key]['mf_dec'] = $configList[$fieldInfo['mf_key']];
                     }
-
                 }
             }
             //echo DB::getLastSql();
@@ -83,13 +82,13 @@ class Model
      * @param array $option 同select的搜索
      * @return mixed
      */
-    function getList($option = array())
+    public function getList($option = array())
     {
         $join = array();
         if ($option['requestAddition']) {
             $join = array('table' => 'zq_model_addition', 'type' => 'left', 'condition' => 'ma_ml_id=ml_id');
         }
-        if(count($join)){
+        if (count($join)) {
             $option['join'][] = $join;
         }
         $option['table'] = 'zq_model_list';
@@ -103,7 +102,7 @@ class Model
      * array('action'=>'add' 值为add或edit, 'model_name' => 'news', 'parent_id' => 0, 'category_name' => 'abc', 'id'=> 1 如果action为edit则这个id为必传 )
      * @return array
      */
-    function categoryEdit($categoryInfo)
+    public function categoryEdit($categoryInfo)
     {
         //判断
         $error = array();
@@ -140,7 +139,6 @@ class Model
             $dbInfo['mc_add_user_id'] = session('userId');
             $dbInfo['zt_id'] = session('ztId');
             $result = DB::insert('zq_model_category', $dbInfo);
-
         } else {
             //dd($categoryInfo);
             if ('edit' == $categoryInfo['action']) {
@@ -151,7 +149,7 @@ class Model
         return Admin::commonReturn($result);
     }
 
-    function getCategoryInfo($categoryId, $option = array())
+    public function getCategoryInfo($categoryId, $option = array())
     {
         $info = DB::select(array(
             'table' => 'zq_model_category',
@@ -163,7 +161,7 @@ class Model
         return $info;
     }
 
-    function getCategoryList($modelName, $parentId = null, $option = array())
+    public function getCategoryList($modelName, $parentId = null, $option = array())
     {
         $ztId = session('ztId');
         if (!$option['col']) {
@@ -180,7 +178,7 @@ class Model
         return $list;
     }
 
-    function getCategoryTrHtml($modelName, $parentId = null)
+    public function getCategoryTrHtml($modelName, $parentId = null)
     {
 
         $list = $this->getCategoryList($modelName, $parentId);
@@ -192,7 +190,7 @@ class Model
         return $html;
     }
 
-    function getCategoryTrDetailHtml($list)
+    public function getCategoryTrDetailHtml($list)
     {
         static $optionHtml = '';
         foreach ($list as $info) {
@@ -204,7 +202,6 @@ class Model
             if (! count($info['sub']) > 0) {
                 $optionHtml .= "<a title=\"删除\" href=\"javascript:;\" onclick=\"del({$info['mc_id']})\" class=\"ml-5\"
                        style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>";
-
             }
             $optionHtml .= "</td>
             </tr>";
@@ -229,7 +226,7 @@ class Model
      * )
      * @return string
      */
-    function getCategorySelectHtml($modelName, $option = array())
+    public function getCategorySelectHtml($modelName, $option = array())
     {
         //dd($parentId);
         //dd($option[selectId]);
@@ -254,7 +251,7 @@ class Model
         return $html;
     }
 
-    function getCategorySelectOptionHtml($list, $selectId = null, $subEnabled = 0)
+    public function getCategorySelectOptionHtml($list, $selectId = null, $subEnabled = 0)
     {
         static $optionHtml = '';
         foreach ($list as $info) {
@@ -289,7 +286,7 @@ class Model
      * @param int $level
      * @return array
      */
-    function getCategoryArr($list, $parentId, $level = 0)
+    public function getCategoryArr($list, $parentId, $level = 0)
     {
         $tree = array();
         foreach ($list as $key => $value) {
@@ -306,7 +303,7 @@ class Model
         return $tree;
     }
 
-    function deleteCategory($id)
+    public function deleteCategory($id)
     {
 
         //验证
@@ -333,7 +330,7 @@ class Model
      * 返回表格前缀和数据结构的前缀对应关系
      * @return array
      */
-    function getInputTableKeyArr()
+    public function getInputTableKeyArr()
     {
         return array('list' => 'ml', 'field' => '', 'addition' => 'ma');
     }
@@ -344,7 +341,7 @@ class Model
      * @param $info
      * @return array
      */
-    function groupModelInfo($info)
+    public function groupModelInfo($info)
     {
         //dd($info);
         $arr = array();
@@ -385,7 +382,7 @@ class Model
     /**
      * 编辑资料，本function完全只是针对添加或修改资料里传来的数据
      */
-    function edit()
+    public function edit()
     {
         //分组
         $data = post();
@@ -418,8 +415,11 @@ class Model
         $fileUploadResult = array();
         $uploadDir = 'uploads' . DS . date('Y-m-d');
         try {
-            $fileUploadResult = $request->upload('list_pic_path', $uploadDir,
-                array('allowFile' => array('image/png', 'image/gif', 'image/jpg', 'image/jpeg')));
+            $fileUploadResult = $request->upload(
+                'list_pic_path',
+                $uploadDir,
+                array('allowFile' => array('image/png', 'image/gif', 'image/jpg', 'image/jpeg'))
+            );
             if (!$fileUploadResult['ack']) {
                 return Admin::commonReturn(0, $fileUploadResult['msg']);
             }
@@ -456,7 +456,6 @@ class Model
         $dbInfoAddition['zt_id'] = $ztId;
         $dbInfoAddition['ma_update_time'] = time();
         if ('edit' == $data['action']) {
-
         } else {
             $dbInfoList['ml_add_time'] = time();
             //$dbInfoField['me_add_time'] = time();
@@ -489,8 +488,11 @@ class Model
                     'col' => 'mf_id',
                     'where' => "mf_key='{$fieldKey}' and mf_ml_id={$id}"
                 ))) {
-                    $modelFieldSec = DB::update('zq_model_field', $fieldDbInfo,
-                        "mf_key='{$fieldKey}' and mf_ml_id={$id}");
+                    $modelFieldSec = DB::update(
+                        'zq_model_field',
+                        $fieldDbInfo,
+                        "mf_key='{$fieldKey}' and mf_ml_id={$id}"
+                    );
                 } else {
                     $fieldDbInfo['mf_ml_id'] = $id;
                     $fieldDbInfo['zt_id'] = $ztId;
@@ -511,7 +513,6 @@ class Model
                 DB::rollBack();
                 $result = 0;
             }
-
         } else {
             //dd($dbInfoList);
             $modelListId = DB::insert('zq_model_list', $dbInfoList);
@@ -550,14 +551,13 @@ class Model
                 DB::rollBack();
                 $result = 0;
             }
-
         }
         //exit;
         //返回
         return Admin::commonReturn($result);
     }
 
-    function delete($id)
+    public function delete($id)
     {
         //验证
         $info = DB::select(array('table' => 'zq_model_list', 'col' => 'ml_id', 'where' => "ml_id={$id}", 'limit' => 1));

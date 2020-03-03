@@ -24,7 +24,7 @@ class Response extends DcrBase
      * Response constructor.
      * @param $data 输出的内容
      */
-    function __construct($data)
+    public function __construct($data)
     {
         $this->allowProperty = array('data');
         $this->data = $data;
@@ -33,7 +33,7 @@ class Response extends DcrBase
     /**
      * 输出页面
      */
-    function send()
+    public function send()
     {
         echo $this->data;
     }
@@ -42,7 +42,7 @@ class Response extends DcrBase
      * 页面跳转
      * @param $url 跳转的url
      */
-    function redirect($url)
+    public function redirect($url)
     {
         header("Location:{$url}");
     }

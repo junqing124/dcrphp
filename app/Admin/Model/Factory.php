@@ -8,7 +8,6 @@
 
 namespace app\Admin\Model;
 
-
 use dcr\Session;
 use \Exception;
 
@@ -21,10 +20,9 @@ class Factory
      * @return mixed
      * @throws Exception
      */
-    static function renderPage($template, $dataList)
+    public static function renderPage($template, $dataList)
     {
-        if( ! $dataList['page_title'] )
-        {
+        if (! $dataList['page_title']) {
             throw new Exception('请设置页面标题,参考 Admin->Index->Index->index()');
         }
         $view = container('view');
@@ -49,7 +47,7 @@ class Factory
      * @param int $ignoreYz 是不是忽略验证 主要是改密码的时候要用下
      * @return mixed
      */
-    static function renderJson($data, $ignoreYz = 0)
+    public static function renderJson($data, $ignoreYz = 0)
     {
         $view = container('view');
         $view->outFormat = 'json';

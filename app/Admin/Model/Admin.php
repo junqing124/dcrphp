@@ -21,7 +21,7 @@ class Admin
      * @param View $view
      * @return array 返回登陆结果
      */
-    function common($view)
+    public function common($view)
     {
         $user = new User();
         $view->setViewDirectoryPath(ROOT_APP . DS . 'Admin' . DS . 'View');
@@ -47,7 +47,7 @@ class Admin
      * 验证用户是不是登陆
      * @return array
      */
-    function yz()
+    public function yz()
     {
         $username = Session::_get('username');
         $password = Session::_get('password');
@@ -70,12 +70,12 @@ class Admin
      * @param string $errorMsg
      * @return array
      */
-    static function commonReturn($result, $errorMsg = '')
+    public static function commonReturn($result, $errorMsg = '')
     {
         if (0 != $result) {
             return array('ack' => 1,);
         } else {
-            if( !$errorMsg ){
+            if (!$errorMsg) {
                 $errorMsg = '添加到数据库时发生错误: msg->' . DB::getError()['msg'];
             }
             return array('ack' => 0, 'msg' => $errorMsg);

@@ -36,7 +36,7 @@ abstract class ConnectorDriver
      */
     protected $lastErrorInfo;
 
-    abstract function getDsn();
+    abstract public function getDsn();
 
     /**
      * 执行select
@@ -44,7 +44,7 @@ abstract class ConnectorDriver
      * @return array 结果
      * @throws \Exception
      */
-    function query($sql)
+    public function query($sql)
     {
         if (!$this->checkZtId($sql)) {
             throw new \Exception('not found zt_id:' . $sql);
@@ -61,7 +61,7 @@ abstract class ConnectorDriver
      * @return mixed 返回结果
      * @throws \Exception
      */
-    function exec($sql)
+    public function exec($sql)
     {
         if (!$this->checkZtId($sql)) {
             throw new \Exception('can not find zt_id');
@@ -78,7 +78,7 @@ abstract class ConnectorDriver
      * @return mixed 返回结果
      * @throws \Exception
      */
-    function prepare($sql)
+    public function prepare($sql)
     {
         if (!$this->checkZtId($sql)) {
             throw new \Exception('没有帐套ID');
@@ -87,7 +87,7 @@ abstract class ConnectorDriver
         return $result;
     }
 
-    function getAllRow($pdoStatement)
+    public function getAllRow($pdoStatement)
     {
         $result = array();
         if ($pdoStatement) {
@@ -101,7 +101,7 @@ abstract class ConnectorDriver
      * @param $sql
      * @return boolean 有返回true 没有返回false
      */
-    function checkZtId($sql)
+    public function checkZtId($sql)
     {
         return strpos($sql, 'zt_id') > 0;
     }
@@ -118,7 +118,7 @@ abstract class ConnectorDriver
      * @return mixed
      * @throws
      */
-    function select($option)
+    public function select($option)
     {
         $queryFactory = new QueryFactory(config('database.type'));
         //判断用户名有没有
@@ -173,7 +173,7 @@ abstract class ConnectorDriver
      * @return mixed
      * @throws
      */
-    function update($table, $info, $where)
+    public function update($table, $info, $where)
     {
         $ztId = Session::_get('ztId');
         $queryFactory = new QueryFactory(config('database.type'));
@@ -195,7 +195,7 @@ abstract class ConnectorDriver
      * @return mixed
      * @throws \Exception
      */
-    function delete($table, $where)
+    public function delete($table, $where)
     {
         $ztId = Session::_get('ztId');
         $queryFactory = new QueryFactory(config('database.type'));
@@ -216,7 +216,7 @@ abstract class ConnectorDriver
      * @return mixed
      * @throws
      */
-    function insert($table, $info)
+    public function insert($table, $info)
     {
         $queryFactory = new QueryFactory(config('database.type'));
         $insert = $queryFactory->newInsert();
@@ -233,12 +233,12 @@ abstract class ConnectorDriver
         return $result;
     }
 
-    function getError()
+    public function getError()
     {
         return array('code' => $this->lastErrorCode, 'msg' => implode(',', $this->lastErrorInfo));
     }
 
-    function getLastSql()
+    public function getLastSql()
     {
         return $this->lastSql;
     }
@@ -250,17 +250,17 @@ abstract class ConnectorDriver
         return 1;
     }
 
-    function beginTransaction()
+    public function beginTransaction()
     {
         $this->pdo->beginTransaction();
     }
 
-    function commit()
+    public function commit()
     {
         $this->pdo->commit();
     }
 
-    function rollBack()
+    public function rollBack()
     {
         $this->pdo->rollBack();
     }
