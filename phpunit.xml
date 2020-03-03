@@ -1,0 +1,19 @@
+<phpunit bootstrap="tests/DcrPHPTest.php">
+    <testsuites>
+        <testsuite name="My Test Suite">
+            <file>tests/DcrPHPTest.php</file>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">dcr</directory>
+            <directory suffix=".php">app</directory>
+			<exclude>
+                <file>dcr/bootstrap/app.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-clover" target="tests/code_coverage/clover.xml"/>
+    </logging>
+</phpunit>

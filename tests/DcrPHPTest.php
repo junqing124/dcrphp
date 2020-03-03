@@ -1,7 +1,7 @@
 <?php
 namespace test;
 
-require __DIR__ . '/../dcr/bootstrap/init.php';
+require_once __DIR__ . '/../dcr/bootstrap/init.php';
 
 use PHPUnit\Framework\TestCase;
 use app\Admin\Model\User;
