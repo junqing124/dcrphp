@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/junqing124/dcrphp.svg?branch=master)](https://travis-ci.org/junqing124/dcrphp)  
+[![Build Status](https://travis-ci.org/junqing124/dcrphp.svg?branch=master)](https://travis-ci.org/junqing124/dcrphp)
+
+[![Coverage Status](https://coveralls.io/repos/github/junqing124/dcrphp/badge.svg?branch=master)](https://coveralls.io/github/junqing124/dcrphp?branch=master)  
 
 dcrphp后端是自己开发的框架，采用前后端分离的方式做的管理系统，自带模型管理及后台管理系统。可以很方便在上面自由的扩展。特点如下:  
     1、自带后台管理  
