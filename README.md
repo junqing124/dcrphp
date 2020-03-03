@@ -1,4 +1,12 @@
 [![Build Status](https://travis-ci.org/junqing124/dcrphp.svg?branch=master)](https://travis-ci.org/junqing124/dcrphp)  
+
+dcrphp后端是自己开发的框架，采用前后端分离的方式做的管理系统，自带模型管理及后台管理系统。可以很方便在上面自由的扩展。特点如下:  
+    1、自带后台管理  
+    2、自带模型方便扩展  
+    3、后台自带RABC  
+    4、MVC模式  
+    5、有自动化的测试及编码检测  
+  
 安装源码(下面3选1)：  
 
     1、composer create-project junqing124/dcrphp dcrphp 1.0.1
