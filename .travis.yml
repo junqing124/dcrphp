@@ -25,7 +25,7 @@ before_install:
 
 install:
   - composer install --prefer-dist --optimize-autoloader --quiet
-  - composer require satooshi/php-coveralls:~1.0@stable
+  - composer require --dev php-coveralls/php-coveralls
 
 script:
   - php vendor/squizlabs/php_codesniffer/bin/phpcs -n -p --ignore=*/vendor/*,*/config/*,*/resource/* --standard=PSR2 --extensions=php --encoding=utf-8 -w -s .
