@@ -99,7 +99,6 @@ class DcrPHPTest extends TestCase
                     $this->assertEquals('dcrphp', $fileArr[0]);
                 }
             }
-
         }
     }
 }
