@@ -11,7 +11,7 @@ namespace dcr;
 define('DS', DIRECTORY_SEPARATOR); //文件分隔符
 define('ROOT_FRAME', dirname(__FILE__) . DS . '..'); //dcr目录
 define('ROOT_APP', dirname(__FILE__) . DS . '..' . DS . '..' . DS . 'app'); //app目录
-define('ROOT_PUBLIC', __DIR__); //public目录
+define('ROOT_PUBLIC', realpath(dirname($_SERVER['SCRIPT_FILENAME']))); //public目录
 define('LIB', ROOT_FRAME . DS . 'library');
 define('START', microtime(true));
 define('CONFIG_EXT', '.php');

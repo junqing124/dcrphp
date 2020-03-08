@@ -169,7 +169,7 @@ class Model
         }
         $whereArr = array();
         array_push($whereArr, "zt_id={$ztId} and mc_model_name='{$modelName}'");
-        if ($parentId != null) {
+        if ($parentId !== null) {
             array_push($whereArr, "mc_parent_id={$parentId}");
         }
 

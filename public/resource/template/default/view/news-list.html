@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include 'head.html' ignore missing %}
+</head>
+<body>
+<div class="layui-container">
+
+    {% include 'nav.html' ignore missing %}
+    <div class="layui-row">
+        {% include 'left.html' ignore missing %}
+        <div class="layui-col-xs6 layui-col-sm6" style="width:81%; padding: 15px;">
+            <span class="layui-breadcrumb" style="visibility: visible;">
+                {{position|raw}}
+            </span>
+            <div class="layui-tab-content product-list">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="70%">
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>标题</th>
+                        <th>加入时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for news in list %}
+                    <tr>
+                        <td><a href="/index/index/detail-view/{{news.ml_id}}">{{news.ml_title}}</a></td>
+                        <td>{{news.ml_add_time|date('Y-m-d')}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="pages">{{pages|raw}}</div>
+        </div>
+    </div>
+    {% include 'footer.html' ignore missing %}
+
+</div>
+{% include 'footer-script.html' ignore missing %}
+
+</body>
+</html>

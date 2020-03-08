@@ -1,0 +1,30 @@
+<div class="layui-row">
+    <img src="/resource/template/default/static/images/banner.jpg" width="100%">
+</div>
+<ul class="layui-nav layui-bg-green" lay-filter="">
+    <li class="layui-nav-item"><a href="/">首页</a></li>
+    <li class="layui-nav-item">
+        <a href="javascript:;">产品中心</a>
+        <dl class="layui-nav-child">
+            {% for p_news in category_product %}
+            <dd><a href="/index/index/list-view/product/{{p_news.mc_id}}">{{p_news.mc_name}}</a></dd>
+            {% endfor %}
+        </dl>
+    </li>
+    <li class="layui-nav-item">
+        <a href="javascript:;">新闻中心</a>
+        <dl class="layui-nav-child">
+            {% for c_news in category_news %}
+            <dd><a href="/index/index/list-view/news/{{c_news.mc_id}}">{{c_news.mc_name}}</a></dd>
+            {% endfor %}
+        </dl>
+    </li>
+    <li class="layui-nav-item"><a href="/index/index/detail-view/5">关于我们</a></li>
+    <li class="layui-nav-item"><a href="/index/index/detail-view/6">联系我们</a></li>
+</ul>
+<div class="layui-carousel" id="test1">
+    <div carousel-item>
+        <div><img src="/resource/template/default/static/images/lb/1.jpg" width="100%" height="280px"></div>
+        <div><img src="/resource/template/default/static/images/lb/2.jpg" width="100%" height="280px"></div>
+    </div>
+</div>

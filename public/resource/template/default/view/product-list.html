@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include 'head.html' ignore missing %}
+</head>
+<body>
+<div class="layui-container">
+
+    {% include 'nav.html' ignore missing %}
+    <div class="layui-row">
+        {% include 'left.html' ignore missing %}
+        <div class="layui-col-xs6 layui-col-sm6" style="width:81%;padding: 15px;">
+            <span class="layui-breadcrumb" style="visibility: visible;">
+                {{position|raw}}
+            </span>
+            <div class="layui-tab-content product-list">
+                {% for product_info in list %}
+                <ul>
+                    <li class="img"><a href="/index/index/detail-view/{{product_info.ml_id}}"><img
+                            src="{% if product_info.ml_pic_path %}/{{product_info.ml_pic_path}}{% else %}/resource/template/default/static/images/nopic.png{% endif %}"></a>
+                    </li>
+                    <li class="title"><a href="/index/index/detail-view/{{product_info.ml_id}}">{{product_info.ml_title}}</a>
+                    </li>
+                </ul>
+                {% endfor %}
+            </div>
+            <div class="pages">{{pages|raw}}</div>
+        </div>
+    </div>
+    {% include 'footer.html' ignore missing %}
+
+</div>
+{% include 'footer-script.html' ignore missing %}
+
+</body>
+</html>
