@@ -54,6 +54,7 @@ class Route extends DcrBase
         if (empty($path) || '/' == $path) {
             $path = 'Index/Index/index';
         }
+
         $pathList = explode('/', $path);
 
         //添加规则给rule

@@ -51,6 +51,11 @@ class App
         //设置时区
         date_default_timezone_set(config('app.default_timezone'));
 
+        //如果是命令行就直接返回
+        if ('cli' == APP::$phpSapiName) {
+            return new Response('');
+        }
+
         //开始处理request
         $request = Request::getInstance();
         $container->instance('request', $request);
@@ -86,6 +91,7 @@ class App
 
         //类名
         $class = "\\app\\{$model}\\Controller\\{$controller}";
+
         try {
             $classObj = new $class;
             if (is_callable([$classObj, $action])) {
