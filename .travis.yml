@@ -30,7 +30,6 @@ install:
 script:
   - php vendor/squizlabs/php_codesniffer/bin/phpcs -n -p --ignore=*/vendor/*,*/config/*,*/resource/* --standard=PSR2 --extensions=php --encoding=utf-8 -w -s .
   - php dcrphp app:install 127.0.0.1 3306 root root dcrphp
-  - cat env
   - php dcrphp app:demo
   - php vendor/phpunit/phpunit/phpunit
 

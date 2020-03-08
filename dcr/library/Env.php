@@ -58,10 +58,13 @@ class ENV
     public static function write($envFile, $data)
     {
         if (!file_exists($envFile)) {
-            file_put_contents($envFile, '');
-        } else {
-            throw new \Exception($envFile . ' can not be created');
+            try {
+                file_put_contents($envFile, '');
+            } catch(\Exception $ex) {
+                throw new \Exception($envFile . ' can not be created');
+            }
         }
+
         if (file_exists($envFile)) {
             $iniWriter = new IniWriter();
             $iniWriter->writeToFile($envFile, $data);
