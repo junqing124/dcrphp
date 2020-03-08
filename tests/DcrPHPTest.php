@@ -1,4 +1,5 @@
 <?php
+
 namespace test;
 
 require_once __DIR__ . '/../dcr/bootstrap/init.php';
@@ -64,13 +65,13 @@ class DcrPHPTest extends TestCase
         $modelNewsCategoryList = $model->getCategoryList('news');
         $modelInfoCategoryList = $model->getCategoryList('info');
 
-        //$this->assertEquals(0, count($modelProCategoryList));
-        $this->assertEquals(6, count($modelNewsCategoryList));
+        $this->assertEquals(2, count($modelProCategoryList));
+        $this->assertEquals(2, count($modelNewsCategoryList));
         $this->assertEquals(1, count($modelInfoCategoryList));
 
         //list数量
         $modelProList = $model->getList(array('requestAddition' => 1, 'col' => 'ml_id,ml_title,ma_id'));
-        $this->assertEquals(6, count($modelProList));
+        $this->assertEquals(11, count($modelProList));
 
         //是否有以下几个标题
         $modelTitleList = array_column($modelProList, 'ml_title', 'ml_title');
@@ -78,5 +79,27 @@ class DcrPHPTest extends TestCase
         $this->assertTrue(in_array('联系我们', $modelTitleList));
         $this->assertTrue(in_array('关于我们', $modelTitleList));
         $this->assertTrue(in_array('站内广告优化策略：ACOS应该这样解读才合适', $modelTitleList));
+    }
+
+    /**
+     * 最基本的测试
+     */
+    function testBase()
+    {
+        //测试文件名对不对
+        $dirList = array(
+            ROOT_APP . DS . 'Console' . DS . 'sql' . DS . 'install',
+            ROOT_APP . DS . 'Console' . DS . 'sql' . DS . 'demo',
+        );
+        foreach ($dirList as $sqlPath) {
+            $fileList = scandir($sqlPath);
+            foreach ($fileList as $fileName) {
+                if (!in_array($fileName, array('.', '..'))) {
+                    $fileArr = explode('_', $fileName);
+                    $this->assertEquals('dcrphp', $fileArr[0]);
+                }
+            }
+
+        }
     }
 }

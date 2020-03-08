@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: zhanqqq123
+-- Host: localhost    Database: zhanqqq124
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -32,7 +32,7 @@ CREATE TABLE `zq_config_base` (
   `cb_name` varchar(45) NOT NULL DEFAULT '配置名',
   `cb_value` varchar(150) NOT NULL DEFAULT '配置值',
   PRIMARY KEY (`cb_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `zq_config_base` (
 
 LOCK TABLES `zq_config_base` WRITE;
 /*!40000 ALTER TABLE `zq_config_base` DISABLE KEYS */;
+INSERT INTO `zq_config_base` VALUES (1,1583672805,1583672805,0,1,1,'site_name','DcrPHP建站系统');
 /*!40000 ALTER TABLE `zq_config_base` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-02 15:05:28
+-- Dump completed on 2020-03-08 22:26:55

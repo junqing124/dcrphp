@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: zhanqqq123
+-- Host: localhost    Database: zhanqqq124
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -51,7 +51,7 @@ CREATE TABLE `zq_user` (
 
 LOCK TABLES `zq_user` WRITE;
 /*!40000 ALTER TABLE `zq_user` DISABLE KEYS */;
-INSERT  IGNORE INTO `zq_user` VALUES (1,'admin',NULL,'dcJ49.bznhA7c',1,1583049406,1583049406,NULL,0,NULL,1,1,'15718126135','','管理员',0,NULL),(2,'张三',NULL,'',1,1583034580,1583034651,NULL,0,NULL,1,1,'15718126135','','测试用户1',1,1),(3,'李四',NULL,'dciMMVvAhRqFk',1,1583034614,1583034614,NULL,0,NULL,1,2,'15718126135','8420124','',1,NULL);
+INSERT INTO `zq_user` VALUES (1,'admin',NULL,'dcJ49.bznhA7c',1,1583134320,1583134320,'unknown',2,1583398290,1,1,'15718126135','','管理员',0,NULL),(2,'张三',NULL,'',1,1583034580,1583034651,NULL,0,NULL,1,1,'15718126135','','测试用户1',1,1),(3,'李四',NULL,'dciMMVvAhRqFk',1,1583034614,1583034614,NULL,0,NULL,1,2,'15718126135','8420124','',1,NULL);
 /*!40000 ALTER TABLE `zq_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -64,4 +64,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-02 15:05:27
+-- Dump completed on 2020-03-08 22:26:54

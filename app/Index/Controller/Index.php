@@ -43,7 +43,6 @@ class Index
         $view->assign('site_name', $configInfo['site_name']);
         $view->assign('title', $title);
         $view->assign('position', $position);
-        var_dump($position);
     }
 
     public function detailView(Request $reqeust)

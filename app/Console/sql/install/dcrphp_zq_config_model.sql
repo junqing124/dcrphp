@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: zhanqqq123
+-- Host: localhost    Database: zhanqqq124
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -34,7 +34,7 @@ CREATE TABLE `zq_config_model` (
   `cm_model_name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`cm_id`),
   UNIQUE KEY `uidx_mk` (`cm_model_name`,`cm_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `zq_config_model` (
 
 LOCK TABLES `zq_config_model` WRITE;
 /*!40000 ALTER TABLE `zq_config_model` DISABLE KEYS */;
-INSERT  IGNORE INTO `zq_config_model` VALUES (1,1583047085,1583047085,0,1,1,'news_key','新闻点','news'),(2,1583047085,1583047085,0,1,1,'color','颜色','product'),(3,1583047085,1583047085,0,1,1,'caizhi','材质','product');
+INSERT INTO `zq_config_model` VALUES (1,1583047085,1583134927,0,1,1,'news_key','新闻点','news'),(2,1583047085,1583134927,0,1,1,'color','颜色','product'),(3,1583047085,1583134927,0,1,1,'caizhi','材质','product');
 /*!40000 ALTER TABLE `zq_config_model` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-02 15:05:27
+-- Dump completed on 2020-03-08 22:26:55
