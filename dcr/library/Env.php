@@ -60,7 +60,7 @@ class ENV
         if (!file_exists($envFile)) {
             try {
                 file_put_contents($envFile, '');
-            } catch(\Exception $ex) {
+            } catch (\Exception $ex) {
                 throw new \Exception($envFile . ' can not be created');
             }
         }

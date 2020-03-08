@@ -19,6 +19,7 @@ branches:
 
 before_install:
   - mysql --version
+  - touch env
   - echo "error_reporting = E_ALL ^ E_NOTICE" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "USE mysql;\nUPDATE user SET authentication_string=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root -h 127.0.0.1
   - mkdir -p tests/code_coverage/ # Create a folder to store clover files

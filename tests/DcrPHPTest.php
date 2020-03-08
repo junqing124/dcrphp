@@ -84,7 +84,7 @@ class DcrPHPTest extends TestCase
     /**
      * 最基本的测试
      */
-    function testBase()
+    public function testBase()
     {
         //测试文件名对不对
         $dirList = array(
