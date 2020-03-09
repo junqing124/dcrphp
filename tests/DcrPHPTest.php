@@ -35,7 +35,7 @@ class DcrPHPTest extends TestCase
 
         //判断是不是3个有
         $usernameList = array_keys(array_column($userList, 'u_username', 'u_username'));
-        dd($usernameList);
+        //dd($usernameList);
         $this->assertTrue(in_array('admin', $usernameList));
         $this->assertTrue(in_array('张三', $usernameList));
         $this->assertTrue(in_array('李四', $usernameList));
