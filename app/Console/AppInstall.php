@@ -28,6 +28,7 @@ class AppInstall extends Command
         $this->addArgument('username', InputArgument::REQUIRED, 'database username');
         $this->addArgument('password', InputArgument::REQUIRED, 'database password');
         $this->addArgument('database', InputArgument::REQUIRED, 'database name');
+        $this->addArgument('charset', InputArgument::REQUIRED, 'character set');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -48,12 +49,14 @@ class AppInstall extends Command
             $username = $input->getArgument('username');
             $password = $input->getArgument('password');
             $database = $input->getArgument('database');
+            $charset = $input->getArgument('charset');
 
             $data['config']['MYSQL_DB_HOST'] = $host;
             $data['config']['MYSQL_DB_PORT'] = $port;
             $data['config']['MYSQL_DB_DATABASE'] = $database;
             $data['config']['MYSQL_DB_USERNAME'] = $password;
             $data['config']['MYSQL_DB_PASSWORD'] = $username;
+            $data['config']['MYSQL_DB_CHARSET'] = $charset;
             Env::write($envFile, $data);
 
             //重新加载配置

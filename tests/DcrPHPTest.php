@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use app\Admin\Model\User;
 use app\Admin\Model\Model;
 use app\Admin\Model\Config;
-use dcr\DB;
 
 class DcrPHPTest extends TestCase
 {
@@ -28,7 +27,6 @@ class DcrPHPTest extends TestCase
     public function testUser()
     {
         $user = new User();
-        dd(DB::select(array('table'=>'zq_user')));
         $userList = $user->getList();
 
         //判断是不是3个user
@@ -86,7 +84,6 @@ class DcrPHPTest extends TestCase
         //是否有以下几个标题
         $modelTitleList = array_column($modelList, 'ml_title', 'ml_title');
 
-        dd($modelTitleList);
         $this->assertTrue(in_array('联系我们', $modelTitleList));
         $this->assertTrue(in_array('关于我们', $modelTitleList));
         $this->assertTrue(in_array('站内广告优化策略：ACOS应该这样解读才合适', $modelTitleList));

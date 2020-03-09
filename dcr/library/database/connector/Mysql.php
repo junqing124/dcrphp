@@ -44,7 +44,7 @@ class Mysql extends ConnectorDriver
     public function getDsn()
     {
         $config = $this->config;
-        $dsn = "mysql:dbname={$config['database']};host={$config['host']};port={$config['port']}";
+        $dsn = "mysql:dbname={$config['database']};host={$config['host']};port={$config['port']};charset={$config['charset']}";
 
         return $dsn;
     }

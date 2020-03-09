@@ -25,7 +25,7 @@ dcrphp后端是自己开发的框架，采用前后端分离的方式做的管�
 
     php dcrphp app:install 数据库host 数据库端口 用户名 密码 数据库名   
     比如  
-    php dcrphp app:install 127.0.0.1 3306 root root dcrphp  
+    php dcrphp app:install 127.0.0.1 3306 root root dcrphp utf8  
     安装完成后，后台地址是 host/admin/index/index 初始化用户名和密码是admin 123456  
 
     如果要导入测试数据:    

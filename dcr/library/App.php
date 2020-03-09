@@ -37,7 +37,7 @@ class App
         $container->instance(\dcr\Config::class, $config);
         $container->autoBind();
         Session::init();
-        # set default zt_id
+        // set default zt_id
         Session::_set('ztId', 1);
 
         //程序测试与否
