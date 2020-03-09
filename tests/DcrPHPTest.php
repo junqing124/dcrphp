@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use app\Admin\Model\User;
 use app\Admin\Model\Model;
 use app\Admin\Model\Config;
+use dcr\DB;
 
 class DcrPHPTest extends TestCase
 {
@@ -27,6 +28,7 @@ class DcrPHPTest extends TestCase
     public function testUser()
     {
         $user = new User();
+        dd(DB::select(array('table'=>'zq_user')));
         $userList = $user->getList();
 
         //判断是不是3个user
