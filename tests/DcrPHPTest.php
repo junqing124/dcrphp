@@ -39,6 +39,10 @@ class DcrPHPTest extends TestCase
         $this->assertTrue(in_array('admin', $usernameList));
         $this->assertTrue(in_array('张三', $usernameList));
         $this->assertTrue(in_array('李四', $usernameList));
+
+        //有没有空密码的
+        $userList = $user->getList(array( 'col'=>'u_id', 'where'=> 'char_length(u_password)<1' ));
+        $this->assertEquals(0, count($userList));
     }
 
     public function testRole()
@@ -69,12 +73,16 @@ class DcrPHPTest extends TestCase
         $this->assertEquals(2, count($modelNewsCategoryList));
         $this->assertEquals(1, count($modelInfoCategoryList));
 
+        //把有图片的去掉
+        $modelList = $model->getList(array( 'where'=> 'ml_pic_path is not null' ));
+        $this->assertEquals(0, count($modelList));
+
         //list数量
-        $modelProList = $model->getList(array('requestAddition' => 1, 'col' => 'ml_id,ml_title,ma_id'));
-        $this->assertEquals(11, count($modelProList));
+        $modelList = $model->getList(array('requestAddition' => 1, 'col' => 'ml_id,ml_title,ma_id'));
+        $this->assertEquals(11, count($modelList));
 
         //是否有以下几个标题
-        $modelTitleList = array_column($modelProList, 'ml_title', 'ml_title');
+        $modelTitleList = array_column($modelList, 'ml_title', 'ml_title');
 
         $this->assertTrue(in_array('联系我们', $modelTitleList));
         $this->assertTrue(in_array('关于我们', $modelTitleList));
@@ -89,7 +97,6 @@ class DcrPHPTest extends TestCase
         //测试文件名对不对
         $dirList = array(
             ROOT_APP . DS . 'Console' . DS . 'sql' . DS . 'install',
-            ROOT_APP . DS . 'Console' . DS . 'sql' . DS . 'demo',
         );
         foreach ($dirList as $sqlPath) {
             $fileList = scandir($sqlPath);

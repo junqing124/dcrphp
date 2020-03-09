@@ -30,7 +30,7 @@ class AppDemo extends Command
 
         try {
             $io = new SymfonyStyle($input, $output);
-            $sqlFilePath = ROOT_APP . DS . 'Console' . DS . 'sql' . DS . 'demo';
+            $sqlFilePath = ROOT_APP . DS . 'Console' . DS . 'sql' . DS . 'install';
             $install = new Install();
             $install->executeSqlFiles($sqlFilePath);
             $io->title('Import demo finished');

@@ -22,13 +22,16 @@
                     {{info.addition.ma_content|raw}}
                 </div>
                 {% if info.field %}
-                <div class="model_addition">
-                    <ul>
-                        {% for field in info.field %}
-                        <li>{{field.mf_dec}}:{{field.mf_value}}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                <fieldset class="layui-elem-field">
+                    <legend style="font-size: 14px;">附加信息</legend>
+                    <div class="layui-field-box model_addition">
+                        <ul>
+                            {% for field in info.field %}
+                            <li>{{field.mf_dec}}:{{field.mf_value}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </fieldset>
                 {% endif %}
             </div>
             <div class="pages">{{pages|raw}}</div>
