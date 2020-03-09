@@ -8,6 +8,7 @@
 
 namespace app\Index\Controller;
 
+use app\Model\Define;
 use dcr\Db;
 use dcr\Page;
 use dcr\Request;
@@ -57,10 +58,16 @@ class Index
             array('requestField' => 1, 'requestAddition' => 1, 'requestFieldDec' => 1)
         );
         //dd($modelInfo);
+        $modelDefine = Define::getModelDefine();
+        $modelCategoryName = $modelDefine[$modelInfo['list']['ml_model_name']]['dec'];
+
+        $categroyInfo = $model->getCategoryInfo($modelInfo['list']['ml_category_id']);
+        $categroyName = $categroyInfo['mc_name'];
+
         $this->viewCommon(
             $view,
             $modelInfo['list']['ml_title'],
-            '<a href="/">首页</a> / <a></a>'
+            "<a href='/'>首页</a> / <a> {$modelCategoryName} </a> / <a href='/index/index/list-view/product/{$modelInfo['list']['ml_category_id']}'> {$categroyName} </a>"
         );
         $view->assign('info', $modelInfo);
 
