@@ -35,7 +35,7 @@ class DcrPHPTest extends TestCase
 
         //判断是不是3个有
         $usernameList = array_keys(array_column($userList, 'u_username', 'u_username'));
-        //dd($usernameList);
+        dd($usernameList);
         $this->assertTrue(in_array('admin', $usernameList));
         $this->assertTrue(in_array('张三', $usernameList));
         $this->assertTrue(in_array('李四', $usernameList));
@@ -84,6 +84,7 @@ class DcrPHPTest extends TestCase
         //是否有以下几个标题
         $modelTitleList = array_column($modelList, 'ml_title', 'ml_title');
 
+        dd($modelTitleList);
         $this->assertTrue(in_array('联系我们', $modelTitleList));
         $this->assertTrue(in_array('关于我们', $modelTitleList));
         $this->assertTrue(in_array('站内广告优化策略：ACOS应该这样解读才合适', $modelTitleList));
