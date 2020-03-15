@@ -50,7 +50,9 @@ class Index
         $user = new User();
         $userInfo = $user->getInfo(Session::_get('username'));
         $assignData['user_info'] = $userInfo;
-
+        $assignData['db_type'] = env('MYSQL_DB_DRIVER', 'mysql');
+        $version = config('info.version');
+        $assignData['version'] = $version;
 
         return Factory::renderPage('index/welcome', $assignData);
     }

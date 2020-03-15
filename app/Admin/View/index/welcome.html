@@ -9,6 +9,7 @@
 	<p class="f-20 text-success">欢迎使用DcrCms，本后台模板采用H-ui.admin <span class="f-14">v3.1</span></p>
 	<p>登录次数：{{user_info.u_login_count}} </p>
 	<p>上次登录IP：{{user_info.u_login_ip}}  上次登录时间：{{user_info.u_login_time|date('Y-m-d')}}</p>
+	<iframe frameborder="0" scrolling="no"  src="http://www.dcrcms.com/dcr_php.php?dbtype={{db_type}}&version={{version}}" style="width:100%; height:35px;"></iframe>
 </div>
 {% include 'common/footer.html' ignore missing %}
 </body>
