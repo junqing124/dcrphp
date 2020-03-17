@@ -13,7 +13,7 @@
     <div class="mt-20">
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
-            <tr class="text-c">
+            <tr>
                 <th width="100">角色名</th>
                 <th width="70">备注</th>
                 <th width="130">加入时间</th>
@@ -22,7 +22,7 @@
             </thead>
             <tbody>
             {% for role in roles %}
-            <tr class="text-c">
+            <tr>
                 <td>{{role.ur_name}}</td>
                 <td>{{role.ur_note}}</td>
                 <td>{{user.ur_add_time|date('Y-m-d')}}</td>
