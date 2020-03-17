@@ -82,23 +82,31 @@ class User
 
     /**
      * 登陆用户
-     * @param $ztId
      * @param $userId
-     * @param $username
-     * @param $password
      * @return true
      */
-    public function login($ztId, $userId, $username, $password)
+    public function login( $userId )
     {
+
+        $userInfo = $this->getInfoById($userId);
+        $ztId = $userInfo['zt_id'];
+        $username = $userInfo['u_username'];
+        $password = $userInfo['u_password'];
+
         $timeCur = time();
         $ip = getIp();
         $sql = "update zq_user set u_login_ip='{$ip}',u_login_count=u_login_count+1,u_login_time={$timeCur} where zt_id={$ztId} and u_username='{$username}'";
         DB::exec($sql);
 
+        //记录权限
+        $permissionNameList = $this->getUserPermissionList($userId);
+        //dd($permissionIds);
+
         Session::_set('ztId', $ztId);
         Session::_set('userId', $userId);
         Session::_set('username', $username);
         Session::_set('password', $password);
+        Session::_set('permissionNameList', $permissionNameList);
         return true;
     }
 
@@ -159,6 +167,7 @@ class User
     }
 
     /**
+     * 1.0.2开始废弃
      * @param array $permissionInfo 格式如下
      * $roleInfo = array(
      * 'ur_name' => post('name'), //必填
@@ -342,6 +351,15 @@ class User
         return $list;
     }
 
+    public function getInfoById($id)
+    {
+        $option['table'] = 'zq_user';
+        $option['where'] = "u_id='{$id}'";
+        $list = DB::select($option);
+        $list = current($list);
+        return $list;
+    }
+
     /** 获取角色列表
      * @param $option
      * @return mixed
@@ -369,8 +387,31 @@ class User
     public function getPermissionList($option)
     {
         $option['table'] = 'zq_user_permission';
+        $option['order'] = 'up_name asc';
         $list = DB::select($option);
         return $list;
+    }
+
+    /**
+     * 获取用户的权限列表
+     * @param $userId
+     * @return array
+     */
+    public function getUserPermissionList($userId){
+        //先得出角色名
+        $roleList = $this->getRoleConfigList($userId);
+        $permissionNameList = array();
+        if( $roleList ){
+            $roleIds = implode(',', array_column($roleList,'urc_r_id','urc_r_id'));
+
+            $permissionList = $this->getRoleList(array('where'=>"ur_id in({$roleIds})"));
+            if( $permissionList ){
+                $permissionIds = implode(',', array_column($permissionList,'ur_permissions','ur_permissions'));
+                $permissionNameList = $this->getPermissionList(array('col'=>'up_name', 'where'=>"up_id in({$permissionIds})"));
+                $permissionNameList = array_column($permissionNameList,'up_name');
+            }
+        }
+        return $permissionNameList;
     }
 
     /** 停止启用用户
@@ -434,6 +475,11 @@ class User
         return Admin::commonReturn($result);
     }
 
+    /**
+     * 1.0.2开始废弃
+     * @param $permissionId
+     * @return array
+     */
     public function deletePermission($permissionId)
     {
         //验证
@@ -447,6 +493,20 @@ class User
         $result = DB::delete('zq_user_permission', "up_id={$permissionId}");
         //dd($dbPre->getSql());
         //返回
+
+        return Admin::commonReturn($result);
+    }
+
+    public function roleEditPermission($data){
+        $roleId = $data['id'];
+        if( ! $data['up_id'] ){
+            throw new \Exception('请选择权限');
+        }
+        $permissionIds = implode(',', $data['up_id']);
+        $dbInfo = array(
+            'ur_permissions' => $permissionIds,
+        );
+        $result = DB::update('zq_user_role', $dbInfo, "ur_id={$roleId}");
 
         return Admin::commonReturn($result);
     }

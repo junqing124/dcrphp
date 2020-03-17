@@ -9,6 +9,11 @@ use dcr\Page;
 
 class Model
 {
+    /**
+     * @permission /文章列表
+     * @return mixed
+     * @throws \Exception
+     */
     public function listView()
     {
         $assignData = array();
@@ -74,6 +79,11 @@ class Model
         return Factory::renderPage('model/list', $assignData);
     }
 
+    /**
+     * @permission /文章列表/添加编辑
+     * @return mixed
+     * @throws \Exception
+     */
     public function editView()
     {
         $assignData = array();
@@ -115,6 +125,11 @@ class Model
         return Factory::renderPage('model/edit', $assignData);
     }
 
+    /**
+     * @permission /文章列表/分类列表
+     * @return mixed
+     * @throws \Exception
+     */
     public function categoryView()
     {
         $assignData = array();

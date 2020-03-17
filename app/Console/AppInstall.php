@@ -116,11 +116,12 @@ class AppInstall extends Command
             );
             //返回
             $type = 'add';
-
-            //dd($type);
-            //dd(get());
             $user = new MUser();
             $user->addEditUser($userInfo, $type);
+
+            //添加角色
+            $command = $this->getApplication()->find('permission:refresh');
+            $returnCode = $command->run($input, $output);
 
             $io->title('Initial end');
             $io->title('Install success, you can login in by host/admin/index/index admin,123456');

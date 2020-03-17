@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: dcrphp111
+-- Host: localhost    Database: dcrphp
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -41,7 +41,7 @@ CREATE TABLE `zq_config_base` (
 
 LOCK TABLES `zq_config_base` WRITE;
 /*!40000 ALTER TABLE `zq_config_base` DISABLE KEYS */;
-INSERT  IGNORE INTO `zq_config_base` VALUES (1,1583672805,1583672805,0,1,1,'site_name','DcrPHP建站系统');
+INSERT INTO `zq_config_base` VALUES (1,1583672805,1583672805,0,1,1,'site_name','DcrPHP建站系统');
 /*!40000 ALTER TABLE `zq_config_base` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-09 11:35:47
+-- Dump completed on 2020-03-17 18:19:07

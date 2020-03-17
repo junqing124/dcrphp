@@ -8,9 +8,9 @@
 
 namespace dcr\database\connector;
 
-use dcr\database\ConnectorDriver;
+use dcr\database\DBDriver;
 
-class Mysql extends ConnectorDriver
+class Mysql extends DBDriver
 {
     /**
      * @var 配置

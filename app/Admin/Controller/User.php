@@ -15,6 +15,11 @@ use dcr\Db;
 
 class User
 {
+    /**
+     * @permission /会员列表
+     * @return mixed
+     * @throws \Exception
+     */
     public function listView()
     {
         $assignData = array();
@@ -39,7 +44,12 @@ class User
         $clsPage = new Page($page, $pageTotal);
         $pageHtml = $clsPage->showPage();
 
-        $list = $user->getList(array('where' => $where, 'order' => 'u_id desc', 'limit' => $pageNum, 'offset' => ($page - 1) * $pageNum));
+        $list = $user->getList(array(
+            'where' => $where,
+            'order' => 'u_id desc',
+            'limit' => $pageNum,
+            'offset' => ($page - 1) * $pageNum
+        ));
 
         $assignData['page'] = $page;
         $assignData['user_num'] = $pageTotalNum;
@@ -56,6 +66,11 @@ class User
         return Factory::renderPage('user/add-role', $assignData);
     }
 
+    /**
+     * 1.0.2开始废弃
+     * @return mixed
+     * @throws \Exception
+     */
     public function addPermissionView()
     {
         $assignData['page_title'] = '添加权限';
@@ -74,6 +89,10 @@ class User
         return Factory::renderJson($result);
     }
 
+    /**
+     * 1.0.2开始废弃
+     * @return mixed
+     */
     public function addPermissionAjax()
     {
         $info = array(
@@ -85,6 +104,11 @@ class User
         return Factory::renderJson($result);
     }
 
+    /**
+     * @permission /会员列表/会员添加
+     * @return mixed
+     * @throws \Exception
+     */
     public function addOrEditView()
     {
         $user = new MUser();
@@ -106,7 +130,7 @@ class User
             $assignData['user_id'] = $userId;
         }
         //角色列表
-        $roleConfigList = $user->getRoleList(array( 'col'=>'ur_name,ur_id' ));
+        $roleConfigList = $user->getRoleList(array('col' => 'ur_name,ur_id'));
 
         $assignData['page_title'] = '密码更换';
         $assignData['role_config_list'] = $roleConfigList;
@@ -225,6 +249,11 @@ class User
         return Factory::renderJson($result, 1);
     }
 
+    /**
+     * @permission /会员列表/角色编辑
+     * @return mixed
+     * @throws \Exception
+     */
     public function roleView()
     {
         $user = new MUser();
@@ -235,6 +264,12 @@ class User
 
         return Factory::renderPage('user/role', $assignData);
     }
+
+    /**
+     * @permission /会员列表/权限列表
+     * @return mixed
+     * @throws \Exception
+     */
     public function permissionView()
     {
         $user = new MUser();
@@ -253,10 +288,39 @@ class User
         return Factory::renderJson($result);
     }
 
+    /**
+     * 1.0.2开始废弃
+     * @return mixed
+     */
     public function deletePermissionAjax()
     {
         $user = new MUser();
         $result = $user->deletePermission(post('id'));
+        return Factory::renderJson($result);
+    }
+
+    public function roleEditPermissionView()
+    {
+        $user = new MUser();
+        $roleId = get('role_id');
+        //权限列表
+        $list = $user->getPermissionList(array());
+        //配置好的权限列表
+        $roleConfig = $user->getRoleList(array('where' => 'ur_id=' . $roleId));
+        $rolePermissionIds = explode(',', $roleConfig[0]['ur_permissions']);
+        $assignData = array();
+        $assignData['permissions'] = $list;
+        $assignData['role_permission_ids'] = $rolePermissionIds;
+        $assignData['role_id'] = $roleId;
+        $assignData['page_title'] = '权限列表';
+
+        return Factory::renderPage('user/role-edit-permission', $assignData);
+    }
+
+    public function roleEditPermissionAjax()
+    {
+        $user = new MUser();
+        $result = $user->roleEditPermission(post());
         return Factory::renderJson($result);
     }
 }

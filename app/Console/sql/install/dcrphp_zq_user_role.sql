@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
--- Host: localhost    Database: dcrphp111
+-- Host: localhost    Database: dcrphp
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `zq_user_role`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `zq_user_role` (
   `ur_id` int(11) NOT NULL AUTO_INCREMENT,
-  `ur_permissions` varchar(200) CHARACTER SET utf8 NOT NULL,
+  `ur_permissions` varchar(1000) CHARACTER SET utf8 NOT NULL,
   `ur_name` varchar(45) CHARACTER SET utf8 NOT NULL,
   `ur_add_time` int(11) NOT NULL,
   `ur_update_time` int(11) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE `zq_user_role` (
 
 LOCK TABLES `zq_user_role` WRITE;
 /*!40000 ALTER TABLE `zq_user_role` DISABLE KEYS */;
-INSERT  IGNORE INTO `zq_user_role` VALUES (1,'','系统管理员',1583134320,1583134320,0,'系统最高权限',1),(2,'','文章编辑',1583034640,1583034640,1,'',1);
+INSERT INTO `zq_user_role` VALUES (1,'10,6,7,9,3,2,4','系统管理员',1583134320,1583134320,0,'系统最高权限',1),(2,'9,3,2','文章编辑',1583034640,1583034640,1,'',1);
 /*!40000 ALTER TABLE `zq_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-09 11:35:47
+-- Dump completed on 2020-03-17 18:19:07

@@ -10,6 +10,7 @@ namespace app\Admin\Model;
 
 use dcr\Session;
 use \Exception;
+use phpDocumentor\Reflection\DocBlockFactory;
 
 class Factory
 {
@@ -22,9 +23,36 @@ class Factory
      */
     public static function renderPage($template, $dataList)
     {
-        if (! $dataList['page_title']) {
+        if (!$dataList['page_title']) {
             throw new Exception('请设置页面标题,参考 Admin->Index->Index->index()');
         }
+        //判断有没有权限权限
+        $permissionNameList = session('permissionNameList');
+        //获取父function
+        $functionList = debug_backtrace();
+        $parentFunction = $functionList[1];
+        if ($parentFunction) {
+            //获取function的注释
+            $reClass = new \ReflectionClass(new $parentFunction['class']);
+            $functionDoc = $reClass->getMethod($parentFunction['function'])->getDocComment();
+
+            //获取permission内容
+            $factory = DocBlockFactory::createInstance();
+            $docBlock = $factory->create($functionDoc);
+            $permissionTag = $docBlock->getTagsByName('permission');
+            if ($permissionTag) {
+                $permissionGeneric = current($permissionTag);
+                $permissionConfigName = $permissionGeneric->getDescription()->render();
+                //判断有无权限
+                if ($permissionConfigName && $permissionNameList) {
+                    if (!in_array($permissionConfigName, $permissionNameList)) {
+                        throw new \Exception("您没有[{$permissionConfigName}]权限，请联系系统管理员帮您开通");
+                    }
+                }
+            }
+        }
+
+        //开始输出
         $view = container('view');
         //$view->outFormat = 'json';
         $admin = new Admin();

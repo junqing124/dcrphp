@@ -20,6 +20,11 @@ use dcr\Safe;
 
 class Index
 {
+    /**
+     * 首页
+     * @return mixed
+     * @throws \Exception
+     */
     public function index()
     {
         /*dd($_SESSION);
@@ -102,7 +107,7 @@ class Index
         if ($yzResult['ack']) {
             //登陆后跳转
             $data = $yzResult['data'];
-            $user->login($data['ztId'], $data['userId'], $data['username'], $data['password']);
+            $user->login($data['userId']);
             Response::_redirect('/admin/index/index');
         } else {
             $view->assign('error_msg', $yzResult['msg']);

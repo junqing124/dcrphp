@@ -17,7 +17,7 @@ use dcr\Session;
  * 这里实现了数据库连接及CURD操作
  * @package dcr\database
  */
-abstract class ConnectorDriver
+abstract class DBDriver
 {
     /**
      * @var 数据库连接结果
@@ -247,7 +247,10 @@ abstract class ConnectorDriver
     {
         $this->lastErrorCode = $pdo->errorCode();
         $this->lastErrorInfo = $pdo->errorInfo();
-        return 1;
+        if( $pdo->errorCode() != '0000' ){
+            $errorInfo = $this->getError();
+            throw new \Exception($errorInfo['msg']);
+        }
     }
 
     public function beginTransaction()

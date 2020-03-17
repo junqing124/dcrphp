@@ -21,7 +21,8 @@
         "codeguy/upload": "*",
         "symfony/console": "*",
         "matomo/ini": "*",
-        "thamaraiselvam/mysql-import": "*"
+        "thamaraiselvam/mysql-import": "*",
+        "phpdocumentor/reflection-docblock": "*"
     },
     "autoload": {
         "psr-4":{

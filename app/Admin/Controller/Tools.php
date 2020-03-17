@@ -6,6 +6,11 @@ use app\Admin\Model\Factory;
 
 class Tools
 {
+    /**
+     * @permission /系统工具/生成表结构
+     * @return mixed
+     * @throws \Exception
+     */
     public function tableGeneralView()
     {
 

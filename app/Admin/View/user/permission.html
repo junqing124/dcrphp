@@ -8,25 +8,21 @@
 {% include 'user/navigate.html' ignore missing %}
 <div class="page-container">
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"> <a
-            href="javascript:;" onclick="add('添加权限','/admin/user/add-permission-view','500','300')"
-            class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加权限</a></span></div>
+            href="javascript:;" onclick="info()"
+            class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 权限说明</a></span></div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
-            <tr class="text-c">
+            <tr>
                 <th width="100">权限名</th>
                 <th width="130">加入时间</th>
-                <th width="100">操作</th>
             </tr>
             </thead>
             <tbody>
             {% for permission in permissions %}
-            <tr class="text-c">
+            <tr>
                 <td>{{permission.up_name}}</td>
                 <td>{{permission.up_add_time|date('Y-m-d')}}</td>
-                <td class="td-manage">
-                    <a title="删除" href="javascript:;" onclick="del(this,'{{permission.up_id}}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-                </td>
             </tr>
             {% endfor %}
             </tbody>
@@ -40,26 +36,12 @@
 <script type="text/javascript" src="{{admin_resource_url}}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
     /*用户-添加*/
-    function add(title, url, w, h) {
-        layer_show(title, url, w, h);
-    }
-    /*用户-删除*/
-    function del(obj, id) {
-        layer.confirm('确认要删除吗？', function (index) {
-            $.ajax({
-                type: 'POST',
-                url: '/admin/user/delete-role-ajax',
-                dataType: 'json',
-                data: "id=" + id,
-                success: function (data) {
-                    $(obj).parents("tr").remove();
-                    layer.msg('已删除!', {icon: 1, time: 1000});
-                },
-                error: function (data) {
-                    //alert(data.msg);
-                },
-            });
+    function info() {
+        layer.open({
+            title: '说明'
+            ,content: '添加、编辑、删除权限的办法，请参考:https://github.com/junqing124/dcrphp/wiki/%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F'
         });
+        //layer_show(title, url, w, h);
     }
 </script>
 </body>
