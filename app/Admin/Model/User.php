@@ -384,7 +384,7 @@ class User
     }
 
 
-    public function getPermissionList($option)
+    public function getPermissionList($option = array())
     {
         $option['table'] = 'zq_user_permission';
         $option['order'] = 'up_name asc';

@@ -2,7 +2,7 @@
 
 namespace app\Console;
 
-use app\Admin\Model\User as MUser;
+use app\Admin\Model\User;
 use app\Model\Install;
 use dcr\Env;
 use dcr\Db;
@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Thamaraiselvam\MysqlImport\Import;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class AppInstall extends Command
 {
@@ -100,7 +101,7 @@ class AppInstall extends Command
                 'zt_id' => session('ztId')
             );
 
-            $user = new MUser();
+            $user = new User();
             $roleId = $user->addRole($info);
 
             //初始化user
@@ -116,12 +117,20 @@ class AppInstall extends Command
             );
             //返回
             $type = 'add';
-            $user = new MUser();
             $user->addEditUser($userInfo, $type);
 
-            //添加角色
+            //权限权限配置
             $command = $this->getApplication()->find('permission:refresh');
-            $returnCode = $command->run($input, $output);
+            $arguments = [
+                'command' => 'permission:refresh',
+            ];
+            $freshInput = new ArrayInput($arguments);
+            $command->run($freshInput, $output);
+
+            //给管理员配置全权限
+            $permissionList = $user->getPermissionList();
+            $permissionIds = implode(',', array_column($permissionList, 'up_id'));
+            DB::update('zq_user_role', array('zt_id' => 1, 'ur_permission' => $permissionIds,), "ur_name='系统管理员'");
 
             $io->title('Initial end');
             $io->title('Install success, you can login in by host/admin/index/index admin,123456');

@@ -8,11 +8,23 @@ require __DIR__ . '/dcr/bootstrap/init.php';
 use Symfony\Component\Console\Application;
 use dcr\Console;
 
-$inputs = $argv;
-$command = $inputs[1];
-$className = Console::_consoleNameToClassName($command);
+$command = $argv[1];
 
-$className = "app\\Console\\{$className}";
 $application = new Application();
+//注册所有的命令
+$consoleDir = ROOT_APP . DS . 'Console';
+$consoleFileList = scandir($consoleDir);
+foreach($consoleFileList as $consoleFile){
+    if(substr( $consoleFile, '-3' ) == 'php')
+    {
+        $className = str_replace( '.php', '', $consoleFile );
+        $className = "app\\Console\\{$className}";
+        $application->add(new $className());
+    }
+}
+
+//执行当前命令
+$className = Console::_consoleNameToClassName($command);
+$className = "app\\Console\\{$className}";
 $application->add(new $className());
 $application->run();
