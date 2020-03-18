@@ -33,7 +33,7 @@ CREATE TABLE `zq_user_permission` (
   `up_version` char(13) DEFAULT '版本名',
   PRIMARY KEY (`up_id`),
   UNIQUE KEY `uidx_name` (`up_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `zq_user_permission` (
 
 LOCK TABLES `zq_user_permission` WRITE;
 /*!40000 ALTER TABLE `zq_user_permission` DISABLE KEYS */;
-INSERT INTO `zq_user_permission` VALUES (2,1584377145,1584436409,0,0,1,'/文章列表/添加编辑','5e7094b9867ca'),(3,1584377145,1584436409,0,0,1,'/文章列表/分类列表','5e7094b9867ca'),(4,1584377145,1584436409,0,0,1,'/系统工具/生成表结构','5e7094b9867ca'),(6,1584377145,1584436409,0,0,1,'/会员列表/会员添加','5e7094b9867ca'),(7,1584377145,1584436409,0,0,1,'/会员列表/角色编辑','5e7094b9867ca'),(9,1584436409,1584436409,0,0,1,'/文章列表','5e7094b9867ca'),(10,1584436409,1584436409,0,0,1,'/会员列表','5e7094b9867ca');
+INSERT INTO `zq_user_permission` VALUES (2,1584377145,1584520992,0,0,1,'/文章列表/添加编辑','5e71df208cefb'),(3,1584377145,1584520992,0,0,1,'/文章列表/分类列表','5e71df208cefb'),(9,1584436409,1584520992,0,0,1,'/文章列表','5e71df208cefb'),(12,1584517759,1584520992,0,0,1,'/会员管理','5e71df208cefb'),(13,1584517759,1584520992,0,0,1,'/会员管理/会员添加','5e71df208cefb'),(14,1584517759,1584520992,0,0,1,'/会员管理/角色编辑','5e71df208cefb'),(15,1584517759,1584520992,0,0,1,'/会员管理/权限列表','5e71df208cefb'),(16,1584520602,1584520992,0,0,1,'/系统工具','5e71df208cefb'),(17,1584520992,1584520992,0,0,1,'/系统配置','5e71df208cefb');
 /*!40000 ALTER TABLE `zq_user_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-17 18:19:07
+-- Dump completed on 2020-03-18 17:24:45

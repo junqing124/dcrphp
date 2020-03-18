@@ -33,7 +33,7 @@ CREATE TABLE `zq_user_role_config` (
   `urc_r_id` int(11) DEFAULT NULL COMMENT '角色id',
   PRIMARY KEY (`urc_id`),
   UNIQUE KEY `uidx_ru` (`urc_u_id`,`urc_r_id`,`zt_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户的角色配置';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='用户的角色配置';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `zq_user_role_config` (
 
 LOCK TABLES `zq_user_role_config` WRITE;
 /*!40000 ALTER TABLE `zq_user_role_config` DISABLE KEYS */;
-INSERT INTO `zq_user_role_config` VALUES (1,1583134320,1583134320,0,0,1,1,1),(2,1583034614,1583034614,0,1,1,3,1),(3,1583034651,1583034651,0,1,1,2,2);
+INSERT INTO `zq_user_role_config` VALUES (1,1583134320,1583134320,0,0,1,1,1),(3,1583034651,1583034651,0,1,1,2,2),(15,1584523136,1584523136,0,1,1,3,2);
 /*!40000 ALTER TABLE `zq_user_role_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-17 18:19:06
+-- Dump completed on 2020-03-18 17:24:44
