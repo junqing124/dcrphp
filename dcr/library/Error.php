@@ -41,7 +41,10 @@ class Error
             $view->assign('e_file', $e->getFile());
             $view->assign('e_line', $e->getLine());
             $view->assign('e_message', $e->getMessage());
-            $view->assign('e_trace', $e->getTraceAsString());
+
+            $traceStr = str_replace("\n", '<br>', $e->getTraceAsString());
+
+            $view->assign('e_trace', $traceStr);
             $view->setViewDirectoryPath(ROOT_FRAME . DS . 'view');
             //dd($e->getTrace());
             echo $view->render('exception');

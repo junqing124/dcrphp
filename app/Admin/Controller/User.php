@@ -16,7 +16,7 @@ use dcr\Db;
 class User
 {
     /**
-     * @permission /会员列表
+     * @permission /会员管理
      * @return mixed
      * @throws \Exception
      */
@@ -105,7 +105,7 @@ class User
     }
 
     /**
-     * @permission /会员列表/会员添加
+     * @permission /会员管理/会员添加
      * @return mixed
      * @throws \Exception
      */
@@ -171,6 +171,7 @@ class User
             'u_mobile' => post('mobile'),
             'u_tel' => post('tel'),
             'u_note' => post('note'),
+            'u_is_super' => post('is_super'),
             'roles' => post('roles'),
         );
         //返回
@@ -250,7 +251,7 @@ class User
     }
 
     /**
-     * @permission /会员列表/角色编辑
+     * @permission /会员管理/角色编辑
      * @return mixed
      * @throws \Exception
      */
@@ -266,7 +267,7 @@ class User
     }
 
     /**
-     * @permission /会员列表/权限列表
+     * @permission /会员管理/权限列表
      * @return mixed
      * @throws \Exception
      */

@@ -72,6 +72,7 @@ class PermissionRefresh extends Command
                 'up_update_time' => time(),
                 'up_name' => $permissionName,
                 'up_version' => $version,
+                'up_add_user_id'=> 0,
                 'zt_id' => session('ztId'),
             );
             $hasInfo = DB::select(array(

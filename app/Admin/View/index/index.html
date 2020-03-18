@@ -83,33 +83,20 @@
 </header>
 <aside class="Hui-aside">
     <div class="menu_dropdown bk_2">
+        <!--这里通过/app/Admin/Config/Menu.php配置-->
+        {% for menu_detail in menu %}
         <dl id="menu-user">
-            <dt><i class="Hui-iconfont">&#xe60d;</i> 会员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dt><i class="Hui-iconfont">{{menu_detail.icon|raw}}</i> {{menu_detail.title}}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="/admin/user/list-view" data-title="会员列表" href="javascript:;">会员列表</a></li>
-                    <li><a data-href="/admin/user/role-view" data-title="角色列表" href="javascript:;">角色列表</a></li>
-                    <li><a data-href="/admin/user/permission-view" data-title="权限列表" href="javascript:;">权限列表</a></li>
+                    {% for menu_detail_sub in menu_detail.sub %}
+                    <li><a data-href="{{menu_detail_sub.url}}" data-title="{{menu_detail_sub.title}}" href="javascript:;">{{menu_detail_sub.title}}</a></li>
+                    {% endfor %}
                 </ul>
             </dd>
         </dl>
-        <dl id="menu-tools">
-            <dt><i class="Hui-iconfont">&#xe61a;</i> 系统工具<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-            <dd>
-                <ul>
-                    <li><a data-href="/admin/tools/table-general-view" data-title="生成表结构" href="javascript:;">生成表结构</a></li>
-                </ul>
-            </dd>
-        </dl>
-        <dl id="menu-config">
-            <dt><i class="Hui-iconfont">&#xe62e;</i> 系统配置<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-            <dd>
-                <ul>
-                    <li><a data-href="/admin/config/base-view" data-title="基本配置" href="javascript:;">基本配置</a></li>
-                    <li><a data-href="/admin/config/model-view" data-title="模型配置" href="javascript:;">模型配置</a></li>
-                </ul>
-            </dd>
-        </dl>
+        {% endfor %}
+        <!--这里通过app\Model\Define.php getModelDefine()配置-->
         {% for model in model_list %}
         <dl id="menu-{{model.name}}">
             <dt><i class="Hui-iconfont">&#xe620;</i> {{model.dec}}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>

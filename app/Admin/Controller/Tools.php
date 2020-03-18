@@ -7,7 +7,7 @@ use app\Admin\Model\Factory;
 class Tools
 {
     /**
-     * @permission /系统工具/生成表结构
+     * @permission /系统工具
      * @return mixed
      * @throws \Exception
      */

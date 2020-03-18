@@ -9,6 +9,7 @@
 namespace app\Admin\Model;
 
 use dcr\Session;
+use app\Admin\Model\User;
 use \Exception;
 use phpDocumentor\Reflection\DocBlockFactory;
 
@@ -26,7 +27,50 @@ class Factory
         if (!$dataList['page_title']) {
             throw new Exception('请设置页面标题,参考 Admin->Index->Index->index()');
         }
-        //判断有没有权限权限
+        $userId = session('userId');
+
+        //权限系统具体文档可以看https://github.com/junqing124/dcrphp/wiki/%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F
+        //如果是首页 则判断菜单权限
+        if ('index/index' == $template && $userId) {
+            $menu = require_once ROOT_APP . DS . 'Admin' . DS . 'Config' . DS . 'Menu.php';
+            //判断权限
+            $user = new User();
+            $permissionList = $user->getPermissionList(array('col' => 'up_name'));
+            //系统的permission
+            $permissionList = array_column($permissionList, 'up_name');
+            //用户拥有的permission
+            $permissionUserList = $user->getUserPermissionList($userId);
+            foreach ($menu as $menu_key => $menu_detail) {
+                //看看标题 判断是不是有限制权限
+                $title = '/' . $menu_detail['title'];
+                if (in_array($title, $permissionList)) {
+                    //看看有没有权限
+                    if (!in_array($title, $permissionUserList)) {
+                        unset($menu[$menu_key]);
+                    } else {
+                        //判断子的菜单
+                        foreach ($menu_detail['sub'] as $menu_sub_key => $menu_sub_detail) {
+                            //看看标题 判断是不是有限制权限
+                            $title_sub = $title . '/' . $menu_sub_detail['title'];
+                            if (in_array($title_sub, $permissionList)) {
+                                //看看有没有权限
+                                if (!in_array($title_sub, $permissionUserList)) {
+                                    unset($menu[$menu_sub_key]);
+                                } else {
+                                }
+                            } else {
+                                continue;
+                            }
+                        }
+                    }
+                } else {
+                    continue;
+                }
+            }
+            $dataList['menu'] = $menu;
+        }
+
+        //判断function有没有被授权
         $permissionNameList = session('permissionNameList');
         //获取父function
         $functionList = debug_backtrace();

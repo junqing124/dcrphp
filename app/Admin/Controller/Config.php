@@ -8,6 +8,11 @@ use app\Model\Define;
 
 class Config
 {
+    /**
+     * @permission /系统配置
+     * @return mixed
+     * @throws \Exception
+     */
     public function baseView()
     {
         $assignData = array();

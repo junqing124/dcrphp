@@ -79,6 +79,14 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">超级用户：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <label><input
+                        {% if  user_info.u_is_super %} checked {% endif %}
+                        value="1" name="is_super" type="checkbox" class="input-input">是</label>
+            </div>
+        </div>
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">角色：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 {% for role_config in role_config_list %}
