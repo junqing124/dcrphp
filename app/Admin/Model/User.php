@@ -85,7 +85,7 @@ class User
      * @param $userId
      * @return true
      */
-    public function login( $userId )
+    public function login($userId)
     {
 
         $userInfo = $this->getInfoById($userId);
@@ -291,7 +291,7 @@ class User
         } elseif ('edit' == $type) {
             if ($userInfo['u_password']) {
                 $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
-            }else{
+            } else {
                 unset($userInfo['u_password']);
             }
             $userInfo['u_edit_user_id'] = session('userId');
@@ -401,26 +401,26 @@ class User
      * @param $userId
      * @return array
      */
-    public function getUserPermissionList($userId){
+    public function getUserPermissionList($userId)
+    {
         $userInfo = $this->getInfoById($userId);
         $permissionNameList = array();
         //超级用户有全部权限
-        if( $userInfo['u_is_super'] ){
+        if ($userInfo['u_is_super']) {
             $permissionNameList = $this->getPermissionList(array('col'=>'up_name',));
-            $permissionNameList = array_column($permissionNameList,'up_name');
-        }else{
-
+            $permissionNameList = array_column($permissionNameList, 'up_name');
+        } else {
             //先得出角色名
             $roleList = $this->getRoleConfigList($userId);
             $permissionNameList = array();
-            if( $roleList ){
-                $roleIds = implode(',', array_column($roleList,'urc_r_id','urc_r_id'));
+            if ($roleList) {
+                $roleIds = implode(',', array_column($roleList, 'urc_r_id', 'urc_r_id'));
 
                 $permissionList = $this->getRoleList(array('where'=>"ur_id in({$roleIds})"));
-                if( $permissionList ){
-                    $permissionIds = implode(',', array_column($permissionList,'ur_permissions','ur_permissions'));
+                if ($permissionList) {
+                    $permissionIds = implode(',', array_column($permissionList, 'ur_permissions', 'ur_permissions'));
                     $permissionNameList = $this->getPermissionList(array('col'=>'up_name', 'where'=>"up_id in({$permissionIds})"));
-                    $permissionNameList = array_column($permissionNameList,'up_name');
+                    $permissionNameList = array_column($permissionNameList, 'up_name');
                 }
             }
         }
@@ -510,9 +510,10 @@ class User
         return Admin::commonReturn($result);
     }
 
-    public function roleEditPermission($data){
+    public function roleEditPermission($data)
+    {
         $roleId = $data['id'];
-        if( ! $data['up_id'] ){
+        if (! $data['up_id']) {
             throw new \Exception('请选择权限');
         }
         $permissionIds = implode(',', $data['up_id']);

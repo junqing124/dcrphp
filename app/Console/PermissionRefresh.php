@@ -44,7 +44,6 @@ class PermissionRefresh extends Command
                     $permissionConfigName = $permissionGeneric->getDescription()->render();
                     //判断格式
                     if (substr($permissionConfigName, 1) == '/' || substr($permissionConfigName, -1) == '/') {
-
                         throw new \Exception($permissionConfigName . '  不规范,权限名请以/开头，结尾不要/，且以一个/做分隔');
                     }
                     if (preg_match("/\/{2,}/u", $permissionConfigName, $out)) {

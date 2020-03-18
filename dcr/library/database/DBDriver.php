@@ -247,7 +247,7 @@ abstract class DBDriver
     {
         $this->lastErrorCode = $pdo->errorCode();
         $this->lastErrorInfo = $pdo->errorInfo();
-        if( $pdo->errorCode() != '0000' ){
+        if ($pdo->errorCode() != '0000') {
             $errorInfo = $this->getError();
             throw new \Exception($errorInfo['msg']);
         }
