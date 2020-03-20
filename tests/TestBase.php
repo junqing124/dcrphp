@@ -9,7 +9,7 @@ use app\Admin\Model\User;
 use app\Admin\Model\Model;
 use app\Admin\Model\Config;
 
-class DcrPHPTest extends TestCase
+class TestBase extends TestCase
 {
     public function testConfig()
     {

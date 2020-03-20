@@ -1,7 +1,7 @@
 <phpunit>
     <testsuites>
         <testsuite name="My Test Suite">
-            <file>tests/DcrPHPTest.php</file>
+            <directory suffix=".php">./tests</directory>
         </testsuite>
     </testsuites>
     <filter>
