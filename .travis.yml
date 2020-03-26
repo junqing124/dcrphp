@@ -37,6 +37,7 @@ before_install:
   - sudo service apache2 restart
   - sudo service apache2 status
   - sudo chown -R travis:travis .
+  - ls public
   - wget http://127.0.0.1:80
 
 install:
