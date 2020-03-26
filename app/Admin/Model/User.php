@@ -289,7 +289,7 @@ class User
         if ('add' == $type) {
             $userInfo['u_add_time'] = time();
             $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
-            $userInfo['u_add_user_id'] = session('userId');
+            $userInfo['u_add_user_id'] = session('userId') ? session('userId') : 0;
         } elseif ('edit' == $type) {
             if ($userInfo['u_password']) {
                 $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
