@@ -24,7 +24,7 @@ before_install:
   - mkdir -p tests/code_coverage/ # Create a folder to store clover files
   - php -v
   - cd public
-  - php -S 127.0.0.1:8080
+  - &php -S 127.0.0.1:8080
 
 install:
   - composer install --prefer-dist --optimize-autoloader --quiet
