@@ -65,13 +65,11 @@ YZCODE;
                     }
                 }
             }
-
         } catch (\Exception $ex) {
             echo $ex->getMessage();
         } finally {
             file_put_contents($userPath, $userCode);
         }
-
     }
 
     /**

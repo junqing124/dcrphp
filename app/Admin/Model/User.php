@@ -216,6 +216,7 @@ class User
         $roleInfo['zt_id'] = Session::_get('ztId');
         $roleInfo['ur_add_time'] = time();
         $roleInfo['ur_update_time'] = time();
+        $roleInfo['ur_permissions'] = '';
         $roleInfo['ur_add_user_id'] = session('userId') ? session('userId') : 0;
         $result = DB::insert('zq_user_role', $roleInfo);
         //返回
@@ -383,7 +384,7 @@ class User
     public function getRoleConfigList($userId)
     {
         $option['table'] = 'zq_user_role_config';
-        if( $userId ){
+        if ($userId) {
             $option['where'] = "urc_u_id={$userId}";
         }
         $list = DB::select($option);
