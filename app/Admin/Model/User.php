@@ -162,9 +162,11 @@ class User
         } else {
             $where = "u_id=" . session('userId');
         }
-        $result = DB::update('zq_user',
+        $result = DB::update(
+            'zq_user',
             array('u_password' => Safe::_encrypt($passwordNew), 'u_update_time' => time(), 'zt_id' => session('ztId')),
-            $where);
+            $where
+        );
         //dd($dbPre->getSql());
         //返回
         return Admin::commonReturn($result);
@@ -327,7 +329,7 @@ class User
                 $roleDbInfo = array(
                     'urc_add_time' => time(),
                     'urc_update_time' => time(),
-                    'urc_add_user_id' => intval(session('userId')),
+                    'urc_add_user_id' => session('userId') ? session('userId') : 0,
                     'zt_id' => $userInfo['zt_id'],
                     'urc_u_id' => $userId,
                     'urc_r_id' => $roleKey,
