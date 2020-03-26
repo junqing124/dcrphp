@@ -36,7 +36,7 @@ before_install:
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
   - sudo service apache2 restart
   - sudo service apache2 status
-  - chown apache:apache -R .
+  - sudo chown -R travis:travis .
   - wget http://127.0.0.1:80
 
 install:
