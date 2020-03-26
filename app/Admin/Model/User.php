@@ -325,7 +325,7 @@ class User
         //开始更新用户角色
         if ($roles) {
             foreach ($roles as $roleKey) {
-                dd($roleKey);
+                //dd($roleKey);
                 //先判断有没有
                 $roleDbInfo = array(
                     'urc_add_time' => time(),
@@ -335,7 +335,7 @@ class User
                     'urc_u_id' => $userId,
                     'urc_r_id' => $roleKey,
                 );
-                dd($roleDbInfo);
+                //dd($roleDbInfo);
                 DB::insert('zq_user_role_config', $roleDbInfo);
             }
         }

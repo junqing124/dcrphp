@@ -114,7 +114,7 @@ class AppInstall extends Command
                 'u_is_super' => 1,
                 'u_note' => '管理员',
                 'zt_id' => 1,
-                'roles' => array($roleId),
+                'roles' => array(1),
             );
             //返回
             $type = 'add';
