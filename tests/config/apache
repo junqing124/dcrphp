@@ -2,9 +2,9 @@
   # for travis build apache
   # [...]
 
-  DocumentRoot %TRAVIS_BUILD_DIR%
+  DocumentRoot %TRAVIS_BUILD_DIR%/public
 
-  <Directory "%TRAVIS_BUILD_DIR%/">
+  <Directory "%TRAVIS_BUILD_DIR%/public/">
     Options FollowSymLinks MultiViews ExecCGI
     AllowOverride All
     Require all granted
