@@ -162,7 +162,9 @@ class User
         } else {
             $where = "u_id=" . session('userId');
         }
-        $result = DB::update('zq_user', array('u_password' => Safe::_encrypt($passwordNew), 'u_update_time' => time(), 'zt_id' => session('ztId')), $where);
+        $result = DB::update('zq_user',
+            array('u_password' => Safe::_encrypt($passwordNew), 'u_update_time' => time(), 'zt_id' => session('ztId')),
+            $where);
         //dd($dbPre->getSql());
         //返回
         return Admin::commonReturn($result);
@@ -323,12 +325,12 @@ class User
             foreach ($roles as $roleKey) {
                 //先判断有没有
                 $roleDbInfo = array(
-                    'urc_add_time'=> time(),
-                    'urc_update_time'=> time(),
-                    'urc_add_user_id'=> session('userId'),
-                    'zt_id'=> $userInfo['zt_id'],
-                    'urc_u_id'=> $userId,
-                    'urc_r_id'=> $roleKey,
+                    'urc_add_time' => time(),
+                    'urc_update_time' => time(),
+                    'urc_add_user_id' => intval(session('userId')),
+                    'zt_id' => $userInfo['zt_id'],
+                    'urc_u_id' => $userId,
+                    'urc_r_id' => $roleKey,
                 );
                 DB::insert('zq_user_role_config', $roleDbInfo);
             }
@@ -411,7 +413,7 @@ class User
         $permissionNameList = array();
         //超级用户有全部权限
         if ($userInfo['u_is_super']) {
-            $permissionNameList = $this->getPermissionList(array('col'=>'up_name',));
+            $permissionNameList = $this->getPermissionList(array('col' => 'up_name',));
             $permissionNameList = array_column($permissionNameList, 'up_name');
         } else {
             //先得出角色名
@@ -420,10 +422,13 @@ class User
             if ($roleList) {
                 $roleIds = implode(',', array_column($roleList, 'urc_r_id', 'urc_r_id'));
 
-                $permissionList = $this->getRoleList(array('where'=>"ur_id in({$roleIds})"));
+                $permissionList = $this->getRoleList(array('where' => "ur_id in({$roleIds})"));
                 if ($permissionList) {
                     $permissionIds = implode(',', array_column($permissionList, 'ur_permissions', 'ur_permissions'));
-                    $permissionNameList = $this->getPermissionList(array('col'=>'up_name', 'where'=>"up_id in({$permissionIds})"));
+                    $permissionNameList = $this->getPermissionList(array(
+                        'col' => 'up_name',
+                        'where' => "up_id in({$permissionIds})"
+                    ));
                     $permissionNameList = array_column($permissionNameList, 'up_name');
                 }
             }
@@ -478,7 +483,12 @@ class User
     public function deleteRole($roleId)
     {
         //验证
-        $info = DB::select(array('table' => 'zq_user_role', 'col' => 'ur_id', 'where' => "ur_id={$roleId}", 'limit' => 1));
+        $info = DB::select(array(
+            'table' => 'zq_user_role',
+            'col' => 'ur_id',
+            'where' => "ur_id={$roleId}",
+            'limit' => 1
+        ));
         $info = current($info);
 
         if (!$info) {
@@ -500,7 +510,12 @@ class User
     public function deletePermission($permissionId)
     {
         //验证
-        $info = DB::select(array('table' => 'zq_user_permission', 'col' => 'up_id', 'where' => "up_id={$permissionId}", 'limit' => 1));
+        $info = DB::select(array(
+            'table' => 'zq_user_permission',
+            'col' => 'up_id',
+            'where' => "up_id={$permissionId}",
+            'limit' => 1
+        ));
         $info = current($info);
 
         if (!$info) {
@@ -517,7 +532,7 @@ class User
     public function roleEditPermission($data)
     {
         $roleId = $data['id'];
-        if (! $data['up_id']) {
+        if (!$data['up_id']) {
             throw new \Exception('请选择权限');
         }
         $permissionIds = implode(',', $data['up_id']);
