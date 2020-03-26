@@ -35,7 +35,7 @@ before_install:
   - sudo cp -f tests/config/apache /etc/apache2/sites-available/000-default.conf
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/000-default.conf
   - sudo service apache2 restart
-  - sudo service apahce2 status
+  - sudo service apache2 status
 
 install:
   - composer install --prefer-dist --optimize-autoloader --quiet
