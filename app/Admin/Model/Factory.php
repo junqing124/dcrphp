@@ -41,7 +41,7 @@ class Factory
             //用户拥有的permission
             $permissionUserList = $user->getUserPermissionList($userId);
             foreach ($menu as $menu_key => $menu_detail) {
-                //看看标题 判断是不是有限制权限
+                //看看菜单 判断是不是有限制权限
                 $title = '/' . $menu_detail['title'];
                 if (in_array($title, $permissionList)) {
                     //看看有没有权限

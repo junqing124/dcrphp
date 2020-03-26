@@ -152,7 +152,7 @@ class Model
         $param = container('request')->getParams();
         $modelName = $param[0];
         $action = $param[1];
-        $categoryId = $param[2];
+        $categoryId = $param[2] ? $param[2] : 1;
         $assignData['model_name'] = $modelName;
         $assignData['action'] = $action;
         $assignData['category_id'] = $categoryId;

@@ -71,7 +71,7 @@ class User
      * @return mixed
      * @throws \Exception
      */
-    public function addPermissionView()
+    public function addPermissionViewAbandon()
     {
         $assignData['page_title'] = '添加权限';
         return Factory::renderPage('user/add-permission', $assignData);

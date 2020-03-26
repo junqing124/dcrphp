@@ -36,6 +36,7 @@ class Error
             //ack是为了兼容ajax里的ack和msg输出值
             $view->assign('ack', 0);
             $view->assign('msg', $e->getMessage());
+            $view->assign('url', $_SERVER['REQUEST_URI']);
 
             $view->assign('e_code', $e->getCode());
             $view->assign('e_file', $e->getFile());
@@ -77,6 +78,7 @@ class Error
             //ack是为了兼容ajax里的ack和msg输出值
             $view->assign('ack', 0);
             $view->assign('msg', $errStr);
+            $view->assign('url', $_SERVER['REQUEST_URI']);
 
             $view->assign('err_no', $errNo);
             $view->assign('err_str', $errStr);
