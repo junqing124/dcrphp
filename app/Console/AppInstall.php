@@ -112,6 +112,7 @@ class AppInstall extends Command
                 'u_mobile' => '15718126135',
                 'u_tel' => '',
                 'u_is_super' => 1,
+                'u_add_user_id' => 0,
                 'u_note' => '管理员',
                 'zt_id' => 1,
                 'roles' => array($roleId),
