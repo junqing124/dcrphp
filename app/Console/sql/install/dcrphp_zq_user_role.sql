@@ -26,11 +26,11 @@ CREATE TABLE `zq_user_role` (
   `ur_id` int(11) NOT NULL AUTO_INCREMENT,
   `ur_permissions` varchar(1000) CHARACTER SET utf8 NOT NULL,
   `ur_name` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `ur_add_time` int(11) NOT NULL,
-  `ur_update_time` int(11) NOT NULL,
-  `ur_add_user_id` smallint(6) NOT NULL,
-  `ur_note` varchar(45) DEFAULT NULL,
-  `zt_id` tinyint(1) NOT NULL,
+  `ur_add_time` int(11) NOT NULL DEFAULT '0',
+  `ur_update_time` int(11) NOT NULL DEFAULT '0',
+  `ur_add_user_id` smallint(6) NOT NULL DEFAULT '0',
+  `ur_note` varchar(45) DEFAULT '',
+  `zt_id` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ur_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-18 17:24:44
+-- Dump completed on 2020-03-27 13:38:37

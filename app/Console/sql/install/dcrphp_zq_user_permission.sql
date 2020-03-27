@@ -24,13 +24,13 @@ DROP TABLE IF EXISTS `zq_user_permission`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `zq_user_permission` (
   `up_id` int(11) NOT NULL AUTO_INCREMENT,
-  `up_add_time` int(11) NOT NULL,
-  `up_update_time` int(11) NOT NULL,
-  `up_approval_status` tinyint(4) NOT NULL,
-  `up_add_user_id` smallint(6) NOT NULL,
-  `zt_id` smallint(6) NOT NULL,
-  `up_name` varchar(45) NOT NULL DEFAULT '权限名',
-  `up_version` char(13) DEFAULT '版本名',
+  `up_add_time` int(11) NOT NULL DEFAULT '0',
+  `up_update_time` int(11) NOT NULL DEFAULT '0',
+  `up_approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `up_add_user_id` smallint(6) NOT NULL DEFAULT '0',
+  `zt_id` smallint(6) NOT NULL DEFAULT '1',
+  `up_name` varchar(45) NOT NULL DEFAULT '' COMMENT '权限名',
+  `up_version` char(13) NOT NULL DEFAULT '' COMMENT '版本名',
   PRIMARY KEY (`up_id`),
   UNIQUE KEY `uidx_name` (`up_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-18 17:24:45
+-- Dump completed on 2020-03-27 13:38:37

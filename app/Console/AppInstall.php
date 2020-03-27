@@ -131,7 +131,7 @@ class AppInstall extends Command
             //给管理员配置全权限
             $permissionList = $user->getPermissionList();
             $permissionIds = implode(',', array_column($permissionList, 'up_id'));
-            DB::update('zq_user_role', array('zt_id' => 1, 'ur_permission' => $permissionIds,), "ur_name='系统管理员'");
+            DB::update('zq_user_role', array('zt_id' => 1, 'ur_permissions' => $permissionIds,), "ur_name='系统管理员'");
 
             $io->title('Initial end');
             $io->title('Install success, you can login in by host/admin/index/index admin,123456');

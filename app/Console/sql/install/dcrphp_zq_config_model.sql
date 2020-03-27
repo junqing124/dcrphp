@@ -24,14 +24,14 @@ DROP TABLE IF EXISTS `zq_config_model`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `zq_config_model` (
   `cm_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cm_add_time` int(11) NOT NULL,
-  `cm_update_time` int(11) NOT NULL,
-  `cm_approval_status` tinyint(4) NOT NULL,
-  `cm_add_user_id` smallint(6) NOT NULL,
-  `zt_id` smallint(6) NOT NULL,
-  `cm_key` varchar(45) DEFAULT NULL,
-  `cm_dec` varchar(45) DEFAULT NULL,
-  `cm_model_name` varchar(45) DEFAULT NULL,
+  `cm_add_time` int(11) NOT NULL DEFAULT '0',
+  `cm_update_time` int(11) NOT NULL DEFAULT '0',
+  `cm_approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `cm_add_user_id` smallint(6) NOT NULL DEFAULT '0',
+  `zt_id` smallint(6) NOT NULL DEFAULT '1',
+  `cm_key` varchar(45) NOT NULL DEFAULT '',
+  `cm_dec` varchar(45) NOT NULL DEFAULT '',
+  `cm_model_name` varchar(45) NOT NULL DEFAULT '',
   PRIMARY KEY (`cm_id`),
   UNIQUE KEY `uidx_mk` (`cm_model_name`,`cm_key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-18 17:24:44
+-- Dump completed on 2020-03-27 13:38:37

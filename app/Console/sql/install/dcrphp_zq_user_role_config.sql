@@ -24,13 +24,13 @@ DROP TABLE IF EXISTS `zq_user_role_config`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `zq_user_role_config` (
   `urc_id` int(11) NOT NULL AUTO_INCREMENT,
-  `urc_add_time` int(11) NOT NULL,
-  `urc_update_time` int(11) NOT NULL,
-  `urc_approval_status` tinyint(4) NOT NULL,
-  `urc_add_user_id` smallint(6) NOT NULL,
-  `zt_id` smallint(6) NOT NULL,
-  `urc_u_id` int(11) DEFAULT NULL COMMENT '用户ID',
-  `urc_r_id` int(11) DEFAULT NULL COMMENT '角色id',
+  `urc_add_time` int(11) NOT NULL DEFAULT '0',
+  `urc_update_time` int(11) NOT NULL DEFAULT '0',
+  `urc_approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `urc_add_user_id` smallint(6) NOT NULL DEFAULT '0',
+  `zt_id` smallint(6) NOT NULL DEFAULT '1',
+  `urc_u_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `urc_r_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色id',
   PRIMARY KEY (`urc_id`),
   UNIQUE KEY `uidx_ru` (`urc_u_id`,`urc_r_id`,`zt_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='用户的角色配置';
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-18 17:24:44
+-- Dump completed on 2020-03-27 13:38:36

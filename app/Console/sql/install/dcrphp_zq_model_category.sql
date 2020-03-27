@@ -24,14 +24,14 @@ DROP TABLE IF EXISTS `zq_model_category`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `zq_model_category` (
   `mc_id` int(11) NOT NULL AUTO_INCREMENT,
-  `mc_add_time` int(11) NOT NULL,
-  `mc_update_time` int(11) NOT NULL,
-  `mc_approval_status` tinyint(4) NOT NULL,
-  `mc_add_user_id` smallint(6) NOT NULL,
-  `zt_id` smallint(6) NOT NULL,
-  `mc_model_name` varchar(45) DEFAULT NULL,
-  `mc_name` varchar(45) DEFAULT NULL,
-  `mc_parent_id` smallint(6) DEFAULT NULL,
+  `mc_add_time` int(11) NOT NULL DEFAULT '0',
+  `mc_update_time` int(11) NOT NULL DEFAULT '0',
+  `mc_approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `mc_add_user_id` smallint(6) NOT NULL DEFAULT '0',
+  `zt_id` smallint(6) NOT NULL DEFAULT '1',
+  `mc_model_name` varchar(45) NOT NULL DEFAULT '',
+  `mc_name` varchar(45) NOT NULL DEFAULT '',
+  `mc_parent_id` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`mc_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-18 17:24:45
+-- Dump completed on 2020-03-27 13:38:37
