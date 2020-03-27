@@ -91,5 +91,7 @@ class PermissionRefresh extends Command
         //非本版本的删除 这样做的原因是删除那些已经删除的权限
         DB::delete('zq_user_permission', "up_version!='{$version}'");
         $io->title('Permission refresh finished!');
+        
+        return 0;
     }
 }

@@ -33,14 +33,16 @@ dcrphp后端是自己开发的框架，采用前后端分离的方式做的管�
     php dcrphp app:demo    
   
   
-nginx配置:  
+附：nginx配置:  
 charset utf-8;  
 location / {  
-    try_files $uri $uri/ /index.php?$query_string;    
+&#8195;&#8195;try_files $uri $uri/ /index.php?$query_string;    
 }  
-1.0.2(开发中):
-    1、完善RABC
-    2、完善测试程序
+
+1.0.2(开发中):  
+    1、完善RABC  
+    2、完善测试程序  
+    3、修改数据库规则及现有的数据库结构  
 
 1.0.1(2020-03-15):  
     1、采用全新的底层框架，性能、开发效率提升  
