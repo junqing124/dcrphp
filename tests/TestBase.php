@@ -74,7 +74,7 @@ class TestBase extends TestCase
         $this->assertEquals(1, count($modelInfoCategoryList));
 
         //把有图片的去掉
-        $modelList = $model->getList(array( 'where'=> 'ml_pic_path is not null' ));
+        $modelList = $model->getList(array( 'where'=> 'char_length(ml_pic_path)<1'));
         $this->assertEquals(0, count($modelList));
 
         //list数量
