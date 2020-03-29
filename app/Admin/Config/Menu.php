@@ -30,6 +30,10 @@ return array(
                 'url' => '/admin/tools/table-general-view',
                 'title' => '生成表结构',
             ),
+            array(
+                'url' => '/admin/tools/plugins-installed-view',
+                'title' => '插件中心',
+            ),
         ),
     ),
     'menu-config' => array(

@@ -1,0 +1,53 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common/head.html' ignore missing %}
+    <link rel="stylesheet" href="{{admin_resource_url}}/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+</head>
+<body>
+
+{% include 'model/navigate.html' ignore missing %}
+
+<div class="page-container">
+    <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l">
+    <a class="btn btn-primary radius" onclick="window.location.href='/admin/tools/plugins-view'" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i>可安装列表</a>
+    <a class="btn btn-success radius" onclick="window.location.href='/admin/tools/plugins-installed-view'" href="javascript:;"><i class="Hui-iconfont">&#xe667;</i>已安装列表</a>
+    </span>
+    </div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-bg table-hover table-sort">
+            <thead>
+            <tr>
+                <th width="40">名字</th>
+                <th width="200">描述</th>
+                <th width="50">作者</th>
+                <th width="50">版本</th>
+                <th width="50">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for plugin in plugin_list %}
+            <tr class="va-m">
+                <td>{{plugin.p_name}}</td>
+                <td>
+                    {{plugin.p_description}}
+                </td>
+                <td>
+                    {{plugin.p_author}}
+                </td>
+                <td>
+                    {{plugin.p_version}}
+                </td>
+                <td class="td-manage">
+                    <a style="text-decoration:none" class="ml-5"  href="/admin/tools/enterPluginsView/{{plugin.p_name}}" title="进入"><i class="Hui-iconfont">&#xe63d;</i></a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% include '/common/footer.html' ignore missing %}
+</body>
+</html>
