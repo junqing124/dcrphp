@@ -1,9 +1,12 @@
 <?php
+
+use \app\Model\Plugins;
+
 /**
  * 后台菜单配置
  * 本配置主格式可以menu-user为案例
  */
-return array(
+$menu = array(
     'menu-user' => array(
         'icon' => '&#xe60d;', //图标
         'title' => '会员管理', //一级菜单
@@ -27,10 +30,6 @@ return array(
         'title' => '系统工具',
         'sub' => array(
             array(
-                'url' => '/admin/tools/table-general-view',
-                'title' => '生成表结构',
-            ),
-            array(
                 'url' => '/admin/tools/plugins-installed-view',
                 'title' => '插件中心',
             ),
@@ -51,3 +50,17 @@ return array(
         ),
     ),
 );
+
+//得到插件列表
+$clsPlugin = new Plugins();
+$listPlugin = $clsPlugin->getInstalledList();
+foreach ($listPlugin as $infoPlugin) {
+    //dd($infoPlugin);
+    $menu['menu-tools']['sub'][] = array(
+        'url' => '/admin/tools/enter-plugins-view/' . $infoPlugin['p_name'],
+        'title' => $infoPlugin['p_title'],
+    );
+}
+/*dd($menu);
+exit;*/
+return $menu;

@@ -19,10 +19,11 @@ class Factory
      * 输出后台页面 抽象出来 主要是为了做验证
      * @param $template
      * @param $dataList
+     * @param $templateViewDir 这里可以设置view目录，主要是为了兼容插件能设置自己的view目录
      * @return mixed
      * @throws Exception
      */
-    public static function renderPage($template, $dataList)
+    public static function renderPage($template, $dataList, $templateViewDir = '')
     {
         if (!$dataList['page_title']) {
             throw new Exception('请设置页面标题,参考 Admin->Index->Index->index()');
@@ -101,6 +102,9 @@ class Factory
         $view = container('view');
         //$view->outFormat = 'json';
         $admin = new Admin();
+        if ($templateViewDir) {
+            $admin->setViewDirectoryPath($templateViewDir);
+        }
         $resultStr = $admin->common($view);
         $dataCommon = array('username' => Session::_get('username'));
         $dataList = array_merge($dataList, $dataCommon);

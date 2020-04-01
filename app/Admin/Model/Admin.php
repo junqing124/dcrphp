@@ -14,6 +14,24 @@ use dcr\Session;
 
 class Admin
 {
+    private $viewDirectoryPath;
+
+    /**
+     * @return mixed
+     */
+    public function getViewDirectoryPath()
+    {
+        return $this->viewDirectoryPath;
+    }
+
+    /**
+     * @param mixed $viewDirectoryPath
+     */
+    public function setViewDirectoryPath($viewDirectoryPath)
+    {
+        $this->viewDirectoryPath = $viewDirectoryPath;
+    }
+
 
     /**
      * 给模板通用的key和value
@@ -24,7 +42,7 @@ class Admin
     public function common($view)
     {
         $user = new User();
-        $view->setViewDirectoryPath(ROOT_APP . DS . 'Admin' . DS . 'View');
+        $view->setViewDirectoryPath($this->viewDirectoryPath ? $this->viewDirectoryPath : ROOT_APP . DS . 'Admin' . DS . 'View');
         $valueList = array('admin_resource_url' => env('ADMIN_RESOURCE_URL'));
         foreach ($valueList as $key => $value) {
             $view->assign($key, $value);

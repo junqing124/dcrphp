@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'header.html' ignore missing %}
+</head>
+<body>
+
+<div class="page-container">
+    <div class="mt-20">
+        <!--method请设置为post-->
+        <!--action请指到/admin/tools/plugins-ajax-->
+        <!--后面加上DbBackup里实现的function,比如backup-->
+        <!--处理方式在插件里Controller下的DbBackup->backup()-->
+        <!--记得再加个hidden plugin_name指为插件名-->
+        <!--本页面请求，请用post给tools/plugins-ajax提交 如restore()-->
+        <form id="frm" action="/admin/tools/plugins-ajax/backup" method="post">
+            <input type="hidden" name="plugin_name" value="DbBackup">
+            <table class="table table-border table-bordered table-hover table-bg table-sort">
+                <tr class="text-l">
+                    <th width="100">表名</th>
+                    <th width="800">
+                        {% for table in table_list %}
+                        <label><input checked value="{{table}}" type="checkbox" name="table[]">{{table}}</label>
+                        {% endfor %}
+                    </th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;备份&nbsp;&nbsp;">
+                    </td>
+                </tr>
+                <tr class="text-l">
+                    <th width="100">恢复备份</th>
+                    <th width="800">
+                        {% for backup in backup_list %}
+                        {{backup.name}}-{{backup.file_name}}-{{backup.size}}K <a href="javascript:restore('{{backup.name}}');void(0);">点击恢复备份</a><br>
+                        {% endfor %}
+                    </th>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+{% include 'footer.html' ignore missing %}
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="{{admin_resource_url}}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+    function restore(backup_name) {
+        //admin/tools/plugins-ajax/backup
+        $.post("/admin/tools/plugins-ajax/restore", {plugin_name: "DbBackup", backup_name: backup_name},
+            function (data) {
+                if(1 == data.ack){
+                    layer.alert('恢复完成', {icon: 1});
+                }else{
+                    layer.alert(data.msg, {icon: 2});
+                }
+            }, 'json');
+    }
+
+    $(function () {
+        $("#frm").validate({
+            onkeyup: false,
+            focusCleanup: true,
+            success: "valid",
+            method: 'post',
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    success: function (data) {
+                        data = $.parseJSON(data);
+                        if (1 == data.ack) {
+                            window.location.href = window.location.href;
+                        } else {
+                            layer.alert(data.msg, {icon: 2});
+                        }
+                    },
+                    error: function (data) {
+                        //console.log(data);
+                    }
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

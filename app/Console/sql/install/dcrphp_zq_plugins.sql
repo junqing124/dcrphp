@@ -34,9 +34,10 @@ CREATE TABLE `zq_plugins` (
   `p_is_valid` tinyint(1) NOT NULL DEFAULT '1',
   `p_author` varchar(45) NOT NULL DEFAULT '',
   `p_version` varchar(45) NOT NULL DEFAULT '',
+  `p_title` varchar(45) NOT NULL DEFAULT '',
   PRIMARY KEY (`p_id`),
   UNIQUE KEY `uidx_name` (`p_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +46,7 @@ CREATE TABLE `zq_plugins` (
 
 LOCK TABLES `zq_plugins` WRITE;
 /*!40000 ALTER TABLE `zq_plugins` DISABLE KEYS */;
-INSERT INTO `zq_plugins` VALUES (8,1585494378,1585494378,1,0,1,'TableGeneral','用于生成指定表的表结构',1,'dcr','1.0.1');
+INSERT INTO `zq_plugins` VALUES (10,1585734408,1585734408,1,0,1,'DbBackup','数据库备份',1,'dcr','1.0.1','数据库备份'),(11,1585734793,1585734793,1,0,1,'TableGeneral','用于生成指定表的表结构',1,'dcr','1.0.1','生成表结构');
 /*!40000 ALTER TABLE `zq_plugins` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-29 23:17:11
+-- Dump completed on 2020-04-01 17:54:11

@@ -10,11 +10,11 @@ class Install
 {
     /**
      * 执行某个目录下的sql文件
-     * @param $sqlPath
+     * @param $sqlDirPath
      * @return bool
      * @throws
      */
-    public function executeSqlFiles($sqlPath)
+    public function executeSqlFiles($sqlDirPath)
     {
         ENV::init();
         $host = env('MYSQL_DB_HOST');
@@ -23,10 +23,10 @@ class Install
         $password = env('MYSQL_DB_PASSWORD');
         $database = env('MYSQL_DB_DATABASE');
 
-        $sqlFileList = scandir($sqlPath);
+        $sqlFileList = scandir($sqlDirPath);
         foreach ($sqlFileList as $sqlFile) {
             if (pathinfo($sqlFile, PATHINFO_EXTENSION) === 'sql') {
-                $sqlFilename = $sqlPath . DS . $sqlFile;
+                $sqlFilename = $sqlDirPath . DS . $sqlFile;
                 //echo $sqlFilename;
                 //echo '-';
                 new Import($sqlFilename, $username, $password, $database, $host . ':' . $port);

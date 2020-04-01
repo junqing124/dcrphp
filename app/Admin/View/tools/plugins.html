@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML>
 <html>
 <head>
-    {% include 'common/head.html' ignore missing %}
+    {% include 'common/header.html' ignore missing %}
     <link rel="stylesheet" href="{{admin_resource_url}}/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
 </head>
 <body>
@@ -19,6 +19,7 @@
             <thead>
             <tr>
                 <th width="40">名字</th>
+                <th width="40">是否安装</th>
                 <th width="60">来源</th>
                 <th width="200">描述</th>
                 <th width="50">作者</th>
@@ -31,6 +32,13 @@
             <tr class="va-m">
                 <td>{{plugin.name}}</td>
                 <td>{{plugin.source}}</td>
+                <td>
+                    {% if  plugin.name in plugin_installed_list %}
+                    <i class="Hui-iconfont">&#xe6a7;</i>
+                    {% else %}
+                    <i class="Hui-iconfont">&#xe6a6;</i>
+                    {% endif %}
+                </td>
                 <td>
                     {{plugin.description}}
                 </td>

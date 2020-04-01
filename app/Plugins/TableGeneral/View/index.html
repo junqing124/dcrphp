@@ -1,11 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    {% include 'common/head.html' ignore missing %}
+    {% include 'header.html' ignore missing %}
 </head>
 <body>
 
-{% include 'user/navigate.html' ignore missing %}
 <div class="page-container">
     <div class="mt-20">
         <div class="Huialert Huialert-info"><i class="Hui-iconfont">&#xe6a6;</i>
@@ -33,7 +32,7 @@
     </div>
 </div>
 
-{% include '/common/footer.html' ignore missing %}
+{% include 'footer.html' ignore missing %}
 
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="{{admin_resource_url}}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>

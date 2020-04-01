@@ -28,7 +28,6 @@ class ClassLoader
         }
         $classPath = str_replace('\\', DS, $classPath);
 
-
         try {
             if (file_exists($classPath)) {
                 require_once $classPath;

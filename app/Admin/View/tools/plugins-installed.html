@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML>
 <html>
 <head>
-    {% include 'common/head.html' ignore missing %}
+    {% include 'common/header.html' ignore missing %}
     <link rel="stylesheet" href="{{admin_resource_url}}/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
 </head>
 <body>
@@ -22,6 +22,7 @@
                 <th width="200">描述</th>
                 <th width="50">作者</th>
                 <th width="50">版本</th>
+                <th width="50">安装日期</th>
                 <th width="50">操作</th>
             </tr>
             </thead>
@@ -37,6 +38,9 @@
                 </td>
                 <td>
                     {{plugin.p_version}}
+                </td>
+                <td>
+                    {{plugin.p_add_time|date('Y-m-d')}}
                 </td>
                 <td class="td-manage">
                     <a style="text-decoration:none" class="ml-5"  href="/admin/tools/enterPluginsView/{{plugin.p_name}}" title="进入"><i class="Hui-iconfont">&#xe63d;</i></a>

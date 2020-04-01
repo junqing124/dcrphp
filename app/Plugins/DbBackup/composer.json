@@ -1,0 +1,5 @@
+{
+  "require": {
+    "phelium/mysql-backup": "*"
+  }
+}

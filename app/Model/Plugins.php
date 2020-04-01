@@ -6,6 +6,7 @@ namespace app\Model;
 
 use app\Admin\Model\Admin;
 use dcr\Db;
+use dcr\Request;
 
 class Plugins
 {
@@ -48,6 +49,7 @@ class Plugins
         $dbInfo['p_description'] = $pluginInfo['description'];
         $dbInfo['p_author'] = $pluginInfo['author'];
         $dbInfo['p_version'] = $pluginInfo['version'];
+        $dbInfo['p_title'] = $pluginInfo['title'];
         $dbInfo['p_add_time'] = time();
         $dbInfo['p_update_time'] = time();
         $dbInfo['zt_id'] = session('ztId');
@@ -70,7 +72,7 @@ class Plugins
         return Admin::commonReturn($result);
     }
 
-    function getInstalledList()
+    public function getInstalledList()
     {
         $list = DB::select(array(
             'table' => 'zq_plugins',
@@ -78,4 +80,23 @@ class Plugins
 
         return $list;
     }
+
+    public function getConfig($pluginName)
+    {
+        $subDir = $this->pluginDir . DS . $pluginName;
+        $configPath = $subDir . DS . 'Config.php';
+        if (!file_exists($configPath)) {
+            throw new \Exception($pluginName . ':没有找到配置文件');
+        }
+        $config = include_once $configPath;
+
+        return $config;
+    }
+
+    public function getControllerClass($pluginName)
+    {
+
+        return "\\app\\Plugins\\{$pluginName}\\Controller\\{$pluginName}";
+    }
+
 }
