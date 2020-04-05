@@ -2,8 +2,6 @@
 
 namespace dcr;
 
-use mysql_xdevapi\Exception;
-
 class Console extends DcrBase
 {
     /**
@@ -16,7 +14,7 @@ class Console extends DcrBase
         $command = $consoleName;
         $commandArr = explode(':', $command);
         if (2 != count($commandArr)) {
-            throw new Exception('error input parameters, format must bu like console:name');
+            throw new \Exception('error input parameters, format must bu like console:name');
             exit;
         }
 

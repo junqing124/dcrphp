@@ -9,11 +9,16 @@
 namespace app\Index\Controller;
 
 use app\Model\Define;
+use app\Model\Install;
 use dcr\Db;
 use dcr\Page;
 use dcr\Request;
 use app\Admin\Model\Model;
 use app\Admin\Model\Config;
+use Symfony\Component\Console\Application;
+use dcr\Console;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
  * Class Index
@@ -89,7 +94,7 @@ class Index
         $categoryDec = $modelName == 'product' ? '产品中心' : '新闻中心';
         $this->viewCommon(
             $view,
-            $categoryInfo['mc_name'] . ($modelName == 'product' ? '-产品中心'  : '-新闻中心'),
+            $categoryInfo['mc_name'] . ($modelName == 'product' ? '-产品中心' : '-新闻中心'),
             "<a href='/'>首页</a> / <a>{$categoryDec}</a> / <a>{$categoryInfo['mc_name']}</a>'"
         );
 
@@ -162,5 +167,26 @@ class Index
         $view->assign('product_list', $productList);
 
         return $view->render('index');
+    }
+
+    public function installView()
+    {
+        throw new \Exception('暂时不支持web版本安装，请按文档用命令行安装');
+        exit;
+        $view = container('view');
+        $view->setViewDirectoryPath(ROOT_APP . DS . 'Index' . DS . 'View');
+        $view->assign('admin_resource_url', env('ADMIN_RESOURCE_URL'));
+        return $view->render('install');
+    }
+
+    public function installAjax()
+    {
+        try {
+            $clsInstall = new Install();
+            $clsInstall->install();
+        } catch (\Exception $ex) {
+            throw new \Exception($ex->getMessage());
+
+        }
     }
 }

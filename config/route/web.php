@@ -6,4 +6,7 @@
  * Time: 0:49
  */
 namespace Dcr;
-//本文件不要配置，暂时不生效
+return array(
+    'install'=> 'index/index/install-view',
+    'admin'=> 'admin/index/index',
+);

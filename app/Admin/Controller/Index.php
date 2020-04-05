@@ -71,7 +71,7 @@ class Index
         $user->logout();
         /*dd($_SESSION);
         exit;*/
-        Response::_redirect('/admin/index/index');
+        Response::_redirect('/admin');
     }
 
     /**
@@ -108,7 +108,7 @@ class Index
             //登陆后跳转
             $data = $yzResult['data'];
             $user->login($data['userId']);
-            Response::_redirect('/admin/index/index');
+            Response::_redirect('/admin');
         } else {
             $view->assign('error_msg', $yzResult['msg']);
             $admin->common($view);

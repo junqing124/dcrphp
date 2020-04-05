@@ -11,6 +11,7 @@ namespace dcr;
 class Route extends DcrBase
 {
     private $configDirList = [];
+    private $configList = [];
 
     /**
      * @var Rule类实例
@@ -20,12 +21,12 @@ class Route extends DcrBase
     public function __construct()
     {
         $this->rule = container()->make('rule');
-        //$this->loadConfig();
+        $this->configDirList[] = ROOT_FRAME . DS . '..'.DS . 'config' . DS . 'route' . DS;
+        $this->loadConfig();
     }
 
     public function loadConfig()
     {
-        $this->configDirList[] = ROOT_FRAME . DS . 'config' . DS . 'route' . DS;
         //dd($this->configDirList);
         //得出所有的配置文件列表
         foreach ($this->configDirList as $dir) {
@@ -54,6 +55,9 @@ class Route extends DcrBase
         if (empty($path) || '/' == $path) {
             $path = 'Index/Index/index';
         }
+
+        //用route替换下先
+        $path = $this->configList[$path] ? $this->configList[$path] : $path;
 
         $pathList = explode('/', $path);
 

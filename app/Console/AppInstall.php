@@ -134,7 +134,7 @@ class AppInstall extends Command
             DB::update('zq_user_role', array('zt_id' => 1, 'ur_permissions' => $permissionIds,), "ur_name='系统管理员'");
 
             $io->title('Initial end');
-            $io->title('Install success, you can login in by host/admin/index/index admin,123456');
+            $io->title('Install success, you can login in by host/admin admin,123456');
         } catch (\Exception $e) {
             throw $e;
         }
