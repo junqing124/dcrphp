@@ -86,7 +86,7 @@ class Tools
     public function enterPluginsView(Request $request, View $view)
     {
         $params = $request->getParams();
-        $pluginName = current($params);
+        $pluginName = current($params) ? current($params) : 'TableGeneral'; //默认一个是为了自动化测试
 
         $pluginDir = ROOT_APP . DS . 'Plugins' . DS . $pluginName;
         $clsPlugins = new Plugins();

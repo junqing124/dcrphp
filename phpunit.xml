@@ -10,6 +10,7 @@
             <directory suffix=".php">app</directory>
 			<exclude>
                 <file>dcr/bootstrap/app.php</file>
+                <directory>app/Plugins</directory>
             </exclude>
         </whitelist>
     </filter>
