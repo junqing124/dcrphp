@@ -73,7 +73,6 @@ class Tools
 
         $result = $pluginClass->$functionName(array_merge(post(), get()));
         return Factory::renderJson($result);
-
     }
 
     /**

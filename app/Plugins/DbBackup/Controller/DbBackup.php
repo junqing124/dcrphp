@@ -44,13 +44,12 @@ class DbBackup extends Plugins
                 'size' => $sqlFileSize,
                 'file_name' => $sqlFileInfo['basename']
             );
-
         }
         $view->assign('backup_list', $backupListDetail);
-
     }
 
-    public function restore($data){
+    public function restore($data)
+    {
         $backupName = $data['backup_name'];
         $dirPath = $this->backupDir . DS . $backupName;
         $clsInstall = new Install();
@@ -90,7 +89,6 @@ class DbBackup extends Plugins
             $clsDump->addTables($tableList);
             $clsDump->setFilename($backupName);
             $clsDump->dump();
-
         } catch (\Exception $ex) {
             throw new \Exception($ex->getMessage());
         }

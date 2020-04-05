@@ -186,7 +186,6 @@ class Index
             $clsInstall->install();
         } catch (\Exception $ex) {
             throw new \Exception($ex->getMessage());
-
         }
     }
 }

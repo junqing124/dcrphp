@@ -3,7 +3,6 @@
 
 namespace app\Model;
 
-
 use app\Admin\Model\Admin;
 use dcr\Db;
 use dcr\Request;
@@ -98,5 +97,4 @@ class Plugins
 
         return "\\app\\Plugins\\{$pluginName}\\Controller\\{$pluginName}";
     }
-
 }
