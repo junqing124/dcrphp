@@ -97,4 +97,9 @@ class Plugins
 
         return "\\app\\Plugins\\{$pluginName}\\Controller\\{$pluginName}";
     }
+
+    public function getPluginDir($pluginName)
+    {
+        return ROOT_APP . DS . 'Plugins' . DS . $pluginName;
+    }
 }

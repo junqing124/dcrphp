@@ -53,11 +53,13 @@ class Tools
 
     /**
      * 插件的核心方法:通过不同的参数调用到插件的function
+     * 具体请参看帮助中心的[插件开发]
      */
     public function pluginsAjax(Request $request)
     {
         $params = $request->getParams();
-        $functionName = current($params);
+        $functionName = current($params) ? current($params) : post('function_name');
+        $functionName = $functionName ? $functionName : get('function_name');
         $pluginName = post('plugin_name') ? post('plugin_name') : get('plugin_name');
 
         $clsPlugins = new Plugins();
@@ -87,8 +89,8 @@ class Tools
         $params = $request->getParams();
         $pluginName = current($params) ? current($params) : 'TableGeneral'; //默认一个是为了自动化测试
 
-        $pluginDir = ROOT_APP . DS . 'Plugins' . DS . $pluginName;
         $clsPlugins = new Plugins();
+        $pluginDir = $clsPlugins->getPluginDir($pluginName);
         $config = $clsPlugins->getConfig($pluginName);
         $viewDir = $pluginDir . DS . 'View';
         $indexView = 'index';
