@@ -11,8 +11,10 @@ namespace app\Admin\Model;
 use dcr\Session;
 use dcr\Db;
 use dcr\Safe;
+use phpDocumentor\Reflection\DocBlockFactory;
 use Respect\Validation\Validator as v;
 use Aura\SqlQuery\QueryFactory;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class User
 {
@@ -544,6 +546,80 @@ class User
             'ur_permissions' => $permissionIds,
         );
         $result = DB::update('zq_user_role', $dbInfo, "ur_id={$roleId}");
+
+        return Admin::commonReturn($result);
+    }
+
+    /**
+     * 本function用来用注释生成权限
+     * @return array
+     * @throws \Exception
+     */
+    public function permissionRefresh()
+    {
+        //根据app\Admin来生成权限列表
+        $dirList = array(
+            ROOT_APP . DS . 'Admin' . DS . 'Controller',
+        );
+        $permissionList = array();
+        foreach ($dirList as $dir) {
+            $fileList = scandir($dir);
+            foreach ($fileList as $fileName) {
+                if (in_array($fileName, array('.', '..'))) {
+                    continue;
+                }
+                $filePath = $dir . DS . $fileName;
+                $factory = DocBlockFactory::createInstance();
+                $docBlock = $factory->create(file_get_contents($filePath));
+                $permissionTag = $docBlock->getTagsByName('permission');
+                foreach ($permissionTag as $permissionGeneric) {
+                    $permissionConfigName = $permissionGeneric->getDescription()->render();
+                    //判断格式
+                    if (substr($permissionConfigName, 1) == '/' || substr($permissionConfigName, -1) == '/') {
+                        throw new \Exception($permissionConfigName . '  不规范,权限名请以/开头，结尾不要/，且以一个/做分隔');
+                    }
+                    if (preg_match("/\/{2,}/u", $permissionConfigName, $out)) {
+                        throw new \Exception($permissionConfigName . '  不规范,权限名请以/开头，结尾不要/，且以一个/做分隔');
+                    }
+                    $permissionList[] = $permissionConfigName;
+                }
+            }
+        }
+        if (!$permissionList) {
+            throw new \Exception('Find nothing permission config');
+        }
+        //判断有没有重复的
+        $permissionListNew = array_unique($permissionList);
+        if (count($permissionListNew) != count($permissionList)) {
+            throw new \Exception('Find the same permission config');
+        }
+        //添加到权限表中
+        //定义一个版本号，如果没有，则说明不是本次更新，删除之
+        $version = uniqid();
+        foreach ($permissionList as $permissionName) {
+            $dbInfo = array(
+                'up_update_time' => time(),
+                'up_name' => $permissionName,
+                'up_version' => $version,
+                'up_add_user_id'=> 0,
+                'zt_id' => session('ztId'),
+            );
+            $hasInfo = DB::select(array(
+                'table' => 'zq_user_permission',
+                'col' => 'up_id',
+                'where' => "up_name='{$permissionName}'"
+            ));
+            //判断有没有
+            if (!$hasInfo) {
+                $dbInfo['up_add_time'] = time();
+                $result = DB::insert('zq_user_permission', $dbInfo);
+            } else {
+                $hasInfo = current($hasInfo);
+                $result = DB::update('zq_user_permission', $dbInfo, "up_id={$hasInfo['up_id']}");
+            }
+        }
+        //非本版本的删除 这样做的原因是删除那些已经删除的权限
+        DB::delete('zq_user_permission', "up_version!='{$version}'");
 
         return Admin::commonReturn($result);
     }

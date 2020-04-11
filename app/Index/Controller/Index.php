@@ -8,6 +8,7 @@
 
 namespace app\Index\Controller;
 
+use app\Admin\Model\Factory;
 use app\Model\Define;
 use app\Model\Install;
 use dcr\Db;
@@ -171,8 +172,6 @@ class Index
 
     public function installView()
     {
-        throw new \Exception('暂时不支持web版本安装，请按文档用命令行安装');
-        exit;
         $view = container('view');
         $view->setViewDirectoryPath(ROOT_APP . DS . 'Index' . DS . 'View');
         $view->assign('admin_resource_url', env('ADMIN_RESOURCE_URL'));
@@ -183,7 +182,8 @@ class Index
     {
         try {
             $clsInstall = new Install();
-            $clsInstall->install();
+            $result = $clsInstall->install(post('host'),post('username'),post('password'),post('database'),post('port'),post('cover_data'),post('import_demo'));
+            return Factory::renderJson($result);
         } catch (\Exception $ex) {
             throw new \Exception($ex->getMessage());
         }

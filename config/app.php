@@ -21,8 +21,8 @@ return [
     //时区
     'default_timezone' => 'PRC',
 
-    //程序模式等级
-    'debug' => 1, //1是开启 0是关闭
+    //是不是debug模式
+    'debug' => 0, //1是开启 0是关闭
 
     //数据库版本
     'db_driver' => 'mysql',

@@ -3,11 +3,19 @@
 
 namespace app\Model;
 
+use app\Admin\Model\Admin;
+use app\Admin\Model\Factory;
+use app\Admin\Model\User;
+use dcr\Db;
 use dcr\ENV;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Thamaraiselvam\MysqlImport\Import;
 
 class Install
 {
+    private $sqlFilePath = ROOT_APP . DS . 'Index' . DS . 'Install' . DS . 'sql';
+
     /**
      * 执行某个目录下的sql文件
      * @param $sqlDirPath
@@ -34,5 +42,112 @@ class Install
         }
 
         return true;
+    }
+
+    public function importDemoData()
+    {
+        $install = new Install();
+        $install->executeSqlFiles($this->sqlFilePath);
+        return Admin::commonReturn(1);
+    }
+
+    public function install(
+        $host,
+        $username,
+        $password,
+        $database,
+        $port = 3306,
+        $coverData = 1,
+        $importDemo = 1,
+        $charset = 'utf8'
+    ) {
+
+        $envFileExample = ROOT_APP . DS . '..' . DS . 'env.example';
+        $envFile = ROOT_APP . DS . '..' . DS . 'env';
+
+        try {
+            $data = Env::getData($envFileExample);
+
+            $data['config']['MYSQL_DB_HOST'] = $host;
+            $data['config']['MYSQL_DB_PORT'] = $port;
+            $data['config']['MYSQL_DB_DATABASE'] = $database;
+            $data['config']['MYSQL_DB_USERNAME'] = $password;
+            $data['config']['MYSQL_DB_PASSWORD'] = $username;
+            $data['config']['MYSQL_DB_CHARSET'] = $charset;
+            Env::write($envFile, $data);
+
+            //重新加载配置
+            Env::init();
+            $container = container();
+            $config = $container->make(\dcr\Config::class);
+            $config->loadConfig();
+            $container->instance(\dcr\Config::class, $config);
+
+            //dd(file_get_contents( $envFile ));
+
+            //用原始的创建
+            $conn = mysqli_connect($host, $username, $password, '', $port);
+            if ($coverData) {
+                mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS `{$database}` /*zt_id=1*/");
+            } else {
+                mysqli_query($conn, "CREATE DATABASE `{$database}` /*zt_id=1*/");
+            }
+
+            $install = new Install();
+            $install->executeSqlFiles($this->sqlFilePath);
+
+            $sqlFileList = scandir($this->sqlFilePath);
+            foreach ($sqlFileList as $sqlFile) {
+                if (pathinfo($sqlFile, PATHINFO_EXTENSION) === 'sql') {
+                    $tableNameArr = explode('_', pathinfo($sqlFile)['filename']);
+                    unset($tableNameArr[0]);
+                    $tableName = implode('_', $tableNameArr);
+                    $truncateSql = "truncate table {$tableName}/*zt_id=0*/";
+                    DB::exec($truncateSql);
+                }
+            }
+
+            //添加role
+            $info = array(
+                'ur_name' => '系统管理员',
+                'ur_note' => '系统最高权限',
+                'zt_id' => session('ztId')
+            );
+
+            $user = new User();
+            $roleId = $user->addRole($info);
+
+            //初始化user
+            $userInfo = array(
+                'u_username' => 'admin',
+                'u_password' => '123456',
+                'u_sex' => 1,
+                'u_mobile' => '15718126135',
+                'u_tel' => '',
+                'u_is_super' => 1,
+                'u_note' => '管理员',
+                'zt_id' => 1,
+                'roles' => array(1),
+            );
+            //返回
+            $type = 'add';
+            $user->addEditUser($userInfo, $type);
+
+            //权限权限配置
+            $user->permissionRefresh();
+
+            //给管理员配置全权限
+            $permissionList = $user->getPermissionList();
+            $permissionIds = implode(',', array_column($permissionList, 'up_id'));
+            DB::update('zq_user_role', array('zt_id' => 1, 'ur_permissions' => $permissionIds,), "ur_name='系统管理员'");
+
+            if ($importDemo) {
+                $install->importDemoData();
+            }
+
+            return Admin::commonReturn(1);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }

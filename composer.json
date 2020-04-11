@@ -22,7 +22,8 @@
         "symfony/console": "*",
         "matomo/ini": "*",
         "thamaraiselvam/mysql-import": "*",
-        "phpdocumentor/reflection-docblock": "*"
+        "phpdocumentor/reflection-docblock": "*",
+        "symfony/filesystem": "*"
     },
     "autoload": {
         "psr-4":{

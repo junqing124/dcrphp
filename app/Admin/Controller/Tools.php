@@ -84,7 +84,7 @@ class Tools
      * @return mixed
      * @throws \Exception
      */
-    public function enterPluginsView(Request $request, View $view)
+    public function pluginsIndexView(Request $request, View $view)
     {
         $params = $request->getParams();
         $pluginName = current($params) ? current($params) : 'TableGeneral'; //默认一个是为了自动化测试

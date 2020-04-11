@@ -18,12 +18,12 @@ class ConsoleMake extends Command
     protected function configure()
     {
         $this->setName('console:make'); //注意这个是命令行
-        $this->addArgument('consoleName', InputArgument::REQUIRED, 'console name');
+        $this->addArgument('console_name', InputArgument::REQUIRED, 'console name');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $consoleName = $input->getArgument('consoleName');
+        $consoleName = $input->getArgument('console_name');
         $className = Console::_consoleNameToClassName($consoleName);
         $classFile = Console::_getConsoleClassPath($className);
 

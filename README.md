@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/junqing124/dcrphp/v/stable.png)](https://packagist.org/packages/junqing124/dcrphp) 
 [![Latest Unstable Version](https://poser.pugx.org/junqing124/dcrphp/v/unstable.png)](https://packagist.org/packages/junqing124/dcrphp)  
 
-dcrphp后端是自己开发的框架，采用前后端分离的方式做的管理系统，自带模型管理及后台管理系统。可以很方便在上面自由的扩展。特点如下:  
+dcrphp致力于应用层用户使用简单，后端开发用户快捷轻便。采用前后端分离的方式做的管理系统，后端是自己开发的框架，自带模型管理及后台管理系统。可以很方便在上面自由的扩展。特点如下:  
 &nbsp;&nbsp;1、自带后台管理  
 &nbsp;&nbsp;2、自带模型方便扩展  
 &nbsp;&nbsp;3、后台自带RABC  
@@ -24,14 +24,8 @@ dcrphp后端是自己开发的框架，采用前后端分离的方式做的管�
  
 下载好源码后，进入根目录安装系统:  
 
-    php dcrphp app:install 数据库host 数据库端口 用户名 密码 数据库名   
-    比如  
-    php dcrphp app:install 127.0.0.1 3306 root root dcrphp utf8  
-    安装完成后，后台地址是 host/admin 初始化用户名和密码是admin 123456  
-
-    如果要导入测试数据:    
-    php dcrphp app:demo    
-  
+    安装路径是:host/install    
+    安装完成后，后台地址是:host/admin 初始化用户名和密码是admin 123456  
   
 附：nginx配置:  
 charset utf-8;  
@@ -43,8 +37,11 @@ location / {
     1、完善RABC  
     2、完善测试程序  
     3、修改数据库规则及现有的数据库结构  
-    4、插件中心  
-    5、简单的route生效，配置在config/route  
+    4、新增插件中心  
+    5、插件中心内置增加：生成表结构、数据库管理  
+    6、简单的route生效，配置在config/route，key->value来简化route  
+    7、安装web化  
+    8、默认debug模式  
 
 1.0.1(2020-03-15):  
     1、采用全新的底层框架，性能、开发效率提升  

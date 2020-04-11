@@ -7,39 +7,63 @@
 
 <div class="page-container">
     <div class="mt-20">
-        <!--method请设置为post-->
-        <!--action请指到/admin/tools/plugins-ajax-->
-        <!--后面加上DbBackup里实现的function,比如backup-->
-        <!--处理方式在插件里Controller下的DbBackup->backup()-->
-        <!--记得再加个hidden plugin_name指为插件名-->
-        <!--本页面请求，请用post给tools/plugins-ajax提交 如restore()-->
-        <form id="frm" action="/admin/tools/plugins-ajax/backup" method="post">
-            <input type="hidden" name="plugin_name" value="DbBackup">
-            <table class="table table-border table-bordered table-hover table-bg table-sort">
-                <tr class="text-l">
-                    <th width="100">表名</th>
-                    <th width="800">
-                        {% for table in table_list %}
-                        <label><input checked value="{{table}}" type="checkbox" name="table[]">{{table}}</label>
-                        {% endfor %}
-                    </th>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;备份&nbsp;&nbsp;">
-                    </td>
-                </tr>
-                <tr class="text-l">
-                    <th width="100">恢复备份</th>
-                    <th width="800">
-                        {% for backup in backup_list %}
-                        {{backup.name}}-{{backup.file_name}}-{{backup.size}}K <a href="javascript:restore('{{backup.name}}');void(0);">点击恢复备份</a><br>
-                        {% endfor %}
-                    </th>
-                </tr>
-            </table>
-        </form>
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>数据库备份</legend>
+            <div class="layui-field-box">
+                <!--method请设置为post-->
+                <!--action请指到/admin/tools/plugins-ajax-->
+                <!--后面加上DbBackup里实现的function,比如backup-->
+                <!--处理方式在插件里Controller下的DbBackup->backup()-->
+                <!--记得再加个hidden plugin_name指为插件名-->
+                <!--本页面请求，请用post给tools/plugins-ajax提交 如restore()-->
+                <form id="frm" action="/admin/tools/plugins-ajax/backup" method="post">
+                    <input type="hidden" name="plugin_name" value="DbBackup">
+                    <table class="table table-border table-bordered table-hover table-bg table-sort">
+                        <tr class="text-l">
+                            <th width="100">表名</th>
+                            <th width="800">
+                                {% for table in table_list %}
+                                <label><input checked value="{{table}}" type="checkbox" name="table[]">{{table}}</label>
+                                {% endfor %}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;备份&nbsp;&nbsp;">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </fieldset>
+        <fieldset class="layui-elem-field layui-field-title mt-20">
+            <legend>数据库恢复</legend>
+            <div class="layui-field-box">
+                <table class="table table-border table-bordered table-bg table-hover table-sort mt-10">
+                    <thead>
+                    <tr>
+                        <th width="40">目录名</th>
+                        <th width="60">包含文件</th>
+                        <th width="50">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for backup in backup_list %}
+                    <tr class="va-m">
+                        <td>{{backup.name}}</td>
+                        <td>{{backup.file_name}}-{{backup.size}}K</td>
+                        <td>
+                            <a href="javascript:restore('{{backup.name}}');void(0);">点击恢复备份</a>
+                            <a href="javascript:remove('{{backup.name}}');void(0);">点击删除备份</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+
     </div>
 </div>
 
@@ -49,15 +73,29 @@
 <script type="text/javascript" src="{{admin_resource_url}}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
     function restore(backup_name) {
-        //admin/tools/plugins-ajax/backup
-        $.post("/admin/tools/plugins-ajax/restore", {plugin_name: "DbBackup", backup_name: backup_name},
-            function (data) {
-                if(1 == data.ack){
-                    layer.alert('恢复完成', {icon: 1});
-                }else{
-                    layer.alert(data.msg, {icon: 2});
-                }
-            }, 'json');
+        layer.confirm('确认要删除吗？', function (index) {
+            $.post("/admin/tools/plugins-ajax/restore", {plugin_name: "DbBackup", backup_name: backup_name},
+                function (data) {
+                    if (1 == data.ack) {
+                        layer.alert('恢复完成', {icon: 1});
+                    } else {
+                        layer.alert(data.msg, {icon: 2});
+                    }
+                }, 'json');
+        });
+    }
+
+    function remove(backup_name) {
+        layer.confirm('确认要删除吗？', function (index) {
+            $.post("/admin/tools/plugins-ajax/remove", {plugin_name: "DbBackup", backup_name: backup_name},
+                function (data) {
+                    if (1 == data.ack) {
+                        window.location.href = window.location.href;
+                    } else {
+                        layer.alert(data.msg, {icon: 2});
+                    }
+                }, 'json');
+        });
     }
 
     $(function () {

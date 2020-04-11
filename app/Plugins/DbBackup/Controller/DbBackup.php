@@ -6,6 +6,8 @@ use app\Admin\Model\Admin;
 use app\Model\Install;
 use app\Model\Plugins;
 use dcr\Db;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class DbBackup extends Plugins
 {
@@ -57,6 +59,20 @@ class DbBackup extends Plugins
         return Admin::commonReturn(1);
     }
 
+    public function remove($data)
+    {
+        $backupName = $data['backup_name'];
+        $dirPath = $this->backupDir . DS . $backupName;
+
+        $fileSystem = new Filesystem();
+        try {
+            $fileSystem->remove($dirPath);
+        } catch (IOExceptionInterface $ex) {
+            throw new \Exception($ex->getMessage());
+        }
+        return Admin::commonReturn(1);
+    }
+
     /**
      * 这里从哪来的，可以看view下的index里的注释
      * @param $data
@@ -66,9 +82,13 @@ class DbBackup extends Plugins
         $tableList = $data['table'];
         //开始备份表
         //开始准备工作
+
         $backupDir = $this->backupDir . DS . date('Y-m-d-H-i');
-        if (!file_exists($backupDir)) {
-            @mkdir($backupDir);
+        $fileSystem = new Filesystem();
+        try {
+            $fileSystem->mkdir($backupDir);
+        } catch (IOExceptionInterface $ex) {
+            throw new \Exception($ex->getMessage());
         }
 
         if (!file_exists($backupDir)) {
