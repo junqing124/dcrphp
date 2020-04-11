@@ -64,7 +64,7 @@ class Install
 
         $lockPath = ROOT_APP . DS . 'Index' . DS . 'Install' . DS . 'lock';
         if (file_exists($lockPath)) {
-            throw new \Exception('已经安装过了，如果重新安装，请删除[' . $lockPath . ']再重新运行本安装程序');
+            throw new \Exception('已经安装过了，如果重新安装，请删除[' . realpath($lockPath) . ']再重新运行本安装程序');
         }
 
         $envFileExample = ROOT_APP . DS . '..' . DS . 'env.example';
