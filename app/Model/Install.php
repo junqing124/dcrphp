@@ -62,6 +62,11 @@ class Install
         $charset = 'utf8'
     ) {
 
+        $lockPath = ROOT_APP . DS . 'Index' . DS . 'Install' . DS . 'lock';
+        if (file_exists($lockPath)) {
+            throw new \Exception('已经安装过了，如果重新安装，请删除[' . $lockPath . ']再重新运行本安装程序');
+        }
+
         $envFileExample = ROOT_APP . DS . '..' . DS . 'env.example';
         $envFile = ROOT_APP . DS . '..' . DS . 'env';
 
@@ -144,6 +149,8 @@ class Install
             if ($importDemo) {
                 $install->importDemoData();
             }
+            //记录已经安装
+            file_put_contents($lockPath, date('Y-m-d H:i:s'));
 
             return Admin::commonReturn(1);
         } catch (\Exception $e) {

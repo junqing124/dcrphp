@@ -74,6 +74,7 @@
             <tr>
                 <td colspan="3">
                     <input class="btn radius btn-secondary" type="submit" value="安装">
+                    <div id="result"></div>
                 </td>
             </tr>
         </table>
@@ -114,20 +115,26 @@
             focusCleanup: true,
             success: "valid",
             submitHandler: function (form) {
-                $(form).ajaxSubmit({
+                let loading = null;
+                $("#frm").ajaxSubmit({
+                    beforeSubmit: function(){
+                        loading = layer.load();
+                    },
                     success: function (data) {
                         data = $.parseJSON(data);
                         if (1 == data.ack) {
-                            layer.msg('安装完成');
+                            $('#result').html('<div class="Huialert Huialert-success mt-10"><i class="Hui-iconfont">&#xe6a6;</i>安装完成,请进入后台:host/admin(<a href="/admin">点击进入</a>) 用户名是:admin 密码是:123456，请进入后台后及时改密码</div>');
                             //$.Huimodalalert(data.msg,2000);
                         } else {
                             layer.alert(data.msg, {icon: 2});
                         }
+                        layer.close(loading);
                     },
                     error: function (data) {
-                        //console.log(data);
+                        layer.close(loading);
                     }
                 });
+                $("#frm").resetForm();
             }
         });
     });

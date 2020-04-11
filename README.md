@@ -3,12 +3,10 @@
 [![Latest Stable Version](https://poser.pugx.org/junqing124/dcrphp/v/stable.png)](https://packagist.org/packages/junqing124/dcrphp) 
 [![Latest Unstable Version](https://poser.pugx.org/junqing124/dcrphp/v/unstable.png)](https://packagist.org/packages/junqing124/dcrphp)  
 
-dcrphp致力于应用层用户使用简单，后端开发用户快捷轻便。采用前后端分离的方式做的管理系统，后端是自己开发的框架，自带模型管理及后台管理系统。可以很方便在上面自由的扩展。特点如下:  
-&nbsp;&nbsp;1、自带后台管理  
-&nbsp;&nbsp;2、自带模型方便扩展  
-&nbsp;&nbsp;3、后台自带RABC  
-&nbsp;&nbsp;4、MVC模式  
-&nbsp;&nbsp;5、有自动化的测试及编码检测  
+dcrphp致力于应用层用户使用简单，后端用户开发简单。本系统采用前后端分离开发，自己开发的框架，自带扩展性强的模型管理及后台管理系统。可以很方便在上面自由的扩展。特点如下:  
+&nbsp;&nbsp;1、自带后台管理及基本的RABC及扩展性强的模型方案 
+&nbsp;&nbsp;2、MVC模式  
+&nbsp;&nbsp;3、自动化的测试及编码检测  
   
 安装源码(下面3选1)：  
 
@@ -41,7 +39,7 @@ location / {
     5、插件中心内置增加：生成表结构、数据库管理  
     6、简单的route生效，配置在config/route，key->value来简化route  
     7、安装web化  
-    8、默认debug模式  
+    8、默认关闭debug模式  
 
 1.0.1(2020-03-15):  
     1、采用全新的底层框架，性能、开发效率提升  

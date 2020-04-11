@@ -10,3 +10,4 @@ env
 *code_coverage*
 u.php
 Thumbs.db
+app/Index/Install/lock
