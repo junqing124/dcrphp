@@ -40,20 +40,12 @@ $menu = array(
         'title' => '系统配置',
         'sub' => array(
             array(
-                'url' => '/admin/config/config-view',
-                'title' => '配置项配置',
-            ),
-            array(
-                'url' => '/admin/config/base-view',
-                'title' => '基本配置',
-            ),
-            array(
-                'url' => '/admin/config/template-view',
-                'title' => '模板配置',
-            ),
-            array(
                 'url' => '/admin/config/model-view',
                 'title' => '模型配置',
+            ),
+            array(
+                'url' => '/admin/config/config-list-view',
+                'title' => '配置项配置',
             ),
         ),
     ),
@@ -67,6 +59,16 @@ foreach ($listPlugin as $infoPlugin) {
     $menu['menu-tools']['sub'][] = array(
         'url' => '/admin/tools/plugins-index-view/' . $infoPlugin['p_name'],
         'title' => ' - ' . $infoPlugin['p_title'],
+    );
+}
+
+$clsConfig = new \app\Admin\Model\Config();
+$listConfig = $clsConfig->getConfigList();
+foreach ($listConfig as $infoConfig) {
+    //dd($infoPlugin);
+    $menu['menu-config']['sub'][] = array(
+        'url' => '/admin/tools/plugins-index-view/' . $infoConfig['cl_id'],
+        'title' => $infoConfig['cl_name'],
     );
 }
 /*dd($menu);

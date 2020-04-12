@@ -13,7 +13,7 @@ class Config
      * @return mixed
      * @throws \Exception
      */
-    public function configView()
+    public function configListView()
     {
         $assignData = array();
         $assignData['page_title'] = '配置项配置';
@@ -22,7 +22,7 @@ class Config
         $list = $config->getConfigList();
         $assignData['config_list'] = $list;
 
-        return Factory::renderPage('config/config', $assignData);
+        return Factory::renderPage('config/config-list', $assignData);
     }
     /**
      * @permission /系统配置
@@ -106,7 +106,7 @@ class Config
     public function configListEditAjax()
     {
         $config = new MConfig();
-        $result = $config->configListEdit(post('config_list_name'), post('type'));
+        $result = $config->configListEdit(post('config_list_name'), post('type'), post('id'));
         return Factory::renderJson($result);
     }
 

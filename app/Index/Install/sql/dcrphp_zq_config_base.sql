@@ -29,10 +29,11 @@ CREATE TABLE `zq_config_base` (
   `cb_approval_status` tinyint(4) NOT NULL DEFAULT '1',
   `cb_add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
-  `cb_name` varchar(45) NOT NULL DEFAULT '配置名',
-  `cb_value` varchar(150) NOT NULL DEFAULT '配置值',
+  `cb_name` varchar(45) NOT NULL DEFAULT '' COMMENT '配置名',
+  `cb_value` varchar(150) NOT NULL DEFAULT '' COMMENT '配置值',
+  `cb_type` varchar(45) NOT NULL DEFAULT 'base' COMMENT '属于哪个模块，基本还是模板等',
   PRIMARY KEY (`cb_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +42,7 @@ CREATE TABLE `zq_config_base` (
 
 LOCK TABLES `zq_config_base` WRITE;
 /*!40000 ALTER TABLE `zq_config_base` DISABLE KEYS */;
-INSERT INTO `zq_config_base` VALUES (1,1583672805,1583672805,0,1,1,'site_name','DcrPHP建站系统');
+INSERT INTO `zq_config_base` VALUES (1,1583672805,1586671261,0,1,1,'site_name','DcrPHP建站系统','base'),(2,1586670843,1586671276,1,1,1,'template_name','default','template');
 /*!40000 ALTER TABLE `zq_config_base` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-01 19:30:20
+-- Dump completed on 2020-04-12 22:15:46

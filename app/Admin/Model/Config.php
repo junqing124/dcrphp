@@ -42,13 +42,12 @@ class Config
         return Admin::commonReturn(1);
     }
 
-    public function configListEdit($configListName, $type = 'add')
+    public function configListEdit($configListName, $type = 'add', $id = 0)
     {
         $dbInfo = array(
             'cl_update_time' => time(),
             'cl_add_user_id' => session('userId'),
             'zt_id' => session('ztId'),
-            'cl_is_system' => 0,
             'cl_name' => $configListName
         );
 
@@ -58,9 +57,10 @@ class Config
 
         //处理
         if ('add' != $type) {
-            $result = DB::update('zq_config_list', $dbInfo, "cl_name='{$configListName}'");
+            $result = DB::update('zq_config_list', $dbInfo, "cl_id='{$id}'");
         } else {
             $dbInfo['cl_add_time'] = time();
+            $dbInfo['cl_is_system'] = 0;
             $result = DB::insert('zq_config_list', $dbInfo);
             //var_dump($result);
         }

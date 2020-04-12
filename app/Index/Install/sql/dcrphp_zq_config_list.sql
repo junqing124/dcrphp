@@ -16,34 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zq_model_category`
+-- Table structure for table `zq_config_list`
 --
 
-DROP TABLE IF EXISTS `zq_model_category`;
+DROP TABLE IF EXISTS `zq_config_list`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `zq_model_category` (
-  `mc_id` int(11) NOT NULL AUTO_INCREMENT,
-  `mc_add_time` int(11) NOT NULL DEFAULT '0',
-  `mc_update_time` int(11) NOT NULL DEFAULT '0',
-  `mc_approval_status` tinyint(4) NOT NULL DEFAULT '1',
-  `mc_add_user_id` smallint(6) NOT NULL DEFAULT '0',
+CREATE TABLE `zq_config_list` (
+  `cl_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cl_add_time` int(11) NOT NULL DEFAULT '0',
+  `cl_update_time` int(11) NOT NULL DEFAULT '0',
+  `cl_approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `cl_add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
-  `mc_model_name` varchar(45) NOT NULL DEFAULT '',
-  `mc_name` varchar(45) NOT NULL DEFAULT '',
-  `mc_parent_id` smallint(6) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`mc_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+  `cl_name` varchar(45) NOT NULL DEFAULT '',
+  `cl_is_system` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`cl_id`),
+  UNIQUE KEY `uidx_name` (`cl_name`,`zt_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='配置项列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zq_model_category`
+-- Dumping data for table `zq_config_list`
 --
 
-LOCK TABLES `zq_model_category` WRITE;
-/*!40000 ALTER TABLE `zq_model_category` DISABLE KEYS */;
-INSERT INTO `zq_model_category` VALUES (1,1583047244,1583398896,0,1,1,'news','系统说明',0),(3,1583047705,1583047705,0,1,1,'news','跨境电商',0),(8,1583048110,1583048110,0,1,1,'info','基础',0),(9,1583398310,1583398310,0,1,1,'product','模板中心',0),(10,1583398368,1583398368,0,1,1,'product','维护中心',0);
-/*!40000 ALTER TABLE `zq_model_category` ENABLE KEYS */;
+LOCK TABLES `zq_config_list` WRITE;
+/*!40000 ALTER TABLE `zq_config_list` DISABLE KEYS */;
+INSERT INTO `zq_config_list` VALUES (1,1586603908,1586603908,1,1,1,'基本配置',1),(2,1586603908,1586603908,1,1,1,'模板配置',1),(5,1586699944,1586700827,1,1,1,'测试配置',0);
+/*!40000 ALTER TABLE `zq_config_list` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-12 22:15:46
+-- Dump completed on 2020-04-12 22:15:45
