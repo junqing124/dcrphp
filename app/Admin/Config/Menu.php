@@ -40,8 +40,16 @@ $menu = array(
         'title' => '系统配置',
         'sub' => array(
             array(
+                'url' => '/admin/config/config-view',
+                'title' => '配置项配置',
+            ),
+            array(
                 'url' => '/admin/config/base-view',
                 'title' => '基本配置',
+            ),
+            array(
+                'url' => '/admin/config/template-view',
+                'title' => '模板配置',
             ),
             array(
                 'url' => '/admin/config/model-view',
@@ -58,7 +66,7 @@ foreach ($listPlugin as $infoPlugin) {
     //dd($infoPlugin);
     $menu['menu-tools']['sub'][] = array(
         'url' => '/admin/tools/plugins-index-view/' . $infoPlugin['p_name'],
-        'title' => $infoPlugin['p_title'],
+        'title' => ' - ' . $infoPlugin['p_title'],
     );
 }
 /*dd($menu);

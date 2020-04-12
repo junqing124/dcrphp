@@ -1,0 +1,108 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common/header.html' ignore missing %}
+    <link rel="stylesheet" href="{{admin_resource_url}}/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+</head>
+<body>
+
+{% include 'model/navigate.html' ignore missing %}
+
+<div class="page-container">
+    <div class="Huialert Huialert-info"><i class="Hui-iconfont">&#xe6a6;</i>本如果是系统自带不让操作</div>
+    <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l">
+    <a class="btn btn-primary radius" onclick="add('add')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i>添加配置列表</a>
+    </span>
+    </div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-bg table-hover table-sort">
+            <thead>
+            <tr>
+                <th width="40">名称</th>
+                <th width="40">系统自带</th>
+                <th width="40">添加时间</th>
+                <th width="50">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for config in config_list %}
+            <tr class="va-m">
+                <td>{{config.cl_name}}</td>
+                <td>{{config.cl_is_system}}</td>
+                <td>{{config.cl_add_time|date('Y-m-d')}}</td>
+                <td class="td-manage">
+                    <a style="text-decoration:none" class="ml-5"  onClick="del(this,{{config.cl_id}})" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% include '/common/footer.html' ignore missing %}
+<script type="text/javascript">
+    /*删除*/
+    function del(obj, id) {
+        let lobj = layer.confirm('确认要删除吗？', function (index) {
+            $.ajax({
+                type: 'POST',
+                url: '/admin/config/config-list-delete-ajax',
+                dataType: 'json',
+                data: "id=" + id,
+                success: function (result) {
+                    layer.close(lobj);
+                    if( result.ack )
+                    {
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!', {icon: 1, time: 1000});
+                    }else{
+                        layer.alert(result.msg, {icon: 2, time: 3000});
+                    }
+                },
+                error: function (data) {
+                    //layer.alert(data.msg, {icon: 2});
+                },
+            });
+        });
+    }
+    /*添加*/
+    function add(type) {
+        layer.open({
+            id:1,
+            type: 1,
+            title:'请输入配置列表名称',
+            style: 'width:80%;height:auto;',
+            content: "<div style='display:flex;justify-content:center;'><input class='input-text' type='text' id='config_list_name'> </div>",
+            btn:['保存','取消'],
+            yes:function (index,layerobj) {
+                //获取输入框里面的值
+                var config_list_name = $("#config_list_name").val();
+                layer.close(index);
+                // 在这里提交数据
+                $.ajax({
+                    type: 'POST',
+                    url: '/admin/config/config-list-edit-ajax',
+                    dataType: 'json',
+                    data: "config_list_name=" + config_list_name + "&type=" + type,
+                    success: function (result) {
+                        if( result.ack )
+                        {
+                            window.location=window.location;
+                        }else{
+                            alert(result.msg);
+                        }
+                    },
+                    error: function (data) {
+                        //layer.alert(data.msg, {icon: 2});
+                    },
+                });
+            },
+            no:function (index,layero) {
+                layer.close(index);
+            }
+        });
+    }
+</script>
+</body>
+</html>

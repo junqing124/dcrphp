@@ -36,7 +36,11 @@ class Index
         if (empty($position)) {
             throw new \Exception('请设置导航');
         }
-        $view->setViewDirectoryPath(ROOT_PUBLIC . DS . 'resource' . DS . 'template' . DS . 'default' . DS . 'view');
+
+        $config = new Config();
+        $configTemplate = $config->getConfigBaseList('template');
+        $configTemplate = array_column($configTemplate, 'cb_value', 'cb_name');
+        $view->setViewDirectoryPath(ROOT_PUBLIC . DS . 'resource' . DS . 'template' . DS . $configTemplate['template_name'] . DS . 'view');
 
         $config = new Config();
         $configInfo = $config->getConfigBaseList();

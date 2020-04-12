@@ -14,15 +14,16 @@ use dcr\Db;
 class Config
 {
 
-    public function configBase($info)
+    public function configBase($configList, $type = 'base')
     {
-        foreach ($info as $key => $value) {
+        foreach ($configList as $key => $value) {
             $dbInfo = array(
                 'cb_update_time' => time(),
                 'cb_add_user_id' => session('userId'),
                 'zt_id' => session('ztId'),
                 'cb_name' => $key,
                 'cb_value' => $value,
+                'cb_type' => $type,
             );
             //判断
             $sql = "select cb_id from zq_config_base where cb_name='{$dbInfo['cb_name']}' and zt_id={$dbInfo['zt_id']}";
@@ -36,17 +37,61 @@ class Config
                 $result = DB::insert('zq_config_base', $dbInfo);
             }
             //var_dump( $result );
-            //返回
-            return Admin::commonReturn($result);
         }
+        //返回
+        return Admin::commonReturn(1);
     }
 
-    public function getConfigBaseList()
+    public function configListEdit($configListName, $type = 'add')
     {
-        $ztId = session('ztId');
-        $sql = "select cb_name,cb_value from zq_config_base where zt_id={$ztId}";
-        $info = DB::query($sql);
-        return $info;
+        $dbInfo = array(
+            'cl_update_time' => time(),
+            'cl_add_user_id' => session('userId'),
+            'zt_id' => session('ztId'),
+            'cl_is_system' => 0,
+            'cl_name' => $configListName
+        );
+
+        if (empty($configListName)) {
+            throw new \Exception('请填写名称');
+        }
+
+        //处理
+        if ('add' != $type) {
+            $result = DB::update('zq_config_list', $dbInfo, "cl_name='{$configListName}'");
+        } else {
+            $dbInfo['cl_add_time'] = time();
+            $result = DB::insert('zq_config_list', $dbInfo);
+            //var_dump($result);
+        }
+        //var_dump( $result );
+        //返回
+        return Admin::commonReturn($result);
+    }
+
+    public function getConfigBaseList($type = 'base')
+    {
+        $whereArr = array();
+        if ($type) {
+            array_push($whereArr, "cb_type='{$type}'");
+        }
+        $list = DB::select(array(
+            'table' => 'zq_config_base',
+            'col' => 'cb_name,cb_value',
+            'where' => $whereArr,
+        ));
+        return $list;
+    }
+
+    public function getConfigList()
+    {
+        $whereArr = array();
+        $list = DB::select(array(
+            'table' => 'zq_config_list',
+            'col' => 'cl_id,cl_name,cl_is_system,cl_add_time',
+            'where' => $whereArr,
+        ));
+        return $list;
     }
 
     /**
@@ -153,5 +198,42 @@ class Config
         }
         //返回
         return Admin::commonReturn(1);
+    }
+
+    public function getSystemTemplate()
+    {
+        $templateDir = ROOT_PUBLIC . DS . 'resource' . DS . 'template';
+        $dirList = scandir($templateDir);
+        foreach ($dirList as $key => $dirName) {
+            if (in_array($dirName, array('..', '.'))) {
+                unset($dirList[$key]);
+            }
+        }
+        return $dirList;
+    }
+
+    public function configListDelete($id)
+    {
+        //验证
+        $info = DB::select(array(
+            'table' => 'zq_config_list',
+            'col' => 'cl_id,cl_is_system',
+            'where' => "cl_id={$id}",
+            'limit' => 1
+        ));
+        $info = current($info);
+
+        if (!$info) {
+            throw new \Exception('没有找到这个信息');
+        }
+        if( $info['cl_is_system'] ){
+            throw new \Exception('系统自带的配置项无法删除');
+        }
+        //逻辑
+        $result = DB::delete('zq_config_list', "cl_id={$id}");
+        //dd($dbPre->getSql());
+        //返回
+
+        return Admin::commonReturn($result);
     }
 }

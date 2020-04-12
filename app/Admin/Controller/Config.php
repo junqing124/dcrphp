@@ -13,6 +13,22 @@ class Config
      * @return mixed
      * @throws \Exception
      */
+    public function configView()
+    {
+        $assignData = array();
+        $assignData['page_title'] = '配置项配置';
+
+        $config = new MConfig();
+        $list = $config->getConfigList();
+        $assignData['config_list'] = $list;
+
+        return Factory::renderPage('config/config', $assignData);
+    }
+    /**
+     * @permission /系统配置
+     * @return mixed
+     * @throws \Exception
+     */
     public function baseView()
     {
         $assignData = array();
@@ -25,6 +41,26 @@ class Config
         $assignData['config_list'] = $list;
 
         return Factory::renderPage('config/base', $assignData);
+    }
+
+    /**
+     * @return mixed
+     * @throws \Exception
+     */
+    public function templateView()
+    {
+        $assignData = array();
+        $assignData['page_title'] = '模板配置';
+        //get template list
+        $config = new MConfig();
+        $systemTemplateList = $config->getSystemTemplate();
+        $assignData['system_template_list'] = $systemTemplateList;
+
+        $configList = $config->getConfigBaseList('template');
+        $configList = array_column($configList, 'cb_value', 'cb_name');
+        $assignData['config_list'] = $configList;
+
+        return Factory::renderPage('config/template', $assignData);
     }
 
     public function modelView()
@@ -50,12 +86,13 @@ class Config
 
     public function configBaseAjax()
     {
-        $info = array(
-            'site_name' => post('site_name'),
-        );
+        $data = post();
+        $type = $data['type'];
+        //里面的type不是配置项 只是个类型 所以排除
+        unset($data['type']);
 
         $config = new MConfig();
-        $result = $config->configBase($info);
+        $result = $config->configBase($data, $type);
         return Factory::renderJson($result);
     }
 
@@ -63,6 +100,20 @@ class Config
     {
         $config = new MConfig();
         $result = $config->configModel(post());
+        return Factory::renderJson($result);
+    }
+
+    public function configListEditAjax()
+    {
+        $config = new MConfig();
+        $result = $config->configListEdit(post('config_list_name'), post('type'));
+        return Factory::renderJson($result);
+    }
+
+    public function configListDeleteAjax()
+    {
+        $config = new MConfig();
+        $result = $config->configListDelete(post('id'));
         return Factory::renderJson($result);
     }
 }
