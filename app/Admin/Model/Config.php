@@ -8,7 +8,7 @@
 
 namespace app\Admin\Model;
 
-use app\Model\Define;
+use app\Model\Common;
 use dcr\Db;
 
 class Config
@@ -83,15 +83,43 @@ class Config
         return $list;
     }
 
-    public function getConfigList()
+    public function getConfigList($id = 0)
     {
         $whereArr = array();
+        if ($id) {
+            $whereArr[] = "cl_id={$id}";
+        }
         $list = DB::select(array(
             'table' => 'zq_config_list',
             'col' => 'cl_id,cl_name,cl_is_system,cl_add_time',
             'where' => $whereArr,
         ));
         return $list;
+    }
+
+    public function getConfigListItemList($whereArr)
+    {
+        $list = DB::select(array(
+            'table' => 'zq_config_list_item',
+            'col' => 'cli_id,cli_add_time,cli_form_text,cli_data_type,cli_db_field_name,cli_order,cli_is_system,cli_default',
+            'where' => $whereArr,
+            'order' => 'cli_order asc',
+        ));
+        return $list;
+    }
+
+    public function getConfigListItemByListId($listId)
+    {
+        $whereArr = array();
+        $whereArr[] = "cli_cl_id={$listId}";
+        return $this->getConfigListItemList($whereArr);
+    }
+
+    public function getConfigListItem($id)
+    {
+        $whereArr = array();
+        $whereArr[] = "cli_id={$id}";
+        return $this->getConfigListItemList($whereArr);
     }
 
     /**
@@ -134,7 +162,7 @@ class Config
     {
         //判断
         //先判断key有没有重复
-        $defineList = Define::getModelDefine();
+        $defineList = Common::getModelCommon();
         $isError = 0;
         $errorMsg = array();
         foreach ($defineList as $defineName => $defineInfo) {
@@ -226,7 +254,7 @@ class Config
         if (!$info) {
             throw new \Exception('没有找到这个信息');
         }
-        if( $info['cl_is_system'] ){
+        if ($info['cl_is_system']) {
             throw new \Exception('系统自带的配置项无法删除');
         }
         //逻辑
@@ -235,5 +263,37 @@ class Config
         //返回
 
         return Admin::commonReturn($result);
+    }
+
+    /**
+     * @param $data 添加 编辑 或删除 的数据
+     * @param $type insert update delete(如果是delete 请设置data['id])
+     * @return array
+     * @throws \Exception
+     */
+    public function configListItem($data, $type)
+    {
+        $dbInfo = array(
+            'cli_form_text' => $data['form_text'],
+            'cli_data_type' => $data['data_type'],
+            'cli_db_field_name' => $data['db_field_name'],
+            'cli_default' => $data['default'],
+            'cli_order' => $data['order'],
+            'cli_cl_id' => $data['addition_id'],
+        );
+        //检测
+        $check = array(
+            'cli_form_text' => array('type' => 'required'),
+            'cli_data_type' => array('type' => 'required'),
+            'cli_db_field_name' => array('type' => 'required'),
+            'cli_order' => array('type' => 'number'),
+        );
+        return Common::addOrEditDbInfo(
+            'zq_config_list_item',
+            'cli',
+            $dbInfo,
+            $actionType = $type,
+            $option = array('id' => $data['id'], 'check' => $check)
+        );
     }
 }

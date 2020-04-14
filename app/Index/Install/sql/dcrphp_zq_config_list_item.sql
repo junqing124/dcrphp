@@ -16,33 +16,38 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zq_user_role`
+-- Table structure for table `zq_config_list_item`
 --
 
-DROP TABLE IF EXISTS `zq_user_role`;
+DROP TABLE IF EXISTS `zq_config_list_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `zq_user_role` (
-  `ur_id` int(11) NOT NULL AUTO_INCREMENT,
-  `ur_permissions` varchar(1000) CHARACTER SET utf8 NOT NULL,
-  `ur_name` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `ur_add_time` int(11) NOT NULL DEFAULT '0',
-  `ur_update_time` int(11) NOT NULL DEFAULT '0',
-  `ur_add_user_id` smallint(6) NOT NULL DEFAULT '0',
-  `ur_note` varchar(45) DEFAULT '',
-  `zt_id` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`ur_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+CREATE TABLE `zq_config_list_item` (
+  `cli_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cli_add_time` int(11) NOT NULL DEFAULT '0',
+  `cli_update_time` int(11) NOT NULL DEFAULT '0',
+  `cli_approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `cli_add_user_id` smallint(6) NOT NULL DEFAULT '0',
+  `zt_id` smallint(6) NOT NULL DEFAULT '1',
+  `cli_form_text` varchar(45) NOT NULL DEFAULT '',
+  `cli_data_type` varchar(10) NOT NULL DEFAULT '',
+  `cli_db_field_name` varchar(45) NOT NULL DEFAULT '',
+  `cli_order` smallint(6) NOT NULL DEFAULT '1',
+  `cli_default` varchar(45) NOT NULL DEFAULT '',
+  `cli_is_system` tinyint(1) NOT NULL DEFAULT '0',
+  `cli_cl_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`cli_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='表配置item列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zq_user_role`
+-- Dumping data for table `zq_config_list_item`
 --
 
-LOCK TABLES `zq_user_role` WRITE;
-/*!40000 ALTER TABLE `zq_user_role` DISABLE KEYS */;
-INSERT INTO `zq_user_role` VALUES (1,'12,13,15,14,9,3,2,16,17','系统管理员',1583134320,1583134320,0,'系统最高权限',1),(2,'9,3,2','文章编辑',1583034640,1583034640,1,'',1);
-/*!40000 ALTER TABLE `zq_user_role` ENABLE KEYS */;
+LOCK TABLES `zq_config_list_item` WRITE;
+/*!40000 ALTER TABLE `zq_config_list_item` DISABLE KEYS */;
+INSERT INTO `zq_config_list_item` VALUES (1,1586860452,1586877666,1,1,1,'24321','radio','2432111',1,'1212',0,1),(3,1586878879,1586878879,1,1,1,'abc123','checkbox','213123',31,'12',0,1);
+/*!40000 ALTER TABLE `zq_config_list_item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

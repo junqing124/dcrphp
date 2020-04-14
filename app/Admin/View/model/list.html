@@ -63,12 +63,12 @@
 <script type="text/javascript" src="{{admin_resource_url}}/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript">
     function addoredit(title,url){
-        var index = layer.open({
+        let index = layer.open({
             type: 2,
             title: title,
-            content: url
+            content: url,
+            area: ['95%','95%']
         });
-        layer.full(index);
     }
     /*删除*/
     function del(obj, id) {

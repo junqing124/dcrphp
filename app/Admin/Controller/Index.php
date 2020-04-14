@@ -10,7 +10,7 @@ namespace app\Admin\Controller;
 
 use app\Admin\Model\Config as MConfig;
 use app\Admin\Model\Factory;
-use app\Model\Define;
+use app\Model\Common;
 use dcr\Response;
 use dcr\Session;
 use dcr\View;
@@ -35,7 +35,7 @@ class Index
         $assignData['version'] = $version;
         $assignData['app_name'] = $appName;
         $assignData['page_title'] = '首页';
-        $modelList = Define::getModelDefine();
+        $modelList = Common::getModelDefine();
         $assignData['model_list'] = $modelList;
         /*dd($assignData);
         exit;*/

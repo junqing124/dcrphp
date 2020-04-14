@@ -68,7 +68,7 @@ foreach ($listConfig as $infoConfig) {
     //dd($infoPlugin);
     $menu['menu-config']['sub'][] = array(
         'url' => '/admin/tools/plugins-index-view/' . $infoConfig['cl_id'],
-        'title' => $infoConfig['cl_name'],
+        'title' => ' - ' . $infoConfig['cl_name'],
     );
 }
 /*dd($menu);

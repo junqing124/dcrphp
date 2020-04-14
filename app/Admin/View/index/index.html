@@ -96,7 +96,7 @@
             </dd>
         </dl>
         {% endfor %}
-        <!--这里通过app\Model\Define.php getModelDefine()配置-->
+        <!--这里通过app\Model\Common.php getModelCommon()配置-->
         {% for model in model_list %}
         <dl id="menu-{{model.name}}">
             <dt><i class="Hui-iconfont">&#xe620;</i> {{model.dec}}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>

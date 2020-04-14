@@ -1,0 +1,91 @@
+<!--本页是一个通用的字段编辑页面-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common/header.html' ignore missing %}
+</head>
+<body>
+<article class="page-container">
+    <form action="{{action}}" method="post" class="form form-horizontal" id="form">
+        <input type="hidden" name="id" value="{{id}}">
+        <input type="hidden" name="addition_id" value="{{addition_id}}">
+        <input type="hidden" name="type" value="{{type}}">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>表单提示文字：</label>
+            <div class="formControls col-xs-8 col-sm-4">
+                <input value="{{item_info.form_text}}" type="text" required class="input-text" placeholder="" id="form_text" name="form_text">
+            </div>
+            <label class="col-xs-4 col-sm-5">发布内容时显示的提示文字</label>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>字段名称：</label>
+            <div class="formControls col-xs-8 col-sm-4">
+                <input value="{{item_info.db_field_name}}" type="text" required class="input-text" placeholder="" id="db_field_name" name="db_field_name">
+            </div>
+            <label class="col-xs-4 col-sm-5">以小写英文字母开头。只能用小英文字母或数字，数据表的真实字段名，如果有分隔请用_</label>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>数据类型：</label>
+            <div class="formControls col-xs-8 col-sm-4">
+                <select class="select" name="data_type" id="data_type" required>
+                    {% for field in field_list %}
+                    <option value="{{field.key}}">{{field.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <label class="col-xs-4 col-sm-5"></label>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">默认值/可选值：</label>
+            <div class="formControls col-xs-8 col-sm-4">
+                <input value="{{item_info.default}}" type="text" class="input-text" placeholder="" id="default" name="default">
+            </div>
+            <label class="col-xs-4 col-sm-5">数据类型为下拉框、单选框、多选框时，这里写可被选择的项目(用,分开，如"大学,高中,中学,小学")。如果是文本，则直接显示文本</label>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">排序：</label>
+            <div class="formControls col-xs-8 col-sm-4">
+                <input value="{{item_info.order}}" type="text" class="input-text" placeholder="" id="order" name="order">
+            </div>
+            <label class="col-xs-4 col-sm-5">越小排越前</label>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</article>
+
+{% include 'common/footer.html' ignore missing %}
+<script type="text/javascript">
+    $(function () {
+        $('#data_type').val('{{item_info.data_type}}');
+        $("#form").validate({
+            onkeyup: false,
+            focusCleanup: true,
+            success: "valid",
+            submitHandler: function (form) {
+            $(form).ajaxSubmit({
+                success: function (data) {
+                    data = $.parseJSON(data);
+                    if (1 == data.ack) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.window.location=parent.window.location;
+                        parent.layer.close(index);
+                        //$.Huimodalalert(data.msg,2000);
+                    }else{
+                        layer.alert(data.msg, {icon: 2});
+                    }
+                },
+                error: function (data) {
+                    //console.log(data);
+                }
+            });
+        }
+    });
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
