@@ -53,7 +53,6 @@ class Config
 
     public function configListItemEditView(Request $request)
     {
-
         $params = $request->getParams();
         $type = $params[0];
         $listId = $params[1];
@@ -88,38 +87,24 @@ class Config
      * @return mixed
      * @throws \Exception
      */
-    public function baseView()
+    public function configView(Request $request)
     {
         $assignData = array();
         $assignData['page_title'] = '基础配置';
-        $config = new MConfig();
-        $list = $config->getConfigBaseList();
-        if (!$list) {
-            $list[0]['cb_name'] = 'site_name';
-        }
-        $assignData['config_list'] = $list;
 
-        return Factory::renderPage('config/base', $assignData);
-    }
+        $params = $request->getParams();
+        $clsConfig = new MConfig();
+        //得出基础配置项
+        $configListId = current($params);
+        $configItemList = $clsConfig->getConfigListItemByListId($configListId);
+        $configItemList = $clsConfig->generalHtmlForItem($configItemList);
+        //得出配置值
 
-    /**
-     * @return mixed
-     * @throws \Exception
-     */
-    public function templateView()
-    {
-        $assignData = array();
-        $assignData['page_title'] = '模板配置';
-        //get template list
-        $config = new MConfig();
-        $systemTemplateList = $config->getSystemTemplate();
-        $assignData['system_template_list'] = $systemTemplateList;
+        $configValueList = $clsConfig->getConfigValueList($configListId);
+        $assignData['config_item_list'] = $configItemList;
+        $assignData['config_value_list'] = $configValueList;
 
-        $configList = $config->getConfigBaseList('template');
-        $configList = array_column($configList, 'cb_value', 'cb_name');
-        $assignData['config_list'] = $configList;
-
-        return Factory::renderPage('config/template', $assignData);
+        return Factory::renderPage('config/config', $assignData);
     }
 
     public function modelView()

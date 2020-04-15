@@ -8,21 +8,15 @@
 {% include 'config/navigate.html' ignore missing %}
 <div class="page-container">
     <div class="mt-20">
-        <form action="/admin/config/config-base-ajax" method="post" class="form form-horizontal" id="form">
-            <input name="type" type="hidden" value="template">
+        <form action="/admin/config/config-ajax" method="post" class="form form-horizontal" id="form">
+            <input name="type" type="hidden" value="base">
             <table class="table table-border table-bordered table-hover table-bg table-sort">
-                <tr class="text-r">
-                    <th width="100">选择模板</th>
-                    <th width="800">
-                        <span class="select-box">
-                            <select class="select" id="template_name" name="template_name">
-                                {% for template in system_template_list %}
-                                <option value="{{template}}">{{template}}</option>
-                                {% endfor %}
-                            </select>
-                        </span>
-                    </th>
+                {% for config in config_item_list %}
+                <tr>
+                    <th width="100" class="text-r">{{config.cli_form_text}}</th>
+                    <th width="800" class="text-l">{{config.html|raw}}</th>
                 </tr>
+                {% endfor %}
                 <tr>
                     <td></td>
                     <td>
@@ -38,7 +32,6 @@
 
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript">
-    $('#template_name').val('{{config_list.template_name}}');
     $(function () {
         $("#form").validate({
             onkeyup: false,

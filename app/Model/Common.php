@@ -23,7 +23,6 @@ class Common
         return array(
             array('name' => '单行文本', 'key' => 'varchar'),
             array('name' => '多行文本', 'key' => 'text'),
-            array('name' => '富文本', 'key' => 'html'),
             array('name' => '单选框', 'key' => 'radio'),
             array('name' => '多选框', 'key' => 'checkbox'),
             array('name' => '下拉框', 'key' => 'select'),

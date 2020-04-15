@@ -69,20 +69,6 @@ class Config
         return Admin::commonReturn($result);
     }
 
-    public function getConfigBaseList($type = 'base')
-    {
-        $whereArr = array();
-        if ($type) {
-            array_push($whereArr, "cb_type='{$type}'");
-        }
-        $list = DB::select(array(
-            'table' => 'zq_config_base',
-            'col' => 'cb_name,cb_value',
-            'where' => $whereArr,
-        ));
-        return $list;
-    }
-
     public function getConfigList($id = 0)
     {
         $whereArr = array();
@@ -97,6 +83,49 @@ class Config
         return $list;
     }
 
+    public function generalHtmlForItem($configItemArr)
+    {
+        foreach ($configItemArr as $itemKey => $itemInfo) {
+            $html = '';
+            switch ($itemInfo['cli_data_type']) {
+                case 'varchar':
+                    $html = "<input class='input-text' name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' type='text' value='{$itemInfo['cli_default']}'>";
+                    break;
+                case 'text':
+                    $html = "<textarea name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' class='textarea radius' ></textarea>";
+                    break;
+                case 'radio':
+                    $valueList = explode(',', $itemInfo['cli_default']);
+                    foreach ($valueList as $valueDetail) {
+                        $html .= "<label class='mr-10'><input type='radio' name='{$itemInfo['cli_db_field_name']}'>{$valueDetail}</label>";
+                    }
+                    break;
+                case 'checkbox':
+                    $valueList = explode(',', $itemInfo['cli_default']);
+                    foreach ($valueList as $valueDetail) {
+                        $html .= "<label class='mr-10'><input type='checkbox' name='{$itemInfo['cli_db_field_name']}[]'>{$valueDetail}</label>";
+                    }
+                    break;
+                case 'select':
+                    $valueList = explode(',', $itemInfo['cli_default']);
+                    $html = "<select class='select' name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}'>";
+                    foreach ($valueList as $valueDetail) {
+                        $html .= "<option value='{$valueDetail}'>{$valueDetail}</option>";
+                    }
+                    $html .= '</select>';
+                    break;
+                case 'file':
+                    $html = "<input type='file'  name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' >";
+                    break;
+                default:
+                    $html = '';
+                    break;
+            }
+            $configItemArr[$itemKey]['html'] = $html;
+        }
+        return $configItemArr;
+    }
+
     public function getConfigListItemList($whereArr)
     {
         $list = DB::select(array(
@@ -104,6 +133,17 @@ class Config
             'col' => 'cli_id,cli_add_time,cli_form_text,cli_data_type,cli_db_field_name,cli_order,cli_is_system,cli_default',
             'where' => $whereArr,
             'order' => 'cli_order asc',
+        ));
+        return $list;
+    }
+
+    public function getConfigValueList($listId)
+    {
+        $whereArr = array("c_cl_id={$listId}");
+        $list = DB::select(array(
+            'table' => 'zq_config',
+            'col' => 'c_db_field_name,c_value',
+            'where' => $whereArr,
         ));
         return $list;
     }
