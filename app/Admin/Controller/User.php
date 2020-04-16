@@ -15,6 +15,8 @@ use dcr\Db;
 
 class User
 {
+
+    private $model_name = '用户';
     /**
      * @permission /会员管理
      * @return mixed
@@ -23,6 +25,8 @@ class User
     public function listView()
     {
         $assignData = array();
+        $assignData['page_title'] = '用户列表';
+        $assignData['page_model'] = $this->model_name;
         $whereStr = '';
         $where = array();
         //用户列表
@@ -55,7 +59,6 @@ class User
         $assignData['user_num'] = $pageTotalNum;
         $assignData['users'] = $list;
         $assignData['pages'] = $pageHtml;
-        $assignData['page_title'] = '用户列表';
 
         return Factory::renderPage('user/list', $assignData);
     }
@@ -63,6 +66,7 @@ class User
     public function addRoleView()
     {
         $assignData['page_title'] = '添加角色';
+        $assignData['page_model'] = $this->model_name;
         return Factory::renderPage('user/add-role', $assignData);
     }
 
@@ -74,6 +78,7 @@ class User
     public function addPermissionViewAbandon()
     {
         $assignData['page_title'] = '添加权限';
+        $assignData['page_model'] = $this->model_name;
         return Factory::renderPage('user/add-permission', $assignData);
     }
 
@@ -133,6 +138,7 @@ class User
         $roleConfigList = $user->getRoleList(array('col' => 'ur_name,ur_id'));
 
         $assignData['page_title'] = '密码更换';
+        $assignData['page_model'] = $this->model_name;
         $assignData['role_config_list'] = $roleConfigList;
 
         //已经配置好的角色列表
@@ -155,6 +161,7 @@ class User
             $assignData['user_id'] = $user_id;
         }
         $assignData['page_title'] = '用户信息';
+        $assignData['page_model'] = $this->model_name;
         return Factory::renderPage('user/show', $assignData);
     }
 
@@ -193,6 +200,7 @@ class User
     {
         $assignData = array();
         $assignData['page_title'] = '密码更换';
+        $assignData['page_model'] = $this->model_name;
         return Factory::renderPage('user/password-edit', $assignData);
     }
 
@@ -236,6 +244,7 @@ class User
         $assignData = array();
         $assignData['user_info'] = $userInfo;
         $assignData['page_title'] = '密码更换';
+        $assignData['page_model'] = $this->model_name;
         return Factory::renderPage('user/password-change', $assignData);
     }
 
@@ -262,6 +271,7 @@ class User
         $assignData = array();
         $assignData['roles'] = $list;
         $assignData['page_title'] = '角色列表';
+        $assignData['page_model'] = $this->model_name;
 
         return Factory::renderPage('user/role', $assignData);
     }
@@ -278,6 +288,7 @@ class User
         $assignData = array();
         $assignData['permissions'] = $list;
         $assignData['page_title'] = '权限列表';
+        $assignData['page_model'] = $this->model_name;
 
         return Factory::renderPage('user/permission', $assignData);
     }
@@ -314,6 +325,7 @@ class User
         $assignData['role_permission_ids'] = $rolePermissionIds;
         $assignData['role_id'] = $roleId;
         $assignData['page_title'] = '权限列表';
+        $assignData['page_model'] = $this->model_name;
 
         return Factory::renderPage('user/role-edit-permission', $assignData);
     }

@@ -10,11 +10,14 @@ use dcr\View;
 class Tools
 {
 
+    private $model_name = '工具';
+
     public function pluginsView()
     {
 
         $assignData = array();
         $assignData['page_title'] = '插件中心';
+        $assignData['page_model'] = $this->model_name;
 
         //得出本地插件列表
         $clsPlugins = new Plugins();
@@ -33,6 +36,7 @@ class Tools
 
         $assignData = array();
         $assignData['page_title'] = '已安装列表';
+        $assignData['page_model'] = $this->model_name;
 
         $clsPlugins = new Plugins();
         $list = $clsPlugins->getInstalledList();
@@ -99,6 +103,7 @@ class Tools
         }
         $assignData = array();
         $assignData['page_title'] = $config['description'];
+        $assignData['page_model'] = $this->model_name;
         //调用插件的index
         $pluginControllerName = $clsPlugins->getControllerClass($pluginName);
         if (class_exists($pluginControllerName)) {

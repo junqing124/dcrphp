@@ -146,6 +146,16 @@ class Install
             $permissionIds = implode(',', array_column($permissionList, 'up_id'));
             DB::update('zq_user_role', array('zt_id' => 1, 'ur_permissions' => $permissionIds,), "ur_name='系统管理员'");
 
+            //系统配置项
+            $sqlList = array(
+                'INSERT INTO `zq_config_list` VALUES (1,1586603908,1586603908,1,1,1,\'基本配置\',1),(2,1586603908,1586603908,1,1,1,\'模板配置\',1);',
+                'INSERT INTO `zq_config_list_item` VALUES (1,1586860452,1586969347,1,1,1,\'网站名\',\'varchar\',\'site_name\',1,\'\',1,1),(4,1586938211,1586969157,1,1,1,\'模板名\',\'select\',\'template_name\',1,\'var.systemTemplateStr\',1,2);',
+                'INSERT INTO `zq_config` VALUES (1,1587050159,1587050174,1,1,1,\'site_name\',\'DcrPHP建站系统11\',1),(2,1587050182,1587050367,1,1,1,\'template_name\',\'default\',2);',
+            );
+            foreach ($sqlList as $sql) {
+                DB::exec($sql);
+            }
+
             if ($importDemo) {
                 $install->importDemoData();
             }

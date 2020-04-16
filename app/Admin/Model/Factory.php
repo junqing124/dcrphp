@@ -28,6 +28,9 @@ class Factory
         if (!$dataList['page_title']) {
             throw new Exception('请设置页面标题,参考 Admin->Index->Index->index()');
         }
+        if (!$dataList['page_model']) {
+            throw new Exception('请设置本页模块,参考 Admin->Index->Index->index()');
+        }
         $userId = session('userId');
 
         //权限系统具体文档可以看https://github.com/junqing124/dcrphp/wiki/%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F

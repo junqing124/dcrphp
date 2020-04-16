@@ -20,6 +20,7 @@ use dcr\Safe;
 
 class Index
 {
+    private $model_name = '首页';
     /**
      * 首页
      * @return mixed
@@ -50,6 +51,7 @@ class Index
     {
         $assignData = array();
         $assignData['page_title'] = '欢迎页面';
+        $assignData['page_model'] = $this->model_name;
 
         //获取用户信息
         $user = new User();
@@ -86,6 +88,7 @@ class Index
     {
         $assignData = array();
         $assignData['page_title'] = '登陆页';
+        $assignData['page_model'] = $this->model_name;
 
         $username = post('username');
         $password = post('password');

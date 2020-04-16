@@ -48,7 +48,7 @@ class PluginMake extends Command
             $controllerFilePathOld = $pluginDir . DS . 'Controller' . DS . 'PluginTpl' . '.php';
             $controllerFilePath = $pluginDir . DS . 'Controller' . DS . $pluginName . '.php';
 
-            $fileSystem->rename($controllerFilePathOld,$controllerFilePath);
+            $fileSystem->rename($controllerFilePathOld, $controllerFilePath);
             $tplContent = file_get_contents($controllerFilePath);
             $pluginContent = str_replace('PluginTpl', $pluginName, $tplContent);
             file_put_contents($controllerFilePath, $pluginContent);

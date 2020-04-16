@@ -33,7 +33,7 @@ CREATE TABLE `zq_config_list` (
   `cl_is_system` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`cl_id`),
   UNIQUE KEY `uidx_name` (`cl_name`,`zt_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='配置项列表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='配置项列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-14 23:57:38
+-- Dump completed on 2020-04-16 23:19:43

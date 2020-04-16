@@ -18,9 +18,11 @@ dcrphp致力于应用层用户使用简单，后端用户开发简单。本系�
         https://github.com/junqing124/dcrphp/tags 下载需要的版本，解压后:  
         composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/  
         composer install --no-dev -vvv  
+    4、www.dcrcms.com下载全量源码包  
+       http://www.dcrcms.com/news.php?id=76  
         
  
-下载好源码后，进入根目录安装系统:  
+按上面的方式准备好源码后，进入根目录安装系统:  
 
     安装路径是:host/install    
     安装完成后，后台地址是:host/admin 初始化用户名和密码是admin 123456  

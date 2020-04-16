@@ -16,34 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zq_config_base`
+-- Table structure for table `zq_config`
 --
 
-DROP TABLE IF EXISTS `zq_config_base`;
+DROP TABLE IF EXISTS `zq_config`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `zq_config_base` (
-  `cb_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cb_add_time` int(11) NOT NULL DEFAULT '0',
-  `cb_update_time` int(11) NOT NULL DEFAULT '0',
-  `cb_approval_status` tinyint(4) NOT NULL DEFAULT '1',
-  `cb_add_user_id` smallint(6) NOT NULL DEFAULT '0',
+CREATE TABLE `zq_config` (
+  `c_id` int(11) NOT NULL AUTO_INCREMENT,
+  `c_add_time` int(11) NOT NULL DEFAULT '0',
+  `c_update_time` int(11) NOT NULL DEFAULT '0',
+  `c_approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `c_add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
-  `cb_name` varchar(45) NOT NULL DEFAULT '' COMMENT '配置名',
-  `cb_value` varchar(150) NOT NULL DEFAULT '' COMMENT '配置值',
-  `cb_type` varchar(45) NOT NULL DEFAULT 'base' COMMENT '属于哪个模块，基本还是模板等',
-  PRIMARY KEY (`cb_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `c_db_field_name` varchar(45) NOT NULL DEFAULT '' COMMENT '字段名',
+  `c_value` varchar(45) NOT NULL DEFAULT '' COMMENT '字段值',
+  `c_cl_id` int(11) NOT NULL DEFAULT '0' COMMENT '配置列表id',
+  PRIMARY KEY (`c_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='基本配置';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zq_config_base`
+-- Dumping data for table `zq_config`
 --
 
-LOCK TABLES `zq_config_base` WRITE;
-/*!40000 ALTER TABLE `zq_config_base` DISABLE KEYS */;
-INSERT INTO `zq_config_base` VALUES (1,1583672805,1586671261,0,1,1,'site_name','DcrPHP建站系统','base'),(2,1586670843,1586671276,1,1,1,'template_name','default','template');
-/*!40000 ALTER TABLE `zq_config_base` ENABLE KEYS */;
+LOCK TABLES `zq_config` WRITE;
+/*!40000 ALTER TABLE `zq_config` DISABLE KEYS */;
+INSERT INTO `zq_config` VALUES (1,1587050159,1587050174,1,1,1,'site_name','DcrPHP建站系统11',1),(2,1587050159,1587050174,1,1,1,'213123','12',1),(3,1587050182,1587050367,1,1,1,'template_name','default',2);
+/*!40000 ALTER TABLE `zq_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-14 23:57:39
+-- Dump completed on 2020-04-16 23:19:43

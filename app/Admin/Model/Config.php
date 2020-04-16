@@ -14,27 +14,47 @@ use dcr\Db;
 class Config
 {
 
-    public function configBase($configList, $type = 'base')
+    /**
+     * 更新配置
+     * @param $configList
+     * @param $list_id config list id
+     * @return array
+     */
+    public function config($configList, $list_id)
     {
-        foreach ($configList as $key => $value) {
+        $configItemList = $this->getConfigListItemByListId($list_id);
+        $configItemList = array_column($configItemList, 'cli_db_field_name');
+
+        foreach ($configList as $db_field_name => $value) {
+            //没在配置中的退出
+            if (! in_array($db_field_name, $configItemList)) {
+                continue;
+            }
+            $valueStr = is_array($value) ? implode(',', $value) : $value;
             $dbInfo = array(
-                'cb_update_time' => time(),
-                'cb_add_user_id' => session('userId'),
+                'c_update_time' => time(),
+                'c_add_user_id' => session('userId'),
                 'zt_id' => session('ztId'),
-                'cb_name' => $key,
-                'cb_value' => $value,
-                'cb_type' => $type,
+                'c_db_field_name' => $db_field_name,
+                'c_value' => $valueStr,
+                'c_cl_id' => $list_id,
             );
             //判断
-            $sql = "select cb_id from zq_config_base where cb_name='{$dbInfo['cb_name']}' and zt_id={$dbInfo['zt_id']}";
-            $info = DB::query($sql);
+            $info = Db::select(
+                array(
+                    'table' => 'zq_config',
+                    'where' => "c_db_field_name='{$db_field_name}' and c_cl_id={$list_id}",
+                    'limit' => 1,
+                    'col'=>'c_id',
+                )
+            );
+            $info = current($info);
             //处理
             if ($info) {
-                $info = current($info);
-                $result = DB::update('zq_config_base', $dbInfo, "cb_id={$info['cb_id']}");
+                $result = DB::update('zq_config', $dbInfo, "c_id={$info['c_id']}");
             } else {
-                $dbInfo['cb_add_time'] = time();
-                $result = DB::insert('zq_config_base', $dbInfo);
+                $dbInfo['c_add_time'] = time();
+                $result = DB::insert('zq_config', $dbInfo);
             }
             //var_dump( $result );
         }
@@ -83,32 +103,45 @@ class Config
         return $list;
     }
 
-    public function generalHtmlForItem($configItemArr)
+    /**
+     * @param $configItemArr
+     * @param array $varList 为调用者的变量列表，这个是为了实现var.abc这样的配置项
+     * @return mixed
+     */
+    public function generalHtmlForItem($configItemArr, $varList = array())
     {
         foreach ($configItemArr as $itemKey => $itemInfo) {
             $html = '';
+
+            //默认或设置值
+            $default = $itemInfo['cli_default'];
+            if ('var.' == substr($default, 0, 4)) {
+                $var = substr($default, 4);
+                $default = $varList[$var];
+            }
             switch ($itemInfo['cli_data_type']) {
                 case 'varchar':
-                    $html = "<input class='input-text' name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' type='text' value='{$itemInfo['cli_default']}'>";
+                    $html = "<input class='input-text' name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' type='text' value='{$default}'>";
                     break;
                 case 'text':
-                    $html = "<textarea name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' class='textarea radius' ></textarea>";
+                    $html = "<textarea name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' class='textarea radius' >{{$default}}</textarea>";
                     break;
                 case 'radio':
-                    $valueList = explode(',', $itemInfo['cli_default']);
+                    $valueList = explode(',', $default);
                     foreach ($valueList as $valueDetail) {
-                        $html .= "<label class='mr-10'><input type='radio' name='{$itemInfo['cli_db_field_name']}'>{$valueDetail}</label>";
+                        $html .= "<label class='mr-10'><input type='radio' value='{$valueDetail}' name='{$itemInfo['cli_db_field_name']}'>{$valueDetail}</label>";
                     }
                     break;
                 case 'checkbox':
-                    $valueList = explode(',', $itemInfo['cli_default']);
+                    $valueList = explode(',', $default);
                     foreach ($valueList as $valueDetail) {
-                        $html .= "<label class='mr-10'><input type='checkbox' name='{$itemInfo['cli_db_field_name']}[]'>{$valueDetail}</label>";
+                        $html .= "<label class='mr-10'><input type='checkbox' value='{$valueDetail}' name='{$itemInfo['cli_db_field_name']}[]'>{$valueDetail}</label>";
                     }
                     break;
                 case 'select':
-                    $valueList = explode(',', $itemInfo['cli_default']);
+                    $valueList = explode(',', $default);
                     $html = "<select class='select' name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}'>";
+                    $html .= "<option value=''>请选择</option>";
                     foreach ($valueList as $valueDetail) {
                         $html .= "<option value='{$valueDetail}'>{$valueDetail}</option>";
                     }
@@ -128,7 +161,7 @@ class Config
 
     public function getConfigListItemList($whereArr)
     {
-        $list = DB::select(array(
+        $list = Db::select(array(
             'table' => 'zq_config_list_item',
             'col' => 'cli_id,cli_add_time,cli_form_text,cli_data_type,cli_db_field_name,cli_order,cli_is_system,cli_default',
             'where' => $whereArr,
@@ -140,7 +173,7 @@ class Config
     public function getConfigValueList($listId)
     {
         $whereArr = array("c_cl_id={$listId}");
-        $list = DB::select(array(
+        $list = Db::select(array(
             'table' => 'zq_config',
             'col' => 'c_db_field_name,c_value',
             'where' => $whereArr,
@@ -202,7 +235,7 @@ class Config
     {
         //判断
         //先判断key有没有重复
-        $defineList = Common::getModelCommon();
+        $defineList = Common::getModelDefine();
         $isError = 0;
         $errorMsg = array();
         foreach ($defineList as $defineName => $defineInfo) {

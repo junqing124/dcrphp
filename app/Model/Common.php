@@ -3,7 +3,6 @@
 
 namespace app\Model;
 
-
 use app\Admin\Model\Admin;
 use dcr\Db;
 
@@ -104,5 +103,4 @@ class Common
 
         return Admin::commonReturn($result);
     }
-
 }

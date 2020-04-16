@@ -5,11 +5,17 @@
 </head>
 <body>
 
-{% include 'config/navigate.html' ignore missing %}
+{% include 'common/navigate.html' ignore missing %}
 <div class="page-container">
     <div class="mt-20">
+        <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l">
+        <a class="btn btn-primary radius" onclick="window.location='/admin/config/config-list-item-view/{{list_id}}'"
+           href="javascript:;">配置本页条目</a>
+        </span>
+        </div>
+
         <form action="/admin/config/config-ajax" method="post" class="form form-horizontal" id="form">
-            <input name="type" type="hidden" value="base">
+            <input name="list_id" type="hidden" value="{{list_id}}">
             <table class="table table-border table-bordered table-hover table-bg table-sort">
                 {% for config in config_item_list %}
                 <tr>

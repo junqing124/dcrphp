@@ -37,7 +37,7 @@ CREATE TABLE `zq_config_list_item` (
   `cli_is_system` tinyint(1) NOT NULL DEFAULT '0',
   `cli_cl_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`cli_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='表配置item列表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='表配置item列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `zq_config_list_item` (
 
 LOCK TABLES `zq_config_list_item` WRITE;
 /*!40000 ALTER TABLE `zq_config_list_item` DISABLE KEYS */;
-INSERT INTO `zq_config_list_item` VALUES (1,1586860452,1586877666,1,1,1,'24321','radio','2432111',1,'1212',0,1),(3,1586878879,1586878879,1,1,1,'abc123','checkbox','213123',31,'12',0,1);
+INSERT INTO `zq_config_list_item` VALUES (1,1586860452,1586969347,1,1,1,'网站名','varchar','site_name',1,'',1,1),(4,1586938211,1586969157,1,1,1,'模板名','select','template_name',1,'var.systemTemplateStr',1,2);
 /*!40000 ALTER TABLE `zq_config_list_item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-14 23:57:39
+-- Dump completed on 2020-04-16 23:19:43

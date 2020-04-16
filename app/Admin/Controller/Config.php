@@ -9,6 +9,7 @@ use dcr\Request;
 
 class Config
 {
+    private $model_name = '配置';
     /**
      * @permission /系统配置
      * @return mixed
@@ -18,6 +19,7 @@ class Config
     {
         $assignData = array();
         $assignData['page_title'] = '配置项配置';
+        $assignData['page_model'] = $this->model_name;
 
         $config = new MConfig();
         $list = $config->getConfigList();
@@ -25,6 +27,7 @@ class Config
 
         return Factory::renderPage('config/config-list', $assignData);
     }
+
     /**
      * @permission /系统配置
      * @return mixed
@@ -37,6 +40,7 @@ class Config
 
         $assignData = array();
         $assignData['page_title'] = '配置项子项配置';
+        $assignData['page_model'] = $this->model_name;
 
         $config = new MConfig();
         $list = $config->getConfigListItemByListId($listId);
@@ -59,6 +63,7 @@ class Config
         $id = $params[2];
         $assignData = array();
         $assignData['page_title'] = '添加编辑配置项';
+        $assignData['page_model'] = $this->model_name;
         $assignData['addition_id'] = $listId;
         $assignData['id'] = $id;
         $assignData['type'] = $type;
@@ -67,7 +72,7 @@ class Config
         $assignData['field_list'] = Common::getFieldTypeList();
 
         //得出数据来
-        if('edit' == $type){
+        if ('edit' == $type) {
             $config = new MConfig();
             $itemInfo = $config->getConfigListItem($id);
             $itemInfo = current($itemInfo);
@@ -91,18 +96,25 @@ class Config
     {
         $assignData = array();
         $assignData['page_title'] = '基础配置';
+        $assignData['page_model'] = $this->model_name;
 
         $params = $request->getParams();
         $clsConfig = new MConfig();
+
+        //得出系统变量要用的值
+        $systemTemplateList = $clsConfig->getSystemTemplate();
+        $systemTemplateStr = implode(',', $systemTemplateList); //配置项是:var.systemTemplateStr
+
         //得出基础配置项
         $configListId = current($params);
         $configItemList = $clsConfig->getConfigListItemByListId($configListId);
-        $configItemList = $clsConfig->generalHtmlForItem($configItemList);
-        //得出配置值
+        $configItemList = $clsConfig->generalHtmlForItem($configItemList, get_defined_vars());
 
+        //得出配置值
         $configValueList = $clsConfig->getConfigValueList($configListId);
         $assignData['config_item_list'] = $configItemList;
         $assignData['config_value_list'] = $configValueList;
+        $assignData['list_id'] = $configListId;
 
         return Factory::renderPage('config/config', $assignData);
     }
@@ -112,7 +124,8 @@ class Config
 
         $assignData = array();
         $assignData['page_title'] = '模型配置';
-        $assignData['define_list'] = Common::getModelCommon();
+        $assignData['page_model'] = $this->model_name;
+        $assignData['define_list'] = Common::getModelDefine();
 
         $config = new MConfig();
         $modelList = $config->getConfigModelList();
@@ -128,15 +141,15 @@ class Config
         return Factory::renderPage('config/model', $assignData);
     }
 
-    public function configBaseAjax()
+    public function configAjax()
     {
         $data = post();
-        $type = $data['type'];
+        $list_id = $data['list_id'];
         //里面的type不是配置项 只是个类型 所以排除
-        unset($data['type']);
+        unset($data['list_id']);
 
         $config = new MConfig();
-        $result = $config->configBase($data, $type);
+        $result = $config->config($data, $list_id);
         return Factory::renderJson($result);
     }
 
