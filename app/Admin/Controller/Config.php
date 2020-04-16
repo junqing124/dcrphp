@@ -23,7 +23,7 @@ class Config
 
         $config = new MConfig();
         $list = $config->getConfigList();
-        $assignData['config_list'] = $list;
+        $assignData['config_list'] = $list; 
 
         return Factory::renderPage('config/config-list', $assignData);
     }
