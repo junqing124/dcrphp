@@ -55,6 +55,7 @@ YZCODE;
                         if ('view' == substr($methodNameLower, -4)) {
                             $classNameArr = explode(DS, strtolower($className));
                             $viewUrl = 'http://127.0.0.1/' . $classNameArr[1] . '/' . $classNameArr[3] . '/' . $methodNameLower . $additionCs[$methodNameLower];
+                            dd($className);
                             dd($classNameArr);
                             echo "\r\n" . $methodDetail->name;
                             echo "\r\n" . $viewUrl . "\r\n";
