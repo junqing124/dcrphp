@@ -64,7 +64,7 @@ abstract class DBDriver
     public function exec($sql)
     {
         if (!$this->checkZtId($sql)) {
-            throw new \Exception('can not find zt_id');
+            throw new \Exception($sql . ':can not find zt_id');
         }
         $this->lastSql = $sql;
         $result = $this->pdo->exec($sql);
