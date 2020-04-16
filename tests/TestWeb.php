@@ -44,7 +44,6 @@ YZCODE;
             //获取admin下的所有view看下
             $adminPath = ROOT_APP . DS . 'Admin' . DS . 'Controller';
             $classFileList = scandir($adminPath);
-            dd($classFileList);
             foreach ($classFileList as $classFileName) {
                 if (!in_array($classFileName, array('.', '..'))) {
                     $fileInfo = pathinfo($classFileName);
@@ -55,9 +54,9 @@ YZCODE;
                         $methodNameLower = strtolower($methodDetail->name);
                         if ('view' == substr($methodNameLower, -4)) {
                             $classNameArr = explode(DS, strtolower($className));
-                            //dd($classNameArr);
                             $viewUrl = 'http://127.0.0.1/' . $classNameArr[1] . '/' . $classNameArr[3] . '/' . $methodNameLower . $additionCs[$methodNameLower];
-                            echo $viewUrl . "\r\n";
+                            echo "\r\n" . $methodDetail->name;
+                            echo "\r\n" . $viewUrl . "\r\n";
                             //exit;
                             $html = file_get_contents($viewUrl);
 
