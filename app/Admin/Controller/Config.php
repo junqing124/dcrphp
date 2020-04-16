@@ -10,8 +10,8 @@ use dcr\Request;
 class Config
 {
     private $model_name = '配置';
+
     /**
-     * @permission /系统配置
      * @return mixed
      * @throws \Exception
      */
@@ -29,7 +29,6 @@ class Config
     }
 
     /**
-     * @permission /系统配置
      * @return mixed
      * @throws \Exception
      */

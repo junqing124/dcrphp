@@ -36,6 +36,7 @@ class Index
         $assignData['version'] = $version;
         $assignData['app_name'] = $appName;
         $assignData['page_title'] = '首页';
+        $assignData['page_model'] = $this->model_name;
         $modelList = Common::getModelDefine();
         $assignData['model_list'] = $modelList;
         /*dd($assignData);

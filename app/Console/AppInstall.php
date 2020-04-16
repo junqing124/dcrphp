@@ -47,7 +47,8 @@ class AppInstall extends Command
             $port,
             1,
             1,
-            $charset);
+            $charset
+        );
 
         return 0;
     }

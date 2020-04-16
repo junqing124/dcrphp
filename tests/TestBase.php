@@ -4,6 +4,7 @@ namespace test;
 
 require_once __DIR__ . '/../dcr/bootstrap/init.php';
 
+use app\Model\Install;
 use PHPUnit\Framework\TestCase;
 use app\Admin\Model\User;
 use app\Admin\Model\Model;
@@ -95,8 +96,9 @@ class TestBase extends TestCase
     public function testBase()
     {
         //测试文件名对不对
+        $clsInstall = new Install();
         $dirList = array(
-            ROOT_APP . DS . 'Console' . DS . 'sql' . DS . 'install',
+            $clsInstall->getSqlFilePath(),
         );
         foreach ($dirList as $sqlPath) {
             $fileList = scandir($sqlPath);

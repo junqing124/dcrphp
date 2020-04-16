@@ -17,6 +17,14 @@ class Install
     private $sqlFilePath = ROOT_APP . DS . 'Index' . DS . 'Install' . DS . 'sql';
 
     /**
+     * @return string
+     */
+    public function getSqlFilePath(): string
+    {
+        return $this->sqlFilePath;
+    }
+
+    /**
      * 执行某个目录下的sql文件
      * @param $sqlDirPath
      * @return bool

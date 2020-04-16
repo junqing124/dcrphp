@@ -591,7 +591,7 @@ class User
         //判断有没有重复的
         $permissionListNew = array_unique($permissionList);
         if (count($permissionListNew) != count($permissionList)) {
-            throw new \Exception('Find the same permission config');
+            throw new \Exception('Find the same permission config,one is ' . implode(',', $permissionListNew) . ',two is' . implode(',', $permissionList));
         }
         //添加到权限表中
         //定义一个版本号，如果没有，则说明不是本次更新，删除之
