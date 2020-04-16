@@ -56,7 +56,7 @@ YZCODE;
                             $classNameArr = explode(DS, strtolower($className));
                             //dd($classNameArr);
                             $viewUrl = 'http://127.0.0.1/' . $classNameArr[1] . '/' . $classNameArr[3] . '/' . $methodNameLower . $additionCs[$methodNameLower];
-                            //echo $viewUrl;
+                            echo $viewUrl . "\r\n";
                             //exit;
                             $html = file_get_contents($viewUrl);
 
