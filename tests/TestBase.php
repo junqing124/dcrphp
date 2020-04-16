@@ -17,6 +17,7 @@ class TestBase extends TestCase
         $config = new Config();
 
         $modelConfigList = $config->getConfigModelList();
+        dd($modelConfigList);
 
         $this->assertEquals(2, count($modelConfigList));
 
