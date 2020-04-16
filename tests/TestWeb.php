@@ -44,6 +44,7 @@ YZCODE;
             //获取admin下的所有view看下
             $adminPath = ROOT_APP . DS . 'Admin' . DS . 'Controller';
             $classFileList = scandir($adminPath);
+            dd($classFileList);
             foreach ($classFileList as $classFileName) {
                 if (!in_array($classFileName, array('.', '..'))) {
                     $fileInfo = pathinfo($classFileName);
