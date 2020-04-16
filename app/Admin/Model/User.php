@@ -77,7 +77,8 @@ class User
             $result['error_id'] = 1000;
             $result['msg'] = '用户名或密码不正确';
         }
-        //本代码不要删除，为了给TestWeb测试模块去除验证用
+        //本代码不要删除，为了给TestWeb测试模块去除验证用//
+        //上面文字的格式是://汉字写这//
         /*dd($info);
         exit;*/
         return $result;
