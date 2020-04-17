@@ -100,6 +100,9 @@ class Install
 
             //用原始的创建
             $conn = mysqli_connect($host, $username, $password, '', $port);
+            if (!$conn) {
+                throw new \Exception('连接数据库失败');
+            }
             if ($coverData) {
                 mysqli_query($conn, "CREATE DATABASE IF NOT EXISTS `{$database}` /*zt_id=1*/");
             } else {
