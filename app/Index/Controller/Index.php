@@ -41,7 +41,7 @@ class Index
         $config = new Config();
         $configTemplateName = $config->getConfigByDbFieldName('template_name');
         $view->setViewDirectoryPath(ROOT_PUBLIC . DS . 'resource' . DS . 'template' . DS . $configTemplateName . DS . 'view');
-        $siteName  = $config->getConfigByDbFieldName('site_name');
+        $siteName = $config->getConfigByDbFieldName('site_name');
 
         $model = new Model();
         //分类
@@ -184,8 +184,9 @@ class Index
     {
         try {
             $clsInstall = new Install();
-            $result = $clsInstall->install(post('host'), post('username'), post('password'), post('database'), post('port'), post('cover_data'), post('import_demo'));
-            return Factory::renderJson($result);
+            $result = $clsInstall->install(post('host'), post('username'), post('password'), post('database'),
+                post('port'), post('cover_data'), post('import_demo'));
+            return Factory::renderJson($result, 1);
         } catch (\Exception $ex) {
             throw new \Exception($ex->getMessage());
         }

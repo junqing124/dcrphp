@@ -77,7 +77,7 @@ class Admin
             //验证通过
             return array('ack' => 1);
         } else {
-            return array('ack' => 0, 'error_id' => '1000', 'msg' => '验证失败');
+            return array('ack' => 0, 'error_id' => '1000', 'msg' => '登陆验证失败');
             //return $view->render('login');
             //exit;
         }
