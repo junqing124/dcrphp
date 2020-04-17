@@ -39,6 +39,7 @@ YZCODE;
             $additionCs = array(
                 'passwordchangeview' => '?user_id=1',
                 'roleeditpermissionview' => '?role_id=1',
+                'configlistitemview' => '/1',
             );
             //幸好当初定好了命名规则，这里统一定查下有没有非正常的页面
             //获取admin下的所有view看下
@@ -58,10 +59,10 @@ YZCODE;
                         $methodNameLower = strtolower($methodDetail->name);
                         if ('view' == substr($methodNameLower, -4)) {
                             $viewUrl = 'http://127.0.0.1/' . $classNameArr[1] . '/' . $classNameArr[3] . '/' . $methodNameLower . $additionCs[$methodNameLower];
-                            dd($className);
+                            /*dd($className);
                             dd($classNameArr);
                             echo "\r\n" . $methodDetail->name;
-                            echo "\r\n" . $viewUrl . "\r\n";
+                            echo "\r\n" . $viewUrl . "\r\n";*/
                             //exit;
                             $html = file_get_contents($viewUrl);
 
