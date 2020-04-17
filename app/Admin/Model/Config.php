@@ -122,10 +122,11 @@ class Config
 
     /**
      * @param $configItemArr
+     * @param array $valueList 设置Input的值 比如想把site_name的值为 DcrPHP系统 则传入传情为 array('site_name'=>'DcrPHP系统');
      * @param array $varList 为调用者的变量列表，这个是为了实现var.abc这样的配置项
      * @return mixed
      */
-    public function generalHtmlForItem($configItemArr, $varList = array())
+    public function generalHtmlForItem($configItemArr, $valueList = array(), $varList = array())
     {
         foreach ($configItemArr as $itemKey => $itemInfo) {
             $html = '';
@@ -136,23 +137,31 @@ class Config
                 $var = substr($default, 4);
                 $default = $varList[$var];
             }
+            $inputValue = $valueList[$itemInfo['cli_db_field_name']] ? $valueList[$itemInfo['cli_db_field_name']] : $default;
+            $additionStr = '';
             switch ($itemInfo['cli_data_type']) {
                 case 'varchar':
-                    $html = "<input class='input-text' name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' type='text' value='{$default}'>";
+                    $html = "<input class='input-text' name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' type='text' value='{$inputValue}'>";
                     break;
                 case 'text':
-                    $html = "<textarea name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' class='textarea radius' >{{$default}}</textarea>";
+                    $html = "<textarea name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' class='textarea radius' >{{$inputValue}}</textarea>";
                     break;
                 case 'radio':
                     $valueList = explode(',', $default);
                     foreach ($valueList as $valueDetail) {
-                        $html .= "<label class='mr-10'><input type='radio' value='{$valueDetail}' name='{$itemInfo['cli_db_field_name']}'>{$valueDetail}</label>";
+                        if ($valueDetail == $inputValue) {
+                            $additionStr = ' checked ';
+                        }
+                        $html .= "<label class='mr-10'><input type='radio' {$additionStr} value='{$valueDetail}' name='{$itemInfo['cli_db_field_name']}'>{$valueDetail}</label>";
                     }
                     break;
                 case 'checkbox':
                     $valueList = explode(',', $default);
                     foreach ($valueList as $valueDetail) {
-                        $html .= "<label class='mr-10'><input type='checkbox' value='{$valueDetail}' name='{$itemInfo['cli_db_field_name']}[]'>{$valueDetail}</label>";
+                        if ($valueDetail == $inputValue) {
+                            $additionStr = ' checked ';
+                        }
+                        $html .= "<label class='mr-10'><input type='checkbox' {$additionStr} value='{$valueDetail}' name='{$itemInfo['cli_db_field_name']}[]'>{$valueDetail}</label>";
                     }
                     break;
                 case 'select':
@@ -160,7 +169,10 @@ class Config
                     $html = "<select class='select' name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}'>";
                     $html .= "<option value=''>请选择</option>";
                     foreach ($valueList as $valueDetail) {
-                        $html .= "<option value='{$valueDetail}'>{$valueDetail}</option>";
+                        if ($valueDetail == $inputValue) {
+                            $additionStr = ' selected ';
+                        }
+                        $html .= "<option {$additionStr} value='{$valueDetail}'>{$valueDetail}</option>";
                     }
                     $html .= '</select>';
                     break;

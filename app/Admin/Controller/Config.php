@@ -107,10 +107,11 @@ class Config
         //得出基础配置项
         $configListId = current($params);
         $configItemList = $clsConfig->getConfigListItemByListId($configListId);
-        $configItemList = $clsConfig->generalHtmlForItem($configItemList, get_defined_vars());
-
         //得出配置值
         $configValueList = $clsConfig->getConfigValueList($configListId);
+        $configValueList = array_column($configValueList, 'c_value', 'c_db_field_name');
+        $configItemList = $clsConfig->generalHtmlForItem($configItemList, $configValueList, get_defined_vars());
+
         $assignData['config_item_list'] = $configItemList;
         $assignData['config_value_list'] = $configValueList;
         $assignData['list_id'] = $configListId;
