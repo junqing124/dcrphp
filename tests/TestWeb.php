@@ -50,10 +50,13 @@ YZCODE;
                     $className = 'app\\Admin\\Controller\\' . $fileInfo['filename'];
                     $reflector = new \ReflectionClass($className);
                     $methodList = $reflector->getMethods();
+                    $classNameArr = explode(DS, strtolower($className));
+                    if (1 == count($classNameArr)) {
+                        $classNameArr = explode('\\', strtolower($className));
+                    }
                     foreach ($methodList as $methodDetail) {
                         $methodNameLower = strtolower($methodDetail->name);
                         if ('view' == substr($methodNameLower, -4)) {
-                            $classNameArr = explode(DS, strtolower($className));
                             $viewUrl = 'http://127.0.0.1/' . $classNameArr[1] . '/' . $classNameArr[3] . '/' . $methodNameLower . $additionCs[$methodNameLower];
                             dd($className);
                             dd($classNameArr);
