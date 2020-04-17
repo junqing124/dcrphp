@@ -8,11 +8,11 @@ dcrphp致力于应用层用户使用简单，后端用户开发简单。本系�
 &nbsp;&nbsp;2、MVC模式  
 &nbsp;&nbsp;3、自动化的测试及编码检测  
   
-安装源码(下面3选1)：  
+安装源码(下面4选1)：  
 
-    1、composer create-project junqing124/dcrphp dcrphp 1.0.1
+    1、composer create-project junqing124/dcrphp dcrphp 1.0.2
     2、进入根目录执行:
-        composer require junqing124/dcrphp  1.0.1  
+        composer require junqing124/dcrphp  1.0.2  
         把vender/junqing124/dcrphp/下的内容剪切到根目录  
     3、源码安装:
         https://github.com/junqing124/dcrphp/tags 下载需要的版本，解压后:  
@@ -21,19 +21,20 @@ dcrphp致力于应用层用户使用简单，后端用户开发简单。本系�
     4、www.dcrcms.com下载全量源码包  
        http://www.dcrcms.com/news.php?id=76  
         
- 
-按上面的方式准备好源码后，进入根目录安装系统:  
+Web服务器配置根目录为public  
+安装系统如下:    
 
     安装路径是:host/install    
     安装完成后，后台地址是:host/admin 初始化用户名和密码是admin 123456  
   
-附：nginx配置:  
+附： 
+nginx配置:  
 charset utf-8;  
 location / {  
 &#8195;&#8195;try_files $uri $uri/ /index.php?$query_string;    
 }  
 
-1.0.2(开发中):  
+1.0.2(2020-04-17):  
     1、完善RABC  
     2、完善测试程序  
     3、修改数据库规则及现有的数据库结构  
