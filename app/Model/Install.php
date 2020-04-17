@@ -84,8 +84,8 @@ class Install
             $data['config']['MYSQL_DB_HOST'] = $host;
             $data['config']['MYSQL_DB_PORT'] = $port;
             $data['config']['MYSQL_DB_DATABASE'] = $database;
-            $data['config']['MYSQL_DB_USERNAME'] = $password;
-            $data['config']['MYSQL_DB_PASSWORD'] = $username;
+            $data['config']['MYSQL_DB_USERNAME'] = $username;
+            $data['config']['MYSQL_DB_PASSWORD'] = $password;
             $data['config']['MYSQL_DB_CHARSET'] = $charset;
             Env::write($envFile, $data);
 
