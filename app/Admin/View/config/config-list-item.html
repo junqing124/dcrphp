@@ -9,7 +9,9 @@
 {% include 'common/navigate.html' ignore missing %}
 
 <div class="page-container">
-    <div class="Huialert Huialert-info"><i class="Hui-iconfont">&#xe6a6;</i>排序越小越排前</div>
+    <div class="Huialert Huialert-info"><i class="Hui-iconfont">&#xe6a6;</i>
+        排序越小越排前，调用配置请用:app\Admin\Model\Config->getConfigByDbFieldName('数据字段名');
+    </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l">
     <a class="btn btn-primary radius" onclick="edit('新增项目','/admin/config/config-list-item-edit-view/add/{{list_id}}')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i>[{{config_name}}]添加配置项</a>
     </span>

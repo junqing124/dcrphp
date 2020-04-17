@@ -9,6 +9,7 @@
 namespace app\Index\Controller;
 
 use app\Admin\Model\Factory;
+use app\Model\Common;
 use app\Model\Define;
 use app\Model\Install;
 use dcr\Db;
@@ -38,20 +39,17 @@ class Index
         }
 
         $config = new Config();
-        $configTemplate = $config->getConfigBaseList('template');
-        $configTemplate = array_column($configTemplate, 'cb_value', 'cb_name');
-        $view->setViewDirectoryPath(ROOT_PUBLIC . DS . 'resource' . DS . 'template' . DS . $configTemplate['template_name'] . DS . 'view');
+        $configTemplateName = $config->getConfigByDbFieldName('template_name');
+        $view->setViewDirectoryPath(ROOT_PUBLIC . DS . 'resource' . DS . 'template' . DS . $configTemplateName . DS . 'view');
+        $siteName  = $config->getConfigByDbFieldName('site_name');
 
-        $config = new Config();
-        $configInfo = $config->getConfigBaseList();
-        $configInfo = array_column($configInfo, 'cb_value', 'cb_name');
         $model = new Model();
         //分类
         $categoryNewsList = $model->getCategoryList('news', 0);
         $categoryProductList = $model->getCategoryList('product', 0);
         $view->assign('category_news', $categoryNewsList);
         $view->assign('category_product', $categoryProductList);
-        $view->assign('site_name', $configInfo['site_name']);
+        $view->assign('site_name', $siteName);
         $view->assign('title', $title);
         $view->assign('position', $position);
     }
@@ -68,16 +66,16 @@ class Index
             array('requestField' => 1, 'requestAddition' => 1, 'requestFieldDec' => 1)
         );
         //dd($modelInfo);
-        $modelDefine = Define::getModelDefine();
+        $modelDefine = Common::getModelDefine();
         $modelCategoryName = $modelDefine[$modelInfo['list']['ml_model_name']]['dec'];
 
-        $categroyInfo = $model->getCategoryInfo($modelInfo['list']['ml_category_id']);
-        $categroyName = $categroyInfo['mc_name'];
+        $categoryInfo = $model->getCategoryInfo($modelInfo['list']['ml_category_id']);
+        $categoryName = $categoryInfo['mc_name'];
 
         $this->viewCommon(
             $view,
             $modelInfo['list']['ml_title'],
-            "<a href='/'>首页</a> / <a> {$modelCategoryName} </a> / <a href='/index/index/list-view/product/{$modelInfo['list']['ml_category_id']}'> {$categroyName} </a>"
+            "<a href='/'>首页</a> / <a> {$modelCategoryName} </a> / <a href='/index/index/list-view/product/{$modelInfo['list']['ml_category_id']}'> {$categoryName} </a>"
         );
         $view->assign('info', $modelInfo);
 

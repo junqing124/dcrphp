@@ -15,6 +15,23 @@ class Config
 {
 
     /**
+     * 通过数据库字段名获取配置内容
+     * @param $db_field_name 配置的键名
+     */
+    public function getConfigByDbFieldName($db_field_name)
+    {
+        $info = Db::select(
+            array(
+                'table' => 'zq_config',
+                'where' => "c_db_field_name='{$db_field_name}'",
+                'limit' => 1,
+                'col'=>'c_value',
+            )
+        );
+        $info = current($info);
+        return $info['c_value'];
+    }
+    /**
      * 更新配置
      * @param $configList
      * @param $list_id config list id
