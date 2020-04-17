@@ -40,6 +40,7 @@ YZCODE;
                 'passwordchangeview' => '?user_id=1',
                 'roleeditpermissionview' => '?role_id=1',
                 'configlistitemview' => '/1',
+                'configview' => '/1',
             );
             //幸好当初定好了命名规则，这里统一定查下有没有非正常的页面
             //获取admin下的所有view看下
