@@ -184,8 +184,15 @@ class Index
     {
         try {
             $clsInstall = new Install();
-            $result = $clsInstall->install(post('host'), post('username'), post('password'), post('database'),
-                post('port'), post('cover_data'), post('import_demo'));
+            $result = $clsInstall->install(
+                post('host'),
+                post('username'),
+                post('password'),
+                post('database'),
+                post('port'),
+                post('cover_data'),
+                post('import_demo')
+            );
             return Factory::renderJson($result, 1);
         } catch (\Exception $ex) {
             throw new \Exception($ex->getMessage());
