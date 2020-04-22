@@ -5,6 +5,7 @@
  * Date: 2019/7/28
  * Time: 21:07
  */
+declare(strict_types = 1);
 
 namespace dcr;
 

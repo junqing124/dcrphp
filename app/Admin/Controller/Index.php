@@ -10,7 +10,7 @@ namespace app\Admin\Controller;
 
 use app\Admin\Model\Config as MConfig;
 use app\Admin\Model\Factory;
-use app\Model\Common;
+use app\Admin\Model\Common;
 use dcr\Response;
 use dcr\Session;
 use dcr\View;

@@ -1,17 +1,17 @@
 <?php
 
-namespace app\Plugins\DbBackup\Controller;
+namespace app\Admin\Plugins\DbBackup\Controller;
 
 use app\Admin\Model\Admin;
 use app\Model\Install;
-use app\Model\Plugins;
+use app\Admin\Model\Plugins;
 use dcr\Db;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DbBackup extends Plugins
 {
-    private $backupDir = ROOT_APP . DS . 'Plugins' . DS . 'DbBackup' . DS . 'BackupData';
+    private $backupDir = ROOT_APP . DS . 'Admin' . DS . 'Plugins' . DS . 'DbBackup' . DS . 'BackupData';
 
     /**
      * @param $view本类用来给首页入口调用用的
@@ -95,7 +95,7 @@ class DbBackup extends Plugins
             throw new \Exception('目录不存在，创建目录失败:' . $backupDir);
         }
 
-        include_once ROOT_APP . DS . 'Plugins' . DS . 'DbBackup' . DS . 'vendor' . DS . 'autoload.php';
+        require_once $this->getPluginDir('DbBackup') . DS . 'vendor' . DS . 'autoload.php';
 
         try {
             $backupName = $backupDir . DS . 'backup';

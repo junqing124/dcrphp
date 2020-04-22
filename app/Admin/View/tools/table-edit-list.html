@@ -1,0 +1,90 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common/header.html' ignore missing %}
+</head>
+<body>
+
+{% include 'common/navigate.html' ignore missing %}
+<div class="page-container">
+    <div class="text-c">
+        <form action="#" method="get">
+            用户名:<input type="text" class="input-text" style="width:250px" placeholder="输入会员名称" id="u_username"
+                       name="u_username" value="{{u_username}}">
+            <button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户
+            </button>
+        </form>
+    </div>
+    <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"> <a
+            href="javascript:;" onclick="edit('添加','/admin/tools/table-edit-edit-view/add/{{config.table_name}}','50%','30%')"
+            class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></span> <span
+            class="r">共有数据：<strong>{{user_num}}</strong> 条</span></div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-hover table-bg table-sort">
+            <thead>
+            <tr>
+                {% for col in list_col %}
+                <th>{{col.title}}</th>
+                {% endfor %}
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for info in list %}
+            <tr>
+                {% for col in list_col %}
+                <td>{{info[col.db_field_name]}}</td>
+                {% endfor %}
+                <td class="td-manage">
+                    <a title="编辑" href="javascript:;"
+                       onclick="edit('编辑','/admin/tools/table-edit-edit-view/edit/{{config.table_name}}/{{info.id}}','50%','30%')"
+                       class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                    <a title="删除" href="javascript:;" onclick="del(this,'{{info.id}}')" class="ml-5"
+                       style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div>{{pages|raw}}</div>
+    </div>
+</div>
+
+{% include '/common/footer.html' ignore missing %}
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript">
+    /*添加*/
+    function edit(title, url, w, h) {
+        let index = layer.open({
+            type: 2,
+            title: title,
+            content: url,
+            area: [w, h]
+        });
+    }
+
+    /*删除*/
+    function del(obj, id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            $.ajax({
+                type: 'POST',
+                url: '/admin/tools/table-edit-edit-ajax',
+                dataType: 'json',
+                data: "table_name={{config.table_name}}&type=delete&id=" + id,
+                success: function (data) {
+                    if( 1 == data.ack ){
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!', {icon: 1, time: 1000});
+                    }else{
+                        layer.alert(data.msg, {icon: 2});
+                    }
+                },
+                error: function (data) {
+                    //layer.alert(data.msg, {icon: 2});
+                },
+            });
+        });
+    }
+</script>
+</body>
+</html>

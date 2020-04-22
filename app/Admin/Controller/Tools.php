@@ -2,10 +2,14 @@
 
 namespace app\Admin\Controller;
 
+use app\Admin\Model\Common;
 use app\Admin\Model\Factory;
-use app\Model\Plugins;
+use app\Admin\Model\Plugins;
+use dcr\Page;
 use dcr\Request;
 use dcr\View;
+use dcr\Db;
+use app\Admin\Model\Tools as MTools;
 
 class Tools
 {
@@ -114,5 +118,177 @@ class Tools
         }
         //$pluginIndexController = new ;
         return Factory::renderPage($indexView, $assignData, $viewDir);
+    }
+
+    public function tableEditEditAjax()
+    {
+        $data = post();
+        $tableName = $data['table_name'];
+        //用通用接口去处理
+        $clsTools = new MTools();
+        $configPath = $clsTools->getTableEditConfigPath($tableName);
+        $config = include_once $configPath;
+        if ('delete' == $data['type']) {
+
+            $result = Common::CUDDbInfo(
+                $tableName,
+                $config['table_pre'],
+                array(),
+                $data['type'],
+                $option = array('id' => $data['id'], 'check' => array())
+            );
+        } else {
+            //dd($config);
+            //处理检测程序
+            $check = array();
+            $listCol = array();
+            if ('add' == $data['type']) {
+                foreach ($config['col'] as $configKey => $configValue) {
+                    if ($configValue['is_insert_required']) {
+                        $check[$configKey] = array('type' => 'required');
+                    }
+                    if ($configValue['is_insert']) {
+                        $listCol[] = $configValue;
+                    }
+                }
+            }
+            if ('edit' == $data['type']) {
+                foreach ($config['col'] as $configKey => $configValue) {
+                    if ($configValue['is_update_required']) {
+                        $check[$configKey] = array('type' => 'required');
+                    }
+                    if ($configValue['is_update']) {
+                        $listCol[] = $configValue;
+                    }
+                }
+            }
+
+            //要更新的数据
+            $dbInfo = array();
+            foreach ($listCol as $colInfo) {
+                $dbInfo[$colInfo['db_field_name']] = $data[$colInfo['db_field_name']];
+            }
+
+            $result = Common::CUDDbInfo(
+                $tableName,
+                $config['table_pre'],
+                $dbInfo,
+                $data['type'],
+                $option = array('id' => $data['id'], 'check' => $check)
+            );
+        }
+
+        return Factory::renderJson($result);
+    }
+
+    public function tableEditEditView(Request $request)
+    {
+
+        $params = $request->getParams();
+        $type = $params[0];
+        $tableName = $params[1];
+        $id = $params[2];
+        $clsTools = new MTools();
+        $configPath = $clsTools->getTableEditConfigPath($tableName);
+        $config = include_once $configPath;
+
+        $listCol = array();
+        $checkKey = 'add' == $type ? 'is_insert' : 'is_update';
+
+        //得出insert或update的字段来
+        foreach ($config['col'] as $configKey => $configValue) {
+            if ($configValue[$checkKey]) {
+                $listCol[$configKey] = $configValue;
+            }
+        }
+        //开始格式化成标准格式
+        //如果是编辑 则得出值
+        $info = array();
+        if ('edit' == $type) {
+            $info = Db::select(
+                array(
+                    'table' => $config['table_name'],
+                    'where' => "{$config['index_id']}={$id}",
+                    'limit' => 1,
+                )
+            );
+            $info = current($info);
+        }
+        $fieldList = Common::generalHtmlForItem($listCol, $info);
+        //dd($fieldList);
+
+        $assignData = array();
+        $assignData['page_title'] = $config['page_title'];
+        $assignData['page_model'] = $config['page_model'];
+        $assignData['type'] = $type;
+        $assignData['table_name'] = $tableName;
+        $assignData['field_list'] = $fieldList;
+        $assignData['id'] = $id;
+        $assignData['index_id'] = $config['index_id'];
+
+        return Factory::renderPage('tools/table-edit-edit', $assignData);
+
+    }
+
+    public function tableEditListView(Request $request)
+    {
+
+        $params = $request->getParams();
+        $tableName = current($params);
+        $clsTools = new MTools();
+        $configPath = $clsTools->getTableEditConfigPath($tableName);
+        $config = include_once $configPath;
+        $assignData = array();
+        $assignData['page_title'] = $config['page_title'];
+        $assignData['page_model'] = $config['page_model'];
+        //获取列表要显示的列
+        $listCol = array();
+        foreach ($config['col'] as $configKey => $configValue) {
+            if ($configValue['is_show_list']) {
+                $listCol[$configKey] = $configValue;
+            }
+        }
+        $whereArr = array();
+        if ($config['list_where']) {
+            $whereArr[] = $config['list_where'];
+        }
+
+        //总数量
+        $pageInfo = Db::select(
+            array(
+                'table' => $config['table_name'],
+                'where' => $whereArr,
+                'col' => array('count(' . $config['index_id'] . ') as num'),
+            )
+        );
+
+        $pageTotalNum = $pageInfo[0]['num'];
+        $page = get('page');
+        $page = $page ? (int)$page : 1;
+        $pageNum = 50;
+
+        $pageTotal = ceil($pageTotalNum / $pageNum);
+        $clsPage = new Page($page, $pageTotal);
+        $pageHtml = $clsPage->showPage();
+
+        $list = Db::select(
+            array(
+                'table' => $config['table_name'],
+                'order' => $config['list_order'],
+                'where' => $whereArr,
+                'col' => implode(',', array_keys($listCol)) . ',' . $config['index_id'] . ' as id',
+                'offset' => ($page - 1) * $pageNum,
+                'limit' => $pageNum,
+            )
+        );
+
+        $assignData['list'] = $list;
+        $assignData['list_col'] = $listCol;
+        $assignData['page'] = $page;
+        $assignData['user_num'] = $pageTotalNum;
+        $assignData['pages'] = $pageHtml;
+        $assignData['config'] = $config;
+
+        return Factory::renderPage('tools/table-edit-list', $assignData);
     }
 }

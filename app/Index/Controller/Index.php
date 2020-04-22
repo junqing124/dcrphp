@@ -9,18 +9,13 @@
 namespace app\Index\Controller;
 
 use app\Admin\Model\Factory;
-use app\Model\Common;
-use app\Model\Define;
+use app\Admin\Model\Common;
 use app\Model\Install;
 use dcr\Db;
 use dcr\Page;
 use dcr\Request;
 use app\Admin\Model\Model;
 use app\Admin\Model\Config;
-use Symfony\Component\Console\Application;
-use dcr\Console;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
  * Class Index

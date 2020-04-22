@@ -120,74 +120,6 @@ class Config
         return $list;
     }
 
-    /**
-     * @param $configItemArr
-     * @param array $valueList 设置Input的值 比如想把site_name的值为 DcrPHP系统 则传入传情为 array('site_name'=>'DcrPHP系统');
-     * @param array $varList 为调用者的变量列表，这个是为了实现var.abc这样的配置项
-     * @return mixed
-     */
-    public function generalHtmlForItem($configItemArr, $valueList = array(), $varList = array())
-    {
-        foreach ($configItemArr as $itemKey => $itemInfo) {
-            $html = '';
-
-            //默认或设置值
-            $default = $itemInfo['cli_default'];
-            if ('var.' == substr($default, 0, 4)) {
-                $var = substr($default, 4);
-                $default = $varList[$var];
-            }
-            $inputValue = $valueList[$itemInfo['cli_db_field_name']] ? $valueList[$itemInfo['cli_db_field_name']] : $default;
-            $additionStr = '';
-            switch ($itemInfo['cli_data_type']) {
-                case 'varchar':
-                    $html = "<input class='input-text' name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' type='text' value='{$inputValue}'>";
-                    break;
-                case 'text':
-                    $html = "<textarea name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' class='textarea radius' >{{$inputValue}}</textarea>";
-                    break;
-                case 'radio':
-                    $valueList = explode(',', $default);
-                    foreach ($valueList as $valueDetail) {
-                        if ($valueDetail == $inputValue) {
-                            $additionStr = ' checked ';
-                        }
-                        $html .= "<label class='mr-10'><input type='radio' {$additionStr} value='{$valueDetail}' name='{$itemInfo['cli_db_field_name']}'>{$valueDetail}</label>";
-                    }
-                    break;
-                case 'checkbox':
-                    $valueList = explode(',', $default);
-                    foreach ($valueList as $valueDetail) {
-                        if ($valueDetail == $inputValue) {
-                            $additionStr = ' checked ';
-                        }
-                        $html .= "<label class='mr-10'><input type='checkbox' {$additionStr} value='{$valueDetail}' name='{$itemInfo['cli_db_field_name']}[]'>{$valueDetail}</label>";
-                    }
-                    break;
-                case 'select':
-                    $valueList = explode(',', $default);
-                    $html = "<select class='select' name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}'>";
-                    $html .= "<option value=''>请选择</option>";
-                    foreach ($valueList as $valueDetail) {
-                        if ($valueDetail == $inputValue) {
-                            $additionStr = ' selected ';
-                        }
-                        $html .= "<option {$additionStr} value='{$valueDetail}'>{$valueDetail}</option>";
-                    }
-                    $html .= '</select>';
-                    break;
-                case 'file':
-                    $html = "<input type='file'  name='{$itemInfo['cli_db_field_name']}' id='{$itemInfo['cli_db_field_name']}' >";
-                    break;
-                default:
-                    $html = '';
-                    break;
-            }
-            $configItemArr[$itemKey]['html'] = $html;
-        }
-        return $configItemArr;
-    }
-
     public function getConfigListItemList($whereArr)
     {
         $list = Db::select(array(
@@ -390,7 +322,7 @@ class Config
             'cli_db_field_name' => array('type' => 'required'),
             'cli_order' => array('type' => 'number'),
         );
-        return Common::addOrEditDbInfo(
+        return Common::CUDDbInfo(
             'zq_config_list_item',
             'cli',
             $dbInfo,

@@ -2,7 +2,7 @@
 
 namespace app\Plugins\PluginTpl\Controller;
 
-use app\Model\Plugins;
+use app\Admin\Model\Plugins;
 
 class PluginTpl extends Plugins
 {

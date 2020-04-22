@@ -39,7 +39,7 @@ class PluginMake extends Command
             $io->title('make start:');
             $tplDir = __DIR__ . DS . 'template' . DS . 'Plugin';
             $fileSystem = new Filesystem();
-            $targetDir = ROOT_APP . DS . 'Plugins' . DS;
+            $targetDir = ROOT_APP . DS . 'Admin' . DS . 'Plugins' . DS;
             $pluginDir = $targetDir . DS . $pluginName;
             $fileSystem->mirror($tplDir, $targetDir, null, ['override' => false, 'delete' => false]);
             $fileSystem->rename($targetDir . DS . 'PluginTpl', $pluginDir);
@@ -65,7 +65,7 @@ return array(
 CODE;
             $configFilePath = $pluginDir . DS . 'Config.php';
             file_put_contents($configFilePath, $configContent);
-            $io->title('make end,the plugin directory in app\Plugins');
+            $io->title('make end,the plugin directory in app\Admin\Plugins');
         } catch (\Exception $e) {
             throw $e;
         }

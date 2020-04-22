@@ -1,13 +1,14 @@
 <?php
 
-use \app\Model\Plugins;
+use \app\Admin\Model\Plugins;
+use \app\Admin\Model\Config;
 
 /**
  * 后台菜单配置
  * 本配置主格式可以menu-user为案例
  */
 $menu = array(
-    'menu-user' => array(
+    'user' => array(
         'icon' => '&#xe60d;', //图标
         'title' => '会员管理', //一级菜单
         'sub' => array(  //子菜单
@@ -23,9 +24,13 @@ $menu = array(
                 'url' => '/admin/user/permission-view',
                 'title' => '权限列表',
             ),
+            array(
+                'url' => '/admin/tools/table-edit-list-view/zq_user',
+                'title' => '用户手机号',
+            ),
         ),
     ),
-    'menu-tools' => array(
+    'tools' => array(
         'icon' => '&#xe61a;',
         'title' => '系统工具',
         'sub' => array(
@@ -35,7 +40,7 @@ $menu = array(
             ),
         ),
     ),
-    'menu-config' => array(
+    'config' => array(
         'icon' => '&#xe62e;',
         'title' => '系统配置',
         'sub' => array(
@@ -56,17 +61,17 @@ $clsPlugin = new Plugins();
 $listPlugin = $clsPlugin->getInstalledList();
 foreach ($listPlugin as $infoPlugin) {
     //dd($infoPlugin);
-    $menu['menu-tools']['sub'][] = array(
+    $menu['tools']['sub'][] = array(
         'url' => '/admin/tools/plugins-index-view/' . $infoPlugin['p_name'],
         'title' => ' - ' . $infoPlugin['p_title'],
     );
 }
 
-$clsConfig = new \app\Admin\Model\Config();
+$clsConfig = new Config();
 $listConfig = $clsConfig->getConfigList();
 foreach ($listConfig as $infoConfig) {
     //dd($infoPlugin);
-    $menu['menu-config']['sub'][] = array(
+    $menu['config']['sub'][] = array(
         'url' => '/admin/config/config-view/' . $infoConfig['cl_id'],
         'title' => ' - ' . $infoConfig['cl_name'],
     );

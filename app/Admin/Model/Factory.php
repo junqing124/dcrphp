@@ -1,5 +1,6 @@
 <?php
 /**
+ * 本类用来做一些通用的function
  * Created by junqing124@126.com.
  * User: dcr
  * Date: 2019/9/21

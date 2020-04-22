@@ -249,7 +249,9 @@ abstract class DBDriver
         $this->lastErrorInfo = $pdo->errorInfo();
         if ($pdo->errorCode() != '0000') {
             $errorInfo = $this->getError();
-            throw new \Exception($errorInfo['msg']);
+            $sql = $this->getLastSql();
+            $msg = $sql ? 'Sql是:' . $sql . ',' : '';
+            throw new \Exception($msg . $errorInfo['msg']);
         }
     }
 

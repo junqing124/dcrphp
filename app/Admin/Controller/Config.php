@@ -4,7 +4,7 @@ namespace app\Admin\Controller;
 
 use app\Admin\Model\Factory;
 use app\Admin\Model\Config as MConfig;
-use app\Model\Common;
+use app\Admin\Model\Common;
 use dcr\Request;
 
 class Config
@@ -110,7 +110,13 @@ class Config
         //得出配置值
         $configValueList = $clsConfig->getConfigValueList($configListId);
         $configValueList = array_column($configValueList, 'c_value', 'c_db_field_name');
-        $configItemList = $clsConfig->generalHtmlForItem($configItemList, $configValueList, get_defined_vars());
+        //格式化
+        foreach( $configItemList  as $key=> $configItemInfo ){
+            $configItemList[$key]['data_type'] = $configItemInfo['cli_data_type'];
+            $configItemList[$key]['db_field_name'] = $configItemInfo['cli_db_field_name'];
+            $configItemList[$key]['default'] = $configItemInfo['cli_default'];
+        }
+        $configItemList = Common::generalHtmlForItem($configItemList, $configValueList, get_defined_vars());
 
         $assignData['config_item_list'] = $configItemList;
         $assignData['config_value_list'] = $configValueList;

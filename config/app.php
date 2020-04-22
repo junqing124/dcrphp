@@ -22,7 +22,7 @@ return [
     'default_timezone' => 'PRC',
 
     //是不是debug模式
-    'debug' => 0, //1是开启 0是关闭
+    'debug' => 1, //1是开启 0是关闭
 
     //数据库版本
     'db_driver' => 'mysql',

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\Model;
+namespace app\Admin\Model;
 
 use app\Admin\Model\Admin;
 use dcr\Db;
@@ -9,7 +9,7 @@ use dcr\Request;
 
 class Plugins
 {
-    private $pluginDir = ROOT_APP . DS . 'Plugins';
+    private $pluginDir = ROOT_APP . DS . 'Admin' . DS . 'Plugins';
 
     public function getLocalPluginsList()
     {
@@ -95,11 +95,11 @@ class Plugins
     public function getControllerClass($pluginName)
     {
 
-        return "\\app\\Plugins\\{$pluginName}\\Controller\\{$pluginName}";
+        return "\\app\\Admin\\Plugins\\{$pluginName}\\Controller\\{$pluginName}";
     }
 
     public function getPluginDir($pluginName)
     {
-        return ROOT_APP . DS . 'Plugins' . DS . $pluginName;
+        return $this->pluginDir . DS . $pluginName;
     }
 }
