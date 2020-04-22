@@ -52,21 +52,23 @@ class App
         date_default_timezone_set(config('app.default_timezone'));
 
         //如果是命令行就直接返回
+        $result = '';
         if ('cli' == APP::$phpSapiName) {
-            return new Response('');
+            $result = '';
+        }else
+        {
+            //开始处理request
+            $request = Request::getInstance();
+            $container->instance('request', $request);
+
+            $route = container('route');
+            //把url解析为ruleItem
+            $ruleItem = $route->addRuleFromRequest($request);
+
+            $result = self::exec($ruleItem);
         }
 
-        //开始处理request
-        $request = Request::getInstance();
-        $container->instance('request', $request);
-
-        $route = container('route');
-        //把url解析为ruleItem
-        $ruleItem = $route->addRuleFromRequest($request);
-
-        $data = self::exec($ruleItem);
-
-        return new Response($data);
+        return new Response($result);
     }
 
     public static function exec(RuleItem $ruleItem)

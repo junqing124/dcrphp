@@ -2,16 +2,23 @@
 <html>
 <head>
     {% include 'common/header.html' ignore missing %}
+    <style>
+        .search{}
+        .search input{
+            width: 150px;
+        }
+    </style>
 </head>
 <body>
 
 {% include 'common/navigate.html' ignore missing %}
 <div class="page-container">
-    <div class="text-c">
+    <div class="text-c search">
         <form action="#" method="get">
-            用户名:<input type="text" class="input-text" style="width:250px" placeholder="输入会员名称" id="u_username"
-                       name="u_username" value="{{u_username}}">
-            <button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户
+            {% for search in search_col %}
+            {{search.form_text}}:{{search.html|raw}}
+            {% endfor %}
+            <button type="submit" class="btn btn-success radius"><i class="Hui-iconfont">&#xe665;</i> 搜索
             </button>
         </form>
     </div>

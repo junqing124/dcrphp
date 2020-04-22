@@ -19,8 +19,8 @@ return array(
      * data_type:数据类型 类型列表请看 Common::getFieldTypeList()的key
      * is_show_list:是不是在列表中能显示
      * is_search:是不是能被搜索
+     * search_type:搜索类型:like like_left like_right equal
      * is_insert:是不是可以在添加页面展示
-     * style:额外的style格式
      * tip:描述
      * is_insert_required:插入时，是不是必填
      * is_update:能被更新的字段
@@ -37,14 +37,14 @@ return array(
         ),
         'u_username' => array(
             'form_text' => '用户名',
-            'is_show_list' => 1,
             'data_type' => 'string',
+            'is_show_list' => 1,
             'is_search' => 1,
+            'search_type'=> 'like',
             'is_insert' => 1,
             'tip' => '输入用户名',
             'is_insert_required' => 1,
             'is_show_list' => 1,
-            'style' => 'width:100px',
             'db_field_name'=> 'u_username'
         ),
         'u_mobile' => array(
@@ -52,6 +52,7 @@ return array(
             'is_show_list' => 1,
             'data_type' => 'string',
             'is_search' => 1,
+            'search_type'=> 'like',
             'is_show_list' => 1,
             'is_insert' => 1,
             'is_update'=> 1,

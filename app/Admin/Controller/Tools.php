@@ -241,16 +241,45 @@ class Tools
         $assignData = array();
         $assignData['page_title'] = $config['page_title'];
         $assignData['page_model'] = $config['page_model'];
+
+        $whereArr = array();
+        if ($config['list_where']) {
+            $whereArr[] = $config['list_where'];
+        }
+        $searchData = get();
+        //dd($config);
+        foreach( $searchData as $searchKey=> $searchValue ){
+            $searchType = $config['col'][$searchKey]['search_type'];
+            switch ($searchType){
+                case 'like':
+                    $whereArr[] = "{$searchKey} like '%{$searchValue}%'";
+                    break;
+                case 'like_left':
+                    $whereArr[] = "{$searchKey} like '{$searchValue}%'";
+                    break;
+                case 'like_right':
+                    $whereArr[] = "{$searchKey} like '%{$searchValue}'";
+                    break;
+                case 'equal':
+                    $whereArr[] = "{$searchKey}='{$searchValue}'";
+                    break;
+            }
+        }
+
         //获取列表要显示的列
         $listCol = array();
+
+        $searchCol = array();
         foreach ($config['col'] as $configKey => $configValue) {
             if ($configValue['is_show_list']) {
                 $listCol[$configKey] = $configValue;
             }
+            if ($configValue['is_search']) {
+                $searchCol[$configKey] = $configValue;
+            }
         }
-        $whereArr = array();
-        if ($config['list_where']) {
-            $whereArr[] = $config['list_where'];
+        if($searchCol){
+            $searchCol = Common::generalHtmlForItem($searchCol,$searchData);
         }
 
         //总数量
@@ -284,6 +313,7 @@ class Tools
 
         $assignData['list'] = $list;
         $assignData['list_col'] = $listCol;
+        $assignData['search_col'] = $searchCol;
         $assignData['page'] = $page;
         $assignData['user_num'] = $pageTotalNum;
         $assignData['pages'] = $pageHtml;
