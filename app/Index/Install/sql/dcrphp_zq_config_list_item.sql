@@ -46,7 +46,7 @@ CREATE TABLE `zq_config_list_item` (
 
 LOCK TABLES `zq_config_list_item` WRITE;
 /*!40000 ALTER TABLE `zq_config_list_item` DISABLE KEYS */;
-INSERT INTO `zq_config_list_item` VALUES (1,1586860452,1586969347,1,1,1,'网站名','varchar','site_name',1,'',1,1),(4,1586938211,1586969157,1,1,1,'模板名','select','template_name',1,'var.systemTemplateStr',1,2);
+INSERT INTO `zq_config_list_item` VALUES (1,1586860452,1586969347,1,1,1,'网站名','string','site_name',1,'',1,1),(4,1586938211,1586969157,1,1,1,'模板名','select','template_name',1,'var.systemTemplateStr',1,2);
 /*!40000 ALTER TABLE `zq_config_list_item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-16 23:19:43
+-- Dump completed on 2020-04-22 22:59:42
