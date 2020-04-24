@@ -24,10 +24,6 @@ $menu = array(
                 'url' => '/admin/user/permission-view',
                 'title' => '权限列表',
             ),
-            array(
-                'url' => '/admin/tools/table-edit-list-view/zq_user',
-                'title' => '用户手机号',
-            ),
         ),
     ),
     'tools' => array(

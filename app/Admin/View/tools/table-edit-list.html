@@ -46,8 +46,11 @@
                     <a title="编辑" href="javascript:;"
                        onclick="edit('编辑','/admin/tools/table-edit-edit-view/edit/{{config.table_name}}/{{info.id}}','50%','30%')"
                        class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                    {% if 1 == config.has_del %}
                     <a title="删除" href="javascript:;" onclick="del(this,'{{info.id}}')" class="ml-5"
-                       style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+                       style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
             </tbody>

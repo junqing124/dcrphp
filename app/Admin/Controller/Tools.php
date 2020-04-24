@@ -123,7 +123,7 @@ class Tools
     public function tableEditEditAjax()
     {
         $data = post();
-        $tableName = $data['table_name'];
+        $tableName = $data['table_role_name'];
         //用通用接口去处理
         $clsTools = new MTools();
         $configPath = $clsTools->getTableEditConfigPath($tableName);
@@ -170,7 +170,7 @@ class Tools
             }
 
             $result = Common::CUDDbInfo(
-                $tableName,
+                $config['table_name'],
                 $config['table_pre'],
                 $dbInfo,
                 $data['type'],
@@ -221,7 +221,7 @@ class Tools
         $assignData['page_title'] = $config['page_title'];
         $assignData['page_model'] = $config['page_model'];
         $assignData['type'] = $type;
-        $assignData['table_name'] = $tableName;
+        $assignData['table_role_name'] = $tableName;
         $assignData['field_list'] = $fieldList;
         $assignData['id'] = $id;
         $assignData['index_id'] = $config['index_id'];

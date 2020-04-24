@@ -8,7 +8,7 @@
 <article class="page-container">
     <form action="/admin/tools/table-edit-edit-ajax" method="post" class="form form-horizontal" id="form">
         <input type="hidden" name="type" value="{{type}}">
-        <input type="hidden" name="table_name" value="{{table_name}}">
+        <input type="hidden" name="table_role_name" value="{{table_role_name}}">
         <input type="hidden" name="id" value="{{id}}">
         {% for field in field_list %}
             {% if 1 != field.is_input_hidden %}

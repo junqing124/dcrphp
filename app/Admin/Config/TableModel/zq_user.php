@@ -8,7 +8,7 @@ return array(
     'table_name' => 'zq_user', //表名
     'index_id' => 'u_id', //表自增长的主键
     'table_pre' => 'u', //表前缀 不要带_
-    'has_del' => 1, //列表要不要删除功能
+    'has_del' => 0, //列表要不要删除功能
     'list_order' => 'u_id desc', //列表页默认排序
     'list_where' => "u_is_valid=1", //列表页默认的where条件
 
