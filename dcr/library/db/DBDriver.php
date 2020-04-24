@@ -6,7 +6,7 @@
  * Time: 1:35
  */
 
-namespace dcr\database;
+namespace dcr\db;
 
 use Aura\SqlQuery\QueryFactory;
 use dcr\Session;

@@ -55,7 +55,7 @@ class Db extends DcrBase
             $name = md5(serialize($config));
         }
 
-        $class = '\\dcr\\database\\connector\\' . ucwords($config['driver']);
+        $class = '\\dcr\\db\\connector\\' . ucwords($config['driver']);
 
         if (!isset(self::$instance[$name])) {
             self::$instance[$name] = new $class($config);

@@ -4,7 +4,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/junqing124/dcrphp/v/unstable.png)](https://packagist.org/packages/junqing124/dcrphp)  
 
 dcrphp致力于应用层用户使用简单，后端用户开发简单的方向。本系统采用前后端分离开发，后端自研框架，前端h-ui框架，另外开箱即用:  
-&nbsp;&nbsp;1、自带后台管理
+&nbsp;&nbsp;1、自带后台管理  
 &nbsp;&nbsp;2、会员RABC管理   
 &nbsp;&nbsp;3、扩展性强的模型管理，可以应对任何的模型管理  
 &nbsp;&nbsp;4、自动化的测试及编码检测  

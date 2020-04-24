@@ -23,7 +23,8 @@
         "matomo/ini": "*",
         "thamaraiselvam/mysql-import": "*",
         "phpdocumentor/reflection-docblock": "*",
-        "symfony/filesystem": "*"
+        "symfony/filesystem": "*",
+        "symfony/http-foundation": "*"
     },
     "autoload": {
         "psr-4":{

@@ -6,9 +6,9 @@
  * Time: 1:33
  */
 
-namespace dcr\database\connector;
+namespace dcr\db\connector;
 
-use dcr\database\DBDriver;
+use dcr\db\DBDriver;
 
 class Mysql extends DBDriver
 {
