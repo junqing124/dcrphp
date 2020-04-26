@@ -1,5 +1,6 @@
 <?php
 
+use app\Admin\Model\Common;
 use \app\Admin\Model\Plugins;
 use \app\Admin\Model\Config;
 
@@ -71,6 +72,17 @@ foreach ($listConfig as $infoConfig) {
         'url' => '/admin/config/config-view/' . $infoConfig['cl_id'],
         'title' => ' - ' . $infoConfig['cl_name'],
     );
+}
+
+$modelList = Common::getModelDefine();
+foreach ($modelList as $modelInfo) {
+    $menuKey = 'model-' . $modelInfo['name'];
+    $menu[$menuKey] = array();
+    $menu[$menuKey]['icon'] = '&#xe620;';
+    $menu[$menuKey]['title'] = $modelInfo['dec'];
+    $menu[$menuKey]['sub'] = array();
+    $menu[$menuKey]['sub'][] = array('url' => '/admin/model/list-view/' . $modelInfo['name'], 'title' => $modelInfo['dec'] . '列表' );
+    $menu[$menuKey]['sub'][] = array('url' => '/admin/model/category-view/' . $modelInfo['name'], 'title' => $modelInfo['dec'] . '分类' );
 }
 /*dd($menu);
 exit;*/

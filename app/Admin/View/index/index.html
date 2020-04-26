@@ -96,18 +96,6 @@
             </dd>
         </dl>
         {% endfor %}
-        <!--这里通过app\Model\Common.php getModelDefine()配置-->
-        {% for model in model_list %}
-        <dl id="menu-{{model.name}}">
-            <dt><i class="Hui-iconfont">&#xe620;</i> {{model.dec}}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-            <dd>
-                <ul>
-                    <li><a data-href="/admin/model/list-view/{{model.name}}" data-title="{{model.dec}}列表" href="javascript:;">{{model.dec}}列表</a></li>
-                    <li><a data-href="/admin/model/category-view/{{model.name}}" data-title="{{model.dec}}分类" href="javascript:;">{{model.dec}}分类</a></li>
-                </ul>
-            </dd>
-        </dl>
-        {% endfor %}
     </div>
 </aside>
 <div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a>

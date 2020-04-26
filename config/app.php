@@ -24,9 +24,6 @@ return [
     //是不是debug模式
     'debug' => 1, //1是开启 0是关闭
 
-    //数据库版本
-    'db_driver' => 'mysql',
-
     //开启模板缓存
     'view_cache' => 0,
 
