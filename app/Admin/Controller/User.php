@@ -204,17 +204,6 @@ class User
         return Factory::renderPage('user/password-edit', $assignData);
     }
 
-    public function passwordEditAjax()
-    {
-        $user = new MUser();
-        $info = array(
-            'passwordNew' => post('password_new'),
-            'passwordNewRe' => post('password_new_re'),
-        );
-        $result = $user->updatePassword($info);
-        return Factory::renderJson($result, 1);
-    }
-
     public function stopAjax()
     {
         $user = new MUser();
@@ -248,14 +237,15 @@ class User
         return Factory::renderPage('user/password-change', $assignData);
     }
 
-    public function changePasswordAjax()
+    public function passwordChangeAjax()
     {
         $user = new MUser();
         $info = array(
             'passwordNew' => post('password_new'),
             'passwordNewRe' => post('password_new_re'),
         );
-        $result = $user->updatePassword($info, post('user_id'));
+        $userId = post('user_id') ? post('user_id') : session('userId');
+        $result = $user->updatePassword($info, $userId);
         return Factory::renderJson($result, 1);
     }
 

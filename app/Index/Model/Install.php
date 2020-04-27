@@ -159,9 +159,10 @@ class Install
 
             //系统配置项
             $sqlList = array(
-                'INSERT INTO `zq_config_list` VALUES (1,1586603908,1586603908,1,1,1,\'基本配置\',1),(2,1586603908,1586603908,1,1,1,\'模板配置\',1);/*zt_id*/',
+                'INSERT INTO `zq_config_list` VALUES (1,1586603908,1586603908,1,1,1,\'基本配置\',1,\'config\',\'base\'),(2,1586603908,1586603908,1,1,1,\'模板配置\',1,\'config\',\'template\'),(3,1587915103,1587918070,1,1,1,\'新闻中心\',0,\'model\',\'news\'),(4,1587915114,1587915114,1,1,1,\'产品中心\',0,\'model\',\'product\'),(5,1587915122,1587915122,1,1,1,\'资料中心\',0,\'model\',\'info\');/*zt_id*/',
                 'INSERT INTO `zq_config_list_item` VALUES (1,1586860452,1586969347,1,1,1,\'网站名\',\'varchar\',\'site_name\',1,\'\',1,1),(4,1586938211,1586969157,1,1,1,\'模板名\',\'select\',\'template_name\',1,\'var.systemTemplateStr\',1,2);/*zt_id*/',
                 'INSERT INTO `zq_config` VALUES (1,1587050159,1587050174,1,1,1,\'site_name\',\'DcrPHP建站系统11\',1),(2,1587050182,1587050367,1,1,1,\'template_name\',\'default\',2);/*zt_id*/',
+
             );
             foreach ($sqlList as $sql) {
                 DB::exec($sql);

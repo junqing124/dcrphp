@@ -322,7 +322,7 @@ class Config
             'cli_data_type' => $data['data_type'],
             'cli_db_field_name' => $data['db_field_name'],
             'cli_default' => $data['default'],
-            'cli_order' => $data['order'],
+            'cli_order' => intval($data['order']),
             'cli_cl_id' => $data['addition_id'],
         );
         //检测

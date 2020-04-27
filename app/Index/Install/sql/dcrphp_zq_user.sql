@@ -43,7 +43,7 @@ CREATE TABLE `zq_user` (
   `u_is_super` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是不是超级帐号',
   PRIMARY KEY (`u_id`),
   UNIQUE KEY `uidx_uz` (`u_username`,`zt_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,7 +52,7 @@ CREATE TABLE `zq_user` (
 
 LOCK TABLES `zq_user` WRITE;
 /*!40000 ALTER TABLE `zq_user` DISABLE KEYS */;
-INSERT INTO `zq_user` VALUES (1,'admin','','dcJ49.bznhA7c',1,1583134320,1583134320,'unknown',30,1587539596,1,1,'15718126135','','管理员',0,0,1),(2,'张三','','dcJ49.bznhA7c',1,1583034580,1583034651,'',0,0,1,1,'15718126135','','测试用户1',1,1,0),(3,'李四','','dcJ49.bznhA7c',1,1583034614,1584523136,'unknown',5,1584523130,1,2,'15718126135','8420124','',1,1,1),(4,'abc123123','','',1,1587539678,1587540087,'',0,0,1,0,'1231231','','',1,0,0),(6,'abc1231231','','',1,1587539678,1587540113,'',0,0,1,0,'1231231123131','','',1,0,0);
+INSERT INTO `zq_user` VALUES (1,'admin','','dcJ49.bznhA7c',1,1583134320,1583134320,'unknown',30,1587539596,1,1,'15718126135','','管理员',0,0,1),(2,'张三','','dcJ49.bznhA7c',1,1583034580,1583034651,'',0,0,1,1,'15718126135','','测试用户1',1,1,0),(3,'李四','','dcJ49.bznhA7c',1,1583034614,1587720571,'unknown',5,1584523130,1,2,'15718126135','8420124','',1,1,1);
 /*!40000 ALTER TABLE `zq_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -65,4 +65,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-22 22:59:41
+-- Dump completed on 2020-04-27 23:08:22

@@ -33,7 +33,7 @@ CREATE TABLE `zq_model_field` (
   `mf_value` varchar(200) NOT NULL DEFAULT '',
   `mf_ml_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`mf_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='模型字段里的值';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='模型字段里的值';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,6 @@ CREATE TABLE `zq_model_field` (
 
 LOCK TABLES `zq_model_field` WRITE;
 /*!40000 ALTER TABLE `zq_model_field` DISABLE KEYS */;
-INSERT INTO `zq_model_field` VALUES (1,1583047462,1583724318,0,1,1,'news_key','',1),(2,1583047567,1583724305,0,1,1,'news_key','帮助说明',2),(3,1583047863,1583723943,0,1,1,'news_key','',3),(4,1583047943,1583723880,0,1,1,'news_key','',4),(5,1583569887,1583569887,0,1,1,'caizhi','',7),(6,1583569887,1583569887,0,1,1,'color','',7),(7,1583569901,1583569901,0,1,1,'caizhi','',8),(8,1583569901,1583569901,0,1,1,'color','',8),(9,1583569917,1583569917,0,1,1,'caizhi','',9),(10,1583569917,1583569917,0,1,1,'color','',9),(11,1583569929,1583569929,0,1,1,'caizhi','',10),(12,1583569929,1583569929,0,1,1,'color','',10),(13,1583569942,1583570024,0,1,1,'caizhi','',11),(14,1583569942,1583570024,0,1,1,'color','',11);
 /*!40000 ALTER TABLE `zq_model_field` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-22 22:59:41
+-- Dump completed on 2020-04-27 23:08:22

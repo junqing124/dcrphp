@@ -31,9 +31,11 @@ CREATE TABLE `zq_config_list` (
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
   `cl_name` varchar(45) NOT NULL DEFAULT '',
   `cl_is_system` tinyint(4) NOT NULL DEFAULT '0',
+  `cl_type` varchar(45) NOT NULL DEFAULT '' COMMENT '类型 配置还是模型(config or model)',
+  `cl_key` varchar(45) NOT NULL DEFAULT '' COMMENT '关键字，可以用来给列表做区别',
   PRIMARY KEY (`cl_id`),
   UNIQUE KEY `uidx_name` (`cl_name`,`zt_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='配置项列表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='配置项列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +44,7 @@ CREATE TABLE `zq_config_list` (
 
 LOCK TABLES `zq_config_list` WRITE;
 /*!40000 ALTER TABLE `zq_config_list` DISABLE KEYS */;
-INSERT INTO `zq_config_list` VALUES (1,1586603908,1586603908,1,1,1,'基本配置',1),(2,1586603908,1586603908,1,1,1,'模板配置',1);
+INSERT INTO `zq_config_list` VALUES (1,1586603908,1586603908,1,1,1,'基本配置',1,'config','base'),(2,1586603908,1586603908,1,1,1,'模板配置',1,'config','template'),(3,1587915103,1587918070,1,1,1,'新闻中心',0,'model','news'),(4,1587915114,1587915114,1,1,1,'产品中心',0,'model','product'),(5,1587915122,1587915122,1,1,1,'资料中心',0,'model','info');
 /*!40000 ALTER TABLE `zq_config_list` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-22 22:59:42
+-- Dump completed on 2020-04-27 23:08:22
