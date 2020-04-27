@@ -79,12 +79,12 @@ class Index
         return $view->render('detail');
     }
 
-    public function listView(Request $reqeust)
+    public function listView(Request $request)
     {
         $model = new Model();
         $view = container('view');
 
-        $paramInfo = $reqeust->getParams();
+        $paramInfo = $request->getParams();
         $modelName = $paramInfo[0];
         $categoryId = $paramInfo[1];
 
