@@ -16,6 +16,11 @@ class Tools
 
     private $model_name = '工具';
 
+    /**
+     * @permission /系统工具
+     * @return mixed
+     * @throws \Exception
+     */
     public function pluginsView()
     {
 
