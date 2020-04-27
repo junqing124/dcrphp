@@ -13,7 +13,7 @@
         排序越小越排前，调用配置请用:app\Admin\Model\Config->getConfigByDbFieldName('数据字段名');
     </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l">
-    <a class="btn btn-primary radius" onclick="edit('新增项目','/admin/config/config-list-item-edit-view/add/{{list_id}}')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i>[{{config_name}}]添加配置项</a>
+    <a class="btn btn-primary radius" onclick="open_iframe('新增项目','/admin/config/config-list-item-edit-view/add/{{list_id}}','95%','95%')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i>[{{config_name}}]添加配置项</a>
     </span>
     </div>
     <div class="mt-20">
@@ -58,34 +58,13 @@
     /*删除*/
     function del(obj, id) {
         let lobj = layer.confirm('确认要删除吗？', function (index) {
-            $.ajax({
-                type: 'POST',
-                url: '/admin/config/config-list-item-ajax',
-                dataType: 'json',
-                data: 'type=delete&id=' + id,
-                success: function (result) {
+            ajax('/admin/config/config-list-item-ajax','type=delete&id=' + id,'POST',
+                function(result){
                     layer.close(lobj);
-                    if( result.ack )
-                    {
-                        $(obj).parents("tr").remove();
-                        layer.msg('已删除!', {icon: 1, time: 1000});
-                    }else{
-                        layer.alert(result.msg, {icon: 2, time: 3000});
-                    }
-                },
-                error: function (data) {
-                    //layer.alert(data.msg, {icon: 2});
-                },
-            });
-        });
-    }
-    /*添加*/
-    function edit(title,url){
-        let index = layer.open({
-            type: 2,
-            title: title,
-            content: url,
-            area: ['95%','95%']
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!', {icon: 1, time: 1000});
+                }
+            )
         });
     }
 </script>

@@ -32,10 +32,11 @@ Web服务器配置根目录为public
   
 附： 
 nginx配置:  
-charset utf-8;  
+```charset utf-8;  
 location / {  
-&#8195;&#8195;try_files $uri $uri/ /index.php?$query_string;    
+    try_files $uri $uri/ /index.php?$query_string;    
 }  
+```
 1.0.3(未定)  
     1、只要简单配置，就可以对任意数据表做的增删改查  
     2、php开启严格模式  

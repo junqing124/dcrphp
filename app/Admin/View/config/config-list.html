@@ -51,25 +51,12 @@
     /*删除*/
     function del(obj, id) {
         let lobj = layer.confirm('确认要删除吗？', function (index) {
-            $.ajax({
-                type: 'POST',
-                url: '/admin/config/config-list-delete-ajax',
-                dataType: 'json',
-                data: "id=" + id,
-                success: function (result) {
-                    layer.close(lobj);
-                    if( result.ack )
-                    {
-                        $(obj).parents("tr").remove();
-                        layer.msg('已删除!', {icon: 1, time: 1000});
-                    }else{
-                        layer.alert(result.msg, {icon: 2, time: 3000});
-                    }
-                },
-                error: function (data) {
-                    //layer.alert(data.msg, {icon: 2});
-                },
-            });
+            ajax('/admin/config/config-list-delete-ajax',"id=" + id,'POST',
+                function(result){
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!', {icon: 1, time: 1000});
+                }
+            )
         });
     }
     /*添加*/
@@ -91,23 +78,11 @@
                 let cl_type = '{{cl_type}}';
                 layer.close(index);
                 // 在这里提交数据
-                $.ajax({
-                    type: 'POST',
-                    url: '/admin/config/config-list-edit-ajax',
-                    dataType: 'json',
-                    data: "config_list_name=" + config_list_name + "&type=" + type + "&id=" + id + "&cl_type=" + cl_type + "&config_list_key=" + config_list_key,
-                    success: function (result) {
-                        if( result.ack )
-                        {
-                            window.location=window.location;
-                        }else{
-                            alert(result.msg);
-                        }
-                    },
-                    error: function (data) {
-                        //layer.alert(data.msg, {icon: 2});
-                    },
-                });
+                ajax('/admin/config/config-list-edit-ajax',"config_list_name=" + config_list_name + "&type=" + type + "&id=" + id + "&cl_type=" + cl_type + "&config_list_key=" + config_list_key,'POST',
+                    function(result){
+                        window.location=window.location;
+                    }
+                )
             },
             no:function (index,layero) {
                 layer.close(index);

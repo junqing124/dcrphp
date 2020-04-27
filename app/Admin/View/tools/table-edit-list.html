@@ -23,7 +23,7 @@
         </form>
     </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"> <a
-            href="javascript:;" onclick="edit('添加','/admin/tools/table-edit-edit-view/add/{{config.table_name}}','50%','30%')"
+            href="javascript:;" onclick="open_iframe('添加','/admin/tools/table-edit-edit-view/add/{{config.table_name}}','50%','30%')"
             class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></span> <span
             class="r">共有数据：<strong>{{user_num}}</strong> 条</span></div>
     <div class="mt-20">
@@ -44,7 +44,7 @@
                 {% endfor %}
                 <td class="td-manage">
                     <a title="编辑" href="javascript:;"
-                       onclick="edit('编辑','/admin/tools/table-edit-edit-view/edit/{{config.table_name}}/{{info.id}}','50%','30%')"
+                       onclick="open_iframe('编辑','/admin/tools/table-edit-edit-view/edit/{{config.table_name}}/{{info.id}}','50%','30%')"
                        class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
                     {% if 1 == config.has_del %}
                     <a title="删除" href="javascript:;" onclick="del(this,'{{info.id}}')" class="ml-5"
@@ -63,36 +63,16 @@
 
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript">
-    /*添加*/
-    function edit(title, url, w, h) {
-        let index = layer.open({
-            type: 2,
-            title: title,
-            content: url,
-            area: [w, h]
-        });
-    }
 
     /*删除*/
     function del(obj, id) {
         layer.confirm('确认要删除吗？', function (index) {
-            $.ajax({
-                type: 'POST',
-                url: '/admin/tools/table-edit-edit-ajax',
-                dataType: 'json',
-                data: "table_name={{config.table_name}}&type=delete&id=" + id,
-                success: function (data) {
-                    if( 1 == data.ack ){
-                        $(obj).parents("tr").remove();
-                        layer.msg('已删除!', {icon: 1, time: 1000});
-                    }else{
-                        layer.alert(data.msg, {icon: 2});
-                    }
-                },
-                error: function (data) {
-                    //layer.alert(data.msg, {icon: 2});
-                },
-            });
+            ajax('/admin/tools/table-edit-edit-ajax',"table_name={{config.table_name}}&type=delete&id=" + id,'POST',
+                function(result){
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!', {icon: 1, time: 1000});
+                }
+            )
         });
     }
 </script>

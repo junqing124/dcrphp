@@ -63,23 +63,11 @@
     /*删除*/
     function install(name,source) {
         layer.confirm('确定要安装吗？', function (index) {
-            $.ajax({
-                type: 'POST',
-                url: '/admin/tools/plugin-install-ajax',
-                dataType: 'json',
-                data: "name=" + name + "&source=" + source,
-                success: function (result) {
-                    if( result.ack )
-                    {
-                        window.location='/admin/tools/plugins-installed-view';
-                    }else{
-                        layer.msg('安装失败!' . result.msg, {icon: 2, time: 1000});
-                    }
-                },
-                error: function (data) {
-                    //layer.alert(data.msg, {icon: 2});
-                },
-            });
+            ajax('/admin/tools/plugin-install-ajax',"name=" + name + "&source=" + source,'POST',
+                function(result){
+                    window.location='/admin/tools/plugins-installed-view';
+                }
+            )
         });
     }
 </script>

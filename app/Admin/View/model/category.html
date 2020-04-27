@@ -9,7 +9,7 @@
 {% include 'common/navigate.html' ignore missing %}
 <div class="page-container">
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"> <a
-            href="javascript:;" onclick="add_edit('添加','/admin/model/category-edit-view/{{model_name}}/add','','300')"
+            href="javascript:;" onclick="open_iframe('添加','/admin/model/category-edit-view/{{model_name}}/add','','300')"
             class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加分类</a></span> </div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-hover table-bg table-sort">
@@ -29,11 +29,6 @@
 
 {% include '/common/footer.html' ignore missing %}
 <script type="text/javascript">
-    /*用户-添加*/
-    function add_edit(title, url, w, h) {
-        layer_show(title, url, w, h);
-    }
-
     /*用户-删除*/
     function del(id) {
         layer.confirm('确认要删除吗？', function (index) {

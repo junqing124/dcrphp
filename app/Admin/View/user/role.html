@@ -8,7 +8,7 @@
 {% include 'common/navigate.html' ignore missing %}
 <div class="page-container">
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"> <a
-            href="javascript:;" onclick="add('添加角色','/admin/user/add-role-view','500','300')"
+            href="javascript:;" onclick="open_iframe('添加角色','/admin/user/add-role-view','500px','300px')"
             class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a></span></div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-hover table-bg table-sort">
@@ -27,7 +27,7 @@
                 <td>{{role.ur_note}}</td>
                 <td>{{user.ur_add_time|date('Y-m-d')}}</td>
                 <td class="td-manage">
-                    <a title="编辑" href="javascript:;" onclick="role_edit_permission('编辑','/admin/user/role-edit-permission-view?role_id={{role.ur_id}}','','510')"
+                    <a title="编辑" href="javascript:;" onclick="open_iframe('编辑','/admin/user/role-edit-permission-view?role_id={{role.ur_id}}','80%','80%')"
                        class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
                     <a title="删除" href="javascript:;" onclick="del(this,'{{role.ur_id}}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                 </td>
@@ -43,28 +43,15 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="{{admin_resource_url}}/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
-    function role_edit_permission(title, url, w, h) {
-        layer_show(title, url, w, h);
-    }
-    function add(title, url, w, h) {
-        layer_show(title, url, w, h);
-    }
     /*用户-删除*/
     function del(obj, id) {
         layer.confirm('确认要删除吗？', function (index) {
-            $.ajax({
-                type: 'POST',
-                url: '/admin/user/delete-role-ajax',
-                dataType: 'json',
-                data: "id=" + id,
-                success: function (data) {
+            ajax('/admin/user/delete-role-ajax',"id=" + id,'POST',
+                function(result){
                     $(obj).parents("tr").remove();
                     layer.msg('已删除!', {icon: 1, time: 1000});
-                },
-                error: function (data) {
-                    //layer.alert(data.msg, {icon: 2});
-                },
-            });
+                }
+            )
         });
     }
 </script>
