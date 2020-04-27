@@ -2,14 +2,16 @@
 
 namespace app\Admin\Controller;
 
-use app\Admin\Model\Factory;
 use app\Admin\Model\Model as MModel;
+use app\Admin\Model\Factory;
 use app\Admin\Model\Config;
+use app\Admin\Model\Common;
 use dcr\Page;
 
 class Model
 {
     private $model_name = '模型';
+
     /**
      * @permission /文章列表
      * @return mixed
@@ -47,7 +49,7 @@ class Model
 
         $assignData['category_select_html'] = $model->getCategorySelectHtml(
             $modelName,
-            array('subEnabled' => 1, 'selectId'=> $categoryId, 'selectName' => 'category_id')
+            array('subEnabled' => 1, 'selectId' => $categoryId, 'selectName' => 'category_id')
         );
 
         $pageInfo = $model->getList(array('where' => $where, 'join' => $join, 'col' => array('count(ml_id) as num')));
@@ -97,18 +99,35 @@ class Model
         $action = $params[1];
         $id = $params[2];
         $modelInfo = array();
-        $configModelList = current($config->getConfigModelList($modelName));
+
+        $fileValueList = array(); //field value值
         if ('edit' == $action && $id) {
             $modelInfo = $model->getInfo(
                 $id,
                 array('requestField' => 1, 'requestAddition' => 1, 'requestFieldDec' => 1)
             );
             //echo DB::getLastSql();
-            $modelFieldList = $modelInfo['field'] ? $modelInfo['field'] : $configModelList;
+            $fileValueList = $modelInfo['field'];
+            $fileValueList = array_column($fileValueList,'mf_value','mf_key');
         } else {
-            //获取模型配置的附加字段
-            $modelFieldList = $configModelList;
         }
+
+        //取出配置字段
+        //得出cl_id
+        $clsConfig = new Config();
+        $list = $clsConfig->getConfigList(0, null, $modelName);
+        $clId = $list[0]['cl_id'];
+        $modelFieldList = $clsConfig->getConfigListItemByListId($clId);
+        foreach ($modelFieldList as $modelKey => $modelFieldInfo) {
+            $modelFieldList[$modelKey]['data_type'] = $modelFieldInfo['cli_data_type'];
+            $modelFieldList[$modelKey]['db_field_name'] = $modelFieldInfo['cli_db_field_name'];
+            $modelFieldList[$modelKey]['default'] = $modelFieldInfo['cli_default'];
+        }
+        $modelFieldList = Common::generalHtmlForItem($modelFieldList, $fileValueList, array(), array('input_name_pre'=>'field_'));
+
+        //$configModelList = current($clsConfig->getConfigModelList($modelName));
+        //dd($configModelList);
+
         //dd($modelInfo);
         $assignData['category_select_html'] = $model->getCategorySelectHtml(
             $modelName,

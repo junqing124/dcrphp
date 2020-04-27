@@ -8,7 +8,6 @@
 
 namespace app\Admin\Controller;
 
-use app\Admin\Model\Config as MConfig;
 use app\Admin\Model\Factory;
 use app\Admin\Model\Common;
 use dcr\Response;
@@ -16,6 +15,7 @@ use dcr\Session;
 use dcr\View;
 use app\Admin\Model\Admin;
 use app\Admin\Model\User;
+use app\Admin\Model\Config;
 use dcr\Safe;
 
 class Index
@@ -37,8 +37,6 @@ class Index
         $assignData['app_name'] = $appName;
         $assignData['page_title'] = '首页';
         $assignData['page_model'] = $this->model_name;
-        $modelList = Common::getModelDefine();
-        $assignData['model_list'] = $modelList;
         /*dd($assignData);
         exit;*/
         return Factory::renderPage('index/index', $assignData);

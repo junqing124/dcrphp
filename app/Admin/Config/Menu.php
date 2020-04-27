@@ -1,8 +1,8 @@
 <?php
 
 use app\Admin\Model\Common;
-use \app\Admin\Model\Plugins;
-use \app\Admin\Model\Config;
+use app\Admin\Model\Config;
+use app\Admin\Model\Plugins;
 
 /**
  * 后台菜单配置
@@ -42,8 +42,8 @@ $menu = array(
         'title' => '系统配置',
         'sub' => array(
             array(
-                'url' => '/admin/config/model-view',
-                'title' => '模型配置',
+                'url' => '/admin/config/config-list-view/model',
+                'title' => '模型列表',
             ),
             array(
                 'url' => '/admin/config/config-list-view',
@@ -65,7 +65,7 @@ foreach ($listPlugin as $infoPlugin) {
 }
 
 $clsConfig = new Config();
-$listConfig = $clsConfig->getConfigList();
+$listConfig = $clsConfig->getConfigList(0, 'config');
 foreach ($listConfig as $infoConfig) {
     //dd($infoPlugin);
     $menu['config']['sub'][] = array(
@@ -74,15 +74,22 @@ foreach ($listConfig as $infoConfig) {
     );
 }
 
-$modelList = Common::getModelDefine();
+$clsConfig = new Config();
+$modelList = $clsConfig->getConfigList(0, 'model');
 foreach ($modelList as $modelInfo) {
-    $menuKey = 'model-' . $modelInfo['name'];
+    $menuKey = 'model-' . $modelInfo['cl_key'];
     $menu[$menuKey] = array();
     $menu[$menuKey]['icon'] = '&#xe620;';
-    $menu[$menuKey]['title'] = $modelInfo['dec'];
+    $menu[$menuKey]['title'] = $modelInfo['cl_name'];
     $menu[$menuKey]['sub'] = array();
-    $menu[$menuKey]['sub'][] = array('url' => '/admin/model/list-view/' . $modelInfo['name'], 'title' => $modelInfo['dec'] . '列表' );
-    $menu[$menuKey]['sub'][] = array('url' => '/admin/model/category-view/' . $modelInfo['name'], 'title' => $modelInfo['dec'] . '分类' );
+    $menu[$menuKey]['sub'][] = array(
+        'url' => '/admin/model/list-view/' . $modelInfo['cl_key'],
+        'title' => $modelInfo['cl_name'] . '列表'
+    );
+    $menu[$menuKey]['sub'][] = array(
+        'url' => '/admin/model/category-view/' . $modelInfo['cl_key'],
+        'title' => $modelInfo['cl_name'] . '分类'
+    );
 }
 /*dd($menu);
 exit;*/

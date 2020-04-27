@@ -8,6 +8,6 @@ class Tools
 {
     function getTableEditConfigPath($tableName)
     {
-        return ROOT_APP . DS . 'Admin' .DS . 'Config' . DS . 'TableModel' . DS . $tableName . '.php';
+        return ROOT_APP . DS . 'Admin' .DS . 'Config' . DS . 'TableEdit' . DS . $tableName . '.php';
     }
 }

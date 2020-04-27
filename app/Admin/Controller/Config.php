@@ -20,10 +20,13 @@ class Config
         $assignData = array();
         $assignData['page_title'] = '配置项配置';
         $assignData['page_model'] = $this->model_name;
+        $params = container('request')->getParams();
+        $clType = $params[0] ? $params[0] : 'config';
 
         $config = new MConfig();
-        $list = $config->getConfigList();
+        $list = $config->getConfigList(0, $clType);
         $assignData['config_list'] = $list;
+        $assignData['cl_type'] = $clType;
 
         return Factory::renderPage('config/config-list', $assignData);
     }
@@ -111,7 +114,7 @@ class Config
         $configValueList = $clsConfig->getConfigValueList($configListId);
         $configValueList = array_column($configValueList, 'c_value', 'c_db_field_name');
         //格式化
-        foreach( $configItemList  as $key=> $configItemInfo ){
+        foreach ($configItemList as $key => $configItemInfo) {
             $configItemList[$key]['data_type'] = $configItemInfo['cli_data_type'];
             $configItemList[$key]['db_field_name'] = $configItemInfo['cli_db_field_name'];
             $configItemList[$key]['default'] = $configItemInfo['cli_default'];
@@ -125,7 +128,13 @@ class Config
         return Factory::renderPage('config/config', $assignData);
     }
 
-    public function modelView()
+
+    /**
+     * 从1.0.3开始作废
+     * @return mixed
+     * @throws \Exception
+     */
+    public function modelViewAbandon()
     {
 
         $assignData = array();
@@ -171,7 +180,11 @@ class Config
         return Factory::renderJson($result);
     }
 
-    public function configModelAjax()
+    /**
+     * 从1.0.3开始作废
+     * @return mixed
+     */
+    public function configModelAjaxAbandon()
     {
         $config = new MConfig();
         $result = $config->configModel(post());
@@ -181,7 +194,7 @@ class Config
     public function configListEditAjax()
     {
         $config = new MConfig();
-        $result = $config->configListEdit(post('config_list_name'), post('type'), post('id'));
+        $result = $config->configListEdit(post('config_list_name'), post('type'), post('id'), post('cl_type'), post('config_list_key'));
         return Factory::renderJson($result);
     }
 

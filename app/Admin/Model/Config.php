@@ -8,7 +8,7 @@
 
 namespace app\Admin\Model;
 
-use app\Model\Common;
+use app\Admin\Model\Common;
 use dcr\Db;
 
 class Config
@@ -79,13 +79,15 @@ class Config
         return Admin::commonReturn(1);
     }
 
-    public function configListEdit($configListName, $type = 'add', $id = 0)
+    public function configListEdit($configListName, $type = 'add', $id = 0, $clType = 'config', $configListKey)
     {
         $dbInfo = array(
             'cl_update_time' => time(),
             'cl_add_user_id' => session('userId'),
             'zt_id' => session('ztId'),
-            'cl_name' => $configListName
+            'cl_name' => $configListName,
+            'cl_type' => $clType,
+            'cl_key' => $configListKey
         );
 
         if (empty($configListName)) {
@@ -106,15 +108,21 @@ class Config
         return Admin::commonReturn($result);
     }
 
-    public function getConfigList($id = 0)
+    public function getConfigList($id = 0, $type = '', $key = '')
     {
         $whereArr = array();
         if ($id) {
             $whereArr[] = "cl_id={$id}";
         }
+        if( $type ){
+            $whereArr[] = "cl_type='{$type}'";
+        }
+        if( $key ){
+            $whereArr[] = "cl_key='{$key}'";
+        }
         $list = DB::select(array(
             'table' => 'zq_config_list',
-            'col' => 'cl_id,cl_name,cl_is_system,cl_add_time',
+            'col' => 'cl_id,cl_name,cl_is_system,cl_add_time,cl_key',
             'where' => $whereArr,
         ));
         return $list;
@@ -157,11 +165,12 @@ class Config
     }
 
     /**
+     * 从1.0.3作废
      * 获取全部或某模块的配置列表
      * @param string $modelName
      * @return array
      */
-    public function getConfigModelList($modelName = '')
+    public function getConfigModelListAbandon($modelName = '')
     {
         //var_dump('a');
         $ztId = session('ztId');
@@ -188,11 +197,12 @@ class Config
     }
 
     /**
+     * 从1.0.3开始起，作废
      * @param $modelInfo
      * 本参数为model配置传送过来，可能无法接收独立的参数info过来
      * @return array
      */
-    public function configModel($modelInfo)
+    public function configModelAbandon($modelInfo)
     {
         //判断
         //先判断key有没有重复

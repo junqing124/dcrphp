@@ -61,8 +61,10 @@ class Index
             array('requestField' => 1, 'requestAddition' => 1, 'requestFieldDec' => 1)
         );
         //dd($modelInfo);
-        $modelDefine = Common::getModelDefine();
-        $modelCategoryName = $modelDefine[$modelInfo['list']['ml_model_name']]['dec'];
+        $clsConfig = new Config();
+        $modelDefine = $clsConfig->getConfigList(0, 'model');
+        $modelDefine = array_column($modelDefine, 'cl_name', 'cl_key');
+        $modelCategoryName = $modelDefine[$modelInfo['list']['ml_model_name']];
 
         $categoryInfo = $model->getCategoryInfo($modelInfo['list']['ml_category_id']);
         $categoryName = $categoryInfo['mc_name'];

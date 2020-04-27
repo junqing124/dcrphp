@@ -49,27 +49,8 @@ class Model
             $fieldList = DB::select(array(
                 'table' => 'zq_model_field',
                 'where' => "mf_ml_id={$modelId}",
-                'col' => '*,mf_key as cm_key', //这里这么做是为了兼容编辑页里的field列表和加载配置
+                'col' => 'mf_value,mf_key', //这里这么做是为了兼容编辑页里的field列表和加载配置
             ));
-            if ($option['requestFieldDec']) {
-                $config = new Config();
-                $configList = $config->getConfigModelList($info['list']['ml_model_name']);
-                if ($configList) {
-                    $configList = current($configList);
-                    $configList = array_column($configList, 'cm_dec', 'cm_key');
-                    $configKeys = array_keys($configList);
-                    foreach ($fieldList as $key => $fieldInfo) {
-                        //如果配置里没有，但原来的key没删除的，则不显示
-                        if (!in_array($fieldInfo['mf_key'], $configKeys)) {
-                            unset($fieldList[$key]);
-                            continue;
-                        }
-                        //下面2行这么做是为了兼容编辑页里的field列表和加载配置
-                        $fieldList[$key]['cm_dec'] = $configList[$fieldInfo['mf_key']];
-                        $fieldList[$key]['mf_dec'] = $configList[$fieldInfo['mf_key']];
-                    }
-                }
-            }
             //echo DB::getLastSql();
             $info['field'] = $fieldList;
         }
@@ -390,9 +371,6 @@ class Model
         $data['addition_content'] = $data['editorValue'];
         $info = $this->groupModelInfo($data);
         $id = $info['other']['id'];
-        //dd($info);
-        //dd($info);
-        //exit;
         //判断
         $error = array();
         $stringValidator = v::stringType()->length(1, 5000);

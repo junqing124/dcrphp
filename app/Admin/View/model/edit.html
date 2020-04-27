@@ -54,9 +54,10 @@
                 <div class="Huialert Huialert-info"><i class="Hui-iconfont">&#xe6a6;</i>这里用来填写[配置中心->模型配置]里各模型里的附加字段。如果你感觉现在的字段不够，请在配置页面添加新字段</div>
                 {% for field in field_list %}
                 <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-2">{{field.cm_dec}}：</label>
+                    <label class="form-label col-xs-4 col-sm-2">{{field.cli_form_text}}：</label>
                     <div class="formControls col-xs-8 col-sm-9">
-                        <input type="text" class="input-text" value="{{field.mf_value}}" placeholder="" name="field_{{field.cm_key}}">
+                        {{field.html|raw}}
+                        <!--<input type="text" class="input-text" value="{{field.mf_value}}" placeholder="" name="field_{{field.cm_key}}"> -->
                     </div>
                 </div>
                 {% endfor %}

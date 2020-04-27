@@ -11,7 +11,7 @@
 <div class="page-container">
     <div class="Huialert Huialert-info"><i class="Hui-iconfont">&#xe6a6;</i>本页面可以自定义系统的配置项，二次开发的利器。如果是系统自带不让操作</div>
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l">
-    <a class="btn btn-primary radius" onclick="edit('add',0)" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i>添加配置列表</a>
+    <a class="btn btn-primary radius" onclick="edit('add',0)" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i>添加列表</a>
     </span>
     </div>
     <div class="mt-20">
@@ -19,6 +19,7 @@
             <thead>
             <tr>
                 <th width="40">名称</th>
+                <th width="40">关键字</th>
                 <th width="40">系统自带</th>
                 <th width="40">添加时间</th>
                 <th width="50">操作</th>
@@ -28,6 +29,7 @@
             {% for config in config_list %}
             <tr class="va-m">
                 <td>{{config.cl_name}}</td>
+                <td>{{config.cl_key}}</td>
                 <td>{{config.cl_is_system}}</td>
                 <td>{{config.cl_add_time|date('Y-m-d')}}</td>
                 <td class="td-manage">
@@ -75,20 +77,25 @@
         layer.open({
             id:1,
             type: 1,
-            title:'add' == type ? '请输入配置列表名称' : '请输入新的列表名称',
+            title: '输入基本信息',
             style: 'width:80%;height:auto;',
-            content: "<div style='display:flex;justify-content:center;padding: 10px;'><input class='input-text' type='text' id='config_list_name'> </div>",
+            content: "<div style='justify-content:center;padding: 10px;'>" +
+                "<div class='clear'>名称:<input class='input-text' type='text' id='config_list_name'> </div><br>" +
+                "<div class='clear'>关键字:<input class='input-text' type='text' id='config_list_key'> (小写字母加数字,字母开头,可用来做标识)</div>" +
+                "</div>",
             btn:['保存','取消'],
             yes:function (index,layerobj) {
                 //获取输入框里面的值
-                var config_list_name = $("#config_list_name").val();
+                let config_list_name = $("#config_list_name").val();
+                let config_list_key = $("#config_list_key").val();
+                let cl_type = '{{cl_type}}';
                 layer.close(index);
                 // 在这里提交数据
                 $.ajax({
                     type: 'POST',
                     url: '/admin/config/config-list-edit-ajax',
                     dataType: 'json',
-                    data: "config_list_name=" + config_list_name + "&type=" + type + "&id=" + id,
+                    data: "config_list_name=" + config_list_name + "&type=" + type + "&id=" + id + "&cl_type=" + cl_type + "&config_list_key=" + config_list_key,
                     success: function (result) {
                         if( result.ack )
                         {

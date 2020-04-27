@@ -4,12 +4,17 @@
 namespace app\Admin\Model;
 
 use app\Admin\Model\Admin;
+use app\Admin\Model\Config;
 use dcr\Db;
 
 class Common
 {
 
-    public static function getModelDefine()
+    /**
+     * 本function自1.0.3后作废 现在存数据库了
+     * @return array[]
+     */
+    public static function getModelDefineAbandon()
     {
         return array(
             'news' => array('key' => 1, 'dec' => '新闻中心', 'name' => 'news',),
@@ -36,10 +41,11 @@ class Common
      * 通过配置好的字段各属性来生成html
      * @param $configItemArr array('data_type'=>'数据类型','db_field_name'=>'数据库字段名','default'=>'默认值', 'is_input_hidden'=>'是不是hidden类型',如果是 则直接设置为hidden,这个只对date_type为date和string生效)
      * @param array $valueList 设置Input的值 比如想把site_name的值为 DcrPHP系统 则传入传情为 array('site_name'=>'DcrPHP系统');
-     * @param array $varList 为调用者的变量列表，这个是为了实现var.abc这样的配置项 一般传get_defined_vars()
+     * @param array $varList 外部变量列表，这个是为了实现var.abc这样的配置项 一般传get_defined_vars()
+     * @param array $option 额外的设置在这 array('input_name_pre'=>'input的name加上统一的前缀')
      * @return mixed
      */
-    public static function generalHtmlForItem($configItemArr, $valueList = array(), $varList = array())
+    public static function generalHtmlForItem($configItemArr, $valueList = array(), $varList = array(), $option = array())
     {
         foreach ($configItemArr as $itemKey => $itemInfo) {
             $keyList = self:: getFieldTypeList();
@@ -58,17 +64,18 @@ class Common
             $inputValue = $valueList[$itemInfo['db_field_name']] ? $valueList[$itemInfo['db_field_name']] : $default;
             $additionStr = '';
             $type = '';
+            $inputNameId = $option['input_name_pre'] ? $option['input_name_pre'] . $itemInfo['db_field_name'] : $itemInfo['db_field_name'];
             switch ($itemInfo['data_type']) {
                 case 'date':
                     $type = $itemInfo['is_input_hidden'] ? 'hidden' : 'text';
-                    $html = "<input class='input-text' name='{$itemInfo['db_field_name']}' id='{$itemInfo['db_field_name']}' type='{$type}' value='{$inputValue}'>";
+                    $html = "<input class='input-text' name='{$inputNameId}' id='{$inputNameId}' type='{$type}' value='{$inputValue}'>";
                     break;
                 case 'string':
                     $type = $itemInfo['is_input_hidden'] ? 'hidden' : 'text';
-                    $html = "<input class='input-text' name='{$itemInfo['db_field_name']}' id='{$itemInfo['db_field_name']}' type='{$type}' value='{$inputValue}'>";
+                    $html = "<input class='input-text' name='{$inputNameId}' id='{$inputNameId}' type='{$type}' value='{$inputValue}'>";
                     break;
                 case 'text':
-                    $html = "<textarea name='{$itemInfo['db_field_name']}' id='{$itemInfo['db_field_name']}' class='textarea radius' >{{$inputValue}}</textarea>";
+                    $html = "<textarea name='{$inputNameId}' id='{$inputNameId}' class='textarea radius' >{{$inputValue}}</textarea>";
                     break;
                 case 'radio':
                     $valueList = explode(',', $default);
@@ -76,7 +83,7 @@ class Common
                         if ($valueDetail == $inputValue) {
                             $additionStr = ' checked ';
                         }
-                        $html .= "<label class='mr-10'><input type='radio' {$additionStr} value='{$valueDetail}' name='{$itemInfo['db_field_name']}'>{$valueDetail}</label>";
+                        $html .= "<label class='mr-10'><input type='radio' {$additionStr} value='{$valueDetail}' name='{$inputNameId}'>{$valueDetail}</label>";
                     }
                     break;
                 case 'checkbox':
@@ -85,14 +92,15 @@ class Common
                         if ($valueDetail == $inputValue) {
                             $additionStr = ' checked ';
                         }
-                        $html .= "<label class='mr-10'><input type='checkbox' {$additionStr} value='{$valueDetail}' name='{$itemInfo['db_field_name']}[]'>{$valueDetail}</label>";
+                        $html .= "<label class='mr-10'><input type='checkbox' {$additionStr} value='{$valueDetail}' name='{$inputNameId}[]'>{$valueDetail}</label>";
                     }
                     break;
                 case 'select':
                     $valueList = explode(',', $default);
-                    $html = "<select class='select' name='{$itemInfo['db_field_name']}' id='{$itemInfo['db_field_name']}'>";
+                    $html = "<select class='select' name='{$inputNameId}' id='{$inputNameId}'>";
                     $html .= "<option value=''>请选择</option>";
                     foreach ($valueList as $valueDetail) {
+                        $additionStr = '';
                         if ($valueDetail == $inputValue) {
                             $additionStr = ' selected ';
                         }
@@ -101,7 +109,7 @@ class Common
                     $html .= '</select>';
                     break;
                 case 'file':
-                    $html = "<input type='file'  name='{$itemInfo['db_field_name']}' id='{$itemInfo['db_field_name']}' >";
+                    $html = "<input type='file'  name='{$inputNameId}' id='{$inputNameId}' >";
                     break;
                 default:
                     $html = '';
