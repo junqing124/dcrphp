@@ -1,5 +1,5 @@
 /**
- *
+ * ajax提交数据，这个function的主要目的和初衷是统一展示成功失败或错误的信息
  * @param url
  * @param data
  * @param method
@@ -40,7 +40,7 @@ function ajax(url, data, method, success_callback, failed_callback, error_callba
             }
         },
         error: function (result) {
-            layer.alert(result.msg, {icon: 2});
+            error_callback(result);
         },
     });
 }
