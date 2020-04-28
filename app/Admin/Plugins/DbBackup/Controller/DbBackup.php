@@ -3,7 +3,7 @@
 namespace app\Admin\Plugins\DbBackup\Controller;
 
 use app\Admin\Model\Admin;
-use app\Model\Install;
+use app\Index\Model\Install;
 use app\Admin\Model\Plugins;
 use dcr\Db;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;

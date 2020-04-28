@@ -13,7 +13,7 @@
         {% for field in field_list %}
             {% if 1 != field.is_input_hidden %}
             <div class="row cl">
-                <label class="form-label col-xs-4">{{field.form_text}}：</label>
+                <label class="form-label col-xs-4">{{field.title}}：</label>
                 <div class="formControls col-xs-4">
                     {{field.html|raw}}
                 </div>

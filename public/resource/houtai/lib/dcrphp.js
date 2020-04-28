@@ -1,8 +1,8 @@
 /**
  * ajax提交数据，这个function的主要目的和初衷是统一展示成功失败或错误的信息
- * @param url
- * @param data
- * @param method
+ * @param url 必填
+ * @param data 必填
+ * @param method 默认是post
  * @param success_callback 成功调用的function
  * @param failed_callback 失败调用的function
  * @param error_callback 错误调用的function

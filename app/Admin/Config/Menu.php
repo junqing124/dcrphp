@@ -42,8 +42,12 @@ $menu = array(
         'title' => '系统配置',
         'sub' => array(
             array(
+                'url' => '/admin/tools/table-edit-list-view/zq_config_table_edit_list',
+                'title' => '单表管理',
+            ),
+            array(
                 'url' => '/admin/config/config-list-view/model',
-                'title' => '模型列表',
+                'title' => '模型配置',
             ),
             array(
                 'url' => '/admin/config/config-list-view',

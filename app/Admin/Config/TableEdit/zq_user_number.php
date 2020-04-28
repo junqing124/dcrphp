@@ -8,14 +8,15 @@ return array(
     'table_name' => 'zq_user', //表名
     'index_id' => 'u_id', //表自增长的主键
     'table_pre' => 'u', //表前缀 不要带_
-    'has_del' => 0, //列表要不要删除功能
+    'is_del' => 0, //列表要不要删除功能
+    'is_edit' => 0, //列表要不要删除功能
     'list_order' => 'u_id desc', //列表页默认排序
     'list_where' => "u_is_valid=1", //列表页默认的where条件
 
     /**
      * 下标是对应的数据库字段名
      * db_field_name:数据库字段名
-     * form_text:列名
+     * title:列名
      * data_type:数据类型 类型列表请看 Common::getFieldTypeList()的key
      * is_show_list:是不是在列表中能显示
      * is_search:是不是能被搜索
@@ -30,15 +31,16 @@ return array(
      */
     'col' => array(
         'u_id' => array(
-            'form_text' => 'ID',
+            'title' => 'ID',
             'data_type' => 'string',
             'is_show_list' => 1,
             'db_field_name'=> 'u_id'
         ),
         'u_number' => array(
-            'form_text' => '工号',
+            'title' => '工号',
             'data_type' => 'string',
             'is_update'=> 1,
+            'is_show_list' => 1,
             'is_update_required' => 1,
             'db_field_name'=> 'u_number'
         ),

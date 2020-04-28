@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\Model;
+namespace app\Index\Model;
 
 use app\Admin\Model\Admin;
 use app\Admin\Model\Factory;

@@ -16,33 +16,44 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zq_user_role`
+-- Table structure for table `zq_config_table_edit_list`
 --
 
-DROP TABLE IF EXISTS `zq_user_role`;
+DROP TABLE IF EXISTS `zq_config_table_edit_list`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `zq_user_role` (
-  `ur_id` int(11) NOT NULL AUTO_INCREMENT,
-  `ur_permissions` varchar(1000) CHARACTER SET utf8 NOT NULL,
-  `ur_name` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `ur_add_time` int(11) NOT NULL DEFAULT '0',
-  `ur_update_time` int(11) NOT NULL DEFAULT '0',
-  `ur_add_user_id` smallint(6) NOT NULL DEFAULT '0',
-  `ur_note` varchar(45) DEFAULT '',
-  `zt_id` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`ur_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+CREATE TABLE `zq_config_table_edit_list` (
+  `ctel_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ctel_add_time` int(11) NOT NULL DEFAULT '0',
+  `ctel_update_time` int(11) NOT NULL DEFAULT '0',
+  `ctel_approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `ctel_add_user_id` smallint(6) NOT NULL DEFAULT '0',
+  `zt_id` smallint(6) NOT NULL DEFAULT '1',
+  `ctel_key` varchar(45) NOT NULL,
+  `ctel_page_title` varchar(45) NOT NULL,
+  `ctel_page_model` varchar(45) NOT NULL,
+  `ctel_table_name` varchar(45) NOT NULL,
+  `ctel_index_id` varchar(45) NOT NULL,
+  `ctel_table_pre` varchar(45) NOT NULL,
+  `ctel_is_del` varchar(45) NOT NULL DEFAULT '是',
+  `ctel_is_add` varchar(45) NOT NULL DEFAULT '是',
+  `ctel_is_edit` varchar(45) NOT NULL DEFAULT '是',
+  `ctel_list_order` varchar(45) NOT NULL,
+  `ctel_list_where` varchar(45) NOT NULL,
+  `ctel_edit_window_width` varchar(45) NOT NULL,
+  `ctel_edit_window_height` varchar(45) NOT NULL DEFAULT '',
+  PRIMARY KEY (`ctel_id`),
+  UNIQUE KEY `uidx_key` (`ctel_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='单表配置列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zq_user_role`
+-- Dumping data for table `zq_config_table_edit_list`
 --
 
-LOCK TABLES `zq_user_role` WRITE;
-/*!40000 ALTER TABLE `zq_user_role` DISABLE KEYS */;
-INSERT INTO `zq_user_role` VALUES (1,'12,13,15,14,9,3,2,16,17','系统管理员',1583134320,1583134320,0,'系统最高权限',1),(2,'9,3,2','文章编辑',1583034640,1583034640,1,'',1);
-/*!40000 ALTER TABLE `zq_user_role` ENABLE KEYS */;
+LOCK TABLES `zq_config_table_edit_list` WRITE;
+/*!40000 ALTER TABLE `zq_config_table_edit_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `zq_config_table_edit_list` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

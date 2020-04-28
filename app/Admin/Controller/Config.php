@@ -128,7 +128,6 @@ class Config
         return Factory::renderPage('config/config', $assignData);
     }
 
-
     /**
      * 从1.0.3开始作废
      * @return mixed

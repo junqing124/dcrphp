@@ -8,14 +8,18 @@ return array(
     'table_name' => 'zq_user', //表名
     'index_id' => 'u_id', //表自增长的主键
     'table_pre' => 'u', //表前缀 不要带_
-    'has_del' => 0, //列表要不要删除功能
+    'is_del' => 0, //列表要不要删除功能
+    'is_add' => 0, //列表要不要删除功能
+    'is_edit' => 1, //列表要不要删除功能
     'list_order' => 'u_id desc', //列表页默认排序
     'list_where' => "u_is_valid=1", //列表页默认的where条件
+    'edit_window_width'=> '50%', //添加编辑框宽
+    'edit_window_height'=> '300px', //添加编辑框高
 
     /**
      * 下标是对应的数据库字段名
      * db_field_name:数据库字段名
-     * form_text:列名
+     * title:列名
      * data_type:数据类型 类型列表请看 Common::getFieldTypeList()的key
      * is_show_list:是不是在列表中能显示
      * is_search:是不是能被搜索
@@ -30,13 +34,13 @@ return array(
      */
     'col' => array(
         'u_id' => array(
-            'form_text' => 'ID',
+            'title' => 'ID',
             'data_type' => 'string',
             'is_show_list' => 1,
             'db_field_name'=> 'u_id'
         ),
         'u_username' => array(
-            'form_text' => '用户名',
+            'title' => '用户名',
             'data_type' => 'string',
             'is_show_list' => 1,
             'is_search' => 1,
@@ -48,7 +52,7 @@ return array(
             'db_field_name'=> 'u_username'
         ),
         'u_mobile' => array(
-            'form_text' => '电话',
+            'title' => '电话',
             'is_show_list' => 1,
             'data_type' => 'string',
             'is_search' => 1,
@@ -61,7 +65,7 @@ return array(
             'is_update_required' => 1,
         ),
         'u_add_time' => array(
-            'form_text' => '添加时间',
+            'title' => '添加时间',
             'data_type' => 'date',
             'default' => time(),
             'is_insert' => 1,
@@ -69,7 +73,7 @@ return array(
             'is_input_hidden'=> 1,
         ),
         'u_update_time' => array(
-            'form_text' => '更新时间',
+            'title' => '更新时间',
             'data_type' => 'date',
             'default' => time(),
             'is_update' => 1,
@@ -77,7 +81,7 @@ return array(
             'is_input_hidden'=> 1,
         ),
         'u_add_user_id' => array(
-            'form_text' => '添加人',
+            'title' => '添加人',
             'data_type' => 'date',
             'default' => session('userId'),
             'is_insert' => 1,

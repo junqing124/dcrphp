@@ -35,7 +35,7 @@ CREATE TABLE `zq_config_list` (
   `cl_key` varchar(45) NOT NULL DEFAULT '' COMMENT '关键字，可以用来给列表做区别',
   PRIMARY KEY (`cl_id`),
   UNIQUE KEY `uidx_name` (`cl_name`,`zt_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='配置项列表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='配置项列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-27 23:08:22
+-- Dump completed on 2020-04-29  0:14:47
