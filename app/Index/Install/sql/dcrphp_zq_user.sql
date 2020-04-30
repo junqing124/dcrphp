@@ -28,8 +28,8 @@ CREATE TABLE `zq_user` (
   `u_name` varchar(45) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `u_password` varchar(45) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `zt_id` smallint(5) NOT NULL DEFAULT '1',
-  `u_add_time` int(11) NOT NULL DEFAULT '0',
-  `u_update_time` int(11) NOT NULL DEFAULT '0',
+  `add_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL DEFAULT '0',
   `u_login_ip` varchar(45) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `u_login_count` smallint(5) NOT NULL DEFAULT '0',
   `u_login_time` int(11) NOT NULL DEFAULT '0',
@@ -38,9 +38,10 @@ CREATE TABLE `zq_user` (
   `u_mobile` varchar(45) NOT NULL DEFAULT '',
   `u_tel` varchar(45) NOT NULL DEFAULT '',
   `u_note` varchar(100) NOT NULL DEFAULT '',
-  `u_add_user_id` smallint(5) NOT NULL DEFAULT '0' COMMENT '添加人id',
+  `add_user_id` smallint(5) NOT NULL DEFAULT '0' COMMENT '添加人id',
   `u_edit_user_id` smallint(5) NOT NULL DEFAULT '0',
   `u_is_super` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是不是超级帐号',
+  `approval_status` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`u_id`),
   UNIQUE KEY `uidx_uz` (`u_username`,`zt_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
@@ -52,7 +53,7 @@ CREATE TABLE `zq_user` (
 
 LOCK TABLES `zq_user` WRITE;
 /*!40000 ALTER TABLE `zq_user` DISABLE KEYS */;
-INSERT INTO `zq_user` VALUES (1,'admin','','dcJ49.bznhA7c',1,1583134320,1588001625,'unknown',33,1588066565,1,1,'15718126135','','管理员',0,0,1),(2,'张三','','dcJ49.bznhA7c',1,1583034580,1583034651,'',0,0,1,1,'157181','','测试用户1',1,1,0),(3,'李四','','dcJ49.bznhA7c',1,1583034614,1588055379,'unknown',6,1588055365,1,2,'562165','8420124','',1,3,0);
+INSERT INTO `zq_user` VALUES (1,'admin','','dcJ49.bznhA7c',1,1583134320,1588001625,'unknown',33,1588066565,1,1,'15718126135','','管理员',0,0,1,1),(2,'张三','','dcJ49.bznhA7c',1,1583034580,1588264275,'',0,0,1,1,'157181123','','测试用户1',1,1,0,1),(3,'李四','','dcJ49.bznhA7c',1,1583034614,1588264269,'unknown',6,1588055365,1,2,'5621652131','8420124','',1,3,0,1);
 /*!40000 ALTER TABLE `zq_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -65,4 +66,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-30 19:07:58
+-- Dump completed on 2020-05-01  0:55:23

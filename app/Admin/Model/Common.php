@@ -166,8 +166,8 @@ class Common
             $result = Db::delete($tableName, $tablePreName . "_id={$option['id']}");
         } else {
             //设置通用字段 update_time add_user_id zt_id
-            if (!isset($dbInfo[$tablePreName . '_update_time'])) {
-                $dbInfo[$tablePreName . '_update_time'] = time();
+            if (!isset($dbInfo['update_time'])) {
+                $dbInfo['update_time'] = time();
             }
 
             if ($option['check']) {
@@ -186,14 +186,14 @@ class Common
                 $result = Db::update($tableName, $dbInfo, $tablePreName . "_id='{$option['id']}'");
             } else {
                 if ('add' == $actionType) {
-                    if (!isset($dbInfo[$tablePreName . '_add_user_id'])) {
-                        $dbInfo[$tablePreName . '_add_user_id'] = session('userId');
+                    if (!isset($dbInfo['add_user_id'])) {
+                        $dbInfo['add_user_id'] = session('userId');
                     }
                     if (!isset($dbInfo['zt_id'])) {
                         $dbInfo['zt_id'] = session('ztId');
                     }
-                    if (!isset($dbInfo[$tablePreName . '_add_time'])) {
-                        $dbInfo[$tablePreName . '_add_time'] = time();
+                    if (!isset($dbInfo['add_time'])) {
+                        $dbInfo['add_time'] = time();
                     }
                     $result = Db::insert($tableName, $dbInfo);
                 }

@@ -167,7 +167,7 @@ class User
         }
         $result = DB::update(
             'zq_user',
-            array('u_password' => Safe::_encrypt($passwordNew), 'u_update_time' => time(), 'zt_id' => session('ztId')),
+            array('u_password' => Safe::_encrypt($passwordNew), 'update_time' => time(), 'zt_id' => session('ztId')),
             $where
         );
         //dd($dbPre->getSql());
@@ -194,9 +194,9 @@ class User
 
         //处理
         $permissionInfo['zt_id'] = Session::_get('ztId');
-        $permissionInfo['up_add_time'] = time();
-        $permissionInfo['up_update_time'] = time();
-        $permissionInfo['up_add_user_id'] = session('userId');
+        $permissionInfo['add_time'] = time();
+        $permissionInfo['update_time'] = time();
+        $permissionInfo['add_user_id'] = session('userId');
         $result = DB::insert('zq_user_permission', $permissionInfo);
         //返回
 
@@ -221,10 +221,10 @@ class User
 
         //处理
         $roleInfo['zt_id'] = Session::_get('ztId');
-        $roleInfo['ur_add_time'] = time();
-        $roleInfo['ur_update_time'] = time();
+        $roleInfo['add_time'] = time();
+        $roleInfo['update_time'] = time();
         $roleInfo['ur_permissions'] = '';
-        $roleInfo['ur_add_user_id'] = session('userId') ? session('userId') : 0;
+        $roleInfo['add_user_id'] = session('userId') ? session('userId') : 0;
         $result = DB::insert('zq_user_role', $roleInfo);
         //返回
 
@@ -288,15 +288,15 @@ class User
         }
         //开始初始化数据
         $userInfo['zt_id'] = $ztId;
-        $userInfo['u_update_time'] = time();
+        $userInfo['update_time'] = time();
 
         $roles = $userInfo['roles'];
         unset($userInfo['roles']);
 
         if ('add' == $type) {
-            $userInfo['u_add_time'] = time();
+            $userInfo['add_time'] = time();
             $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
-            $userInfo['u_add_user_id'] = session('userId') ? session('userId') : 0;
+            $userInfo['add_user_id'] = session('userId') ? session('userId') : 0;
         } elseif ('edit' == $type) {
             if ($userInfo['u_password']) {
                 $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
@@ -331,9 +331,9 @@ class User
                 //dd($roleKey);
                 //先判断有没有
                 $roleDbInfo = array(
-                    'urc_add_time' => time(),
-                    'urc_update_time' => time(),
-                    'urc_add_user_id' => session('userId') ? session('userId') : 0,
+                    'add_time' => time(),
+                    'update_time' => time(),
+                    'add_user_id' => session('userId') ? session('userId') : 0,
                     'zt_id' => $userInfo['zt_id'],
                     'urc_u_id' => $userId,
                     'urc_r_id' => $roleKey,
@@ -599,10 +599,10 @@ class User
         $version = uniqid();
         foreach ($permissionList as $permissionName) {
             $dbInfo = array(
-                'up_update_time' => time(),
+                'update_time' => time(),
                 'up_name' => $permissionName,
                 'up_version' => $version,
-                'up_add_user_id'=> 0,
+                'add_user_id'=> 0,
                 'zt_id' => session('ztId'),
             );
             $hasInfo = DB::select(array(
@@ -612,7 +612,7 @@ class User
             ));
             //判断有没有
             if (!$hasInfo) {
-                $dbInfo['up_add_time'] = time();
+                $dbInfo['add_time'] = time();
                 $result = DB::insert('zq_user_permission', $dbInfo);
             } else {
                 $hasInfo = current($hasInfo);

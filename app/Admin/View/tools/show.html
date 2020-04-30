@@ -1,0 +1,16 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    {% include 'common/header.html' ignore missing %}
+</head>
+<body>
+<article class="page-container">
+    1、列表:/admin/tools/table-edit-list-view/{{key}}<br>
+    2、详细说明请看:https://github.com/junqing124/dcrphp/wiki/说明:编辑或扩展任意表
+</article>
+
+{% include 'common/footer.html' ignore missing %}
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

@@ -24,10 +24,10 @@ DROP TABLE IF EXISTS `zq_model_field`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `zq_model_field` (
   `mf_id` int(11) NOT NULL AUTO_INCREMENT,
-  `mf_add_time` int(11) NOT NULL DEFAULT '0',
-  `mf_update_time` int(11) NOT NULL DEFAULT '0',
-  `mf_approval_status` tinyint(4) NOT NULL DEFAULT '1',
-  `mf_add_user_id` smallint(6) NOT NULL DEFAULT '0',
+  `add_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL DEFAULT '0',
+  `approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
   `mf_key` varchar(45) NOT NULL DEFAULT '',
   `mf_value` varchar(200) NOT NULL DEFAULT '',
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-30 19:07:59
+-- Dump completed on 2020-05-01  0:55:23

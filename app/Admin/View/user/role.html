@@ -25,7 +25,7 @@
             <tr>
                 <td>{{role.ur_name}}</td>
                 <td>{{role.ur_note}}</td>
-                <td>{{user.ur_add_time|date('Y-m-d')}}</td>
+                <td>{{user.add_time|date('Y-m-d')}}</td>
                 <td class="td-manage">
                     <a title="编辑" href="javascript:;" onclick="open_iframe('编辑','/admin/user/role-edit-permission-view?role_id={{role.ur_id}}','80%','80%')"
                        class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>

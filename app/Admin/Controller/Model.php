@@ -41,7 +41,7 @@ class Model
         if ($dateStart && $dateEnd) {
             $timeStart = strtotime($dateStart);
             $timeEnd = strtotime($dateStart);
-            $where[] = "ml_add_time>{$timeStart} and ml_update_time<{$timeEnd}";
+            $where[] = "add_time>{$timeStart} and update_time<{$timeEnd}";
         }
 
         $join = array('type' => 'left', 'table' => 'zq_model_category', 'condition' => 'mc_id=ml_category_id');

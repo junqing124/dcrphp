@@ -49,8 +49,8 @@ class Plugins
         $dbInfo['p_author'] = $pluginInfo['author'];
         $dbInfo['p_version'] = $pluginInfo['version'];
         $dbInfo['p_title'] = $pluginInfo['title'];
-        $dbInfo['p_add_time'] = time();
-        $dbInfo['p_update_time'] = time();
+        $dbInfo['add_time'] = time();
+        $dbInfo['update_time'] = time();
         $dbInfo['zt_id'] = session('ztId');
 
         //判断存在不存在

@@ -125,14 +125,40 @@ class Tools
         return Factory::renderPage($indexView, $assignData, $viewDir);
     }
 
+    /**
+     * 调用方式
+     */
+    public function tableEditInfoView()
+    {
+        $params = container('request')->getParams();
+        $keyId = current($params);
+        $info = Db::select(
+            array(
+                'table' => 'zq_config_table_edit_list',
+                'where' => array("ctel_id={$keyId}"),
+                'col' => 'ctel_key',
+                'limit' => 1,
+            )
+        );
+        if (!$info) {
+            throw new \Exception('没有找到信息');
+        }
+        $info = current($info);
+
+        $assignData['page_title'] = '查看调用方式';
+        $assignData['page_model'] = '系统配置';
+        $assignData['key'] = $info['ctel_key'];
+
+        return Factory::renderPage('tools/show', $assignData);
+    }
+
     public function tableEditEditAjax()
     {
         $data = post();
         $key = $data['key'];
         //用通用接口去处理
         $clsTools = new MTools();
-        $configPath = $clsTools->getTableEditConfigPath($key);
-        $config = include_once $configPath;
+        $config = $clsTools->getTableEditConfig($key);
 
         if ('delete' == $data['type']) {
 
@@ -219,8 +245,7 @@ class Tools
         $key = $params[1];
         $id = $params[2];
         $clsTools = new MTools();
-        $configPath = $clsTools->getTableEditConfigPath($key);
-        $config = include_once $configPath;
+        $config = $clsTools->getTableEditConfig($key);
 
         $listCol = array();
         $checkKey = 'add' == $type ? 'is_insert' : 'is_update';
@@ -373,6 +398,7 @@ class Tools
         $assignData['user_num'] = $pageTotalNum;
         $assignData['pages'] = $pageHtml;
         $assignData['config'] = $config;
+        $assignData['key'] = $key;
         $assignData['add_button_addition_html'] = $clsTools->generateAdditionHtml($config['add_button_addition_html']);
         $assignData['edit_button_addition_html'] = $clsTools->generateAdditionHtml($config['edit_button_addition_html']);
 

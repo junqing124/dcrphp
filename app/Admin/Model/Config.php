@@ -49,8 +49,8 @@ class Config
             }
             $valueStr = is_array($value) ? implode(',', $value) : $value;
             $dbInfo = array(
-                'c_update_time' => time(),
-                'c_add_user_id' => session('userId'),
+                'update_time' => time(),
+                'add_user_id' => session('userId'),
                 'zt_id' => session('ztId'),
                 'c_db_field_name' => $db_field_name,
                 'c_value' => $valueStr,
@@ -70,7 +70,7 @@ class Config
             if ($info) {
                 $result = DB::update('zq_config', $dbInfo, "c_id={$info['c_id']}");
             } else {
-                $dbInfo['c_add_time'] = time();
+                $dbInfo['add_time'] = time();
                 $result = DB::insert('zq_config', $dbInfo);
             }
             //var_dump( $result );
@@ -82,8 +82,8 @@ class Config
     public function configListEdit($configListName, $type = 'add', $id = 0, $clType = 'config', $configListKey)
     {
         $dbInfo = array(
-            'cl_update_time' => time(),
-            'cl_add_user_id' => session('userId'),
+            'update_time' => time(),
+            'add_user_id' => session('userId'),
             'zt_id' => session('ztId'),
             'cl_name' => $configListName,
             'cl_type' => $clType,
@@ -98,7 +98,7 @@ class Config
         if ('add' != $type) {
             $result = DB::update('zq_config_list', $dbInfo, "cl_id='{$id}'");
         } else {
-            $dbInfo['cl_add_time'] = time();
+            $dbInfo['add_time'] = time();
             $dbInfo['cl_is_system'] = 0;
             $result = DB::insert('zq_config_list', $dbInfo);
             //var_dump($result);
@@ -122,7 +122,7 @@ class Config
         }
         $list = DB::select(array(
             'table' => 'zq_config_list',
-            'col' => 'cl_id,cl_name,cl_is_system,cl_add_time,cl_key',
+            'col' => 'cl_id,cl_name,cl_is_system,add_time,cl_key',
             'where' => $whereArr,
         ));
         return $list;
@@ -132,7 +132,7 @@ class Config
     {
         $list = Db::select(array(
             'table' => 'zq_config_list_item',
-            'col' => 'cli_id,cli_add_time,cli_form_text,cli_data_type,cli_db_field_name,cli_order,cli_is_system,cli_default',
+            'col' => 'cli_id,add_time,cli_form_text,cli_data_type,cli_db_field_name,cli_order,cli_is_system,cli_default',
             'where' => $whereArr,
             'order' => 'cli_order asc',
         ));
@@ -237,8 +237,8 @@ class Config
             }
             foreach ($keyList as $key => $keyName) {
                 $dbInfo = array(
-                    'cm_update_time' => time(),
-                    'cm_add_user_id' => $userId,
+                    'update_time' => time(),
+                    'add_user_id' => $userId,
                     'zt_id' => $ztId,
                     'cm_key' => $keyName,
                     'cm_dec' => $decList[$key],
@@ -254,7 +254,7 @@ class Config
                     $info = current($info);
                     DB::update('zq_config_model', $dbInfo, "cm_id={$info['cm_id']}");
                 } else {
-                    $dbInfo['cm_add_time'] = time();
+                    $dbInfo['add_time'] = time();
                     DB::insert('zq_config_model', $dbInfo);
                 }
             }

@@ -26,11 +26,12 @@ CREATE TABLE `zq_user_role` (
   `ur_id` int(11) NOT NULL AUTO_INCREMENT,
   `ur_permissions` varchar(1000) CHARACTER SET utf8 NOT NULL,
   `ur_name` varchar(45) CHARACTER SET utf8 NOT NULL,
-  `ur_add_time` int(11) NOT NULL DEFAULT '0',
-  `ur_update_time` int(11) NOT NULL DEFAULT '0',
-  `ur_add_user_id` smallint(6) NOT NULL DEFAULT '0',
-  `ur_note` varchar(45) DEFAULT '',
+  `add_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL DEFAULT '0',
+  `add_user_id` smallint(6) NOT NULL DEFAULT '0',
+  `ur_note` varchar(45) NOT NULL DEFAULT '',
   `zt_id` tinyint(1) NOT NULL DEFAULT '1',
+  `approval_status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ur_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -41,7 +42,7 @@ CREATE TABLE `zq_user_role` (
 
 LOCK TABLES `zq_user_role` WRITE;
 /*!40000 ALTER TABLE `zq_user_role` DISABLE KEYS */;
-INSERT INTO `zq_user_role` VALUES (1,'12,13,15,14,9,3,2,16,17','系统管理员',1583134320,1583134320,0,'系统最高权限',1),(2,'9,3,2','文章编辑',1583034640,1583034640,1,'',1);
+INSERT INTO `zq_user_role` VALUES (1,'12,13,15,14,9,3,2,16,17','系统管理员',1583134320,1583134320,0,'系统最高权限',1,0),(2,'9,3,2','文章编辑',1583034640,1583034640,1,'',1,0);
 /*!40000 ALTER TABLE `zq_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-30 19:08:00
+-- Dump completed on 2020-05-01  0:55:24

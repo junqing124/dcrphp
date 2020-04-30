@@ -22,7 +22,7 @@
             {% for permission in permissions %}
             <tr>
                 <td>{{permission.up_name}}</td>
-                <td>{{permission.up_add_time|date('Y-m-d')}}</td>
+                <td>{{permission.add_time|date('Y-m-d')}}</td>
             </tr>
             {% endfor %}
             </tbody>

@@ -24,10 +24,10 @@ DROP TABLE IF EXISTS `zq_config`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `zq_config` (
   `c_id` int(11) NOT NULL AUTO_INCREMENT,
-  `c_add_time` int(11) NOT NULL DEFAULT '0',
-  `c_update_time` int(11) NOT NULL DEFAULT '0',
-  `c_approval_status` tinyint(4) NOT NULL DEFAULT '1',
-  `c_add_user_id` smallint(6) NOT NULL DEFAULT '0',
+  `add_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL DEFAULT '0',
+  `approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
   `c_db_field_name` varchar(45) NOT NULL DEFAULT '' COMMENT '字段名',
   `c_value` varchar(45) NOT NULL DEFAULT '' COMMENT '字段值',
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-30 19:07:59
+-- Dump completed on 2020-05-01  0:55:23

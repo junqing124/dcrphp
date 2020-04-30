@@ -24,10 +24,10 @@ DROP TABLE IF EXISTS `zq_config_list_item`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `zq_config_list_item` (
   `cli_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cli_add_time` int(11) NOT NULL DEFAULT '0',
-  `cli_update_time` int(11) NOT NULL DEFAULT '0',
-  `cli_approval_status` tinyint(4) NOT NULL DEFAULT '1',
-  `cli_add_user_id` smallint(6) NOT NULL DEFAULT '0',
+  `add_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL DEFAULT '0',
+  `approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
   `cli_form_text` varchar(45) NOT NULL DEFAULT '',
   `cli_data_type` varchar(10) NOT NULL DEFAULT '',
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-30 19:07:59
+-- Dump completed on 2020-05-01  0:55:24

@@ -110,14 +110,14 @@ class Model
         //dd($categoryInfo);
         $result = 0;
         $dbInfo = array(
-            'mc_update_time' => time(),
+            'update_time' => time(),
             'mc_model_name' => $categoryInfo['model_name'],
             'mc_name' => $categoryInfo['category_name'],
             'mc_parent_id' => $categoryInfo['parent_id'] ? $categoryInfo['parent_id'] : 0,
         );
         if ('add' == $categoryInfo['action']) {
-            $dbInfo['mc_add_time'] = time();
-            $dbInfo['mc_add_user_id'] = session('userId');
+            $dbInfo['add_time'] = time();
+            $dbInfo['add_user_id'] = session('userId');
             $dbInfo['zt_id'] = session('ztId');
             $result = DB::insert('zq_model_category', $dbInfo);
         } else {
@@ -426,21 +426,21 @@ class Model
         //dd($fieldList);
 
         $dbInfoList['zt_id'] = $ztId;
-        $dbInfoList['ml_update_time'] = time();
+        $dbInfoList['update_time'] = time();
 
         //$dbInfoField['zt_id'] = $ztId;
         //$dbInfoField['me_update_time'] = time();
 
         $dbInfoAddition['zt_id'] = $ztId;
-        $dbInfoAddition['ma_update_time'] = time();
+        $dbInfoAddition['update_time'] = time();
         if ('edit' == $data['action']) {
         } else {
-            $dbInfoList['ml_add_time'] = time();
+            $dbInfoList['add_time'] = time();
             //$dbInfoField['me_add_time'] = time();
-            $dbInfoAddition['ma_add_time'] = time();
-            $dbInfoList['ml_add_user_id'] = $userId;
+            $dbInfoAddition['add_time'] = time();
+            $dbInfoList['add_user_id'] = $userId;
             //$dbInfoField['me_add_user_id'] = $userId;
-            $dbInfoAddition['ma_add_user_id'] = $userId;
+            $dbInfoAddition['add_user_id'] = $userId;
         }
         //开始更新或添加
         $result = 1;
@@ -458,7 +458,7 @@ class Model
                 //$fieldDbInfo['mf_ml_id'] = $modelListId;
                 //$fieldDbInfo['zt_id'] = $ztId;
                 //$fieldDbInfo['mf_add_user_id'] = $userId;
-                $fieldDbInfo['mf_update_time'] = time();
+                $fieldDbInfo['update_time'] = time();
                 //$fieldDbInfo['mf_add_time'] = time();
 
                 if (DB::select(array(
@@ -474,9 +474,9 @@ class Model
                 } else {
                     $fieldDbInfo['mf_ml_id'] = $id;
                     $fieldDbInfo['zt_id'] = $ztId;
-                    $fieldDbInfo['mf_add_user_id'] = $userId;
-                    $fieldDbInfo['mf_update_time'] = time();
-                    $fieldDbInfo['mf_add_time'] = time();
+                    $fieldDbInfo['add_user_id'] = $userId;
+                    $fieldDbInfo['update_time'] = time();
+                    $fieldDbInfo['add_time'] = time();
                     $modelFieldSec = DB::insert('zq_model_field', $fieldDbInfo);
                 }
                 if (0 == $modelFieldSec) {
@@ -509,9 +509,9 @@ class Model
                 $fieldDbInfo['mf_value'] = $fieldValue;
                 $fieldDbInfo['mf_ml_id'] = $modelListId;
                 $fieldDbInfo['zt_id'] = $ztId;
-                $fieldDbInfo['mf_add_user_id'] = $userId;
-                $fieldDbInfo['mf_update_time'] = time();
-                $fieldDbInfo['mf_add_time'] = time();
+                $fieldDbInfo['add_user_id'] = $userId;
+                $fieldDbInfo['update_time'] = time();
+                $fieldDbInfo['add_time'] = time();
 
                 $modelFieldId = DB::insert('zq_model_field', $fieldDbInfo);
                 if (0 == $modelFieldId) {

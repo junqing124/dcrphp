@@ -8,10 +8,6 @@ use dcr\Db;
 
 class Tools
 {
-    public function getTableEditConfigPath($tableName)
-    {
-        return ROOT_APP . DS . 'Admin' . DS . 'Config' . DS . 'TableEdit' . DS . $tableName . '.php';
-    }
 
     /**
      * 把html中的代码实别出来，替换成实际的变量 比如get.a换成get('a')
