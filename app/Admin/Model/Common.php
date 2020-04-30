@@ -61,7 +61,14 @@ class Common
                 $var = substr($default, 4);
                 $default = $varList[$var];
             }
-            $inputValue = $valueList[$itemInfo['db_field_name']] ? $valueList[$itemInfo['db_field_name']] : $default;
+
+            $inputValue = isset($valueList[$itemInfo['db_field_name']]) ? $valueList[$itemInfo['db_field_name']] : $default;
+            /*echo '<br><br><br>';
+            dd($itemInfo['db_field_name']);
+            dd($default);
+            dd($valueList);
+            dd($valueList['ctel_list_order']);
+            dd($inputValue);*/
             $additionStr = '';
             $type = '';
             $inputNameId = $option['input_name_pre'] ? $option['input_name_pre'] . $itemInfo['db_field_name'] : $itemInfo['db_field_name'];
@@ -75,36 +82,32 @@ class Common
                     $html = "<input class='input-text' name='{$inputNameId}' id='{$inputNameId}' type='{$type}' value='{$inputValue}'>";
                     break;
                 case 'text':
-                    $html = "<textarea name='{$inputNameId}' id='{$inputNameId}' class='textarea radius' >{{$inputValue}}</textarea>";
+                    $html = "<textarea name='{$inputNameId}' id='{$inputNameId}' class='textarea radius' >{$inputValue}</textarea>";
                     break;
                 case 'radio':
-                    $valueList = explode(',', $default);
-                    foreach ($valueList as $valueDetail) {
-                        if ($valueDetail == $inputValue) {
-                            $additionStr = ' checked ';
-                        }
-                        $html .= "<label class='mr-10'><input type='radio' {$additionStr} value='{$valueDetail}' name='{$inputNameId}'>{$valueDetail}</label>";
-                    }
-                    break;
                 case 'checkbox':
-                    $valueList = explode(',', $default);
-                    foreach ($valueList as $valueDetail) {
-                        if ($valueDetail == $inputValue) {
-                            $additionStr = ' checked ';
+                    $inputValueList = explode(',', $default);
+                    foreach ($inputValueList as $inpValueDetail) {
+                        if ($inpValueDetail == $inputValue) {
+                            if( in_array($itemInfo['data_type'], array('radio','checkbox')) ){
+                                $additionStr = ' checked ';
+                            }else{
+                                $additionStr = ' selected ';
+                            }
                         }
-                        $html .= "<label class='mr-10'><input type='checkbox' {$additionStr} value='{$valueDetail}' name='{$inputNameId}[]'>{$valueDetail}</label>";
+                        $html .= "<label class='mr-10'><input type='{$itemInfo['data_type']}' {$additionStr} value='{$inpValueDetail}' name='{$inputNameId}'>{$inpValueDetail}</label>";
                     }
                     break;
                 case 'select':
-                    $valueList = explode(',', $default);
+                    $inputValueList = explode(',', $default);
                     $html = "<select class='select' name='{$inputNameId}' id='{$inputNameId}'>";
                     $html .= "<option value=''>请选择</option>";
-                    foreach ($valueList as $valueDetail) {
+                    foreach ($inputValueList as $inpValueDetail) {
                         $additionStr = '';
-                        if ($valueDetail == $inputValue) {
+                        if ($inpValueDetail == $inputValue) {
                             $additionStr = ' selected ';
                         }
-                        $html .= "<option {$additionStr} value='{$valueDetail}'>{$valueDetail}</option>";
+                        $html .= "<option {$additionStr} value='{$inpValueDetail}'>{$inpValueDetail}</option>";
                     }
                     $html .= '</select>';
                     break;

@@ -42,9 +42,11 @@ CREATE TABLE `zq_config_table_edit_list` (
   `ctel_list_where` varchar(45) NOT NULL,
   `ctel_edit_window_width` varchar(45) NOT NULL,
   `ctel_edit_window_height` varchar(45) NOT NULL DEFAULT '',
+  `ctel_addition_option_html` varchar(2000) NOT NULL DEFAULT '' COMMENT '操作里自定义操作html',
+  `ctel_allow_config_from_request` varchar(2000) DEFAULT '' COMMENT '请求里可以有的字段',
   PRIMARY KEY (`ctel_id`),
   UNIQUE KEY `uidx_key` (`ctel_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='单表配置列表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='单表配置列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,6 +55,7 @@ CREATE TABLE `zq_config_table_edit_list` (
 
 LOCK TABLES `zq_config_table_edit_list` WRITE;
 /*!40000 ALTER TABLE `zq_config_table_edit_list` DISABLE KEYS */;
+INSERT INTO `zq_config_table_edit_list` VALUES (1,1588130186,1588130425,1,1,1,'zq_config_table_edit_list','单表管理列表','系统配置','zq_config_table_edit_list','ctel_id','ctel','是','是','是','ctel_id desc','','95%','95%','<a title=\"字段\" href=\"javascript:;\" onclick=\"open_iframe(\'配置字段\',\'/admin/tools/table-edit-list-view/zq_config_table_edit_item?ctei_ctel_id={db.index_id}&list_where=ctei_ctel_id={db.index_id}\',\'95%\',\'95%\')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont Hui-iconfont-menu\"></i></a>',''),(2,1588161750,1588161761,1,1,1,'zq_config_table_edit_item','单表管理字段','系统配置','zq_config_table_edit_item','ctei_id','ctei','是','是','是','ctei_id desc','','95%','95%','','list_where');
 /*!40000 ALTER TABLE `zq_config_table_edit_list` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -65,4 +68,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-29  0:14:48
+-- Dump completed on 2020-04-30 19:08:01

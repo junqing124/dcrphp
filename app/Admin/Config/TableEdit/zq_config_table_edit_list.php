@@ -13,8 +13,10 @@ return array(
     'is_edit' => 1, //列表要不要更新功能
     'list_order' => 'ctel_id desc', //列表页默认排序
     'list_where' => "", //列表页默认的where条件
-    'edit_window_width'=> '50%', //添加编辑框宽
+    'edit_window_width'=> '90%', //添加编辑框宽
     'edit_window_height'=> '90%', //添加编辑框高
+    'addition_option_html' => '<a title="字段" href="javascript:;" onclick="open_iframe(\'配置字段\',\'/admin/tools/table-edit-list-view/zq_config_table_edit_item?ctei_ctel_id={db.index_id}&list_where=ctei_ctel_id={db.index_id}\',\'95%\',\'95%\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont-menu"></i></a>', //操作的额外添加
+    'allow_config_from_request' =>'', //配置字段允许哪些使用可以外部传入的变量，用,分隔字段。比如想通过get post配置list_order额外配置，请访问 ip/admin/tools/table-edit-list-view/zq_user?list_order=u_id,那么实际使用的list_order=list_order配置和get('list_order')用,号拼接
 
     /**
      * 下标是对应的数据库字段名
@@ -55,9 +57,9 @@ return array(
             'data_type' => 'string',
             'is_show_list' => 1,
             'is_insert' => 1,
-            'is_update'=> 1,
             'db_field_name'=> 'ctel_page_title',
             'is_insert_required'=> 1,
+            'is_update'=> 1,
             'is_update_required' => 1,
         ),
         'ctel_page_model' => array(
@@ -159,6 +161,22 @@ return array(
             'is_insert' => 1,
             'is_update'=> 1,
             'db_field_name'=> 'ctel_edit_window_height',
+        ),
+        'ctel_addition_option_html' => array(
+            'title' => '操作里自定义额外html',
+            'data_type' => 'text',
+            'is_insert' => 1,
+            'is_update'=> 1,
+            'tip'=> '如果想在操作列里有额外的链接，可以在这里定义，支持db.index_id 表示取主键字段的值',
+            'db_field_name'=> 'ctel_addition_option_html',
+        ),
+        'ctel_allow_config_from_request' => array(
+            'title' => '操作里自定义额外html',
+            'data_type' => 'text',
+            'is_insert' => 1,
+            'is_update'=> 1,
+            'tip'=> '配置字段允许哪些使用可以外部传入的变量，用,分隔字段。比如想通过get post配置list_order额外配置，请访问 ip/admin/tools/table-edit-list-view/zq_user?list_order=u_id,那么实际使用的list_order=list_order配置和get(\'list_order\')用,号拼接',
+            'db_field_name'=> 'ctel_allow_config_from_request',
         ),
         'ctel_add_time' => array(
             'title' => '添加时间',

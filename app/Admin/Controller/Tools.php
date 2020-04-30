@@ -128,15 +128,16 @@ class Tools
     public function tableEditEditAjax()
     {
         $data = post();
-        $tableName = $data['table_role_name'];
+        $key = $data['key'];
         //用通用接口去处理
         $clsTools = new MTools();
-        $configPath = $clsTools->getTableEditConfigPath($tableName);
+        $configPath = $clsTools->getTableEditConfigPath($key);
         $config = include_once $configPath;
+
         if ('delete' == $data['type']) {
 
             $result = Common::CUDDbInfo(
-                $tableName,
+                $config['table_name'],
                 $config['table_pre'],
                 array(),
                 $data['type'],
@@ -146,6 +147,8 @@ class Tools
             //dd($config);
             //处理检测程序
             $check = array();
+
+            //得出要更新的列名
             $listCol = array();
             if ('add' == $data['type']) {
                 foreach ($config['col'] as $configKey => $configValue) {
@@ -168,11 +171,32 @@ class Tools
                 }
             }
 
-            //要更新的数据
+            //要更新或添加的数据
             $dbInfo = array();
             foreach ($listCol as $colInfo) {
-                $dbInfo[$colInfo['db_field_name']] = $data[$colInfo['db_field_name']];
+                $value = $data[$colInfo['db_field_name']];
+                $value = is_array($value) ? implode(',', $value) : $value;
+                if (is_null($value)) {
+                    $value = '';
+                }
+                $dbInfo[$colInfo['db_field_name']] = $value;
             }
+            //dd($dbInfo);
+            //dd($data);
+            //dd($listCol);
+            //检测数据
+            //数据类型存在不存在
+            /*$supportDataType = Common::getFieldTypeList();
+            $supportDataType = array_column($supportDataType, 'key');
+            if (!in_array($dbInfo['ctei_data_type'], $supportDataType) && empty($dbInfo['ctei_default'])) {
+                throw new \Exception('数据类型不在允许范围内，只允许' . implode(',', $supportDataType));
+            }
+
+            //如果type是radio或者checkbox或者select没有default则报错
+            if (in_array($dbInfo['ctei_data_type'],
+                    array('checkbox', 'radio', 'select')) && empty($dbInfo['ctei_default'])) {
+                throw new \Exception('checkbox,radio,select类型的数据，请输入默认值');
+            }*/
 
             $result = Common::CUDDbInfo(
                 $config['table_name'],
@@ -189,12 +213,13 @@ class Tools
     public function tableEditEditView(Request $request)
     {
 
+        $assignData = array();
         $params = $request->getParams();
         $type = $params[0];
-        $tableName = $params[1];
+        $key = $params[1];
         $id = $params[2];
         $clsTools = new MTools();
-        $configPath = $clsTools->getTableEditConfigPath($tableName);
+        $configPath = $clsTools->getTableEditConfigPath($key);
         $config = include_once $configPath;
 
         $listCol = array();
@@ -218,15 +243,18 @@ class Tools
                 )
             );
             $info = current($info);
+            $assignData['edit_page_addition_html'] = $clsTools->generateAdditionHtml($config['edit_page_addition_html']);
+        } else {
+            $assignData['add_page_addition_html'] = $clsTools->generateAdditionHtml($config['add_page_addition_html']);
         }
+        //dd($info);
         $fieldList = Common::generalHtmlForItem($listCol, $info);
         //dd($fieldList);
 
-        $assignData = array();
         $assignData['page_title'] = $config['page_title'];
         $assignData['page_model'] = $config['page_model'];
         $assignData['type'] = $type;
-        $assignData['table_role_name'] = $tableName;
+        $assignData['key'] = $key;
         $assignData['field_list'] = $fieldList;
         $assignData['id'] = $id;
         $assignData['index_id'] = $config['index_id'];
@@ -239,23 +267,34 @@ class Tools
     {
 
         $params = $request->getParams();
-        $tableName = current($params);
+        $key = current($params);
         $clsTools = new MTools();
-        $configPath = $clsTools->getTableEditConfigPath($tableName);
-        $config = include_once $configPath;
+        //$configPath = $clsTools->getTableEditConfigPath($key);
+        //$config = include_once $configPath;
+        $config = $clsTools->getTableEditConfig($key);
+        //dd($config);
         $assignData = array();
         $assignData['page_title'] = $config['page_title'];
         $assignData['page_model'] = $config['page_model'];
+        $allowConfigFromRequest = $config['allow_config_from_request']; //传过来允许使用的变量
+        $allowConfigFromRequestArr = array();
+        if ($allowConfigFromRequest) {
+            $allowConfigFromRequestArr = explode(',', $allowConfigFromRequest);
+        }
+
+        $searchData = get();
 
         $whereArr = array();
         if ($config['list_where']) {
             $whereArr[] = $config['list_where'];
         }
-        $searchData = get();
+        if (in_array('list_where', $allowConfigFromRequestArr) && $searchData['list_where']) {
+            $whereArr[] = $searchData['list_where'];
+        }
         //dd($config);
-        foreach( $searchData as $searchKey=> $searchValue ){
+        foreach ($searchData as $searchKey => $searchValue) {
             $searchType = $config['col'][$searchKey]['search_type'];
-            switch ($searchType){
+            switch ($searchType) {
                 case 'like':
                     $whereArr[] = "{$searchKey} like '%{$searchValue}%'";
                     break;
@@ -283,8 +322,8 @@ class Tools
                 $searchCol[$configKey] = $configValue;
             }
         }
-        if($searchCol){
-            $searchCol = Common::generalHtmlForItem($searchCol,$searchData);
+        if ($searchCol) {
+            $searchCol = Common::generalHtmlForItem($searchCol, $searchData);
         }
 
         //总数量
@@ -316,6 +355,17 @@ class Tools
             )
         );
 
+        //dd($config);
+
+        //进行一些初始化
+        foreach ($list as $listKey => $listInfo) {
+            if ($config['addition_option_html']) {
+                $list[$listKey]['addition_option_html'] = str_replace('{db.index_id}',
+                    $list[$listKey][$config['index_id']],
+                    $config['addition_option_html']);
+            }
+        }
+
         $assignData['list'] = $list;
         $assignData['list_col'] = $listCol;
         $assignData['search_col'] = $searchCol;
@@ -323,6 +373,8 @@ class Tools
         $assignData['user_num'] = $pageTotalNum;
         $assignData['pages'] = $pageHtml;
         $assignData['config'] = $config;
+        $assignData['add_button_addition_html'] = $clsTools->generateAdditionHtml($config['add_button_addition_html']);
+        $assignData['edit_button_addition_html'] = $clsTools->generateAdditionHtml($config['edit_button_addition_html']);
 
         return Factory::renderPage('tools/table-edit-list', $assignData);
     }

@@ -8,16 +8,16 @@
 <article class="page-container">
     <form action="/admin/tools/table-edit-edit-ajax" method="post" class="form form-horizontal" id="form">
         <input type="hidden" name="type" value="{{type}}">
-        <input type="hidden" name="table_role_name" value="{{table_role_name}}">
+        <input type="hidden" name="key" value="{{key}}">
         <input type="hidden" name="id" value="{{id}}">
         {% for field in field_list %}
             {% if 1 != field.is_input_hidden %}
             <div class="row cl">
-                <label class="form-label col-xs-4">{{field.title}}：</label>
+                <label class="form-label col-xs-2">{{field.title}}：</label>
                 <div class="formControls col-xs-4">
                     {{field.html|raw}}
                 </div>
-                <div class="formControls col-xs-4">
+                <div class="formControls col-xs-6">
                     {{field.tip}}
                 </div>
             </div>
@@ -25,6 +25,8 @@
                 {{field.html|raw}}
             {% endif %}
         {% endfor %}
+        {{edit_page_addition_html|raw}}
+        {{add_page_addition_html|raw}}
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
                 <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">

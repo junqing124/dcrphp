@@ -23,9 +23,9 @@
         </form>
     </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
-        {% if 1 == config.is_add %}
+        {% if 1 == config.is_add or '是' == config.is_add %}
         <span class="l">
-            <a href="javascript:;" onclick="open_iframe('添加','/admin/tools/table-edit-edit-view/add/{{config.table_name}}','{{config.edit_window_width}}','{{config.edit_window_height}}')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a>
+            <a href="javascript:;" onclick="open_iframe('添加','/admin/tools/table-edit-edit-view/add/{{config.table_name}}{{add_button_addition_html}}','{{config.edit_window_width}}','{{config.edit_window_height}}')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a>
         </span>
         {% endif %}
         <span class="r">共有数据：<strong>{{user_num}}</strong> 条</span></div>
@@ -46,15 +46,16 @@
                 <td>{{info[col.db_field_name]}}</td>
                 {% endfor %}
                 <td class="td-manage">
-                    {% if 1 == config.is_edit %}
+                    {% if 1 == config.is_edit or '是' == config.is_edit %}
                     <a title="编辑" href="javascript:;"
-                       onclick="open_iframe('编辑','/admin/tools/table-edit-edit-view/edit/{{config.table_name}}/{{info.id}}','{{config.edit_window_width}}','{{config.edit_window_height}}')"
+                       onclick="open_iframe('编辑','/admin/tools/table-edit-edit-view/edit/{{config.table_name}}/{{info.id}}{{edit_button_addition_html}}','{{config.edit_window_width}}','{{config.edit_window_height}}')"
                        class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
                     {% endif %}
-                    {% if 1 == config.is_del %}
-                    <a title="删除" href="javascript:;" onclick="del(this,'{{info.id}}')" class="ml-5"
+                    {% if 1 == config.is_del or '是' == config.is_del %}
+                    <a title="删除" href="javascript:;" onclick="del(this,'{{info.ctel_key}}','{{info.id}}')" class="ml-5"
                        style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                     {% endif %}
+                    {{info.addition_option_html|raw}}
                 </td>
             </tr>
             {% endfor %}
@@ -70,9 +71,9 @@
 <script type="text/javascript">
 
     /*删除*/
-    function del(obj, id) {
+    function del(obj, key, id) {
         layer.confirm('确认要删除吗？', function (index) {
-            ajax('/admin/tools/table-edit-edit-ajax',"table_name={{config.table_name}}&type=delete&id=" + id,'POST',
+            ajax('/admin/tools/table-edit-edit-ajax',"key=" + key + "&type=delete&id=" + id,'POST',
                 function(result){
                     $(obj).parents("tr").remove();
                     layer.msg('已删除!', {icon: 1, time: 1000});
