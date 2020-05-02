@@ -8,6 +8,11 @@ use dcr\Db;
 
 class Tools
 {
+    public function getTableEditPhpAddition($key)
+    {
+        $path = ROOT_APP . DS . 'Admin' . DS . 'Config' . DS . 'TableEdit' . DS . $key . '.php';
+        return $path;
+    }
 
     /**
      * 把html中的代码实别出来，替换成实际的变量 比如get.a换成get('a')
@@ -23,6 +28,27 @@ class Tools
             }
         }
         return $html;
+    }
+
+    /**
+     * 通过ID获取TableEdit的key
+     * @param $id
+     */
+    public function getTableEditKeyById($id)
+    {
+        $info = Db::select(
+            array(
+                'table' => 'zq_config_table_edit_list',
+                'where' => "ctel_id='{$id}'",
+                'limit' => 1,
+                'col'=>'ctel_key',
+            )
+        );
+        if (empty($info)) {
+            throw new \Exception('没有找到本配置');
+        }
+        $info = current($info);
+        return $info['ctel_key'];
     }
 
     /**

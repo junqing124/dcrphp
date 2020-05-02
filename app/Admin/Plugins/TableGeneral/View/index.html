@@ -52,7 +52,7 @@
                 qz += str_arr[i].substr(0, 1);
             }
         }
-        $('#sql').text( 'CREATE TABLE `' + table_name + '` (`' + qz + '_id` int(11) NOT NULL AUTO_INCREMENT,`add_time` int(11) NOT NULL default 0,`update_time` int(11) NOT NULL default 0,`approval_status` tinyint(4) NOT NULL default 1,`add_user_id` smallint(6) NOT NULL default 0,`zt_id` smallint(6) NOT NULL default 1, PRIMARY KEY (`' + qz + "_id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '" + comment + "';" );
+        $('#sql').text( 'CREATE TABLE `' + table_name + '` (`id` int(11) NOT NULL AUTO_INCREMENT,`add_time` int(11) NOT NULL default 0,`update_time` int(11) NOT NULL default 0,`is_approval` tinyint(1) NOT NULL default 1,`add_user_id` smallint(6) NOT NULL default 0,`zt_id` smallint(6) NOT NULL default 1, PRIMARY KEY (`' + '' + "id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE = utf8_general_ci COMMENT = '" + comment + "';" );
     }
 </script>
 </body>

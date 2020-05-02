@@ -211,18 +211,10 @@ class Tools
             //dd($data);
             //dd($listCol);
             //检测数据
-            //数据类型存在不存在
-            /*$supportDataType = Common::getFieldTypeList();
-            $supportDataType = array_column($supportDataType, 'key');
-            if (!in_array($dbInfo['ctei_data_type'], $supportDataType) && empty($dbInfo['ctei_default'])) {
-                throw new \Exception('数据类型不在允许范围内，只允许' . implode(',', $supportDataType));
+            $phpAdditionPath = $clsTools->getTableEditPhpAddition($key);
+            if (file_exists($phpAdditionPath)) {
+                require_once $phpAdditionPath;
             }
-
-            //如果type是radio或者checkbox或者select没有default则报错
-            if (in_array($dbInfo['ctei_data_type'],
-                    array('checkbox', 'radio', 'select')) && empty($dbInfo['ctei_default'])) {
-                throw new \Exception('checkbox,radio,select类型的数据，请输入默认值');
-            }*/
 
             $result = Common::CUDDbInfo(
                 $config['table_name'],
@@ -401,7 +393,22 @@ class Tools
         $assignData['key'] = $key;
         $assignData['add_button_addition_html'] = $clsTools->generateAdditionHtml($config['add_button_addition_html']);
         $assignData['edit_button_addition_html'] = $clsTools->generateAdditionHtml($config['edit_button_addition_html']);
+        $assignData['button_area_addition_html'] = $clsTools->generateAdditionHtml($config['button_area_addition_html']);
 
         return Factory::renderPage('tools/table-edit-list', $assignData);
+    }
+
+    public function tableEditGenerateItemAjax()
+    {
+        $clsTools = new MTools();
+        $id = get('ctel_id');
+        $key = $clsTools->getTableEditKeyById($id);
+        $config = $clsTools->getTableEditConfig($key);
+        $tableName = $config['table_name'];
+
+        $sql = "show full fields from {$tableName} /*zt_id*/";
+        $dbFieldList = Db::query($sql);
+
+
     }
 }

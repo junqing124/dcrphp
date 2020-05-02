@@ -26,6 +26,7 @@
         {% if 1 == config.is_add or '是' == config.is_add %}
         <span class="l">
             <a href="javascript:;" onclick="open_iframe('添加','/admin/tools/table-edit-edit-view/add/{{config.table_name}}{{add_button_addition_html}}','{{config.edit_window_width}}','{{config.edit_window_height}}')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a>
+            {{button_area_addition_html|raw}}
         </span>
         {% endif %}
         <span class="r">共有数据：<strong>{{user_num}}</strong> 条</span></div>

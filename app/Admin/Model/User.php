@@ -336,7 +336,7 @@ class User
                     'add_user_id' => session('userId') ? session('userId') : 0,
                     'zt_id' => $userInfo['zt_id'],
                     'urc_u_id' => $userId,
-                    'urc_r_id' => $roleKey,
+                    'ur_id' => $roleKey,
                 );
                 //dd($roleDbInfo);
                 DB::insert('zq_user_role_config', $roleDbInfo);
@@ -427,7 +427,7 @@ class User
             $roleList = $this->getRoleConfigList($userId);
             $permissionNameList = array();
             if ($roleList) {
-                $roleIds = implode(',', array_column($roleList, 'urc_r_id', 'urc_r_id'));
+                $roleIds = implode(',', array_column($roleList, 'ur_id', 'ur_id'));
 
                 $permissionList = $this->getRoleList(array('where' => "ur_id in({$roleIds})"));
                 if ($permissionList) {

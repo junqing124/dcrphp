@@ -11,6 +11,18 @@ class Common
 {
 
     /**
+     * 返回数据库保留字段
+     * @return string[]
+     */
+    public static function getDbBaseField()
+    {
+        $list = array(
+            'add_time', 'update_time', 'approval_status', 'add_user_id', 'zt_id',
+        );
+        return $list;
+    }
+
+    /**
      * 本function自1.0.3后作废 现在存数据库了
      * @return array[]
      */

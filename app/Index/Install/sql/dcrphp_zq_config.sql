@@ -23,16 +23,16 @@ DROP TABLE IF EXISTS `zq_config`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `zq_config` (
-  `c_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `add_time` int(11) NOT NULL DEFAULT '0',
   `update_time` int(11) NOT NULL DEFAULT '0',
-  `approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `approval_status` tinyint(1) NOT NULL DEFAULT '1',
   `add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
-  `c_db_field_name` varchar(45) NOT NULL DEFAULT '' COMMENT '字段名',
-  `c_value` varchar(45) NOT NULL DEFAULT '' COMMENT '字段值',
-  `c_cl_id` int(11) NOT NULL DEFAULT '0' COMMENT '配置列表id',
-  PRIMARY KEY (`c_id`)
+  `db_field_name` varchar(45) NOT NULL DEFAULT '' COMMENT '字段名',
+  `value` varchar(45) NOT NULL DEFAULT '' COMMENT '字段值',
+  `cl_id` int(11) NOT NULL DEFAULT '0' COMMENT '配置列表id',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='基本配置';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-01  0:55:23
+-- Dump completed on 2020-05-02 12:52:36

@@ -23,16 +23,16 @@ DROP TABLE IF EXISTS `zq_model_field`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `zq_model_field` (
-  `mf_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `add_time` int(11) NOT NULL DEFAULT '0',
   `update_time` int(11) NOT NULL DEFAULT '0',
-  `approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `is_approval` tinyint(1) NOT NULL DEFAULT '1',
   `add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
-  `mf_key` varchar(45) NOT NULL DEFAULT '',
-  `mf_value` varchar(200) NOT NULL DEFAULT '',
-  `mf_ml_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`mf_id`)
+  `key` varchar(45) NOT NULL DEFAULT '',
+  `value` varchar(200) NOT NULL DEFAULT '',
+  `ml_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='模型字段里的值';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-01  0:55:23
+-- Dump completed on 2020-05-02 12:52:36

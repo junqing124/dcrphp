@@ -23,17 +23,17 @@ DROP TABLE IF EXISTS `zq_user_role_config`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `zq_user_role_config` (
-  `urc_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `add_time` int(11) NOT NULL DEFAULT '0',
   `update_time` int(11) NOT NULL DEFAULT '0',
-  `approval_status` tinyint(4) NOT NULL DEFAULT '1',
+  `is_approval` tinyint(1) NOT NULL DEFAULT '1',
   `add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
-  `urc_u_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `urc_r_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色id',
-  PRIMARY KEY (`urc_id`),
-  UNIQUE KEY `uidx_ru` (`urc_u_id`,`urc_r_id`,`zt_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='用户的角色配置';
+  `u_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `ur_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色id',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uidx_ru` (`u_id`,`ur_id`,`zt_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='用户的角色配置';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `zq_user_role_config` (
 
 LOCK TABLES `zq_user_role_config` WRITE;
 /*!40000 ALTER TABLE `zq_user_role_config` DISABLE KEYS */;
-INSERT INTO `zq_user_role_config` VALUES (1,1583134320,1583134320,0,0,1,1,1),(3,1583034651,1583034651,0,1,1,2,2),(17,1588001747,1588001747,1,1,1,4,2),(18,1588055379,1588055379,1,3,1,3,2);
+INSERT INTO `zq_user_role_config` VALUES (1,1583134320,1583134320,0,0,1,1,1),(17,1588001747,1588001747,1,1,1,4,2),(19,1588265765,1588265765,1,1,1,3,2),(20,1588265780,1588265780,1,1,1,2,2);
 /*!40000 ALTER TABLE `zq_user_role_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-01  0:55:24
+-- Dump completed on 2020-05-02 12:52:36

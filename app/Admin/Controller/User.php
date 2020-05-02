@@ -143,7 +143,7 @@ class User
 
         //已经配置好的角色列表
         $roleList = $user->getRoleConfigList($userId);
-        $roleKeys = array_keys(array_column($roleList, 'urc_r_id', 'urc_r_id'));
+        $roleKeys = array_keys(array_column($roleList, 'ur_id', 'ur_id'));
         $assignData['role_keys'] = $roleKeys;
 
         return Factory::renderPage('user/add-or-edit', $assignData);
