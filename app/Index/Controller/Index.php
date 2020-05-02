@@ -55,7 +55,7 @@ class Index
         $view = container('view');
         $paramInfo = $reqeust->getParams();
         $modelId = $paramInfo[0];
-        DB::exec("update zq_model_list set ml_view_nums=ml_view_nums+1 where zt_id=1 and ml_id={$modelId}");
+        DB::exec("update zq_model_list set view_nums=view_nums+1 where zt_id=1 and id={$modelId}");
         $modelInfo = $model->getInfo(
             $modelId,
             array('requestField' => 1, 'requestAddition' => 1, 'requestFieldDec' => 1)
@@ -63,16 +63,16 @@ class Index
         //dd($modelInfo);
         $clsConfig = new Config();
         $modelDefine = $clsConfig->getConfigList(0, 'model');
-        $modelDefine = array_column($modelDefine, 'cl_name', 'cl_key');
-        $modelCategoryName = $modelDefine[$modelInfo['list']['ml_model_name']];
+        $modelDefine = array_column($modelDefine, 'name', 'key');
+        $modelCategoryName = $modelDefine[$modelInfo['list']['model_name']];
 
-        $categoryInfo = $model->getCategoryInfo($modelInfo['list']['ml_category_id']);
-        $categoryName = $categoryInfo['mc_name'];
+        $categoryInfo = $model->getCategoryInfo($modelInfo['list']['category_id']);
+        $categoryName = $categoryInfo['name'];
 
         $this->viewCommon(
             $view,
-            $modelInfo['list']['ml_title'],
-            "<a href='/'>首页</a> / <a> {$modelCategoryName} </a> / <a href='/index/index/list-view/product/{$modelInfo['list']['ml_category_id']}'> {$categoryName} </a>"
+            $modelInfo['list']['title'],
+            "<a href='/'>首页</a> / <a> {$modelCategoryName} </a> / <a href='/index/index/list-view/product/{$modelInfo['list']['category_id']}'> {$categoryName} </a>"
         );
         $view->assign('info', $modelInfo);
 
@@ -89,20 +89,20 @@ class Index
         $categoryId = $paramInfo[1];
 
         $categoryInfo = $model->getCategoryInfo($categoryId);
-        $view->assign('category_name', $categoryInfo['mc_name']);
+        $view->assign('category_name', $categoryInfo['name']);
 
         $categoryDec = $modelName == 'product' ? '产品中心' : '新闻中心';
         $this->viewCommon(
             $view,
-            $categoryInfo['mc_name'] . ($modelName == 'product' ? '-产品中心' : '-新闻中心'),
-            "<a href='/'>首页</a> / <a>{$categoryDec}</a> / <a>{$categoryInfo['mc_name']}</a>'"
+            $categoryInfo['name'] . ($modelName == 'product' ? '-产品中心' : '-新闻中心'),
+            "<a href='/'>首页</a> / <a>{$categoryDec}</a> / <a>{$categoryInfo['name']}</a>'"
         );
 
         //总数量
         if ($categoryId) {
-            $where[] = "ml_category_id={$categoryId}";
+            $where[] = "category_id={$categoryId}";
         }
-        $pageInfo = $model->getList(array('where' => $where, 'col' => array('count(ml_id) as num')));
+        $pageInfo = $model->getList(array('where' => $where, 'col' => array('count(id) as num')));
         $pageTotalNum = $pageInfo[0]['num'];
         $page = get('page');
         $page = $page ? (int)$page : 1;
@@ -114,7 +114,7 @@ class Index
 
         $list = $model->getList(array(
             'where' => $where,
-            'order' => 'ml_id desc',
+            'order' => 'id desc',
             'limit' => $pageNum,
             'offset' => ($page - 1) * $pageNum
         ));
@@ -141,14 +141,14 @@ class Index
         //新闻
         $newsList = $model->getList(array(
             'limit' => 10,
-            'col' => 'ml_id,ml_add_time,ml_title',
-            'order' => 'ml_id desc',
-            'where' => "ml_model_name='news'"
+            'col' => 'id,add_time,title',
+            'order' => 'id desc',
+            'where' => "model_name='news'"
         ));
         $view->assign('news_list', $newsList);
         //产品
         $categoryProductList = $model->getCategoryList('product', 0);
-        $productCategoryList = array_column($categoryProductList, 'mc_name', 'mc_id');
+        $productCategoryList = array_column($categoryProductList, 'name', 'id');
         $index = 1;
         $productList = array();
         foreach ($productCategoryList as $categoryProductId => $categoryProductName) {
@@ -157,9 +157,9 @@ class Index
             $productList[$categoryProductId]['category_name'] = $categoryProductName;
             $productList[$categoryProductId]['sub'] = $model->getList(array(
                 'limit' => 5,
-                'col' => 'ml_id,ml_add_time,ml_title,ml_pic_path',
-                'order' => 'ml_id desc',
-                'where' => "ml_model_name='product' and ml_category_id={$categoryProductId}"
+                'col' => 'id,add_time,title,pic_path',
+                'order' => 'id desc',
+                'where' => "model_name='product' and category_id={$categoryProductId}"
             ));
         }
         //dd($productList);

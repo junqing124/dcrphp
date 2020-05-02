@@ -33,7 +33,7 @@ CREATE TABLE `zq_model_category` (
   `name` varchar(45) NOT NULL DEFAULT '',
   `parent_id` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `zq_model_category` (
 
 LOCK TABLES `zq_model_category` WRITE;
 /*!40000 ALTER TABLE `zq_model_category` DISABLE KEYS */;
-INSERT INTO `zq_model_category` VALUES (1,1583047244,1583398896,0,1,1,'news','系统说明',0),(3,1583047705,1583047705,0,1,1,'news','跨境电商',0),(8,1583048110,1583048110,0,1,1,'info','基础',0),(9,1583398310,1583398310,0,1,1,'product','模板中心',0),(10,1583398368,1583398368,0,1,1,'product','维护中心',0);
+INSERT INTO `zq_model_category` VALUES (1,1583047244,1588423946,0,1,1,'news','系统说明',0),(3,1583047705,1583047705,0,1,1,'news','跨境电商',0),(8,1583048110,1583048110,0,1,1,'info','基础',0),(9,1583398310,1583398310,0,1,1,'product','模板中心',0),(10,1583398368,1583398368,0,1,1,'product','维护中心',0);
 /*!40000 ALTER TABLE `zq_model_category` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-02 12:52:37
+-- Dump completed on 2020-05-02 23:59:45

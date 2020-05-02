@@ -20,7 +20,7 @@
             <table class="table table-border table-bordered table-hover table-bg table-sort">
                 {% for config in config_item_list %}
                 <tr>
-                    <th width="100" class="text-r">{{config.cli_form_text}}</th>
+                    <th width="100" class="text-r">{{config.form_text}}</th>
                     <th width="800" class="text-l">{{config.html|raw}}</th>
                 </tr>
                 {% endfor %}

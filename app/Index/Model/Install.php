@@ -125,8 +125,8 @@ class Install
 
             //添加role
             $info = array(
-                'ur_name' => '系统管理员',
-                'ur_note' => '系统最高权限',
+                'name' => '系统管理员',
+                'note' => '系统最高权限',
                 'zt_id' => session('ztId')
             );
 
@@ -135,13 +135,13 @@ class Install
 
             //初始化user
             $userInfo = array(
-                'u_username' => 'admin',
-                'u_password' => '123456',
-                'u_sex' => 1,
-                'u_mobile' => '15718126135',
-                'u_tel' => '',
-                'u_is_super' => 1,
-                'u_note' => '管理员',
+                'username' => 'admin',
+                'password' => '123456',
+                'sex' => 1,
+                'mobile' => '15718126135',
+                'tel' => '',
+                'is_super' => 1,
+                'note' => '管理员',
                 'zt_id' => 1,
                 'roles' => array(1),
             );
@@ -154,8 +154,8 @@ class Install
 
             //给管理员配置全权限
             $permissionList = $user->getPermissionList();
-            $permissionIds = implode(',', array_column($permissionList, 'up_id'));
-            DB::update('zq_user_role', array('zt_id' => 1, 'ur_permissions' => $permissionIds,), "ur_name='系统管理员'");
+            $permissionIds = implode(',', array_column($permissionList, 'id'));
+            DB::update('zq_user_role', array('zt_id' => 1, 'permissions' => $permissionIds,), "name='系统管理员'");
 
             //系统配置项
             $sqlList = array(

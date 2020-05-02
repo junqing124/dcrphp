@@ -135,8 +135,8 @@ class Tools
         $info = Db::select(
             array(
                 'table' => 'zq_config_table_edit_list',
-                'where' => array("ctel_id={$keyId}"),
-                'col' => 'ctel_key',
+                'where' => array("id={$keyId}"),
+                'col' => 'keyword',
                 'limit' => 1,
             )
         );
@@ -147,7 +147,7 @@ class Tools
 
         $assignData['page_title'] = '查看调用方式';
         $assignData['page_model'] = '系统配置';
-        $assignData['key'] = $info['ctel_key'];
+        $assignData['key'] = $info['keyword'];
 
         return Factory::renderPage('tools/show', $assignData);
     }
@@ -342,6 +342,8 @@ class Tools
         if ($searchCol) {
             $searchCol = Common::generalHtmlForItem($searchCol, $searchData);
         }
+        //dd($listCol);
+        //dd($config);
 
         //总数量
         $pageInfo = Db::select(
@@ -361,12 +363,17 @@ class Tools
         $clsPage = new Page($page, $pageTotal);
         $pageHtml = $clsPage->showPage();
 
+        $cols =  array_keys($listCol);
+        if( ! in_array('id',$cols) ){
+            $cols[] = 'id';
+        }
+
         $list = Db::select(
             array(
                 'table' => $config['table_name'],
                 'order' => $config['list_order'],
                 'where' => $whereArr,
-                'col' => implode(',', array_keys($listCol)) . ',' . $config['index_id'] . ' as id',
+                'col' => '`' . implode('`,`',$cols) . '`',
                 'offset' => ($page - 1) * $pageNum,
                 'limit' => $pageNum,
             )
@@ -401,7 +408,7 @@ class Tools
     public function tableEditGenerateItemAjax()
     {
         $clsTools = new MTools();
-        $id = get('ctel_id');
+        $id = get('id');
         $key = $clsTools->getTableEditKeyById($id);
         $config = $clsTools->getTableEditConfig($key);
         $tableName = $config['table_name'];

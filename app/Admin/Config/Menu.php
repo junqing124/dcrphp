@@ -73,26 +73,26 @@ $listConfig = $clsConfig->getConfigList(0, 'config');
 foreach ($listConfig as $infoConfig) {
     //dd($infoPlugin);
     $menu['config']['sub'][] = array(
-        'url' => '/admin/config/config-view/' . $infoConfig['cl_id'],
-        'title' => ' - ' . $infoConfig['cl_name'],
+        'url' => '/admin/config/config-view/' . $infoConfig['id'],
+        'title' => ' - ' . $infoConfig['name'],
     );
 }
 
 $clsConfig = new Config();
 $modelList = $clsConfig->getConfigList(0, 'model');
 foreach ($modelList as $modelInfo) {
-    $menuKey = 'model-' . $modelInfo['cl_key'];
+    $menuKey = 'model-' . $modelInfo['keyword'];
     $menu[$menuKey] = array();
     $menu[$menuKey]['icon'] = '&#xe620;';
-    $menu[$menuKey]['title'] = $modelInfo['cl_name'];
+    $menu[$menuKey]['title'] = $modelInfo['name'];
     $menu[$menuKey]['sub'] = array();
     $menu[$menuKey]['sub'][] = array(
-        'url' => '/admin/model/list-view/' . $modelInfo['cl_key'],
-        'title' => $modelInfo['cl_name'] . '列表'
+        'url' => '/admin/model/list-view/' . $modelInfo['keyword'],
+        'title' => $modelInfo['name'] . '列表'
     );
     $menu[$menuKey]['sub'][] = array(
-        'url' => '/admin/model/category-view/' . $modelInfo['cl_key'],
-        'title' => $modelInfo['cl_name'] . '分类'
+        'url' => '/admin/model/category-view/' . $modelInfo['keyword'],
+        'title' => $modelInfo['name'] . '分类'
     );
 }
 /*dd($menu);

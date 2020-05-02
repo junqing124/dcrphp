@@ -68,7 +68,7 @@ class Common
             $html = '';
 
             //默认或设置值
-            $default = $itemInfo['default'];
+            $default = $itemInfo['default_str'];
             if ('var.' == substr($default, 0, 4)) {
                 $var = substr($default, 4);
                 $default = $varList[$var];
@@ -79,7 +79,7 @@ class Common
             dd($itemInfo['db_field_name']);
             dd($default);
             dd($valueList);
-            dd($valueList['ctel_list_order']);
+            dd($valueList['list_order']);
             dd($inputValue);*/
             $additionStr = '';
             $type = '';
@@ -154,6 +154,7 @@ class Common
         $option = array()
     ) {
 
+        $tablePreName = '';
         if (!in_array($actionType, array('add', 'delete','edit'))) {
             throw new \Exception('当前action为' . $actionType . ',操作类型只允许insert update delete');
         }
@@ -165,8 +166,8 @@ class Common
             //验证
             $info = DB::select(array(
                 'table' => $tableName,
-                'col' => $tablePreName . '_id',
-                'where' => $tablePreName . "_id={$option['id']}",
+                'col' => $tablePreName . 'id',
+                'where' => $tablePreName . "id={$option['id']}",
                 'limit' => 1
             ));
             $info = current($info);
@@ -175,7 +176,7 @@ class Common
                 throw new \Exception('没有找到这个信息');
             }
             //逻辑
-            $result = Db::delete($tableName, $tablePreName . "_id={$option['id']}");
+            $result = Db::delete($tableName, $tablePreName . "id={$option['id']}");
         } else {
             //设置通用字段 update_time add_user_id zt_id
             if (!isset($dbInfo['update_time'])) {
@@ -195,7 +196,7 @@ class Common
 
             //处理
             if ('edit' == $actionType) {
-                $result = Db::update($tableName, $dbInfo, $tablePreName . "_id='{$option['id']}'");
+                $result = Db::update($tableName, $dbInfo, $tablePreName . "id='{$option['id']}'");
             } else {
                 if ('add' == $actionType) {
                     if (!isset($dbInfo['add_user_id'])) {

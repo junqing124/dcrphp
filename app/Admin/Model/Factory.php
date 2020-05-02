@@ -40,9 +40,9 @@ class Factory
             $menu = require_once ROOT_APP . DS . 'Admin' . DS . 'Config' . DS . 'Menu.php';
             //判断权限
             $user = new User();
-            $permissionList = $user->getPermissionList(array('col' => 'up_name'));
+            $permissionList = $user->getPermissionList(array('col' => 'name'));
             //系统的permission
-            $permissionList = array_column($permissionList, 'up_name');
+            $permissionList = array_column($permissionList, 'name');
             //用户拥有的permission
             $permissionUserList = $user->getUserPermissionList($userId);
             foreach ($menu as $menu_key => $menu_detail) {

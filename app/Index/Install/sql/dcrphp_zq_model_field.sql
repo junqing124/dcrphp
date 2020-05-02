@@ -29,11 +29,11 @@ CREATE TABLE `zq_model_field` (
   `is_approval` tinyint(1) NOT NULL DEFAULT '1',
   `add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
-  `key` varchar(45) NOT NULL DEFAULT '',
-  `value` varchar(200) NOT NULL DEFAULT '',
-  `ml_id` int(11) NOT NULL DEFAULT '0',
+  `mf_keyword` varchar(45) NOT NULL DEFAULT '',
+  `mf_value` varchar(200) NOT NULL DEFAULT '',
+  `mf_ml_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='模型字段里的值';
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='模型字段里的值';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,7 @@ CREATE TABLE `zq_model_field` (
 
 LOCK TABLES `zq_model_field` WRITE;
 /*!40000 ALTER TABLE `zq_model_field` DISABLE KEYS */;
+INSERT INTO `zq_model_field` VALUES (22,1588434501,1588434872,1,1,1,'material','22',11),(23,1588434501,1588434872,1,1,1,'color','12',11),(24,1588434501,1588434872,1,1,1,'from','浙江',11);
 /*!40000 ALTER TABLE `zq_model_field` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-02 12:52:36
+-- Dump completed on 2020-05-02 23:59:44

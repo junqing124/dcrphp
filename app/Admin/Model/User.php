@@ -53,17 +53,17 @@ class User
     public function check($username, $password)
     {
         //$passwordJm = Safe::_encrypt($password);
-        $sql = "select u_id,u_is_valid,zt_id from zq_user where u_username='{$username}' and u_password='{$password}' and zt_id>0";
+        $sql = "select id,is_valid,zt_id from zq_user where username='{$username}' and password='{$password}' and zt_id>0";
         //echo $sql;
         $info = DB::query($sql);
         $result = array();
         if ($info) {
             $info = current($info);
-            if ($info['u_is_valid']) {
+            if ($info['is_valid']) {
                 $result['ack'] = 1;
                 $result['data'] = array(
                     'ztId' => $info['zt_id'],
-                    'userId' => $info['u_id'],
+                    'userId' => $info['id'],
                     'username' => $username,
                     'password' => $password,
                 );
@@ -94,12 +94,12 @@ class User
 
         $userInfo = $this->getInfoById($userId);
         $ztId = $userInfo['zt_id'];
-        $username = $userInfo['u_username'];
-        $password = $userInfo['u_password'];
+        $username = $userInfo['username'];
+        $password = $userInfo['password'];
 
         $timeCur = time();
         $ip = getIp();
-        $sql = "update zq_user set u_login_ip='{$ip}',u_login_count=u_login_count+1,u_login_time={$timeCur} where zt_id={$ztId} and u_username='{$username}'";
+        $sql = "update zq_user set login_ip='{$ip}',login_count=login_count+1,login_time={$timeCur} where zt_id={$ztId} and username='{$username}'";
         DB::exec($sql);
 
         //记录权限
@@ -161,13 +161,13 @@ class User
         //如果有id就改id 没有就改当前用户的
         $where = '';
         if ($user_id) {
-            $where = "u_id={$user_id}";
+            $where = "id={$user_id}";
         } else {
-            $where = "u_id=" . session('userId');
+            $where = "id=" . session('userId');
         }
         $result = DB::update(
             'zq_user',
-            array('u_password' => Safe::_encrypt($passwordNew), 'update_time' => time(), 'zt_id' => session('ztId')),
+            array('password' => Safe::_encrypt($passwordNew), 'update_time' => time(), 'zt_id' => session('ztId')),
             $where
         );
         //dd($dbPre->getSql());
@@ -179,8 +179,8 @@ class User
      * 1.0.2开始废弃
      * @param array $permissionInfo 格式如下
      * $roleInfo = array(
-     * 'ur_name' => post('name'), //必填
-     * 'ur_note' => post('note'), //选填
+     * 'name' => post('name'), //必填
+     * 'note' => post('note'), //选填
      * );
      * @return array
      */
@@ -188,7 +188,7 @@ class User
     {
         //验证
         $stringValidator = v::stringType()->length(1, 50);
-        if (!$stringValidator->validate($permissionInfo['up_name'])) {
+        if (!$stringValidator->validate($permissionInfo['name'])) {
             $error[] = '角色长度不符合[1-50]';
         }
 
@@ -206,8 +206,8 @@ class User
     /**
      * @param array $roleInfo 格式如下
      * $roleInfo = array(
-     * 'ur_name' => post('name'), //必填
-     * 'ur_note' => post('note'), //选填
+     * 'name' => post('name'), //必填
+     * 'note' => post('note'), //选填
      * );
      * @return array
      */
@@ -215,7 +215,7 @@ class User
     {
         //验证
         $stringValidator = v::stringType()->length(1, 50);
-        if (!$stringValidator->validate($roleInfo['ur_name'])) {
+        if (!$stringValidator->validate($roleInfo['name'])) {
             $error[] = '角色长度不符合[1-50]';
         }
 
@@ -223,7 +223,7 @@ class User
         $roleInfo['zt_id'] = Session::_get('ztId');
         $roleInfo['add_time'] = time();
         $roleInfo['update_time'] = time();
-        $roleInfo['ur_permissions'] = '';
+        $roleInfo['permissions'] = '';
         $roleInfo['add_user_id'] = session('userId') ? session('userId') : 0;
         $result = DB::insert('zq_user_role', $roleInfo);
         //返回
@@ -235,12 +235,12 @@ class User
      * 添加编辑会员
      * @param array $userInfo 格式如下
      * $userInfo = array(
-     * 'u_username' => post('username'), 必填
-     * 'u_password' => post('password'), 必填
-     * 'u_sex' => post('sex'), 必填 1或2
-     * 'u_mobile' => post('mobile'),
-     * 'u_tel' => post('tel'),
-     * 'u_note' => post('note'),
+     * 'username' => post('username'), 必填
+     * 'password' => post('password'), 必填
+     * 'sex' => post('sex'), 必填 1或2
+     * 'mobile' => post('mobile'),
+     * 'tel' => post('tel'),
+     * 'note' => post('note'),
      * );
      * @param string $type 添加还是编辑
      * @return array
@@ -255,18 +255,18 @@ class User
         //dd($type);
         if ('add' == $type) {
             $stringValidator = v::stringType()->length($usernameLimit['min'], $usernameLimit['max']);
-            if (!$stringValidator->validate($userInfo['u_username'])) {
-                //dd($stringValidator->validate($dbInfo['u_username']));
+            if (!$stringValidator->validate($userInfo['username'])) {
+                //dd($stringValidator->validate($dbInfo['username']));
                 $error[] = '用户名长度不符合';
             }
         }
-        if ('add' == $type || ('edit' == $type && strlen($userInfo['u_password']))) {
+        if ('add' == $type || ('edit' == $type && strlen($userInfo['password']))) {
             $stringValidator = v::stringType()->length($passwordLimit['min'], $passwordLimit['max']);
-            if (!$stringValidator->validate($userInfo['u_password'])) {
+            if (!$stringValidator->validate($userInfo['password'])) {
                 $error[] = '密码长度不符合';
             }
         }
-        if (!v::in([1, 2])->validate($userInfo['u_sex'])) {
+        if (!v::in([1, 2])->validate($userInfo['sex'])) {
             $error[] = '性别选择有问题';
         }
         $ztId = $userInfo['zt_id'] ? $userInfo['zt_id'] : Session::_get('ztId');
@@ -274,7 +274,7 @@ class User
             $queryFactory = new QueryFactory(config('database.mysql.main.driver'));
             //判断用户名有没有
             $select = $queryFactory->newSelect();
-            $select->from('zq_user')->cols(array('u_id'))->where("zt_id={$ztId} and u_username='{$userInfo['u_username']}'")->limit(1);
+            $select->from('zq_user')->cols(array('id'))->where("zt_id={$ztId} and username='{$userInfo['username']}'")->limit(1);
             $sql = $select->getStatement();
             $info = DB::query($sql);
 
@@ -295,15 +295,15 @@ class User
 
         if ('add' == $type) {
             $userInfo['add_time'] = time();
-            $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
+            $userInfo['password'] = Safe::_encrypt($userInfo['password']);
             $userInfo['add_user_id'] = session('userId') ? session('userId') : 0;
         } elseif ('edit' == $type) {
-            if ($userInfo['u_password']) {
-                $userInfo['u_password'] = Safe::_encrypt($userInfo['u_password']);
+            if ($userInfo['password']) {
+                $userInfo['password'] = Safe::_encrypt($userInfo['password']);
             } else {
-                unset($userInfo['u_password']);
+                unset($userInfo['password']);
             }
-            $userInfo['u_edit_user_id'] = session('userId');
+            $userInfo['edit_user_id'] = session('userId');
         }
         /*dd($type);
         dd($userInfo);
@@ -316,13 +316,13 @@ class User
             $result = DB::insert('zq_user', $userInfo);
             $userId = $result;
         } elseif ('edit' == $type) {
-            $userId = $userInfo['u_id'];
-            unset($userInfo['u_id']);
-            unset($userInfo['u_username']);
+            $userId = $userInfo['id'];
+            unset($userInfo['id']);
+            unset($userInfo['username']);
             //清空角色
-            DB::delete('zq_user_role_config', "urc_u_id={$userId} and zt_id={$userInfo['zt_id']}");
+            DB::delete('zq_user_role_config', "u_id={$userId} and zt_id={$userInfo['zt_id']}");
             //dd($userInfo);
-            $result = DB::update('zq_user', $userInfo, "u_id={$userId}");
+            $result = DB::update('zq_user', $userInfo, "id={$userId}");
         }
 
         //开始更新用户角色
@@ -335,7 +335,7 @@ class User
                     'update_time' => time(),
                     'add_user_id' => session('userId') ? session('userId') : 0,
                     'zt_id' => $userInfo['zt_id'],
-                    'urc_u_id' => $userId,
+                    'u_id' => $userId,
                     'ur_id' => $roleKey,
                 );
                 //dd($roleDbInfo);
@@ -360,7 +360,7 @@ class User
     public function getInfo($username)
     {
         $option['table'] = 'zq_user';
-        $option['where'] = "u_username='{$username}'";
+        $option['where'] = "username='{$username}'";
         $list = DB::select($option);
         $list = current($list);
         return $list;
@@ -369,7 +369,7 @@ class User
     public function getInfoById($id)
     {
         $option['table'] = 'zq_user';
-        $option['where'] = "u_id='{$id}'";
+        $option['where'] = "id='{$id}'";
         $list = DB::select($option);
         $list = current($list);
         return $list;
@@ -394,7 +394,8 @@ class User
     {
         $option['table'] = 'zq_user_role_config';
         if ($userId) {
-            $option['where'] = "urc_u_id={$userId}";
+            $userId = intval($userId);
+            $option['where'] = "u_id={$userId}";
         }
         $list = DB::select($option);
         return $list;
@@ -404,7 +405,7 @@ class User
     public function getPermissionList($option = array())
     {
         $option['table'] = 'zq_user_permission';
-        $option['order'] = 'up_name asc';
+        $option['order'] = 'name asc';
         $list = DB::select($option);
         return $list;
     }
@@ -419,24 +420,24 @@ class User
         $userInfo = $this->getInfoById($userId);
         $permissionNameList = array();
         //超级用户有全部权限
-        if ($userInfo['u_is_super']) {
-            $permissionNameList = $this->getPermissionList(array('col' => 'up_name',));
-            $permissionNameList = array_column($permissionNameList, 'up_name');
+        if ($userInfo['is_super']) {
+            $permissionNameList = $this->getPermissionList(array('col' => 'name',));
+            $permissionNameList = array_column($permissionNameList, 'name');
         } else {
             //先得出角色名
             $roleList = $this->getRoleConfigList($userId);
             $permissionNameList = array();
             if ($roleList) {
-                $roleIds = implode(',', array_column($roleList, 'ur_id', 'ur_id'));
+                $roleIds = implode(',', array_column($roleList, 'id', 'id'));
 
-                $permissionList = $this->getRoleList(array('where' => "ur_id in({$roleIds})"));
+                $permissionList = $this->getRoleList(array('where' => "id in({$roleIds})"));
                 if ($permissionList) {
-                    $permissionIds = implode(',', array_column($permissionList, 'ur_permissions', 'ur_permissions'));
+                    $permissionIds = implode(',', array_column($permissionList, 'permissions', 'permissions'));
                     $permissionNameList = $this->getPermissionList(array(
-                        'col' => 'up_name',
-                        'where' => "up_id in({$permissionIds})"
+                        'col' => 'name',
+                        'where' => "id in({$permissionIds})"
                     ));
-                    $permissionNameList = array_column($permissionNameList, 'up_name');
+                    $permissionNameList = array_column($permissionNameList, 'name');
                 }
             }
         }
@@ -451,7 +452,7 @@ class User
     public function startOrStop($userId, $type = 'stop')
     {
         //验证
-        $info = DB::select(array('table' => 'zq_user', 'col' => 'u_id', 'where' => "u_id={$userId}", 'limit' => 1));
+        $info = DB::select(array('table' => 'zq_user', 'col' => 'id', 'where' => "id={$userId}", 'limit' => 1));
         $info = current($info);
 
         if (!$info) {
@@ -459,11 +460,11 @@ class User
         }
         //逻辑
         if ('start' == $type) {
-            $dbInfo = array('u_is_valid' => 1);
+            $dbInfo = array('is_valid' => 1);
         } else {
-            $dbInfo = array('u_is_valid' => 0);
+            $dbInfo = array('is_valid' => 0);
         }
-        $result = DB::update('zq_user', $dbInfo, "u_id={$userId}");
+        $result = DB::update('zq_user', $dbInfo, "id={$userId}");
         //dd($dbPre->getSql());
         //返回
 
@@ -473,14 +474,14 @@ class User
     public function delete($userId)
     {
         //验证
-        $info = DB::select(array('table' => 'zq_user', 'col' => 'u_id', 'where' => "u_id={$userId}", 'limit' => 1));
+        $info = DB::select(array('table' => 'zq_user', 'col' => 'id', 'where' => "id={$userId}", 'limit' => 1));
         $info = current($info);
 
         if (!$info) {
             return array('ack' => 0, 'msg' => '没有找到这个用户');
         }
         //逻辑
-        $result = DB::delete('zq_user', "u_id={$userId}");
+        $result = DB::delete('zq_user', "id={$userId}");
         //dd($dbPre->getSql());
         //返回
 
@@ -492,8 +493,8 @@ class User
         //验证
         $info = DB::select(array(
             'table' => 'zq_user_role',
-            'col' => 'ur_id',
-            'where' => "ur_id={$roleId}",
+            'col' => 'id',
+            'where' => "id={$roleId}",
             'limit' => 1
         ));
         $info = current($info);
@@ -502,7 +503,7 @@ class User
             return array('ack' => 0, 'msg' => '没有找到这个信息');
         }
         //逻辑
-        $result = DB::delete('zq_user_role', "ur_id={$roleId}");
+        $result = DB::delete('zq_user_role', "id={$roleId}");
         //dd($dbPre->getSql());
         //返回
 
@@ -519,8 +520,8 @@ class User
         //验证
         $info = DB::select(array(
             'table' => 'zq_user_permission',
-            'col' => 'up_id',
-            'where' => "up_id={$permissionId}",
+            'col' => 'id',
+            'where' => "id={$permissionId}",
             'limit' => 1
         ));
         $info = current($info);
@@ -529,7 +530,7 @@ class User
             return array('ack' => 0, 'msg' => '没有找到这个信息');
         }
         //逻辑
-        $result = DB::delete('zq_user_permission', "up_id={$permissionId}");
+        $result = DB::delete('zq_user_permission', "id={$permissionId}");
         //dd($dbPre->getSql());
         //返回
 
@@ -539,14 +540,14 @@ class User
     public function roleEditPermission($data)
     {
         $roleId = $data['id'];
-        if (!$data['up_id']) {
+        if (!$data['id']) {
             throw new \Exception('请选择权限');
         }
-        $permissionIds = implode(',', $data['up_id']);
+        $permissionIds = implode(',', $data['id']);
         $dbInfo = array(
-            'ur_permissions' => $permissionIds,
+            'permissions' => $permissionIds,
         );
-        $result = DB::update('zq_user_role', $dbInfo, "ur_id={$roleId}");
+        $result = DB::update('zq_user_role', $dbInfo, "id={$roleId}");
 
         return Admin::commonReturn($result);
     }
@@ -600,15 +601,15 @@ class User
         foreach ($permissionList as $permissionName) {
             $dbInfo = array(
                 'update_time' => time(),
-                'up_name' => $permissionName,
-                'up_version' => $version,
+                'name' => $permissionName,
+                'version' => $version,
                 'add_user_id'=> 0,
                 'zt_id' => session('ztId'),
             );
             $hasInfo = DB::select(array(
                 'table' => 'zq_user_permission',
-                'col' => 'up_id',
-                'where' => "up_name='{$permissionName}'"
+                'col' => 'id',
+                'where' => "name='{$permissionName}'"
             ));
             //判断有没有
             if (!$hasInfo) {
@@ -616,11 +617,11 @@ class User
                 $result = DB::insert('zq_user_permission', $dbInfo);
             } else {
                 $hasInfo = current($hasInfo);
-                $result = DB::update('zq_user_permission', $dbInfo, "up_id={$hasInfo['up_id']}");
+                $result = DB::update('zq_user_permission', $dbInfo, "id={$hasInfo['id']}");
             }
         }
         //非本版本的删除 这样做的原因是删除那些已经删除的权限
-        DB::delete('zq_user_permission', "up_version!='{$version}'");
+        DB::delete('zq_user_permission', "version!='{$version}'");
 
         return Admin::commonReturn($result);
     }

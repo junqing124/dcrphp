@@ -32,13 +32,13 @@ class User
         //用户列表
         $user = new MUser();
 
-        $username = get('u_username');
+        $username = get('username');
         if ($username) {
-            $where['username'] = "u_username like '{$username}%'";
-            $assignData['u_username'] = $username;
+            $where['username'] = "username like '{$username}%'";
+            $assignData['username'] = $username;
         }
         //总数量
-        $pageInfo = $user->getList(array('where' => $where, 'col' => array('count(u_id) as num')));
+        $pageInfo = $user->getList(array('where' => $where, 'col' => array('count(id) as num')));
         $pageTotalNum = $pageInfo[0]['num'];
         $page = get('page');
         $page = $page ? (int)$page : 1;
@@ -50,7 +50,7 @@ class User
 
         $list = $user->getList(array(
             'where' => $where,
-            'order' => 'u_id desc',
+            'order' => 'id desc',
             'limit' => $pageNum,
             'offset' => ($page - 1) * $pageNum
         ));
@@ -85,8 +85,8 @@ class User
     public function addRoleAjax()
     {
         $info = array(
-            'ur_name' => post('name'),
-            'ur_note' => post('note')
+            'name' => post('name'),
+            'note' => post('note')
         );
 
         $user = new MUser();
@@ -101,7 +101,7 @@ class User
     public function addPermissionAjax()
     {
         $info = array(
-            'up_name' => post('name'),
+            'name' => post('name'),
         );
 
         $user = new MUser();
@@ -129,22 +129,22 @@ class User
         //如果是编辑用户 则要把用户信息传过去
         $userId = get('user_id');
         if ($userId) {
-            $userInfo = $user->getList(array('col' => '*', 'where' => "u_id=" . $userId));
+            $userInfo = $user->getList(array('col' => '*', 'where' => "id=" . $userId));
             $userInfo = current($userInfo);
             $assignData['user_info'] = $userInfo;
             $assignData['user_id'] = $userId;
+
+            //已经配置好的角色列表
+            $roleList = $user->getRoleConfigList($userId);
+            $roleKeys = array_keys(array_column($roleList, 'ur_id', 'ur_id'));
+            $assignData['role_keys'] = $roleKeys;
         }
         //角色列表
-        $roleConfigList = $user->getRoleList(array('col' => 'ur_name,ur_id'));
+        $roleConfigList = $user->getRoleList(array('col' => 'name,id'));
 
         $assignData['page_title'] = '密码更换';
         $assignData['page_model'] = $this->model_name;
         $assignData['role_config_list'] = $roleConfigList;
-
-        //已经配置好的角色列表
-        $roleList = $user->getRoleConfigList($userId);
-        $roleKeys = array_keys(array_column($roleList, 'ur_id', 'ur_id'));
-        $assignData['role_keys'] = $roleKeys;
 
         return Factory::renderPage('user/add-or-edit', $assignData);
     }
@@ -155,7 +155,7 @@ class User
         $user_id = get('user_id');
         $assignData = array();
         if ($user_id) {
-            $userInfo = $user->getList(array('col' => '*', 'where' => "u_id=" . $user_id));
+            $userInfo = $user->getList(array('col' => '*', 'where' => "id=" . $user_id));
             $userInfo = current($userInfo);
             $assignData['user_info'] = $userInfo;
             $assignData['user_id'] = $user_id;
@@ -172,20 +172,20 @@ class User
     public function addEditAjax()
     {
         $userInfo = array(
-            'u_username' => post('username'),
-            'u_password' => post('password'),
-            'u_sex' => post('sex'),
-            'u_mobile' => post('mobile'),
-            'u_tel' => post('tel'),
-            'u_note' => post('note'),
-            'u_is_super' => post('is_super'),
+            'username' => post('username'),
+            'password' => post('password'),
+            'sex' => post('sex'),
+            'mobile' => post('mobile'),
+            'tel' => post('tel'),
+            'note' => post('note'),
+            'is_super' => post('is_super'),
             'roles' => post('roles'),
         );
         //返回
         $user_id = post('user_id');
         if ($user_id) {
             $type = 'edit';
-            $userInfo['u_id'] = $user_id;
+            $userInfo['id'] = $user_id;
         } else {
             $type = 'add';
         }
@@ -228,7 +228,7 @@ class User
     public function passwordChangeView()
     {
         $user = new MUser();
-        $userInfo = $user->getList(array('col' => 'u_id,u_username', 'where' => "u_id=" . get('user_id')));
+        $userInfo = $user->getList(array('col' => 'id,username', 'where' => "id=" . get('user_id')));
         $userInfo = current($userInfo);
         $assignData = array();
         $assignData['user_info'] = $userInfo;
@@ -308,8 +308,8 @@ class User
         //权限列表
         $list = $user->getPermissionList(array());
         //配置好的权限列表
-        $roleConfig = $user->getRoleList(array('where' => 'ur_id=' . $roleId));
-        $rolePermissionIds = explode(',', $roleConfig[0]['ur_permissions']);
+        $roleConfig = $user->getRoleList(array('where' => 'id=' . $roleId));
+        $rolePermissionIds = explode(',', $roleConfig[0]['permissions']);
         $assignData = array();
         $assignData['permissions'] = $list;
         $assignData['role_permission_ids'] = $rolePermissionIds;

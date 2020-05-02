@@ -12,16 +12,16 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户名：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                {{user_info.u_username}}
+                {{user_info.username}}
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
-                {% if 1 == user_info.u_sex %}
+                {% if 1 == user_info.sex %}
                 男
                 {% endif %}
-                {% if 2 == user_info.u_sex %}
+                {% if 2 == user_info.sex %}
                 女
                 {% endif %}
                 </div>
@@ -30,19 +30,19 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                {{user_info.u_mobile}}
+                {{user_info.mobile}}
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">电话：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                {{user_info.u_tel}}
+                {{user_info.tel}}
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">备注：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                {{user_info.u_note}}
+                {{user_info.note}}
             </div>
         </div>
     </form>

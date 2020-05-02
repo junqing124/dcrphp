@@ -10,7 +10,7 @@
     <form class="form form-horizontal" method="post" id="form" enctype="multipart/form-data" action="/admin/model/edit-ajax">
         <input type="hidden" name="action" value="{{action}}">
         <input type="hidden" name="list_model_name" value="{{model_name}}">
-        <input type="hidden" name="id" value="{{model_info.list.ml_id}}">
+        <input type="hidden" name="id" value="{{model_info.other.id}}">
         <div id="tab-system" class="HuiTab">
             <div class="tabBar cl">
                 <span>基础信息</span>
@@ -54,7 +54,7 @@
                 <div class="Huialert Huialert-info"><i class="Hui-iconfont">&#xe6a6;</i>这里用来填写[配置中心->模型配置]里各模型里的附加字段。如果你感觉现在的字段不够，请在配置页面添加新字段</div>
                 {% for field in field_list %}
                 <div class="row cl">
-                    <label class="form-label col-xs-4 col-sm-2">{{field.cli_form_text}}：</label>
+                    <label class="form-label col-xs-4 col-sm-2">{{field.form_text}}：</label>
                     <div class="formControls col-xs-8 col-sm-9">
                         {{field.html|raw}}
                         <!--<input type="text" class="input-text" value="{{field.mf_value}}" placeholder="" name="field_{{field.cm_key}}"> -->

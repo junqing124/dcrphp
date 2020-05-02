@@ -15,7 +15,7 @@
                         {% if user_id is defined %}
                         readonly style="border:none;"
                         {% endif %}
-                        value="{{user_info.u_username}}" type="text" class="input-text" placeholder="" id="username" name="username">
+                        value="{{user_info.username}}" type="text" class="input-text" placeholder="" id="username" name="username">
             </div>
         </div>
         <div class="row cl">
@@ -43,14 +43,14 @@
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="radio-box">
                     <input name="sex" type="radio" id="sex-1" value="1"
-                           {% if 1 == user_info.u_sex %}
+                           {% if 1 == user_info.sex %}
                            checked
                            {% endif %}>
                     <label for="sex-1">男</label>
                 </div>
                 <div class="radio-box">
                     <input type="radio" id="sex-2" name="sex" value="2"
-                           {% if 2 == user_info.u_sex %}
+                           {% if 2 == user_info.sex %}
                            checked
                            {% endif %}>
                     <label for="sex-2">女</label>
@@ -60,20 +60,20 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="{{user_info.u_mobile}}" placeholder="" id="mobile" name="mobile">
+                <input type="text" class="input-text" value="{{user_info.mobile}}" placeholder="" id="mobile" name="mobile">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">电话：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="tel" id="tel" value="{{user_info.u_tel}}">
+                <input type="text" class="input-text" name="tel" id="tel" value="{{user_info.tel}}">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">备注：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <textarea name="note" cols="" rows="" class="textarea" placeholder="说点什么...最少输入10个字符"
-                          onKeyUp="$.Huitextarealength(this,100)">{{user_info.u_note}}</textarea>
+                          onKeyUp="$.Huitextarealength(this,100)">{{user_info.note}}</textarea>
                 <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
             </div>
         </div>
@@ -81,7 +81,7 @@
             <label class="form-label col-xs-4 col-sm-3">超级用户：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <label><input
-                        {% if  user_info.u_is_super %} checked {% endif %}
+                        {% if  user_info.is_super %} checked {% endif %}
                         value="1" name="is_super" type="checkbox" class="input-input">拥有全部权限</label>
             </div>
         </div>
@@ -90,8 +90,8 @@
             <div class="formControls col-xs-8 col-sm-9">
                 {% for role_config in role_config_list %}
                 <label><input
-                        {% if  role_config.ur_id in role_keys %} checked {% endif %}
-                        value="{{role_config.ur_id}}" name="roles[]" type="checkbox" class="input-input">{{role_config.ur_name}}</label>
+                        {% if  role_config.id in role_keys %} checked {% endif %}
+                        value="{{role_config.id}}" name="roles[]" type="checkbox" class="input-input">{{role_config.name}}</label>
                 {% endfor %}
             </div>
         </div>

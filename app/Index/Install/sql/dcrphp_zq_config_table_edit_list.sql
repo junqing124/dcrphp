@@ -29,7 +29,7 @@ CREATE TABLE `zq_config_table_edit_list` (
   `is_approval` tinyint(1) NOT NULL DEFAULT '1',
   `add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
-  `key` varchar(45) NOT NULL,
+  `keyword` varchar(45) NOT NULL,
   `page_title` varchar(45) NOT NULL,
   `page_model` varchar(45) NOT NULL,
   `table_name` varchar(45) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE `zq_config_table_edit_list` (
   `edit_page_addition_html` varchar(2000) NOT NULL DEFAULT '' COMMENT '编辑页面form里额外的html',
   `button_area_addition_html` varchar(2000) NOT NULL DEFAULT '' COMMENT '列表按钮区额外html',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uidx_key` (`key`)
+  UNIQUE KEY `uidx_key` (`keyword`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='单表配置列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -60,7 +60,7 @@ CREATE TABLE `zq_config_table_edit_list` (
 
 LOCK TABLES `zq_config_table_edit_list` WRITE;
 /*!40000 ALTER TABLE `zq_config_table_edit_list` DISABLE KEYS */;
-INSERT INTO `zq_config_table_edit_list` VALUES (1,1588130186,1588263226,1,1,1,'zq_config_table_edit_list','单表管理列表(勿删)','系统配置','zq_config_table_edit_list','ctel_id','ctel','是','是','是','ctel_id desc','','95%','95%','<a title=\"字段\" href=\"javascript:;\" onclick=\"open_iframe(\'配置字段\',\'/admin/tools/table-edit-list-view/zq_config_table_edit_item?ctei_ctel_id={db.index_id}&list_where=ctei_ctel_id={db.index_id}\',\'95%\',\'95%\')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont Hui-iconfont-menu\"></i></a>\n<a title=\"信息\" href=\"javascript:;\" onclick=\"open_iframe(\'调用信息\',\'/admin/tools/table-edit-info-view/{db.index_id}\',\'500px\',\'300px\')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont Hui-iconfont-tishi\"></i></a>','','','','','',''),(2,1588161750,1588345103,1,1,1,'zq_config_table_edit_item','单表管理字段(勿删)','系统配置','zq_config_table_edit_item','ctei_id','ctei','是','是','是','ctei_id desc','','95%','95%','','list_where','<input type=\"hidden\" name=\"ctei_ctel_id\" value=\"{get.ctei_ctel_id}\">','','?ctei_ctel_id={get.ctei_ctel_id}','',''),(3,1588262871,1588264322,1,1,1,'zq_user_mobile','会员手机号(案例)','用户','zq_user','u_id','u','','','是','','','600px','250px','','','','','','','');
+INSERT INTO `zq_config_table_edit_list` VALUES (1,1588130186,1588435099,1,1,1,'zq_config_table_edit_list','单表管理列表(勿删)','系统配置','zq_config_table_edit_list','id','','是','是','是','id desc','','95%','95%','<a title=\"字段\" href=\"javascript:;\" onclick=\"open_iframe(\'配置字段\',\'/admin/tools/table-edit-list-view/zq_config_table_edit_item?ctel_id={db.index_id}&list_where=ctel_id={db.index_id}\',\'95%\',\'95%\')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont Hui-iconfont-menu\"></i></a>','','','','','',''),(2,1588161750,1588345103,1,1,1,'zq_config_table_edit_item','单表管理字段(勿删)','系统配置','zq_config_table_edit_item','id','','是','是','是','id desc','','95%','95%','','list_where','<input type=\"hidden\" name=\"ctei_ctel_id\" value=\"{get.ctei_ctel_id}\">','','?ctei_ctel_id={get.ctei_ctel_id}','',''),(3,1588262871,1588435107,1,1,1,'zq_user_mobile','会员手机号(案例)','用户','zq_user','id','','','','是','','','600px','250px','','','','','','','');
 /*!40000 ALTER TABLE `zq_config_table_edit_list` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -73,4 +73,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-02 12:52:37
+-- Dump completed on 2020-05-02 23:59:46

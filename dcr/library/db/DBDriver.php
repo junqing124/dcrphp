@@ -183,8 +183,12 @@ abstract class DBDriver
             ->where($where)
             ->cols($info)
             ->where("zt_id={$ztId}");
-        $dbPre = $this->prepare($update->getStatement());
-        $result = $dbPre->execute($update->getBindValues());
+        //获取sql
+        $sql = $update->getStatement();
+        $bindList = $update->getBindValues();
+        $this->getRealSql($sql, $bindList);
+        $dbPre = $this->prepare($sql);
+        $result = $dbPre->execute($bindList);
         $this->recordError($dbPre);
         return $result;
     }
@@ -204,8 +208,13 @@ abstract class DBDriver
             ->from($table)
             ->where($where)
             ->where("zt_id={$ztId}");
-        $dbPre = $this->prepare($delete->getStatement());
-        $result = $dbPre->execute($delete->getBindValues());
+
+        $sql = $delete->getStatement();
+        $bindList = $delete->getBindValues();
+        $this->getRealSql($sql, $bindList);
+        $dbPre = $this->prepare($sql);
+        $result = $dbPre->execute($bindList);
+
         $this->recordError($dbPre);
         return $result;
     }
@@ -221,13 +230,18 @@ abstract class DBDriver
         $queryFactory = new QueryFactory(config('database.type'));
         $insert = $queryFactory->newInsert();
         $insert->into($table)->cols(array_keys($info))->bindValues($info);
-        $dbPre = $this->prepare($insert->getStatement());
-        $insertSql = $insert->getBindValues();
-        if ($dbPre->execute($insertSql)) {
+
+        $sql = $insert->getStatement();
+        $bindList = $insert->getBindValues();
+        $this->getRealSql($sql, $bindList); //解析出sql
+
+        $dbPre = $this->prepare($sql);
+        if ($dbPre->execute($bindList)) {
             $result = $this->pdo->lastInsertId();
         } else {
             $result = 0;
         }
+
         $this->recordError($dbPre);
 
         return $result;
@@ -241,6 +255,21 @@ abstract class DBDriver
     public function getLastSql()
     {
         return $this->lastSql;
+    }
+
+    /**
+     * 通过绑定值，解析真正的sql出来 做为分析
+     * @param $sql
+     * @param $bindList
+     * @return bool
+     */
+    private function getRealSql($sql, $bindList)
+    {
+        foreach ($bindList as $key => $value) {
+            $sql = str_replace(':' . $key, $value, $sql);
+        }
+        $this->lastSql = $sql;
+        return true;
     }
 
     private function recordError($pdo)

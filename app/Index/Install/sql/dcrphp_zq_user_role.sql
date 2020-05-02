@@ -29,7 +29,7 @@ CREATE TABLE `zq_user_role` (
   `add_time` int(11) NOT NULL DEFAULT '0',
   `update_time` int(11) NOT NULL DEFAULT '0',
   `add_user_id` smallint(6) NOT NULL DEFAULT '0',
-  `ur_note` varchar(45) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `note` varchar(45) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `zt_id` tinyint(1) NOT NULL DEFAULT '1',
   `is_approval` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-02 12:52:37
+-- Dump completed on 2020-05-02 23:59:45

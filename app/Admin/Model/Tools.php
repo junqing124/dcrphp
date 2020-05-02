@@ -39,16 +39,16 @@ class Tools
         $info = Db::select(
             array(
                 'table' => 'zq_config_table_edit_list',
-                'where' => "ctel_id='{$id}'",
+                'where' => "id='{$id}'",
                 'limit' => 1,
-                'col'=>'ctel_key',
+                'col' => 'keyword',
             )
         );
         if (empty($info)) {
             throw new \Exception('没有找到本配置');
         }
         $info = current($info);
-        return $info['ctel_key'];
+        return $info['keyword'];
     }
 
     /**
@@ -65,7 +65,7 @@ class Tools
         $info = Db::select(
             array(
                 'table' => 'zq_config_table_edit_list',
-                'where' => "ctel_key='{$key}'",
+                'where' => "keyword='{$key}'",
                 'limit' => 1,
             )
         );
@@ -76,7 +76,7 @@ class Tools
         $config = array();
         $keys = array_keys($info);
         foreach ($keys as $key) {
-            $keyNew = str_replace('ctel_', '', $key);
+            $keyNew = str_replace('', '', $key);
             $config[$keyNew] = $info[$key];
         }
         //得出字段配置
@@ -84,21 +84,13 @@ class Tools
         $fieldList = Db::select(
             array(
                 'table' => 'zq_config_table_edit_item',
-                'where' => "ctei_ctel_id={$info['ctel_id']}",
+                'where' => "ctel_id={$info['id']}",
             )
         );
-        $fieldListFinal = array();
-        foreach($fieldList as $fieldInfo){
-            $fieldKeys = array_keys($fieldInfo);
-            $fieldInfoFinal = array();
-            foreach ($fieldKeys as $fieldKey) {
-                $fieldKeyNew = str_replace('ctei_', '', $fieldKey);
-                $fieldInfoFinal[$fieldKeyNew] = $fieldInfo[$fieldKey];
-            }
+        $fieldKeys = array_column($fieldList, 'db_field_name');
+        $fieldList = array_combine($fieldKeys, $fieldList);
 
-            $fieldListFinal[$fieldInfo[ctei_db_field_name]] = $fieldInfoFinal;
-        }
-        $config['col'] = $fieldListFinal;
+        $config['col'] = $fieldList;
 
         return $config;
     }

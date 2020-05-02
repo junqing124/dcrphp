@@ -26,7 +26,7 @@ class Config
         $config = new MConfig();
         $list = $config->getConfigList(0, $clType);
         $assignData['config_list'] = $list;
-        $assignData['cl_type'] = $clType;
+        $assignData['model'] = $clType;
 
         return Factory::renderPage('config/config-list', $assignData);
     }
@@ -52,7 +52,7 @@ class Config
 
         $assignData['config_list_item'] = $list;
         $assignData['list_id'] = $listId;
-        $assignData['config_name'] = $listInfo['cl_name'];
+        $assignData['config_name'] = $listInfo['name'];
 
         return Factory::renderPage('config/config-list-item', $assignData);
     }
@@ -78,11 +78,6 @@ class Config
             $config = new MConfig();
             $itemInfo = $config->getConfigListItem($id);
             $itemInfo = current($itemInfo);
-            $itemInfo['form_text'] = $itemInfo['cli_form_text'];
-            $itemInfo['data_type'] = $itemInfo['cli_data_type'];
-            $itemInfo['db_field_name'] = $itemInfo['cli_db_field_name'];
-            $itemInfo['order'] = $itemInfo['cli_order'];
-            $itemInfo['default'] = $itemInfo['cli_default'];
             $assignData['item_info'] = $itemInfo;
         }
 
@@ -112,12 +107,12 @@ class Config
         $configItemList = $clsConfig->getConfigListItemByListId($configListId);
         //得出配置值
         $configValueList = $clsConfig->getConfigValueList($configListId);
-        $configValueList = array_column($configValueList, 'c_value', 'c_db_field_name');
+        $configValueList = array_column($configValueList, 'value', 'db_field_name');
         //格式化
         foreach ($configItemList as $key => $configItemInfo) {
-            $configItemList[$key]['data_type'] = $configItemInfo['cli_data_type'];
-            $configItemList[$key]['db_field_name'] = $configItemInfo['cli_db_field_name'];
-            $configItemList[$key]['default'] = $configItemInfo['cli_default'];
+            $configItemList[$key]['data_type'] = $configItemInfo['data_type'];
+            $configItemList[$key]['db_field_name'] = $configItemInfo['db_field_name'];
+            $configItemList[$key]['default'] = $configItemInfo['default'];
         }
         $configItemList = Common::generalHtmlForItem($configItemList, $configValueList, get_defined_vars());
 
@@ -193,7 +188,7 @@ class Config
     public function configListEditAjax()
     {
         $config = new MConfig();
-        $result = $config->configListEdit(post('config_list_name'), post('type'), post('id'), post('cl_type'), post('config_list_key'));
+        $result = $config->configListEdit(post('config_list_name'), post('type'), post('id'), post('model'), post('config_list_key'));
         return Factory::renderJson($result);
     }
 

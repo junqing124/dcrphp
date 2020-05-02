@@ -29,7 +29,7 @@ class Model
         //开始搜索
         $title = get('title');
         if ($title) {
-            $where[] = "ml_title like '%{$title}%'";
+            $where[] = "title like '%{$title}%'";
             $assignData['title'] = $title;
         }
         $categoryId = get('category_id');
@@ -44,7 +44,7 @@ class Model
             $where[] = "add_time>{$timeStart} and update_time<{$timeEnd}";
         }
 
-        $join = array('type' => 'left', 'table' => 'zq_model_category', 'condition' => 'mc_id=ml_category_id');
+        $join = array('type' => 'left', 'table' => 'zq_model_category', 'condition' => 'zq_model_category.id=ml_category_id');
         $model = new MModel();
 
         $assignData['category_select_html'] = $model->getCategorySelectHtml(
@@ -52,7 +52,7 @@ class Model
             array('subEnabled' => 1, 'selectId' => $categoryId, 'selectName' => 'category_id')
         );
 
-        $pageInfo = $model->getList(array('where' => $where, 'join' => $join, 'col' => array('count(ml_id) as num')));
+        $pageInfo = $model->getList(array('where' => $where, 'join' => $join, 'col' => array('count(zq_model_list.id) as num')));
         $pageTotalNum = $pageInfo[0]['num'];
         $page = get('page');
         $page = $page ? (int)$page : 1;
@@ -64,9 +64,9 @@ class Model
 
         $list = $model->getList(array(
             'where' => $where,
-            'col' => 'ml_id,ml_pic_path,ml_title,mc_name',
+            'col' => 'zq_model_list.id,ml_pic_path,ml_title,name',
             'join' => $join,
-            'order' => 'ml_id desc',
+            'order' => 'id desc',
             'limit' => $pageNum,
             'offset' => ($page - 1) * $pageNum
         ));
@@ -108,7 +108,7 @@ class Model
             );
             //echo DB::getLastSql();
             $fileValueList = $modelInfo['field'];
-            $fileValueList = array_column($fileValueList,'mf_value','mf_key');
+            $fileValueList = array_column($fileValueList,'mf_value','mf_keyword');
         } else {
         }
 
@@ -116,12 +116,12 @@ class Model
         //得出cl_id
         $clsConfig = new Config();
         $list = $clsConfig->getConfigList(0, null, $modelName);
-        $clId = $list[0]['cl_id'];
+        $clId = $list[0]['id'];
         $modelFieldList = $clsConfig->getConfigListItemByListId($clId);
         foreach ($modelFieldList as $modelKey => $modelFieldInfo) {
-            $modelFieldList[$modelKey]['data_type'] = $modelFieldInfo['cli_data_type'];
-            $modelFieldList[$modelKey]['db_field_name'] = $modelFieldInfo['cli_db_field_name'];
-            $modelFieldList[$modelKey]['default'] = $modelFieldInfo['cli_default'];
+            $modelFieldList[$modelKey]['data_type'] = $modelFieldInfo['data_type'];
+            $modelFieldList[$modelKey]['db_field_name'] = $modelFieldInfo['db_field_name'];
+            $modelFieldList[$modelKey]['default'] = $modelFieldInfo['default_str'];
         }
         $modelFieldList = Common::generalHtmlForItem($modelFieldList, $fileValueList, array(), array('input_name_pre'=>'field_'));
 
@@ -142,7 +142,7 @@ class Model
         $assignData['action'] = $action;
         $assignData['model_name'] = $modelName;
         $assignData['model_info'] = $modelInfo;
-        //dd($modelInfo);
+
         return Factory::renderPage('model/edit', $assignData);
     }
 
@@ -179,13 +179,13 @@ class Model
         $assignData['model_name'] = $modelName;
         $assignData['action'] = $action;
         $assignData['category_id'] = $categoryId;
-        $categoryInfo = $model->getCategoryInfo($categoryId, array('col' => 'mc_name,mc_parent_id'));
+        $categoryInfo = $model->getCategoryInfo($categoryId, array('col' => 'name,parent_id'));
 
-        $assignData['category_name'] = $categoryInfo['mc_name'];
+        $assignData['category_name'] = $categoryInfo['name'];
         //dd($assignData);
         $assignData['category_select_html'] = $model->getCategorySelectHtml(
             $modelName,
-            array('selectId' => $categoryInfo['mc_parent_id'])
+            array('selectId' => $categoryInfo['parent_id'])
         );
 
         return Factory::renderPage('model/category-edit', $assignData);

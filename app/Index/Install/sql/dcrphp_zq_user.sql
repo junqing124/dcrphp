@@ -39,12 +39,12 @@ CREATE TABLE `zq_user` (
   `tel` varchar(45) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `note` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `add_user_id` smallint(5) NOT NULL DEFAULT '0' COMMENT '添加人id',
-  `u_edit_user_id` smallint(5) NOT NULL DEFAULT '0',
-  `u_is_super` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是不是超级帐号',
+  `edit_user_id` smallint(5) NOT NULL DEFAULT '0',
+  `is_super` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是不是超级帐号',
   `is_approval` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uidx_uz` (`username`,`zt_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +53,7 @@ CREATE TABLE `zq_user` (
 
 LOCK TABLES `zq_user` WRITE;
 /*!40000 ALTER TABLE `zq_user` DISABLE KEYS */;
-INSERT INTO `zq_user` VALUES (1,'admin','','dcJ49.bznhA7c',1,1583134320,1588001625,'unknown',33,1588066565,1,1,'15718126135','','管理员',0,0,1,1),(2,'张三','','dcJ49.bznhA7c',1,1583034580,1588265780,'',0,0,1,1,'15718112310','8420124','测试用户1',1,1,0,1),(3,'李四','','dcJ49.bznhA7c',1,1583034614,1588265765,'unknown',6,1588055365,1,2,'15718126135','8420124','',1,1,0,1);
+INSERT INTO `zq_user` VALUES (1,'admin','','dcJ49.bznhA7c',1,1583134320,1588435116,'unknown',33,1588066565,1,1,'15718126132','','管理员',0,0,1,1),(2,'张三','','dcJ49.bznhA7c',1,1583034580,1588265780,'',0,0,1,1,'15718112310','8420124','测试用户1',1,1,0,1),(3,'李四','','dcJ49.bznhA7c',1,1583034614,1588421848,'unknown',6,1588055365,1,2,'15718126135','8420124','',1,1,0,1);
 /*!40000 ALTER TABLE `zq_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -66,4 +66,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-02 12:52:36
+-- Dump completed on 2020-05-02 23:59:44

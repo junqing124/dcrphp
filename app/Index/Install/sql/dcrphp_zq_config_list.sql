@@ -32,10 +32,10 @@ CREATE TABLE `zq_config_list` (
   `name` varchar(45) NOT NULL DEFAULT '',
   `is_system` tinyint(4) NOT NULL DEFAULT '0',
   `type` varchar(45) NOT NULL DEFAULT '' COMMENT '类型 配置还是模型(config or model)',
-  `key` varchar(45) NOT NULL DEFAULT '' COMMENT '关键字，可以用来给列表做区别',
+  `keyword` varchar(45) NOT NULL DEFAULT '' COMMENT '关键字，可以用来给列表做区别',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uidx_name` (`name`,`zt_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='配置项列表';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='配置项列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-02 12:52:36
+-- Dump completed on 2020-05-02 23:59:44

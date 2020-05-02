@@ -31,13 +31,13 @@ class Model
     {
         $join = array();
         if ($option['requestAddition']) {
-            $join = array('table' => 'zq_model_addition', 'type' => 'left', 'condition' => 'ma_ml_id=ml_id');
+            $join = array('table' => 'zq_model_addition', 'type' => 'left', 'condition' => 'ma_ml_id=zq_model_list.id');
         }
 
         $info = DB::select(array(
             'table' => 'zq_model_list',
             'col' => $option['col'],
-            'where' => "ml_id={$modelId}",
+            'where' => "zq_model_list.id={$modelId}",
             'join' => $join,
             'limit' => 1
         ));
@@ -49,7 +49,7 @@ class Model
             $fieldList = DB::select(array(
                 'table' => 'zq_model_field',
                 'where' => "mf_ml_id={$modelId}",
-                'col' => 'mf_value,mf_key', //这里这么做是为了兼容编辑页里的field列表和加载配置
+                'col' => 'mf_value,mf_keyword', //这里这么做是为了兼容编辑页里的field列表和加载配置
             ));
             //echo DB::getLastSql();
             $info['field'] = $fieldList;
@@ -67,7 +67,7 @@ class Model
     {
         $join = array();
         if ($option['requestAddition']) {
-            $join = array('table' => 'zq_model_addition', 'type' => 'left', 'condition' => 'ma_ml_id=ml_id');
+            $join = array('table' => 'zq_model_addition', 'type' => 'left', 'condition' => 'ma_id=id');
         }
         if (count($join)) {
             $option['join'][] = $join;
@@ -93,7 +93,7 @@ class Model
         }
         if ('edit' == $categoryInfo['action']) {
             if (!$stringValidator->validate($categoryInfo['id'])) {
-                $error[] = '主ID[mc_id]长度不符合[1-50]';
+                $error[] = '主ID[id]长度不符合[1-50]';
             }
         }
         if (!$stringValidator->validate($categoryInfo['model_name'])) {
@@ -111,9 +111,9 @@ class Model
         $result = 0;
         $dbInfo = array(
             'update_time' => time(),
-            'mc_model_name' => $categoryInfo['model_name'],
-            'mc_name' => $categoryInfo['category_name'],
-            'mc_parent_id' => $categoryInfo['parent_id'] ? $categoryInfo['parent_id'] : 0,
+            'model_name' => $categoryInfo['model_name'],
+            'name' => $categoryInfo['category_name'],
+            'parent_id' => $categoryInfo['parent_id'] ? $categoryInfo['parent_id'] : 0,
         );
         if ('add' == $categoryInfo['action']) {
             $dbInfo['add_time'] = time();
@@ -123,7 +123,7 @@ class Model
         } else {
             //dd($categoryInfo);
             if ('edit' == $categoryInfo['action']) {
-                $result = DB::update('zq_model_category', $dbInfo, "mc_id={$categoryInfo['id']}");
+                $result = DB::update('zq_model_category', $dbInfo, "id={$categoryInfo['id']}");
             }
         }
 
@@ -135,7 +135,7 @@ class Model
         $info = DB::select(array(
             'table' => 'zq_model_category',
             'col' => $option['col'],
-            'where' => "mc_id={$categoryId}",
+            'where' => "id={$categoryId}",
             'limit' => 1
         ));
         $info = current($info);
@@ -146,12 +146,12 @@ class Model
     {
         $ztId = session('ztId');
         if (!$option['col']) {
-            $option['col'] = 'mc_id,mc_name,mc_parent_id,mc_model_name';
+            $option['col'] = 'id,name,parent_id,model_name';
         }
         $whereArr = array();
-        array_push($whereArr, "zt_id={$ztId} and mc_model_name='{$modelName}'");
+        array_push($whereArr, "zt_id={$ztId} and model_name='{$modelName}'");
         if ($parentId !== null) {
-            array_push($whereArr, "mc_parent_id={$parentId}");
+            array_push($whereArr, "parent_id={$parentId}");
         }
 
         $list = DB::select(array('table' => 'zq_model_category', 'col' => $option['col'], 'where' => $whereArr));
@@ -176,12 +176,12 @@ class Model
         static $optionHtml = '';
         foreach ($list as $info) {
             $optionHtml .= "<tr class='text-l'>
-                <td>" . str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $info['level']) . "{$info['mc_name']}</td>
+                <td>" . str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $info['level']) . "{$info['name']}</td>
                 <td class='td-manage'>
-                    <a title=\"编辑\" href=\"javascript:;\" onclick=\"add_edit('编辑','/admin/model/category-edit-view/{$info['mc_model_name']}/edit/{$info['mc_id']}','','300')\"
+                    <a title=\"编辑\" href=\"javascript:;\" onclick=\"open_iframe('编辑','/admin/model/category-edit-view/{$info['model_name']}/edit/{$info['id']}','','300')\"
                        class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>";
             if (! count($info['sub']) > 0) {
-                $optionHtml .= "<a title=\"删除\" href=\"javascript:;\" onclick=\"del({$info['mc_id']})\" class=\"ml-5\"
+                $optionHtml .= "<a title=\"删除\" href=\"javascript:;\" onclick=\"del({$info['id']})\" class=\"ml-5\"
                        style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>";
             }
             $optionHtml .= "</td>
@@ -234,13 +234,14 @@ class Model
 
     public function getCategorySelectOptionHtml($list, $selectId = null, $subEnabled = 0)
     {
+        //dd(get_defined_vars());
         static $optionHtml = '';
         foreach ($list as $info) {
             $optionAdditionStr = '';
             //dd($selectId);
-            //dd($info['mc_id']);
+            //dd($info['id']);
             //echo '<hr>';
-            if ($selectId == $info['mc_id']) {
+            if ($selectId == $info['id']) {
                 $optionAdditionStr = ' selected ';
             }
             if (count($info['sub']) > 0 && $subEnabled) {
@@ -250,7 +251,7 @@ class Model
             if (0 != $info['level']) {
                 $txtAdd = str_repeat('--', $info['level']) . '├';
             }
-            $optionHtml .= "<option value='{$info['mc_id']}' {$optionAdditionStr}>{$txtAdd}{$info['mc_name']}</option>";
+            $optionHtml .= "<option value='{$info['id']}' {$optionAdditionStr}>{$txtAdd}{$info['name']}</option>";
             //dd($info['sub']);
             //var_dump(count($info['sub'])>0);
             if (is_array($info['sub'])) {
@@ -273,10 +274,10 @@ class Model
         foreach ($list as $key => $value) {
             //dd($value);
             //echo $parentId;
-            if ($value['mc_parent_id'] == $parentId) {
+            if ($value['parent_id'] == $parentId) {
                 //echo 'a';
                 $value['level'] = $level;
-                $value['sub'] = $this->getCategoryArr($list, $value['mc_id'], $level + 1);
+                $value['sub'] = $this->getCategoryArr($list, $value['id'], $level + 1);
                 $tree[] = $value;
                 unset($list[$key]);
             }
@@ -290,8 +291,8 @@ class Model
         //验证
         $info = DB::select(array(
             'table' => 'zq_model_category',
-            'col' => 'mc_id',
-            'where' => "mc_id={$id}",
+            'col' => 'id',
+            'where' => "id={$id}",
             'limit' => 1
         ));
         $info = current($info);
@@ -300,7 +301,7 @@ class Model
             return array('ack' => 0, 'msg' => '没有找到这个信息');
         }
         //逻辑
-        $result = DB::delete('zq_model_category', "mc_id={$id}");
+        $result = DB::delete('zq_model_category', "id={$id}");
         //dd($dbPre->getSql());
         //返回
 
@@ -317,7 +318,7 @@ class Model
     }
 
     /**
-     * 把传来的数据，按数据库来分组 比如list开头 则放到list组中，且key的list_换成ml_ 如果ml_开头，则放到list组中
+     * 把传来的数据，按数据库来分组 比如list开头 则放到list组中，且key的list_换成 如果开头，则放到list组中
      * 比如list对应的是model_list表 field对应的是model_field addition对应的是model_addition
      * @param $info
      * @return array
@@ -446,30 +447,32 @@ class Model
         $result = 1;
         DB::beginTransaction();
         if ('edit' == $data['action']) {
-            $modelListSec = DB::update('zq_model_list', $dbInfoList, "ml_id={$id}");
+            //dd($dbInfoList);
+            $modelListSec = DB::update('zq_model_list', $dbInfoList, "id={$id}");
             $modelAdditionSec = DB::update('zq_model_addition', $dbInfoAddition, "ma_ml_id={$id}");
             $modelFieldError = 0;
 
             //dd($fieldList);
             foreach ($fieldList as $fieldKey => $fieldValue) {
                 $fieldDbInfo = array();
-                $fieldDbInfo['mf_key'] = $fieldKey;
+                $fieldDbInfo['mf_keyword'] = $fieldKey;
                 $fieldDbInfo['mf_value'] = $fieldValue;
-                //$fieldDbInfo['mf_ml_id'] = $modelListId;
+                //$fieldDbInfo['mf_id'] = $modelListId;
                 //$fieldDbInfo['zt_id'] = $ztId;
                 //$fieldDbInfo['mf_add_user_id'] = $userId;
                 $fieldDbInfo['update_time'] = time();
                 //$fieldDbInfo['mf_add_time'] = time();
 
-                if (DB::select(array(
+                $fieldInfo = DB::select(array(
                     'table' => 'zq_model_field',
-                    'col' => 'mf_id',
-                    'where' => "mf_key='{$fieldKey}' and mf_ml_id={$id}"
-                ))) {
+                    'col' => 'id',
+                    'where' => "mf_keyword='{$fieldKey}' and mf_ml_id={$id}"
+                ));
+                if ($fieldInfo) {
                     $modelFieldSec = DB::update(
                         'zq_model_field',
                         $fieldDbInfo,
-                        "mf_key='{$fieldKey}' and mf_ml_id={$id}"
+                        "mf_keyword='{$fieldKey}' and mf_ml_id={$id}"
                     );
                 } else {
                     $fieldDbInfo['mf_ml_id'] = $id;
@@ -491,7 +494,7 @@ class Model
                 DB::rollBack();
                 $result = 0;
             }
-        } else {
+        } else if('add' == $data['action']) {
             //dd($dbInfoList);
             $modelListId = DB::insert('zq_model_list', $dbInfoList);
             $dbInfoField['me_ml_id'] = $modelListId;
@@ -505,7 +508,7 @@ class Model
             $modelFieldError = 0;
             foreach ($fieldList as $fieldKey => $fieldValue) {
                 $fieldDbInfo = array();
-                $fieldDbInfo['mf_key'] = $fieldKey;
+                $fieldDbInfo['mf_keyword'] = $fieldKey;
                 $fieldDbInfo['mf_value'] = $fieldValue;
                 $fieldDbInfo['mf_ml_id'] = $modelListId;
                 $fieldDbInfo['zt_id'] = $ztId;
@@ -538,14 +541,14 @@ class Model
     public function delete($id)
     {
         //验证
-        $info = DB::select(array('table' => 'zq_model_list', 'col' => 'ml_id', 'where' => "ml_id={$id}", 'limit' => 1));
+        $info = DB::select(array('table' => 'zq_model_list', 'col' => 'id', 'where' => "id={$id}", 'limit' => 1));
         $info = current($info);
 
         if (!$info) {
             return array('ack' => 0, 'msg' => '没有找到这个信息');
         }
         //逻辑
-        $result = DB::delete('zq_model_list', "ml_id={$id}");
+        $result = DB::delete('zq_model_list', "id={$id}");
 
         //dd($dbPre->getSql());
         //返回

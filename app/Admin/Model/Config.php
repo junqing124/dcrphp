@@ -23,13 +23,13 @@ class Config
         $info = Db::select(
             array(
                 'table' => 'zq_config',
-                'where' => "c_db_field_name='{$db_field_name}'",
+                'where' => "db_field_name='{$db_field_name}'",
                 'limit' => 1,
-                'col'=>'c_value',
+                'col'=>'value',
             )
         );
         $info = current($info);
-        return $info['c_value'];
+        return $info['value'];
     }
     /**
      * 更新配置
@@ -40,7 +40,7 @@ class Config
     public function config($configList, $list_id)
     {
         $configItemList = $this->getConfigListItemByListId($list_id);
-        $configItemList = array_column($configItemList, 'cli_db_field_name');
+        $configItemList = array_column($configItemList, 'db_field_name');
 
         foreach ($configList as $db_field_name => $value) {
             //没在配置中的退出
@@ -52,23 +52,23 @@ class Config
                 'update_time' => time(),
                 'add_user_id' => session('userId'),
                 'zt_id' => session('ztId'),
-                'c_db_field_name' => $db_field_name,
-                'c_value' => $valueStr,
-                'c_cl_id' => $list_id,
+                'db_field_name' => $db_field_name,
+                'value' => $valueStr,
+                'cl_id' => $list_id,
             );
             //判断
             $info = Db::select(
                 array(
                     'table' => 'zq_config',
-                    'where' => "c_db_field_name='{$db_field_name}' and c_cl_id={$list_id}",
+                    'where' => "db_field_name='{$db_field_name}' and cl_id={$list_id}",
                     'limit' => 1,
-                    'col'=>'c_id',
+                    'col'=>'id',
                 )
             );
             $info = current($info);
             //处理
             if ($info) {
-                $result = DB::update('zq_config', $dbInfo, "c_id={$info['c_id']}");
+                $result = DB::update('zq_config', $dbInfo, "id={$info['id']}");
             } else {
                 $dbInfo['add_time'] = time();
                 $result = DB::insert('zq_config', $dbInfo);
@@ -85,9 +85,9 @@ class Config
             'update_time' => time(),
             'add_user_id' => session('userId'),
             'zt_id' => session('ztId'),
-            'cl_name' => $configListName,
-            'cl_type' => $clType,
-            'cl_key' => $configListKey
+            'name' => $configListName,
+            'type' => $clType,
+            'keyword' => $configListKey
         );
 
         if (empty($configListName)) {
@@ -96,14 +96,15 @@ class Config
 
         //处理
         if ('add' != $type) {
-            $result = DB::update('zq_config_list', $dbInfo, "cl_id='{$id}'");
+            $result = DB::update('zq_config_list', $dbInfo, "id='{$id}'");
         } else {
             $dbInfo['add_time'] = time();
-            $dbInfo['cl_is_system'] = 0;
+            $dbInfo['is_system'] = 0;
             $result = DB::insert('zq_config_list', $dbInfo);
             //var_dump($result);
         }
-        //var_dump( $result );
+        /*dd(get_defined_vars());
+        dd( $dbInfo );*/
         //返回
         return Admin::commonReturn($result);
     }
@@ -112,17 +113,17 @@ class Config
     {
         $whereArr = array();
         if ($id) {
-            $whereArr[] = "cl_id={$id}";
+            $whereArr[] = "id={$id}";
         }
         if( $type ){
-            $whereArr[] = "cl_type='{$type}'";
+            $whereArr[] = "type='{$type}'";
         }
         if( $key ){
-            $whereArr[] = "cl_key='{$key}'";
+            $whereArr[] = "keyword='{$key}'";
         }
         $list = DB::select(array(
             'table' => 'zq_config_list',
-            'col' => 'cl_id,cl_name,cl_is_system,add_time,cl_key',
+            'col' => 'id,name,is_system,add_time,keyword',
             'where' => $whereArr,
         ));
         return $list;
@@ -132,19 +133,19 @@ class Config
     {
         $list = Db::select(array(
             'table' => 'zq_config_list_item',
-            'col' => 'cli_id,add_time,cli_form_text,cli_data_type,cli_db_field_name,cli_order,cli_is_system,cli_default',
+            'col' => 'id,add_time,form_text,data_type,db_field_name,order_str,is_system,default_str',
             'where' => $whereArr,
-            'order' => 'cli_order asc',
+            'order' => 'order_str asc',
         ));
         return $list;
     }
 
     public function getConfigValueList($listId)
     {
-        $whereArr = array("c_cl_id={$listId}");
+        $whereArr = array("cl_id={$listId}");
         $list = Db::select(array(
             'table' => 'zq_config',
-            'col' => 'c_db_field_name,c_value',
+            'col' => 'db_field_name,value',
             'where' => $whereArr,
         ));
         return $list;
@@ -153,14 +154,14 @@ class Config
     public function getConfigListItemByListId($listId)
     {
         $whereArr = array();
-        $whereArr[] = "cli_cl_id={$listId}";
+        $whereArr[] = "cl_id={$listId}";
         return $this->getConfigListItemList($whereArr);
     }
 
     public function getConfigListItem($id)
     {
         $whereArr = array();
-        $whereArr[] = "cli_id={$id}";
+        $whereArr[] = "id={$id}";
         return $this->getConfigListItemList($whereArr);
     }
 
@@ -289,8 +290,8 @@ class Config
         //验证
         $info = DB::select(array(
             'table' => 'zq_config_list',
-            'col' => 'cl_id,cl_is_system',
-            'where' => "cl_id={$id}",
+            'col' => 'id,is_system',
+            'where' => "id={$id}",
             'limit' => 1
         ));
         $info = current($info);
@@ -298,11 +299,11 @@ class Config
         if (!$info) {
             throw new \Exception('没有找到这个信息');
         }
-        if ($info['cl_is_system']) {
+        if ($info['is_system']) {
             throw new \Exception('系统自带的配置项无法删除');
         }
         //逻辑
-        $result = DB::delete('zq_config_list', "cl_id={$id}");
+        $result = DB::delete('zq_config_list', "id={$id}");
         //dd($dbPre->getSql());
         //返回
 
@@ -318,19 +319,19 @@ class Config
     public function configListItem($data, $type)
     {
         $dbInfo = array(
-            'cli_form_text' => $data['form_text'],
-            'cli_data_type' => $data['data_type'],
-            'cli_db_field_name' => $data['db_field_name'],
-            'cli_default' => $data['default'],
-            'cli_order' => intval($data['order']),
-            'cli_cl_id' => $data['addition_id'],
+            'form_text' => $data['form_text'],
+            'data_type' => $data['data_type'],
+            'db_field_name' => $data['db_field_name'],
+            'default_str' => $data['default_str'],
+            'order_str' => intval($data['order_str']),
+            'cl_id' => $data['addition_id'],
         );
         //检测
         $check = array(
-            'cli_form_text' => array('type' => 'required'),
-            'cli_data_type' => array('type' => 'required'),
-            'cli_db_field_name' => array('type' => 'required'),
-            'cli_order' => array('type' => 'number'),
+            'form_text' => array('type' => 'required'),
+            'data_type' => array('type' => 'required'),
+            'db_field_name' => array('type' => 'required'),
+            'order_str' => array('type' => 'number'),
         );
         return Common::CUDDbInfo(
             'zq_config_list_item',
