@@ -44,11 +44,11 @@ class Plugins
         $pluginInfo = include_once $configPath;
 
         $dbInfo = array();
-        $dbInfo['p_name'] = $pluginInfo['name'];
-        $dbInfo['p_description'] = $pluginInfo['description'];
-        $dbInfo['p_author'] = $pluginInfo['author'];
-        $dbInfo['p_version'] = $pluginInfo['version'];
-        $dbInfo['p_title'] = $pluginInfo['title'];
+        $dbInfo['titlename'] = $pluginInfo['name'];
+        $dbInfo['titledescription'] = $pluginInfo['description'];
+        $dbInfo['titleauthor'] = $pluginInfo['author'];
+        $dbInfo['titleversion'] = $pluginInfo['version'];
+        $dbInfo['titletitle'] = $pluginInfo['title'];
         $dbInfo['add_time'] = time();
         $dbInfo['update_time'] = time();
         $dbInfo['zt_id'] = session('ztId');
@@ -56,8 +56,8 @@ class Plugins
         //判断存在不存在
         $info = DB::select(array(
             'table' => 'zq_plugins',
-            'col' => 'p_id',
-            'where' => "p_name='{$dbInfo['p_name']}'",
+            'col' => 'titleid',
+            'where' => "titlename='{$dbInfo['titlename']}'",
             'limit' => 1
         ));
         $info = current($info);

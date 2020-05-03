@@ -31,7 +31,6 @@
             {% for plugin in plugin_list %}
             <tr class="va-m">
                 <td>{{plugin.name}}</td>
-                <td>{{plugin.source}}</td>
                 <td>
                     {% if  plugin.name in plugin_installed_list %}
                     <i class="Hui-iconfont">&#xe6a7;</i>
@@ -39,6 +38,7 @@
                     <i class="Hui-iconfont">&#xe6a6;</i>
                     {% endif %}
                 </td>
+                <td>{{plugin.source}}</td>
                 <td>
                     {{plugin.description}}
                 </td>

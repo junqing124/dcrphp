@@ -34,7 +34,7 @@ class Tools
         $assignData['plugin_list'] = $localPluginsList;
 
         $listInstalled = $clsPlugins->getInstalledList();
-        $listInstalled = array_column($listInstalled, 'p_name');
+        $listInstalled = array_column($listInstalled, 'name');
         $assignData['plugin_installed_list'] = $listInstalled;
 
         return Factory::renderPage('tools/plugins', $assignData);

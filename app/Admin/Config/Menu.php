@@ -63,8 +63,8 @@ $listPlugin = $clsPlugin->getInstalledList();
 foreach ($listPlugin as $infoPlugin) {
     //dd($infoPlugin);
     $menu['tools']['sub'][] = array(
-        'url' => '/admin/tools/plugins-index-view/' . $infoPlugin['p_name'],
-        'title' => ' - ' . $infoPlugin['p_title'],
+        'url' => '/admin/tools/plugins-index-view/' . $infoPlugin['name'],
+        'title' => ' - ' . $infoPlugin['title'],
     );
 }
 
