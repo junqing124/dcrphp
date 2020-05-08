@@ -16,34 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zq_model_field`
+-- Table structure for table `user_role`
 --
 
-DROP TABLE IF EXISTS `zq_model_field`;
+DROP TABLE IF EXISTS `user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `zq_model_field` (
+CREATE TABLE `user_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `add_time` int(11) NOT NULL DEFAULT '0',
-  `update_time` int(11) NOT NULL DEFAULT '0',
-  `is_approval` tinyint(1) NOT NULL DEFAULT '1',
+  `permissions` varchar(1000) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `add_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `add_user_id` smallint(6) NOT NULL DEFAULT '0',
-  `zt_id` smallint(6) NOT NULL DEFAULT '1',
-  `mf_keyword` varchar(45) NOT NULL DEFAULT '',
-  `mf_value` varchar(200) NOT NULL DEFAULT '',
-  `mf_ml_id` int(11) NOT NULL DEFAULT '0',
+  `note` varchar(45) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `zt_id` tinyint(1) NOT NULL DEFAULT '1',
+  `is_approval` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='模型字段里的值';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='角色表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zq_model_field`
+-- Dumping data for table `user_role`
 --
 
-LOCK TABLES `zq_model_field` WRITE;
-/*!40000 ALTER TABLE `zq_model_field` DISABLE KEYS */;
-INSERT INTO `zq_model_field` VALUES (22,1588434501,1588434872,1,1,1,'material','22',11),(23,1588434501,1588434872,1,1,1,'color','12',11),(24,1588434501,1588434872,1,1,1,'from','浙江',11);
-/*!40000 ALTER TABLE `zq_model_field` ENABLE KEYS */;
+LOCK TABLES `user_role` WRITE;
+/*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
+INSERT INTO `user_role` VALUES (1,'12,13,15,14,9,3,2,16,17','系统管理员','0000-00-00 00:00:00','0000-00-00 00:00:00',0,'系统最高权限',1,0),(2,'9,3,2','文章编辑','0000-00-00 00:00:00','0000-00-00 00:00:00',1,'',1,0);
+/*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-02 23:59:44
+-- Dump completed on 2020-05-08 21:19:51

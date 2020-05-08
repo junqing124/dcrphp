@@ -5,6 +5,7 @@
  * Date: 2019/7/28
  * Time: 19:58
  */
+
 return array(
     'type' => env('DB_TYPE', ''),
     'mysql' =>

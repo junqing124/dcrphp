@@ -16,7 +16,7 @@ define('ROOT_PUBLIC', ROOT_FRAME . DS . '..' . DS . 'public'); //public目录
 define('LIB', ROOT_FRAME . DS . 'library');
 define('START', microtime(true));
 define('CONFIG_EXT', '.php');
-define('CONFIG_DIR', ROOT_FRAME . DS . '/' . '..' . DS . 'config');
+define('CONFIG_DIR', ROOT_FRAME . DS . '..' . DS . 'config');
 require_once ROOT_FRAME . DS . '..' . DS . 'vendor' . DS . 'autoload.php';
 require_once ROOT_FRAME . DS . 'common' . DS . 'function.php';
 require_once LIB . DS . 'ClassLoader.php';

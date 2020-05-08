@@ -16,34 +16,38 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zq_user_role_config`
+-- Table structure for table `config_list_item`
 --
 
-DROP TABLE IF EXISTS `zq_user_role_config`;
+DROP TABLE IF EXISTS `config_list_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `zq_user_role_config` (
+CREATE TABLE `config_list_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `add_time` int(11) NOT NULL DEFAULT '0',
-  `update_time` int(11) NOT NULL DEFAULT '0',
+  `add_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_approval` tinyint(1) NOT NULL DEFAULT '1',
   `add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
-  `u_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `ur_id` int(11) NOT NULL DEFAULT '0' COMMENT '角色id',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uidx_ru` (`u_id`,`ur_id`,`zt_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='用户的角色配置';
+  `form_text` varchar(45) NOT NULL DEFAULT '',
+  `data_type` varchar(10) NOT NULL DEFAULT '',
+  `db_field_name` varchar(45) NOT NULL DEFAULT '',
+  `order_str` smallint(6) NOT NULL DEFAULT '1',
+  `default_str` varchar(45) NOT NULL DEFAULT '',
+  `is_system` tinyint(1) NOT NULL DEFAULT '0',
+  `cl_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='表配置item列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zq_user_role_config`
+-- Dumping data for table `config_list_item`
 --
 
-LOCK TABLES `zq_user_role_config` WRITE;
-/*!40000 ALTER TABLE `zq_user_role_config` DISABLE KEYS */;
-INSERT INTO `zq_user_role_config` VALUES (1,1583134320,1583134320,0,0,1,1,1),(17,1588001747,1588001747,1,1,1,4,2),(20,1588265780,1588265780,1,1,1,2,2),(23,1588421802,1588421802,1,1,1,3,1),(24,1588421802,1588421802,1,1,1,3,2);
-/*!40000 ALTER TABLE `zq_user_role_config` ENABLE KEYS */;
+LOCK TABLES `config_list_item` WRITE;
+/*!40000 ALTER TABLE `config_list_item` DISABLE KEYS */;
+INSERT INTO `config_list_item` VALUES (1,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'网站名','string','site_name',1,'',1,1),(4,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'模板名','select','template_name',1,'var.systemTemplateStr',1,2),(5,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'材质','string','material',1,'',0,4),(6,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'颜色','string','color',2,'',0,4),(7,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'产地','select','from',3,'江西,浙江',0,4);
+/*!40000 ALTER TABLE `config_list_item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-02 23:59:45
+-- Dump completed on 2020-05-08 21:19:51

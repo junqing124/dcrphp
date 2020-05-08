@@ -9,5 +9,6 @@
 //phpinfo();
 namespace dcr;
 
+ini_set('display_errors','on');
 header('Access-Control-Allow-Origin:*');
 require_once __DIR__ . '/../dcr/bootstrap/app.php';

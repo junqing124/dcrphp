@@ -44,20 +44,18 @@ class Plugins
         $pluginInfo = include_once $configPath;
 
         $dbInfo = array();
-        $dbInfo['titlename'] = $pluginInfo['name'];
-        $dbInfo['titledescription'] = $pluginInfo['description'];
-        $dbInfo['titleauthor'] = $pluginInfo['author'];
-        $dbInfo['titleversion'] = $pluginInfo['version'];
-        $dbInfo['titletitle'] = $pluginInfo['title'];
-        $dbInfo['add_time'] = time();
-        $dbInfo['update_time'] = time();
+        $dbInfo['name'] = $pluginInfo['name'];
+        $dbInfo['description'] = $pluginInfo['description'];
+        $dbInfo['author'] = $pluginInfo['author'];
+        $dbInfo['version'] = $pluginInfo['version'];
+        $dbInfo['title'] = $pluginInfo['title'];
         $dbInfo['zt_id'] = session('ztId');
 
         //判断存在不存在
         $info = DB::select(array(
-            'table' => 'zq_plugins',
-            'col' => 'titleid',
-            'where' => "titlename='{$dbInfo['titlename']}'",
+            'table' => 'plugins',
+            'col' => 'id',
+            'where' => "name='{$dbInfo['name']}'",
             'limit' => 1
         ));
         $info = current($info);
@@ -66,7 +64,7 @@ class Plugins
             return Admin::commonReturn(0, '已经安装过了');
         }
 
-        $result = DB::insert('zq_plugins', $dbInfo);
+        $result = DB::insert('plugins', $dbInfo);
 
         return Admin::commonReturn($result);
     }
@@ -74,7 +72,7 @@ class Plugins
     public function getInstalledList()
     {
         $list = DB::select(array(
-            'table' => 'zq_plugins',
+            'table' => 'plugins',
         ));
 
         return $list;

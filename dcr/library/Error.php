@@ -12,81 +12,13 @@ class Error
 {
     public static function init()
     {
-        set_error_handler([__CLASS__, 'error']);
-        set_exception_handler([__CLASS__, 'exception']);
-    }
-
-    /**
-     * 异常接收
-     * @access public
-     * @param \Exception|\Throwable $e 异常
-     * @return void
-     */
-    public static function exception($e)
-    {
-        if ('cli' == APP::$phpSapiName) {
-            echo "Code:" . $e->getCode() . "\r\n";
-            echo "File:" . $e->getFile() . "\r\n";
-            echo "Line:" . $e->getLine() . "\r\n";
-            echo "Message:" . $e->getMessage() . "\r\n";
-            echo "Trace:" . $e->getTraceAsString() . "\r\n";
-        } else {
-            $view = container('view');
-
-            //ack是为了兼容ajax里的ack和msg输出值
-            $view->assign('ack', 0);
-            $view->assign('msg', $e->getMessage());
-            $view->assign('url', $_SERVER['REQUEST_URI']);
-
-            $view->assign('e_code', $e->getCode());
-            $view->assign('e_file', $e->getFile());
-            $view->assign('e_line', $e->getLine());
-            $view->assign('e_message', $e->getMessage());
-
-            $traceStr = str_replace("\n", '<br>', $e->getTraceAsString());
-
-            $view->assign('e_trace', $traceStr);
-            $view->setViewDirectoryPath(ROOT_FRAME . DS . 'view');
-            //dd($e->getTrace());
-            echo $view->render('exception');
+        $request = container('request');
+        $handler = '\Whoops\Handler\PrettyPageHandler';
+        if ($request->isAjax()) {
+            $handler = '\Whoops\Handler\JsonResponseHandler';
         }
-        exit;
-    }
-
-    /**
-     * 错误接收
-     * @access public
-     * @param integer $errNo 错误编号
-     * @param integer $errStr 详细错误信息
-     * @param string $errFile 出错的文件
-     * @param integer $errLine 出错行号
-     * @return void
-     * @throws ErrorException
-     */
-    public static function error($errNo, $errStr, $errFile, $errLine)
-    {
-        if (in_array($errNo, array(E_USER_DEPRECATED, E_NOTICE, E_WARNING))) {
-            return false;
-        }
-        if ('cli' == APP::$phpSapiName) {
-            echo "No:" . $errNo . "\r\n";
-            echo "Str:" . $errStr . "\r\n";
-            echo "File:" . $errFile . "\r\n";
-            echo "Line:" . $errLine . "\r\n";
-        } else {
-            $view = container('view');
-            //ack是为了兼容ajax里的ack和msg输出值
-            $view->assign('ack', 0);
-            $view->assign('msg', $errStr);
-            $view->assign('url', $_SERVER['REQUEST_URI']);
-
-            $view->assign('err_no', $errNo);
-            $view->assign('err_str', $errStr);
-            $view->assign('err_file', $errFile);
-            $view->assign('err_line', $errLine);
-            $view->setViewDirectoryPath(ROOT_FRAME . DS . 'view');
-            echo $view->render('error');
-        }
-        exit;
+        $whoops = new \Whoops\Run;
+        $whoops->pushHandler(new $handler);
+        $whoops->register();
     }
 }

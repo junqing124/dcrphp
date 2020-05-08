@@ -100,7 +100,7 @@ class Common
                 case 'checkbox':
                     $inputValueList = explode(',', $default);
                     foreach ($inputValueList as $inpValueDetail) {
-                        if ($inpValueDetail == $inputValue) {
+                        if ($inpValueDetail == $inputValue || 1 == $inputValue) {
                             if( in_array($itemInfo['data_type'], array('radio','checkbox')) ){
                                 $additionStr = ' checked ';
                             }else{
@@ -178,10 +178,6 @@ class Common
             //逻辑
             $result = Db::delete($tableName, $tablePreName . "id={$option['id']}");
         } else {
-            //设置通用字段 update_time add_user_id zt_id
-            if (!isset($dbInfo['update_time'])) {
-                $dbInfo['update_time'] = time();
-            }
 
             if ($option['check']) {
                 foreach ($option['check'] as $fieldName => $detail) {
@@ -204,9 +200,6 @@ class Common
                     }
                     if (!isset($dbInfo['zt_id'])) {
                         $dbInfo['zt_id'] = session('ztId');
-                    }
-                    if (!isset($dbInfo['add_time'])) {
-                        $dbInfo['add_time'] = time();
                     }
                     $result = Db::insert($tableName, $dbInfo);
                 }

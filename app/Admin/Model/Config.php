@@ -22,7 +22,7 @@ class Config
     {
         $info = Db::select(
             array(
-                'table' => 'zq_config',
+                'table' => 'config',
                 'where' => "db_field_name='{$db_field_name}'",
                 'limit' => 1,
                 'col'=>'value',
@@ -49,7 +49,6 @@ class Config
             }
             $valueStr = is_array($value) ? implode(',', $value) : $value;
             $dbInfo = array(
-                'update_time' => time(),
                 'add_user_id' => session('userId'),
                 'zt_id' => session('ztId'),
                 'db_field_name' => $db_field_name,
@@ -59,7 +58,7 @@ class Config
             //判断
             $info = Db::select(
                 array(
-                    'table' => 'zq_config',
+                    'table' => 'config',
                     'where' => "db_field_name='{$db_field_name}' and cl_id={$list_id}",
                     'limit' => 1,
                     'col'=>'id',
@@ -68,10 +67,9 @@ class Config
             $info = current($info);
             //处理
             if ($info) {
-                $result = DB::update('zq_config', $dbInfo, "id={$info['id']}");
+                $result = DB::update('config', $dbInfo, "id={$info['id']}");
             } else {
-                $dbInfo['add_time'] = time();
-                $result = DB::insert('zq_config', $dbInfo);
+                $result = DB::insert('config', $dbInfo);
             }
             //var_dump( $result );
         }
@@ -82,7 +80,6 @@ class Config
     public function configListEdit($configListName, $type = 'add', $id = 0, $clType = 'config', $configListKey)
     {
         $dbInfo = array(
-            'update_time' => time(),
             'add_user_id' => session('userId'),
             'zt_id' => session('ztId'),
             'name' => $configListName,
@@ -96,11 +93,10 @@ class Config
 
         //处理
         if ('add' != $type) {
-            $result = DB::update('zq_config_list', $dbInfo, "id='{$id}'");
+            $result = DB::update('config_list', $dbInfo, "id='{$id}'");
         } else {
-            $dbInfo['add_time'] = time();
             $dbInfo['is_system'] = 0;
-            $result = DB::insert('zq_config_list', $dbInfo);
+            $result = DB::insert('config_list', $dbInfo);
             //var_dump($result);
         }
         /*dd(get_defined_vars());
@@ -122,7 +118,7 @@ class Config
             $whereArr[] = "keyword='{$key}'";
         }
         $list = DB::select(array(
-            'table' => 'zq_config_list',
+            'table' => 'config_list',
             'col' => 'id,name,is_system,add_time,keyword',
             'where' => $whereArr,
         ));
@@ -132,7 +128,7 @@ class Config
     public function getConfigListItemList($whereArr)
     {
         $list = Db::select(array(
-            'table' => 'zq_config_list_item',
+            'table' => 'config_list_item',
             'col' => 'id,add_time,form_text,data_type,db_field_name,order_str,is_system,default_str',
             'where' => $whereArr,
             'order' => 'order_str asc',
@@ -144,7 +140,7 @@ class Config
     {
         $whereArr = array("cl_id={$listId}");
         $list = Db::select(array(
-            'table' => 'zq_config',
+            'table' => 'config',
             'col' => 'db_field_name,value',
             'where' => $whereArr,
         ));
@@ -183,7 +179,7 @@ class Config
         $list = DB::select(array(
             'col' => 'cm_key,cm_dec,cm_model_name,cm_id',
             'where' => $where,
-            'table' => 'zq_config_model'
+            'table' => 'config_model'
         ));
         $result = array();
         if ($list) {
@@ -238,7 +234,6 @@ class Config
             }
             foreach ($keyList as $key => $keyName) {
                 $dbInfo = array(
-                    'update_time' => time(),
                     'add_user_id' => $userId,
                     'zt_id' => $ztId,
                     'cm_key' => $keyName,
@@ -248,15 +243,14 @@ class Config
                 if (empty($dbInfo['cm_key'])) {
                     continue;
                 }
-                $sql = "select cm_id from zq_config_model where cm_key='{$dbInfo['cm_key']}' and cm_model_name='{$dbInfo['cm_model_name']}' and zt_id={$dbInfo['zt_id']}";
+                $sql = "select cm_id from config_model where cm_key='{$dbInfo['cm_key']}' and cm_model_name='{$dbInfo['cm_model_name']}' and zt_id={$dbInfo['zt_id']}";
                 $info = DB::query($sql);
                 //处理
                 if ($info) {
                     $info = current($info);
-                    DB::update('zq_config_model', $dbInfo, "cm_id={$info['cm_id']}");
+                    DB::update('config_model', $dbInfo, "cm_id={$info['cm_id']}");
                 } else {
-                    $dbInfo['add_time'] = time();
-                    DB::insert('zq_config_model', $dbInfo);
+                    DB::insert('config_model', $dbInfo);
                 }
             }
         }
@@ -267,7 +261,7 @@ class Config
             $delIdList = explode('_', $delIds);
             $delIdList = array_filter($delIdList);
             $delIdStr = implode(',', $delIdList);
-            DB::delete('zq_config_model', "cm_id in($delIdStr)");
+            DB::delete('config_model', "cm_id in($delIdStr)");
         }
         //返回
         return Admin::commonReturn(1);
@@ -289,7 +283,7 @@ class Config
     {
         //验证
         $info = DB::select(array(
-            'table' => 'zq_config_list',
+            'table' => 'config_list',
             'col' => 'id,is_system',
             'where' => "id={$id}",
             'limit' => 1
@@ -303,7 +297,7 @@ class Config
             throw new \Exception('系统自带的配置项无法删除');
         }
         //逻辑
-        $result = DB::delete('zq_config_list', "id={$id}");
+        $result = DB::delete('config_list', "id={$id}");
         //dd($dbPre->getSql());
         //返回
 
@@ -334,7 +328,7 @@ class Config
             'order_str' => array('type' => 'number'),
         );
         return Common::CUDDbInfo(
-            'zq_config_list_item',
+            'config_list_item',
             'cli',
             $dbInfo,
             $actionType = $type,

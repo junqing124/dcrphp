@@ -24,7 +24,7 @@ $menu = array(
             array(
                 'url' => '/admin/user/permission-view',
                 'title' => '权限列表',
-            ),array( 'url' => '/admin/tools/table-edit-list-view/zq_user_mobile', 'title' => '用户手机号', ),
+            ),array( 'url' => '/admin/tools/table-edit-list-view/user_mobile', 'title' => '用户手机号', ),
         ),
     ),
     'tools' => array(
@@ -42,7 +42,7 @@ $menu = array(
         'title' => '系统配置',
         'sub' => array(
             array(
-                'url' => '/admin/tools/table-edit-list-view/zq_config_table_edit_list',
+                'url' => '/admin/tools/table-edit-list-view/config_table_edit_list',
                 'title' => '单表管理',
             ),
             array(

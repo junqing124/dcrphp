@@ -6,27 +6,40 @@
 </head>
 <body>
 <article class="page-container">
-    <form action="/admin/tools/table-edit-edit-ajax" method="post" class="form form-horizontal" id="form">
-        <input type="hidden" name="type" value="{{type}}">
-        <input type="hidden" name="key" value="{{key}}">
-        <input type="hidden" name="id" value="{{id}}">
-        {% for field in field_list %}
-            {% if 1 != field.is_input_hidden %}
-            <div class="row cl">
-                <label class="form-label col-xs-2">{{field.title}}：</label>
-                <div class="formControls col-xs-4">
-                    {{field.html|raw}}
-                </div>
-                <div class="formControls col-xs-6">
-                    {{field.tip}}
-                </div>
+    <form action="/admin/tools/table-edit-generate-ajax" method="post" class="form form-horizontal" id="form">
+        <div class="row cl">
+            <label class="form-label col-xs-3">关键字：</label>
+            <div class="formControls col-xs-4">
+                <input type="text" class="input-text" value="" placeholder="" id="keyword" name="keyword">
             </div>
-            {% else %}
-                {{field.html|raw}}
-            {% endif %}
-        {% endfor %}
-        {{edit_page_addition_html|raw}}
-        {{add_page_addition_html|raw}}
+            <div class="formControls col-xs-5">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-3">模块名：</label>
+            <div class="formControls col-xs-4">
+                <input type="text" class="input-text" value="" placeholder="" id="page_model" name="page_model">
+            </div>
+            <div class="formControls col-xs-5">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-3">表名：</label>
+            <div class="formControls col-xs-4">
+                <input type="text" class="input-text" value="" placeholder="" id="table_name" name="table_name">
+            </div>
+            <div class="formControls col-xs-5">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-3">页面标题：</label>
+            <div class="formControls col-xs-4">
+                <input type="text" class="input-text" value="" placeholder="" id="page_title" name="page_title">
+            </div>
+            <div class="formControls col-xs-5">
+                如果不填，将填充表注释
+            </div>
+        </div>
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
                 <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">

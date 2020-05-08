@@ -55,7 +55,7 @@ class Index
         $view = container('view');
         $paramInfo = $reqeust->getParams();
         $modelId = $paramInfo[0];
-        DB::exec("update zq_model_list set view_nums=view_nums+1 where zt_id=1 and id={$modelId}");
+        DB::exec("update model_list set view_nums=view_nums+1 where zt_id=1 and id={$modelId}");
         $modelInfo = $model->getInfo(
             $modelId,
             array('requestField' => 1, 'requestAddition' => 1, 'requestFieldDec' => 1)

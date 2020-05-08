@@ -16,38 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zq_config_list_item`
+-- Table structure for table `model_category`
 --
 
-DROP TABLE IF EXISTS `zq_config_list_item`;
+DROP TABLE IF EXISTS `model_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `zq_config_list_item` (
+CREATE TABLE `model_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `add_time` int(11) NOT NULL DEFAULT '0',
-  `update_time` int(11) NOT NULL DEFAULT '0',
+  `add_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_approval` tinyint(1) NOT NULL DEFAULT '1',
   `add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
-  `form_text` varchar(45) NOT NULL DEFAULT '',
-  `data_type` varchar(10) NOT NULL DEFAULT '',
-  `db_field_name` varchar(45) NOT NULL DEFAULT '',
-  `order_str` smallint(6) NOT NULL DEFAULT '1',
-  `default_str` varchar(45) NOT NULL DEFAULT '',
-  `is_system` tinyint(1) NOT NULL DEFAULT '0',
-  `cl_id` int(11) NOT NULL DEFAULT '0',
+  `model_name` varchar(45) NOT NULL DEFAULT '',
+  `name` varchar(45) NOT NULL DEFAULT '',
+  `parent_id` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='表配置item列表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zq_config_list_item`
+-- Dumping data for table `model_category`
 --
 
-LOCK TABLES `zq_config_list_item` WRITE;
-/*!40000 ALTER TABLE `zq_config_list_item` DISABLE KEYS */;
-INSERT INTO `zq_config_list_item` VALUES (1,1586860452,1586969347,1,1,1,'网站名','string','site_name',1,'',1,1),(4,1586938211,1586969157,1,1,1,'模板名','select','template_name',1,'var.systemTemplateStr',1,2),(5,1587919608,1587919608,1,1,1,'材质','string','material',1,'',0,4),(6,1587919623,1587919623,1,1,1,'颜色','string','color',2,'',0,4),(7,1587983857,1588424532,1,1,1,'产地','select','from',3,'江西,浙江',0,4);
-/*!40000 ALTER TABLE `zq_config_list_item` ENABLE KEYS */;
+LOCK TABLES `model_category` WRITE;
+/*!40000 ALTER TABLE `model_category` DISABLE KEYS */;
+INSERT INTO `model_category` VALUES (1,'0000-00-00 00:00:00','0000-00-00 00:00:00',0,1,1,'news','系统说明',0),(3,'0000-00-00 00:00:00','0000-00-00 00:00:00',0,1,1,'news','跨境电商',0),(8,'0000-00-00 00:00:00','0000-00-00 00:00:00',0,1,1,'info','基础',0),(9,'0000-00-00 00:00:00','0000-00-00 00:00:00',0,1,1,'product','模板中心',0),(10,'0000-00-00 00:00:00','0000-00-00 00:00:00',0,1,1,'product','维护中心',0);
+/*!40000 ALTER TABLE `model_category` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -59,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-02 23:59:45
+-- Dump completed on 2020-05-08 21:19:50

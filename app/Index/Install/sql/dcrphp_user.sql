@@ -16,24 +16,24 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zq_user`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `zq_user`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `zq_user` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL DEFAULT '',
   `name` varchar(45) NOT NULL DEFAULT '',
   `password` varchar(45) NOT NULL DEFAULT '',
   `zt_id` smallint(5) NOT NULL DEFAULT '1',
-  `add_time` int(11) NOT NULL DEFAULT '0',
-  `update_time` int(11) NOT NULL DEFAULT '0',
+  `add_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `login_ip` varchar(45) NOT NULL DEFAULT '',
   `login_count` smallint(5) NOT NULL DEFAULT '0',
   `login_time` int(11) NOT NULL DEFAULT '0',
-  `is_valid` tinyint(4) NOT NULL DEFAULT '1',
+  `is_valid` tinyint(1) NOT NULL DEFAULT '1',
   `sex` tinyint(1) NOT NULL,
   `mobile` varchar(45) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `tel` varchar(45) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
@@ -48,13 +48,13 @@ CREATE TABLE `zq_user` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zq_user`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `zq_user` WRITE;
-/*!40000 ALTER TABLE `zq_user` DISABLE KEYS */;
-INSERT INTO `zq_user` VALUES (1,'admin','','dcJ49.bznhA7c',1,1583134320,1588435116,'unknown',33,1588066565,1,1,'15718126132','','管理员',0,0,1,1),(2,'张三','','dcJ49.bznhA7c',1,1583034580,1588265780,'',0,0,1,1,'15718112310','8420124','测试用户1',1,1,0,1),(3,'李四','','dcJ49.bznhA7c',1,1583034614,1588421848,'unknown',6,1588055365,1,2,'15718126135','8420124','',1,1,0,1);
-/*!40000 ALTER TABLE `zq_user` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'admin','','dcJ49.bznhA7c',1,'0000-00-00 00:00:00','0000-00-00 00:00:00','unknown',33,1588066565,1,1,'15718126132','','管理员',0,0,1,1),(2,'张三','','dcJ49.bznhA7c',1,'0000-00-00 00:00:00','0000-00-00 00:00:00','',0,0,1,1,'15718112310','8420124','测试用户1',1,1,0,1),(3,'李四','','dcNVeqViHwjus',1,'0000-00-00 00:00:00','2020-05-07 10:56:40','unknown',6,1588055365,1,2,'15718126135','8420124','',1,1,0,1),(5,'root','','dc.R6.rBtiTwo',1,'2020-05-07 11:00:08','2020-05-07 11:09:24','',0,0,1,1,'15718126135','','',1,1,0,1);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -66,4 +66,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-02 23:59:44
+-- Dump completed on 2020-05-08 21:19:52

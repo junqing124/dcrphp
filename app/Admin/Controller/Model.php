@@ -44,7 +44,7 @@ class Model
             $where[] = "add_time>{$timeStart} and update_time<{$timeEnd}";
         }
 
-        $join = array('type' => 'left', 'table' => 'zq_model_category', 'condition' => 'zq_model_category.id=ml_category_id');
+        $join = array('type' => 'left', 'table' => 'model_category', 'condition' => 'model_category.id=ml_category_id');
         $model = new MModel();
 
         $assignData['category_select_html'] = $model->getCategorySelectHtml(
@@ -52,7 +52,7 @@ class Model
             array('subEnabled' => 1, 'selectId' => $categoryId, 'selectName' => 'category_id')
         );
 
-        $pageInfo = $model->getList(array('where' => $where, 'join' => $join, 'col' => array('count(zq_model_list.id) as num')));
+        $pageInfo = $model->getList(array('where' => $where, 'join' => $join, 'col' => array('count(model_list.id) as num')));
         $pageTotalNum = $pageInfo[0]['num'];
         $page = get('page');
         $page = $page ? (int)$page : 1;
@@ -64,7 +64,7 @@ class Model
 
         $list = $model->getList(array(
             'where' => $where,
-            'col' => 'zq_model_list.id,ml_pic_path,ml_title,name',
+            'col' => 'model_list.id,ml_pic_path,ml_title,name',
             'join' => $join,
             'order' => 'id desc',
             'limit' => $pageNum,

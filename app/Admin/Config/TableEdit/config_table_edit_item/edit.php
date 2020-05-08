@@ -9,6 +9,6 @@ if (!in_array($dbInfo['data_type'], $supportDataType) && empty($dbInfo['default'
 
 //如果type是radio或者checkbox或者select没有default则报错
 if (in_array($dbInfo['data_type'],
-        array('checkbox', 'radio', 'select')) && empty($dbInfo['default'])) {
+        array('checkbox', 'radio', 'select')) && empty($dbInfo['default_str'])) {
     throw new \Exception('checkbox,radio,select类型的数据，请输入默认值');
 }

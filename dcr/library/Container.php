@@ -29,6 +29,20 @@ class Container
     private $instanceList = [];
 
     /**
+     * 这个是为了在启动的时候，自动加载某类
+     * @var string[]
+     */
+    private $defaultBindList = [
+        'config' => \dcr\Config::class,
+        'request' => \dcr\Request::class,
+        'rule' => \dcr\route\Rule::class,
+        'rule_item' => \dcr\route\RuleItem::class,
+        'route' => \dcr\Route::class,
+        'view' => \dcr\View::class,
+        'response' => \dcr\Response::class,
+    ];
+
+    /**
      * 禁止实例化
      */
     private function __construct()
@@ -58,8 +72,8 @@ class Container
      */
     public function autoBind()
     {
-        $this->alias = container()->make(\dcr\Config::class)->get('app.alias');
-        foreach ($this->alias as $key => $bindInfo) {
+        $alias = container()->make(\dcr\Config::class)->get('app.alias');
+        foreach ($alias as $key => $bindInfo) {
             $this->bind($key, $bindInfo);
         }
     }
@@ -80,13 +94,16 @@ class Container
     /**
      * 获取绑定的实例类名
      *
-     * @param  string $abstract
+     * @param string $abstract
      * @return mixed   $concrete
      */
     protected function getConcrete($abstract)
     {
         if (isset($this->bindList[$abstract])) {
             return $this->bindList[$abstract];
+        }
+        if (isset($this->defaultBindList[$abstract])) {
+            return $this->defaultBindList[$abstract];
         }
 
         return $abstract;
@@ -123,8 +140,15 @@ class Container
         $reflector = new ReflectionClass($concrete);
 
         $constructor = $reflector->getConstructor();
+
         if (is_null($constructor)) {
             $instance = new $concrete;
+            $this->instance($concrete, $instance);
+            return $instance;
+        }
+        //构造函数是私有的
+        if ($constructor->isPrivate()) {
+            $instance = $concrete::getInstance();
             $this->instance($concrete, $instance);
             return $instance;
         }

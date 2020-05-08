@@ -8,10 +8,30 @@ use dcr\Db;
 
 class Tools
 {
-    public function getTableEditPhpAddition($key)
+    public function getTableEditEditAddition($key)
     {
-        $path = ROOT_APP . DS . 'Admin' . DS . 'Config' . DS . 'TableEdit' . DS . $key . '.php';
+        $path = ROOT_APP . DS . 'Admin' . DS . 'Config' . DS . 'TableEdit' . DS . $key . DS . 'edit.php';
         return $path;
+    }
+
+    public function getTableEditDeleteAddition($key)
+    {
+        $path = ROOT_APP . DS . 'Admin' . DS . 'Config' . DS . 'TableEdit' . DS . $key . DS . 'delete.php';
+        return $path;
+    }
+
+    /**
+     * 生成TableEdit时，默认显示的字段
+     * @return string[]
+     */
+    public function getDefaultFieldConfig()
+    {
+        $config = array(
+            'list' => array('id', 'add_time', 'name', 'title'),
+            'search' => array('name', 'title'),
+            'search_type' => 'like', //如果是搜索，则默认这个
+        );
+        return $config;
     }
 
     /**
@@ -38,7 +58,7 @@ class Tools
     {
         $info = Db::select(
             array(
-                'table' => 'zq_config_table_edit_list',
+                'table' => 'config_table_edit_list',
                 'where' => "id='{$id}'",
                 'limit' => 1,
                 'col' => 'keyword',
@@ -64,7 +84,7 @@ class Tools
         }
         $info = Db::select(
             array(
-                'table' => 'zq_config_table_edit_list',
+                'table' => 'config_table_edit_list',
                 'where' => "keyword='{$key}'",
                 'limit' => 1,
             )
@@ -83,7 +103,7 @@ class Tools
 
         $fieldList = Db::select(
             array(
-                'table' => 'zq_config_table_edit_item',
+                'table' => 'config_table_edit_item',
                 'where' => "ctel_id={$info['id']}",
             )
         );
@@ -93,5 +113,55 @@ class Tools
         $config['col'] = $fieldList;
 
         return $config;
+    }
+
+    /**
+     * 通过表名生成单表管理
+     * @param $keyword
+     * @param $table_name
+     * @param $page_title
+     */
+    public function tableEditGenerate($pageModel, $keyword, $tableName, $pageTitle)
+    {
+        $dbInfoMain = array();
+        $dbInfoMain['page_title'] = $pageTitle;
+        $dbInfoMain['keyword'] = $keyword;
+        $dbInfoMain['table_name'] = $tableName;
+        $dbInfoMain['page_model'] = $pageModel;
+        $dbInfoMain['edit_window_width'] = '70%';
+        $dbInfoMain['edit_window_height'] = '70%';
+        $dbInfoMain['zt_id'] = 1;
+        $dbInfoMain['add_user_id'] = session('userId');
+
+        $id = Db::insert('config_table_edit_list', $dbInfoMain);
+        //$id = 7;
+        //开始子字段表
+        $sql = "show full columns FROM {$tableName} /*zt_id*/;";
+        $fieldList = Db::query($sql);
+        $defaultConfig = $this->getDefaultFieldConfig();
+        foreach ($fieldList as $fieldInfo) {
+            $dbInfoSub = array();
+            $fieldName = $fieldInfo['Field'];
+
+            $dbInfoSub['is_show_list'] = in_array($fieldName, $defaultConfig['list']) ? 1 : 0;
+            $dbInfoSub['is_search'] = in_array($fieldName, $defaultConfig['search']) ? 1 : 0;
+            $dbInfoSub['search_type'] = in_array($fieldName,
+                $defaultConfig['search']) ? $defaultConfig['search_type'] : '';
+            $dbInfoSub['is_input_hidden'] = 0;
+            $dbInfoSub['is_update_required'] = 0;
+            $dbInfoSub['is_update'] = 0;
+            $dbInfoSub['is_insert_required'] = 0;
+            $dbInfoSub['is_insert'] = 0;
+            //$fieldName['tip'] = $fieldInfo['Comment'];
+            $dbInfoSub['data_type'] = substr($fieldName, 0, 3) == 'is_' ? 'checkbox' : 'string';
+            $dbInfoSub['title'] = $fieldInfo['Comment'] ? $fieldInfo['Comment'] : $fieldName;
+            $dbInfoSub['db_field_name'] = $fieldName;
+            $dbInfoSub['ctel_id'] = $id;
+            $dbInfoSub['zt_id'] = 1;
+
+            Db::insert('config_table_edit_item', $dbInfoSub);
+        }
+
+        return Admin::commonReturn(1);
     }
 }

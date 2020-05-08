@@ -1,3 +1,15 @@
+function showError(result){
+    let response = $.parseJSON(result.responseText);
+    let msg = response.error.message + ',file:' + response.error.file + ',line:' + response.error.line;
+    layer.alert(msg, {icon: 2});
+}
+function showFailed(result){
+    layer.alert('操作失败:' + result.msg, {icon: 2});
+}
+function showSuccess(result){
+    layer.msg('操作成功', {icon: 1, time: 1500});
+}
+
 /**
  * ajax提交数据，这个function的主要目的和初衷是统一展示成功失败或错误的信息
  * @param url 必填
@@ -14,17 +26,17 @@ function ajax(url, data, method, success_callback, failed_callback, error_callba
     }
     if (success_callback == null) {
         success_callback = function (result) {
-            layer.msg('操作成功', {icon: 1, time: 1500});
+            showSuccess(result);
         }
     }
     if (failed_callback == null) {
         failed_callback = function (result) {
-            layer.alert('操作失败:' + result.msg, {icon: 2});
+            showFailed(result);
         }
     }
     if (error_callback == null) {
         error_callback = function (result) {
-            layer.alert('操作error:' + result.msg, {icon: 2});
+            showError(result);
         }
     }
     $.ajax({

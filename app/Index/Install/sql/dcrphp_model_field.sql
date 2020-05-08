@@ -16,34 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zq_user_role`
+-- Table structure for table `model_field`
 --
 
-DROP TABLE IF EXISTS `zq_user_role`;
+DROP TABLE IF EXISTS `model_field`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `zq_user_role` (
+CREATE TABLE `model_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `permissions` varchar(1000) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `add_time` int(11) NOT NULL DEFAULT '0',
-  `update_time` int(11) NOT NULL DEFAULT '0',
-  `add_user_id` smallint(6) NOT NULL DEFAULT '0',
-  `note` varchar(45) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `zt_id` tinyint(1) NOT NULL DEFAULT '1',
+  `add_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_approval` tinyint(1) NOT NULL DEFAULT '1',
+  `add_user_id` smallint(6) NOT NULL DEFAULT '0',
+  `zt_id` smallint(6) NOT NULL DEFAULT '1',
+  `mf_keyword` varchar(45) NOT NULL DEFAULT '',
+  `mf_value` varchar(200) NOT NULL DEFAULT '',
+  `mf_ml_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='模型附加字段：mf开头是为了模型实别字段';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zq_user_role`
+-- Dumping data for table `model_field`
 --
 
-LOCK TABLES `zq_user_role` WRITE;
-/*!40000 ALTER TABLE `zq_user_role` DISABLE KEYS */;
-INSERT INTO `zq_user_role` VALUES (1,'12,13,15,14,9,3,2,16,17','系统管理员',1583134320,1583134320,0,'系统最高权限',1,0),(2,'9,3,2','文章编辑',1583034640,1583034640,1,'',1,0);
-/*!40000 ALTER TABLE `zq_user_role` ENABLE KEYS */;
+LOCK TABLES `model_field` WRITE;
+/*!40000 ALTER TABLE `model_field` DISABLE KEYS */;
+INSERT INTO `model_field` VALUES (22,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'material','22',11),(23,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'color','12',11),(24,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'from','浙江',11);
+/*!40000 ALTER TABLE `model_field` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-02 23:59:45
+-- Dump completed on 2020-05-08 21:19:51

@@ -134,7 +134,7 @@ class Tools
         $keyId = current($params);
         $info = Db::select(
             array(
-                'table' => 'zq_config_table_edit_list',
+                'table' => 'config_table_edit_list',
                 'where' => array("id={$keyId}"),
                 'col' => 'keyword',
                 'limit' => 1,
@@ -161,6 +161,13 @@ class Tools
         $config = $clsTools->getTableEditConfig($key);
 
         if ('delete' == $data['type']) {
+
+            //调用编辑里额外的php检测数据
+            $phpAdditionPath = $clsTools->getTableEditDeleteAddition($key);
+
+            if (file_exists($phpAdditionPath)) {
+                require_once $phpAdditionPath;
+            }
 
             $result = Common::CUDDbInfo(
                 $config['table_name'],
@@ -205,13 +212,16 @@ class Tools
                 if (is_null($value)) {
                     $value = '';
                 }
+                if (substr($colInfo['db_field_name'], 0, 3) == 'is_') {
+                    $value = ('是' == $value ? 1 : 0);
+                }
                 $dbInfo[$colInfo['db_field_name']] = $value;
             }
             //dd($dbInfo);
             //dd($data);
             //dd($listCol);
-            //检测数据
-            $phpAdditionPath = $clsTools->getTableEditPhpAddition($key);
+            //调用编辑里额外的php程序
+            $phpAdditionPath = $clsTools->getTableEditEditAddition($key);
             if (file_exists($phpAdditionPath)) {
                 require_once $phpAdditionPath;
             }
@@ -255,7 +265,7 @@ class Tools
             $info = Db::select(
                 array(
                     'table' => $config['table_name'],
-                    'where' => "{$config['index_id']}={$id}",
+                    'where' => "id={$id}",
                     'limit' => 1,
                 )
             );
@@ -339,6 +349,7 @@ class Tools
                 $searchCol[$configKey] = $configValue;
             }
         }
+
         if ($searchCol) {
             $searchCol = Common::generalHtmlForItem($searchCol, $searchData);
         }
@@ -350,7 +361,7 @@ class Tools
             array(
                 'table' => $config['table_name'],
                 'where' => $whereArr,
-                'col' => array('count(' . $config['index_id'] . ') as num'),
+                'col' => array('count(id) as num'),
             )
         );
 
@@ -363,8 +374,8 @@ class Tools
         $clsPage = new Page($page, $pageTotal);
         $pageHtml = $clsPage->showPage();
 
-        $cols =  array_keys($listCol);
-        if( ! in_array('id',$cols) ){
+        $cols = array_keys($listCol);
+        if (!in_array('id', $cols)) {
             $cols[] = 'id';
         }
 
@@ -373,7 +384,7 @@ class Tools
                 'table' => $config['table_name'],
                 'order' => $config['list_order'],
                 'where' => $whereArr,
-                'col' => '`' . implode('`,`',$cols) . '`',
+                'col' => '`' . implode('`,`', $cols) . '`',
                 'offset' => ($page - 1) * $pageNum,
                 'limit' => $pageNum,
             )
@@ -385,7 +396,7 @@ class Tools
         foreach ($list as $listKey => $listInfo) {
             if ($config['addition_option_html']) {
                 $list[$listKey]['addition_option_html'] = str_replace('{db.index_id}',
-                    $list[$listKey][$config['index_id']],
+                    $list[$listKey]['id'],
                     $config['addition_option_html']);
             }
         }
@@ -405,17 +416,25 @@ class Tools
         return Factory::renderPage('tools/table-edit-list', $assignData);
     }
 
-    public function tableEditGenerateItemAjax()
+    public function tableEditGenerateView()
     {
+        $assignData = array();
+        $assignData['page_title'] = '自动生成';
+        $assignData['page_model'] = '系统配置';
+
+        return Factory::renderPage('tools/table-edit-generate', $assignData);
+    }
+
+    public function tableEditGenerateAjax()
+    {
+        $keyword = post('keyword');
+        $tableName = post('table_name');
+        $pageTitle = post('page_title');
+        $pageModel = post('page_model');
+
         $clsTools = new MTools();
-        $id = get('id');
-        $key = $clsTools->getTableEditKeyById($id);
-        $config = $clsTools->getTableEditConfig($key);
-        $tableName = $config['table_name'];
+        $result = $clsTools->tableEditGenerate($pageModel, $keyword, $tableName, $pageTitle);
 
-        $sql = "show full fields from {$tableName} /*zt_id*/";
-        $dbFieldList = Db::query($sql);
-
-
+        return Factory::renderJson($result);
     }
 }

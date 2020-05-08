@@ -16,34 +16,38 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zq_config`
+-- Table structure for table `plugins`
 --
 
-DROP TABLE IF EXISTS `zq_config`;
+DROP TABLE IF EXISTS `plugins`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `zq_config` (
+CREATE TABLE `plugins` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `add_time` int(11) NOT NULL DEFAULT '0',
-  `update_time` int(11) NOT NULL DEFAULT '0',
-  `approval_status` tinyint(1) NOT NULL DEFAULT '1',
+  `add_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_approval` tinyint(1) NOT NULL DEFAULT '1',
   `add_user_id` smallint(6) NOT NULL DEFAULT '0',
   `zt_id` smallint(6) NOT NULL DEFAULT '1',
-  `db_field_name` varchar(45) NOT NULL DEFAULT '' COMMENT '字段名',
-  `value` varchar(45) NOT NULL DEFAULT '' COMMENT '字段值',
-  `cl_id` int(11) NOT NULL DEFAULT '0' COMMENT '配置列表id',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='基本配置';
+  `name` varchar(45) NOT NULL DEFAULT '',
+  `description` varchar(100) NOT NULL DEFAULT '',
+  `is_valid` tinyint(1) NOT NULL DEFAULT '1',
+  `author` varchar(45) NOT NULL DEFAULT '',
+  `version` varchar(45) NOT NULL DEFAULT '',
+  `title` varchar(45) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uidx_name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zq_config`
+-- Dumping data for table `plugins`
 --
 
-LOCK TABLES `zq_config` WRITE;
-/*!40000 ALTER TABLE `zq_config` DISABLE KEYS */;
-INSERT INTO `zq_config` VALUES (1,1587050159,1588423851,1,1,1,'site_name','DcrPHP建站系统',1),(2,1587050159,1587050174,1,1,1,'213123','12',1),(3,1587050182,1587727903,1,1,1,'template_name','default',2);
-/*!40000 ALTER TABLE `zq_config` ENABLE KEYS */;
+LOCK TABLES `plugins` WRITE;
+/*!40000 ALTER TABLE `plugins` DISABLE KEYS */;
+INSERT INTO `plugins` VALUES (10,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,0,1,'DbBackup','数据库备份',1,'dcr','1.0.1','数据库备份'),(11,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,0,1,'TableGeneral','用于生成指定表的表结构',1,'dcr','1.0.1','生成表结构');
+/*!40000 ALTER TABLE `plugins` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-02 23:59:44
+-- Dump completed on 2020-05-08 21:19:52
