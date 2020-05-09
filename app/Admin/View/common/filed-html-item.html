@@ -75,7 +75,7 @@
                         parent.layer.close(index);
                         //$.Huimodalalert(data.msg,2000);
                     }else{
-                        layer.alert(data.msg, {icon: 2});
+                        showFailed(data);
                     }
                 },
                 error: function (result) {
