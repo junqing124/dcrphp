@@ -10,7 +10,7 @@ namespace app\Index\Controller;
 
 use app\Admin\Model\Factory;
 use app\Admin\Model\Common;
-use app\Model\Install;
+use app\Index\Model\Install;
 use dcr\Db;
 use dcr\Page;
 use dcr\Request;
