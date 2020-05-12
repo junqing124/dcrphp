@@ -101,9 +101,9 @@ class Common
                     $inputValueList = explode(',', $default);
                     foreach ($inputValueList as $inpValueDetail) {
                         if ($inpValueDetail == $inputValue || 1 == $inputValue) {
-                            if( in_array($itemInfo['data_type'], array('radio','checkbox')) ){
+                            if (in_array($itemInfo['data_type'], array('radio','checkbox'))) {
                                 $additionStr = ' checked ';
-                            }else{
+                            } else {
                                 $additionStr = ' selected ';
                             }
                         }
@@ -178,7 +178,6 @@ class Common
             //逻辑
             $result = Db::delete($tableName, $tablePreName . "id={$option['id']}");
         } else {
-
             if ($option['check']) {
                 foreach ($option['check'] as $fieldName => $detail) {
                     if ('required' == $detail['type'] && strlen($dbInfo[$fieldName]) < 1) {

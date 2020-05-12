@@ -108,7 +108,7 @@ class Model
             );
             //echo DB::getLastSql();
             $fileValueList = $modelInfo['field'];
-            $fileValueList = array_column($fileValueList,'mf_value','mf_keyword');
+            $fileValueList = array_column($fileValueList, 'mf_value', 'mf_keyword');
         } else {
         }
 

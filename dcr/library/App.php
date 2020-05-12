@@ -55,8 +55,7 @@ class App
         $result = '';
         if ('cli' == APP::$phpSapiName) {
             $result = '';
-        }else
-        {
+        } else {
             //开始处理request
             $request = Request::getInstance();
             $container->instance('request', $request);

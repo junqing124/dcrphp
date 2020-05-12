@@ -480,7 +480,7 @@ class Model
                 DB::rollBack();
                 $result = 0;
             }
-        } else if('add' == $data['action']) {
+        } elseif ('add' == $data['action']) {
             //dd($dbInfoList);
             $modelListId = DB::insert('model_list', $dbInfoList);
             $dbInfoField['me_ml_id'] = $modelListId;

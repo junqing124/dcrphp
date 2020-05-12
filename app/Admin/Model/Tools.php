@@ -3,7 +3,6 @@
 
 namespace app\Admin\Model;
 
-
 use dcr\Db;
 
 class Tools
@@ -145,8 +144,10 @@ class Tools
 
             $dbInfoSub['is_show_list'] = in_array($fieldName, $defaultConfig['list']) ? 1 : 0;
             $dbInfoSub['is_search'] = in_array($fieldName, $defaultConfig['search']) ? 1 : 0;
-            $dbInfoSub['search_type'] = in_array($fieldName,
-                $defaultConfig['search']) ? $defaultConfig['search_type'] : '';
+            $dbInfoSub['search_type'] = in_array(
+                $fieldName,
+                $defaultConfig['search']
+            ) ? $defaultConfig['search_type'] : '';
             $dbInfoSub['is_input_hidden'] = 0;
             $dbInfoSub['is_update_required'] = 0;
             $dbInfoSub['is_update'] = 0;

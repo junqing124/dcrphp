@@ -161,7 +161,6 @@ class Tools
         $config = $clsTools->getTableEditConfig($key);
 
         if ('delete' == $data['type']) {
-
             //调用编辑里额外的php检测数据
             $phpAdditionPath = $clsTools->getTableEditDeleteAddition($key);
 
@@ -287,7 +286,6 @@ class Tools
         $assignData['index_id'] = $config['index_id'];
 
         return Factory::renderPage('tools/table-edit-edit', $assignData);
-
     }
 
     public function tableEditListView(Request $request)
@@ -395,9 +393,11 @@ class Tools
         //进行一些初始化
         foreach ($list as $listKey => $listInfo) {
             if ($config['addition_option_html']) {
-                $list[$listKey]['addition_option_html'] = str_replace('{db.index_id}',
+                $list[$listKey]['addition_option_html'] = str_replace(
+                    '{db.index_id}',
                     $list[$listKey]['id'],
-                    $config['addition_option_html']);
+                    $config['addition_option_html']
+                );
             }
         }
 

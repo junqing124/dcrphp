@@ -49,6 +49,7 @@ class AppInstall extends Command
             1,
             $charset
         );
+        echo 'Install finished';
 
         return 0;
     }

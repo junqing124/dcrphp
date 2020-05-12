@@ -77,7 +77,7 @@ class Config
         return Admin::commonReturn(1);
     }
 
-    public function configListEdit($configListName, $type = 'add', $id = 0, $clType = 'config', $configListKey)
+    public function configListEdit($configListName, $type = 'add', $id = 0, $clType = 'config', $configListKey = '')
     {
         $dbInfo = array(
             'add_user_id' => session('userId'),
@@ -111,10 +111,10 @@ class Config
         if ($id) {
             $whereArr[] = "id={$id}";
         }
-        if( $type ){
+        if ($type) {
             $whereArr[] = "type='{$type}'";
         }
-        if( $key ){
+        if ($key) {
             $whereArr[] = "keyword='{$key}'";
         }
         $list = DB::select(array(
