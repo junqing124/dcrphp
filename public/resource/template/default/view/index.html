@@ -24,7 +24,7 @@
                 <tbody>
                 {% for news in news_list %}
                 <tr>
-                    <td><a href="/index/index/detail-view/{{news.ml_id}}">{{news.ml_title}}</a></td>
+                    <td><a href="/index/index/detail-view/{{news.id}}">{{news.ml_title}}</a></td>
                     <td>{{news.add_time|date('Y-m-d')}}</td>
                 </tr>
                 {% endfor %}
@@ -51,7 +51,7 @@
                         {% for product_info in product.sub %}
                         <ul>
                             <li class="img"><img src="{% if product_info.ml_pic_path %}/{{product_info.ml_pic_path}}{% else %}/resource/template/default/static/images/nopic.png{% endif %}"></li>
-                            <li class="title"><a href="/index/index/detail-view/{{product_info.ml_id}}">{{product_info.ml_title}}</a></li>
+                            <li class="title"><a href="/index/index/detail-view/{{product_info.id}}">{{product_info.ml_title}}</a></li>
                         </ul>
                         {% endfor %}
                         {% endif %}

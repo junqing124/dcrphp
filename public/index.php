@@ -5,6 +5,7 @@
  * Date: 2019/7/27
  * Time: 21:39
  */
+declare(strict_types = 1);
 
 //phpinfo();
 namespace dcr;

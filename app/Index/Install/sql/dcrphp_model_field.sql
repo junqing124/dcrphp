@@ -33,7 +33,7 @@ CREATE TABLE `model_field` (
   `mf_value` varchar(200) NOT NULL DEFAULT '',
   `mf_ml_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='模型附加字段：mf开头是为了模型实别字段';
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='模型附加字段：mf开头是为了模型实别字段';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `model_field` (
 
 LOCK TABLES `model_field` WRITE;
 /*!40000 ALTER TABLE `model_field` DISABLE KEYS */;
-INSERT INTO `model_field` VALUES (22,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'material','22',11),(23,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'color','12',11),(24,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'from','浙江',11);
+INSERT INTO `model_field` VALUES (22,'2020-05-07 10:46:33','2020-05-07 10:46:33',1,1,1,'material','22',11),(23,'2020-05-07 10:46:33','2020-05-07 10:46:33',1,1,1,'color','12',11),(24,'2020-05-07 10:46:33','2020-05-07 10:46:33',1,1,1,'from','浙江',11),(25,'2020-05-12 04:12:47','2020-05-12 04:12:47',1,1,1,'material','1',14),(26,'2020-05-12 04:12:47','2020-05-12 04:12:47',1,1,1,'color','2',14),(27,'2020-05-12 04:12:47','2020-05-12 04:12:47',1,1,1,'from','江西',14);
 /*!40000 ALTER TABLE `model_field` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-08 21:19:51
+-- Dump completed on 2020-05-12 12:14:04

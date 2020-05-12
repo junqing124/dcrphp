@@ -46,7 +46,7 @@ CREATE TABLE `config_list_item` (
 
 LOCK TABLES `config_list_item` WRITE;
 /*!40000 ALTER TABLE `config_list_item` DISABLE KEYS */;
-INSERT INTO `config_list_item` VALUES (1,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'网站名','string','site_name',1,'',1,1),(4,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'模板名','select','template_name',1,'var.systemTemplateStr',1,2),(5,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'材质','string','material',1,'',0,4),(6,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'颜色','string','color',2,'',0,4),(7,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'产地','select','from',3,'江西,浙江',0,4);
+INSERT INTO `config_list_item` VALUES (1,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'网站名','string','site_name',1,'',1,1),(4,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'模板名','select','template_name',1,'var.systemTemplateStr',1,2),(5,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'材质','string','material',1,'',0,4),(6,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'颜色','string','color',2,'',0,4),(7,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'产地','select','from',3,'江西,浙江',0,4);
 /*!40000 ALTER TABLE `config_list_item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-08 21:19:51
+-- Dump completed on 2020-05-12 12:14:05

@@ -33,7 +33,7 @@ CREATE TABLE `user_role` (
   `zt_id` tinyint(1) NOT NULL DEFAULT '1',
   `is_approval` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='角色表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES (1,'12,13,15,14,9,3,2,16,17','系统管理员','0000-00-00 00:00:00','0000-00-00 00:00:00',0,'系统最高权限',1,0),(2,'9,3,2','文章编辑','0000-00-00 00:00:00','0000-00-00 00:00:00',1,'',1,0);
+INSERT INTO `user_role` VALUES (1,'12,13,15,14,9,3,2,16,17','系统管理员','2020-05-07 10:46:33','2020-05-07 10:46:33',0,'系统最高权限',1,0),(2,'9,3,2','文章编辑','2020-05-07 10:46:33','2020-05-07 10:46:33',1,'',1,0);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-08 21:19:51
+-- Dump completed on 2020-05-12 12:14:04

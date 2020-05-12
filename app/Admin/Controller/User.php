@@ -35,7 +35,7 @@ class User
         $username = get('username');
         if ($username) {
             $where['username'] = "username like '{$username}%'";
-            $assignData['username'] = $username;
+            $assignData['username_search'] = $username;
         }
         //总数量
         $pageInfo = $user->getList(array('where' => $where, 'col' => array('count(id) as num')));
@@ -59,6 +59,7 @@ class User
         $assignData['user_num'] = $pageTotalNum;
         $assignData['users'] = $list;
         $assignData['pages'] = $pageHtml;
+        //dd($assignData);
 
         return Factory::renderPage('user/list', $assignData);
     }

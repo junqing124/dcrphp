@@ -33,7 +33,7 @@ CREATE TABLE `model_category` (
   `name` varchar(45) NOT NULL DEFAULT '',
   `parent_id` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `model_category` (
 
 LOCK TABLES `model_category` WRITE;
 /*!40000 ALTER TABLE `model_category` DISABLE KEYS */;
-INSERT INTO `model_category` VALUES (1,'0000-00-00 00:00:00','0000-00-00 00:00:00',0,1,1,'news','系统说明',0),(3,'0000-00-00 00:00:00','0000-00-00 00:00:00',0,1,1,'news','跨境电商',0),(8,'0000-00-00 00:00:00','0000-00-00 00:00:00',0,1,1,'info','基础',0),(9,'0000-00-00 00:00:00','0000-00-00 00:00:00',0,1,1,'product','模板中心',0),(10,'0000-00-00 00:00:00','0000-00-00 00:00:00',0,1,1,'product','维护中心',0);
+INSERT INTO `model_category` VALUES (1,'2020-05-07 10:46:33','2020-05-07 10:46:33',0,1,1,'news','系统说明',0),(3,'2020-05-07 10:46:33','2020-05-07 10:46:33',0,1,1,'news','跨境电商',0),(8,'2020-05-07 10:46:33','2020-05-07 10:46:33',0,1,1,'info','基础',0),(9,'2020-05-07 10:46:33','2020-05-07 10:46:33',0,1,1,'product','模板中心',0),(10,'2020-05-07 10:46:33','2020-05-07 10:46:33',0,1,1,'product','维护中心',0);
 /*!40000 ALTER TABLE `model_category` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-08 21:19:50
+-- Dump completed on 2020-05-12 12:14:04

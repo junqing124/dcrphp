@@ -44,7 +44,7 @@ CREATE TABLE `config_list` (
 
 LOCK TABLES `config_list` WRITE;
 /*!40000 ALTER TABLE `config_list` DISABLE KEYS */;
-INSERT INTO `config_list` VALUES (1,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'基本配置',1,'config','base'),(2,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'模板配置',1,'config','template'),(3,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'新闻中心',0,'model','news'),(4,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'产品中心',0,'model','product'),(5,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,'资料中心',0,'model','info');
+INSERT INTO `config_list` VALUES (1,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'基本配置',1,'config','base'),(2,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'模板配置',1,'config','template'),(3,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'新闻中心',0,'model','news'),(4,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'产品中心',0,'model','product'),(5,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'资料中心',0,'model','info');
 /*!40000 ALTER TABLE `config_list` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-08 21:19:52
+-- Dump completed on 2020-05-12 12:14:05

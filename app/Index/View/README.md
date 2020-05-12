@@ -1,1 +1,1 @@
-本目录暂时没生效，留这是为了View类初始化
+前台模板编辑在public/resource/template下  

@@ -323,7 +323,6 @@ class Model
      */
     public function groupModelInfo($info)
     {
-        //dd($info);
         $arr = array();
         $arr['list'] = array();
         $arr['field'] = array();
@@ -351,11 +350,11 @@ class Model
                 //dd($tableKey);
                 //dd($newKey);
                 $arr[$tableKey][$newKey] = $value;
+                $arr['other'][$key] = $value;
                 //dd($arr);
                 //exit;
             }
         }
-        //dd($arr);
         return $arr;
     }
 

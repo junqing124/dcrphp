@@ -140,9 +140,6 @@ class User
      */
     public function updatePassword($info, $userId = '')
     {
-        $nuser = new NUser1();
-
-        exit;
         $passwordNew = $info['passwordNew'];
         $passwordNewRe = $info['passwordNewRe'];
         //验证

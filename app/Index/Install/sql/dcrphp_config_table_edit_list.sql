@@ -49,7 +49,7 @@ CREATE TABLE `config_table_edit_list` (
   `button_area_addition_html` varchar(2000) NOT NULL DEFAULT '' COMMENT '列表按钮区额外html',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uidx_key` (`keyword`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='单表配置列表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='单表配置列表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -58,7 +58,7 @@ CREATE TABLE `config_table_edit_list` (
 
 LOCK TABLES `config_table_edit_list` WRITE;
 /*!40000 ALTER TABLE `config_table_edit_list` DISABLE KEYS */;
-INSERT INTO `config_table_edit_list` VALUES (1,'0000-00-00 00:00:00','2020-05-07 17:05:19',1,1,1,'config_table_edit_list','单表管理列表(勿删)','系统配置','config_table_edit_list',1,1,1,'id desc','','95%','95%','<a title=\"字段\" href=\"javascript:;\" onclick=\"open_iframe(\'配置字段\',\'/admin/tools/table-edit-list-view/config_table_edit_item?ctel_id={db.index_id}&list_where=ctel_id={db.index_id}\',\'95%\',\'95%\')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont Hui-iconfont-menu\"></i></a>','','','','','','<a href=\"javascript:;\" onclick=\"open_iframe(\'自动生成\',\'/admin/tools/table-edit-generate-view\',\'600\',\'400\')\" class=\"btn btn-primary radius\"><i class=\"Hui-iconfont\"></i> 自动生成</a>'),(2,'0000-00-00 00:00:00','2020-05-07 17:04:31',1,1,1,'config_table_edit_item','单表管理字段(勿删)','系统配置','config_table_edit_item',1,1,1,'id desc','','95%','95%','','list_where','<input type=\"hidden\" name=\"ctei_ctel_id\" value=\"{get.ctei_ctel_id}\">','','?ctei_ctel_id={get.ctei_ctel_id}','',''),(3,'0000-00-00 00:00:00','2020-05-07 17:04:31',1,1,1,'user_mobile','会员手机号(案例)','用户','user',1,1,1,'','','600px','250px','','','','','','',''),(7,'0000-00-00 00:00:00','2020-05-07 17:04:31',1,1,1,'user_test','2','1','user',0,0,1,'','','','','','','','','','','');
+INSERT INTO `config_table_edit_list` VALUES (1,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'config_table_edit_list','单表管理列表(勿删)','系统配置','config_table_edit_list',1,1,1,'id desc','','95%','95%','<a title=\"字段\" href=\"javascript:;\" onclick=\"open_iframe(\'配置字段\',\'/admin/tools/table-edit-list-view/config_table_edit_item?ctel_id={db.index_id}&list_where=ctel_id={db.index_id}\',\'95%\',\'95%\')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont Hui-iconfont-menu\"></i></a>','','','','','','<a href=\"javascript:;\" onclick=\"open_iframe(\'自动生成\',\'/admin/tools/table-edit-generate-view\',\'600\',\'400\')\" class=\"btn btn-primary radius\"><i class=\"Hui-iconfont\"></i> 自动生成</a>'),(2,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'config_table_edit_item','单表管理字段(勿删)','系统配置','config_table_edit_item',1,1,1,'id desc','','95%','95%','','list_where','<input type=\"hidden\" name=\"ctei_ctel_id\" value=\"{get.ctei_ctel_id}\">','','?ctei_ctel_id={get.ctei_ctel_id}','',''),(3,'2020-05-07 17:05:19','2020-05-07 17:05:18',1,1,1,'user_mobile','会员手机号(案例)','用户','user',0,0,1,'','','600px','250px','','','','','','','');
 /*!40000 ALTER TABLE `config_table_edit_list` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -71,4 +71,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-08 21:19:52
+-- Dump completed on 2020-05-12 12:14:05

@@ -46,7 +46,7 @@ CREATE TABLE `plugins` (
 
 LOCK TABLES `plugins` WRITE;
 /*!40000 ALTER TABLE `plugins` DISABLE KEYS */;
-INSERT INTO `plugins` VALUES (10,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,0,1,'DbBackup','数据库备份',1,'dcr','1.0.1','数据库备份'),(11,'0000-00-00 00:00:00','0000-00-00 00:00:00',1,0,1,'TableGeneral','用于生成指定表的表结构',1,'dcr','1.0.1','生成表结构');
+INSERT INTO `plugins` VALUES (10,'2020-05-07 10:46:33','2020-05-07 10:46:33',1,0,1,'DbBackup','数据库备份',1,'dcr','1.0.1','数据库备份'),(11,'2020-05-07 10:46:33','2020-05-07 10:46:33',1,0,1,'TableGeneral','用于生成指定表的表结构',1,'dcr','1.0.1','生成表结构');
 /*!40000 ALTER TABLE `plugins` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-08 21:19:52
+-- Dump completed on 2020-05-12 12:14:05

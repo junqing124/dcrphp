@@ -7,7 +7,7 @@
         <a href="javascript:;">产品中心</a>
         <dl class="layui-nav-child">
             {% for p_news in category_product %}
-            <dd><a href="/index/index/list-view/product/{{p_news.mc_id}}">{{p_news.mc_name}}</a></dd>
+            <dd><a href="/index/index/list-view/product/{{p_news.id}}">{{p_news.name}}</a></dd>
             {% endfor %}
         </dl>
     </li>
@@ -15,7 +15,7 @@
         <a href="javascript:;">新闻中心</a>
         <dl class="layui-nav-child">
             {% for c_news in category_news %}
-            <dd><a href="/index/index/list-view/news/{{c_news.mc_id}}">{{c_news.mc_name}}</a></dd>
+            <dd><a href="/index/index/list-view/news/{{c_news.id}}">{{c_news.name}}</a></dd>
             {% endfor %}
         </dl>
     </li>

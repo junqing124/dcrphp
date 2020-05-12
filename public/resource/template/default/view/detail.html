@@ -27,7 +27,7 @@
                     <div class="layui-field-box model_addition">
                         <ul>
                             {% for field in info.field %}
-                            <li>{{field.mf_dec}}:{{field.mf_value}}</li>
+                            <li>{{model_dec[field.mf_keyword]}}:{{field.mf_value}}</li>
                             {% endfor %}
                         </ul>
                     </div>
