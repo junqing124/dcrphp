@@ -64,7 +64,7 @@ class Crontab extends DcrBase
         } else {
             $info['status'] = '执行失败';
             $info['msg'] = $msg ? $msg : json_encode($this->result['msg']);
-            $info['msg'] = addslashes($info['msg']);
+            $info['msg'] = $info['msg'];
         }
         return DB::update('crontab', $info, "name='{$this->crontabName}' and process_id='{$this->processId}'");
     }
