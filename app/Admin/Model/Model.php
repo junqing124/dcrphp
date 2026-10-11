@@ -21,6 +21,7 @@ use Respect\Validation\Validator as v;
 class Model
 {
 
+    private $optionHtml;
     /**
      * @param $modelId
      * @param array $option array('requestField'=>'是不是要附加filed表', 'requestAddition'=>'是不是要附加addition表', 'requestFieldDec'=>'是不是要加上Field的描述，这个数据从[配置中心->模型配置]里来')
@@ -235,7 +236,7 @@ class Model
     public function getCategorySelectOptionHtml($list, $selectId = null, $subEnabled = 0)
     {
         //dd(get_defined_vars());
-        static $optionHtml = '';
+        #static $optionHtml = '';
         foreach ($list as $info) {
             $optionAdditionStr = '';
             //dd($selectId);
@@ -251,14 +252,14 @@ class Model
             if (0 != $info['level']) {
                 $txtAdd = str_repeat('--', $info['level']) . '├';
             }
-            $optionHtml .= "<option value='{$info['id']}' {$optionAdditionStr}>{$txtAdd}{$info['name']}</option>";
+            $this->optionHtml .= "<option value='{$info['id']}' {$optionAdditionStr}>{$txtAdd}{$info['name']}</option>";
             //dd($info['sub']);
             //var_dump(count($info['sub'])>0);
             if (is_array($info['sub'])) {
                 $this->getCategorySelectOptionHtml($info['sub'], $selectId, $subEnabled);
             }
         }
-        return $optionHtml;
+        return $this->optionHtml;
     }
 
     /**

@@ -79,40 +79,51 @@
                     </table>
                     <table class="table table-border table-bordered table-hover table-bg table-sort mt-10">
                         <thead>
-                            <tr>
-                                <th width="100">字段名</th>
-                                <th width="100">类型</th>
-                                <th width="100">长度</th>
-                                <th width="100">默认值(必填，如果没有数字为0，字符串为'')</th>
-                                <th width="100">备注</th>
-                                <th width="100">索引</th>
-                                <th width="100">操作</th>
-                            </tr>
+                        <tr>
+                            <th width="100">字段名</th>
+                            <th width="300">类型</th>
+                            <th width="100">长度</th>
+                            <th width="200">默认值(参考:数字为0，字符串为'')</th>
+                            <th width="100">备注</th>
+                            <th width="100">索引</th>
+                            <th>操作</th>
+                        </tr>
                         </thead>
                         <tbody id="tbody">
-                            <tr id="tpl">
-                                <td><input type="text" name="field[]" class="input-text"></td>
-                                <td>
-                                    <select name="type[]">
-                                        {% for type_name in type_list %}
-                                        <option value="{{type_name}}">{{type_name}}</option>
-                                        {% endfor %}
-                                        <option value="varchar">varchar</option>
-                                        <option value="text">text</option>
-                                    </select>
-                                </td>
-                                <td><input type="number" name="length[]" class="input-text"></td>
-                                <td><input type="text" name="default[]" class="input-text"></td>
-                                <td><input type="text" name="comment[]" class="input-text"></td>
-                                <td>
-                                    <select name="index[]">
-                                        <option value="">无索引</option>
-                                        <option value="unique">唯一索引</option>
-                                        <option value="index">普通索引</option>
-                                    </select>
-                                </td>
-                                <td><input class="btn btn-danger radius" onclick="remove(this)" type="button" value="删除本行"></td>
-                            </tr>
+                        <tr id="tpl">
+                            <td><input type="text" name="field[]" class="input-text"></td>
+                            <td>
+                                <select name="type[]" style="width: 120px;">
+                                    {% for type_name in type_list %}
+                                    <option value="{{type_name}}">{{type_name}}</option>
+                                    {% endfor %}
+                                    <option value="varchar">varchar</option>
+                                    <option value="text">text</option>
+                                </select>
+                                <a href="javascript:void(0)" onclick="return quick_input(this, 'string', 'select')">string</a>
+                                <a href="javascript:void(0)" onclick="return quick_input(this, 'integer', 'select')">integer</a>
+                                <a href="javascript:void(0)" onclick="return quick_input(this, 'smallint', 'select')">smallint</a>
+                                <a href="javascript:void(0)" onclick="return quick_input(this, 'float', 'select')">float</a>
+                            </td>
+                            <td>
+                                <input type="number" name="length[]" class="input-text">
+                            </td>
+                            <td>
+                                <input type="text" name="default[]" class="input-text" style="width: 120px;">
+                                <a href="javascript:void(0)" onclick="return quick_input(this, '\'\'','input')">''  </a>
+                                <a href="javascript:void(0)" onclick="return quick_input(this, '0','input')">0  </a>
+                            </td>
+                            <td><input type="text" name="comment[]" class="input-text"></td>
+                            <td>
+                                <select name="index[]">
+                                    <option value="">无索引</option>
+                                    <option value="unique">唯一索引</option>
+                                    <option value="index">普通索引</option>
+                                </select>
+                            </td>
+                            <td><input class="btn btn-danger radius" onclick="remove(this)" type="button" value="删除本行">
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </form>
@@ -124,17 +135,17 @@
 {% include 'footer.html' ignore missing %}
 <script type="text/javascript">
 
-        $("#form").validate({
-            onkeyup: false,
-            focusCleanup: true,
-            success: "valid",
-            submitHandler: function (form) {
+    $("#form").validate({
+        onkeyup: false,
+        focusCleanup: true,
+        success: "valid",
+        submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success: function (data) {
                     data = $.parseJSON(data);
                     if (1 == data.ack) {
                         showSuccess('');
-                    }else{
+                    } else {
                         layer.alert(data.msg, {icon: 2});
                     }
                 },
@@ -144,10 +155,12 @@
             });
         }
     });
-    function add(){
+
+    function add() {
         let tr = $('#tpl').clone();
         $('#tbody').append(tr);
     }
+
     function execute_sql() {
         let sql = $('#sql').val();
         let type = $('#type').val();
@@ -159,20 +172,26 @@
             function (result) {
                 if (1 == result.ack) {
                     let time = new Date();
-                    $('#result').html( '时间' + time.toLocaleString() + ",结果:<br>" + result.data);
+                    $('#result').html('时间' + time.toLocaleString() + ",结果:<br>" + result.data);
                 } else {
                     layer.alert(result.msg, {icon: 2});
                 }
             }
         );
     }
-    function remove(obj)
-    {
+
+    function remove(obj) {
         let l_index = layer.confirm('确认要删除吗？', function (index) {
             $(obj).parent().parent().remove();
             //console.log($(obj).parent().parent());
             layer.close(l_index);
         });
+    }
+
+    function quick_input(obj, value, input_type) {
+        //let value = $(obj).val();
+        //console.log($(obj).parent().find(input_type));
+        $(obj).parent().find(input_type).val(value);
     }
 </script>
 </body>
