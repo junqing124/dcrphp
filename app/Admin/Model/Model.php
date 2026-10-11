@@ -173,18 +173,18 @@ class Model
 
     public function getCategoryTrDetailHtml($list)
     {
-        static $optionHtml = '';
+        //static $optionHtml = '';
         foreach ($list as $info) {
-            $optionHtml .= "<tr class='text-l'>
+            $this->optionHtml .= "<tr class='text-l'>
                 <td>" . str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $info['level']) . "{$info['name']}</td>
                 <td class='td-manage'>
                     <a title=\"编辑\" href=\"javascript:;\" onclick=\"open_iframe('编辑','/admin/model/category-edit-view/{$info['model_name']}/edit/{$info['id']}','','300')\"
                        class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>";
             if (! count($info['sub']) > 0) {
-                $optionHtml .= "<a title=\"删除\" href=\"javascript:;\" onclick=\"del({$info['id']})\" class=\"ml-5\"
+                $this->optionHtml .= "<a title=\"删除\" href=\"javascript:;\" onclick=\"del({$info['id']})\" class=\"ml-5\"
                        style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>";
             }
-            $optionHtml .= "</td>
+            $this->optionHtml .= "</td>
             </tr>";
             //dd($info['sub']);
             //var_dump(count($info['sub'])>0);
@@ -192,7 +192,7 @@ class Model
                 $this->getCategoryTrDetailHtml($info['sub']);
             }
         }
-        return $optionHtml;
+        return $this->optionHtml;
     }
 
     /**
